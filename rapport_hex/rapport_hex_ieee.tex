@@ -1,0 +1,91 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lipsum}
+\usepackage{hyperref}
+
+\title{Justification du projet Hex comme travail final de Programmation Orient\'ee Objet}
+\author{\IEEEauthorblockN{Jair Vasquez \\ Santiago Florido}
+\IEEEauthorblockA{IN204 -- Programmation Orient\'ee Objet}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Le jeu de Hex mis en place offre d\'ej\`a une architecture orient\'ee objet claire et extensible: \texttt{Board} encapsule le plateau, \texttt{GameState} regroupe la logique de victoire et des coups, \texttt{Cube} mod\'elise la g\'eom\'etrie hexagonale. Cette base se prolonge naturellement vers une interface graphique SFML qui continuera d'exploiter et d'enrichir les principes de POO. Ce document pr\'esente de fa\c con globale pourquoi ce projet est un candidat pertinent pour le travail final de POO.
+\end{abstract}
+
+\section{Vue d'ensemble orient\'ee objet}
+L'application console actuelle (\texttt{main.cpp}) illustre l'abstraction du domaine Hex en trois classes:
+\begin{itemize}
+    \item \textbf{Board}: g\`ere la taille, l'\'etat des cases et l'unique point d'\'ecriture (\texttt{place}) pour garantir l'int\'egrit\'e du plateau.
+    \item \textbf{GameState}: fournit les repr\'esentations lin\'eaires, les coups disponibles et la d\'etection de victoire (BFS sur les connexions), en s'appuyant sur le mod\`ele de donn\'ees sans se soucier d'affichage.
+    \item \textbf{Cube}: porte le syst\`eme de coordonn\'ees cubiques et les directions, isolant le calcul g\'eom\'etrique.
+\end{itemize}
+La responsabilit\'e de chaque classe est nette et rend le projet ais\'e \`a maintenir, tester et faire \'evoluer.
+
+\section{Justification pour le projet final}
+Le code d\'ej\`a en place d\'emontre les notions fondamentales de POO (encapsulation, s\'eparation des responsabilit\'es, mod\'elisation d'objets du domaine). Il est suffisamment complet pour une partie jouable et assez modulable pour int\'egrer des fonctionnalit\'es suppl\'ementaires sans remettre en cause le noyau objet. Le passage \`a une interface SFML enrichira le projet en illustrant l'extension de classes existantes et l'introduction de nouveaux objets d\'edi\'es \`a l'affichage et aux entr\'ees.
+
+\section{Apports POO via l'interface SFML}
+L'int\'egration d'une interface graphique SFML permet de continuer la d\'emarche objet:
+\begin{itemize}
+    \item Cr\'eation d'une classe \texttt{HexView} responsable du dessin du plateau (tuiles, pions, grille), s'appuyant sur \texttt{Board} pour lire l'\'etat courant.
+    \item Introduction d'un \texttt{InputHandler} SFML pour transformer les clics souris en coordonn\'ees hexagonales et invoquer \texttt{Board::place}, conservant l'API existante.
+    \item Possibilit\'e d'un \texttt{GameController} qui orchestre \texttt{GameState}, \texttt{HexView} et les entr\'ees SFML, sans m\^eme modifier les classes de logique: la POO est renforc\'ee par la composition d'objets sp\'ecialis\'es.
+    \item Ajout d'animations ou de surlignages en encapsulant ces comportements dans des objets graphiques d\'edi\'es, tout en gardant les r\`egles du jeu au sein de \texttt{GameState}.
+\end{itemize}
+Cette organisation montre comment l'interface visuelle s'appuie sur les abstractions existantes et comment de nouvelles classes prolongent la structure objet.
+
+\section{Apports algorithmiques pour renforcer le mod\`ele}
+En s'inspirant de projets similaires , qui combine modélisation POO et algorithmes de recherche avancés, il est possible d'enrichir le jeu Hex avec une couche décisionnelle claire et modulaire.
+
+\subsection{Analyse de connectivit\'e : BFS et A*}
+La d\'etection de victoire utilise d\'ej\`a un BFS, mais cette logique peut être étendue:
+
+\begin{itemize}
+    \item \textbf{Évaluation de positions} : calcul de la distance minimale entre les bords \`a relier par chaque joueur.
+    \item \textbf{Heuristique pour IA} : A* permet d'obtenir une estimation de progression plus informative que BFS.
+\end{itemize}
+
+Une classe \texttt{PathEvaluator} peut encapsuler BFS/A* tout en restant indépendante de l'affichage.
+
+\subsection{Prise de décision : Minimax avec élagage $\alpha$–$\beta$}
+Pour ajouter une IA comparable \`a celle du projet Quoridor, un module décisionnel peut être intégré:
+
+\begin{itemize}
+    \item \textbf{\texttt{AIPlayer}} : implémente une interface \texttt{IPlayer} et applique Minimax/Negamax.
+    \item \textbf{Élagage $\alpha$–$\beta$} : réduit les branches explorées pour maintenir un temps de réponse compatible avec SFML.
+    \item \textbf{Heuristique d'évaluation} : repose sur \texttt{PathEvaluator} pour estimer la force de chaque position.
+\end{itemize}
+
+Cette architecture respecte la séparation logique : les règles restent dans \texttt{GameState} et la décision est déléguée à un module externe.
+
+\subsection{Extensions}
+Plusieurs éléments peuvent enrichir le projet :
+
+\begin{itemize}
+    \item \textbf{Difficulté ajustable} : profondeur de recherche, aléatoire contrôlée, étendue de l'exploration.
+    \item \textbf{Replays et logs} : via un \texttt{MatchRecorder}.
+    \item \textbf{Tests unitaires d’algorithmes} : validation de l'heuristique, vérification des chemins, robustesse du contrôleur.
+\end{itemize}
+
+Ainsi, le modèle objet initial s’étend naturellement vers une architecture hybride logique–algorithmique cohérente.
+
+\section{Plan de travail orient\'e POO pour le jeu complet}
+La structure actuelle sert de socle pour un ensemble coh\'erent d'\'etapes, toutes centr\'ees sur des objets sp\'ecialis\'es:
+\begin{itemize}
+    \item \textbf{Gestion des joueurs}: interface \texttt{IPlayer} avec impl\'ementations Humain et IA; injection dans \texttt{GameController}.
+    \item \textbf{R\`egles configurables}: objet \texttt{Ruleset} (taille, couleurs, timer) param\'etrant \texttt{Board} et \texttt{HexView}.
+    \item \textbf{Chrono et scores}: classes \texttt{Clock} et \texttt{Scoreboard} gérées par SFML.
+    \item \textbf{Rejeu et sauvegarde}: \texttt{MatchRecorder} pour enregistrer et rejouer une partie.
+    \item \textbf{Menu et sc\`enes}: \texttt{SceneManager} permettant de naviguer entre menu, partie et rejoue.
+    \item \textbf{Effets visuels modulaires}: overlays graphiques sans altérer \texttt{GameState}.
+\end{itemize}
+
+\section{Conclusion}
+Le projet Hex combine une base jouable, une architecture orientée objet claire et un potentiel d'extension naturel vers SFML et des modules algorithmiques. Cette continuité du modèle vers la décision et l’affichage justifie pleinement son choix comme travail final.
+
+\end{document}
