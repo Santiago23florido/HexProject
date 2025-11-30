@@ -9,6 +9,7 @@ add_executable(hex
     src/GameState.cpp
     src/Cube.cpp
     src/Player.cpp
+    src/MoveStrategy.cpp
 )
 
 target_include_directories(hex PUBLIC include)

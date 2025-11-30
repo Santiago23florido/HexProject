@@ -1,14 +1,16 @@
 #include "Board.hpp"
 #include "GameState.hpp"
+#include "MoveStrategy.hpp"
 #include "Player.hpp"
 #include <iostream>
 
 HumanPlayer Player1 = HumanPlayer(1);
-HumanPlayer Player2 = HumanPlayer(2);
+//HumanPlayer Player2 = HumanPlayer(2);
+AIPlayer Player2 = AIPlayer(2);
 
 int main() {
     Board board;
-    HumanPlayer Player = Player1;
+    HybridPlayer Player = Player1;
 
     while (true) {
         board.print();
@@ -30,7 +32,7 @@ int main() {
             break;
         }
 
-        Player = (Player.Id() == Player1.Id() ? Player2 : Player1);
+        Player = (Player.Id() == Player1.Id() ? HybridPlayer(Player2) : HybridPlayer(Player1));
     }
 
     return 0;

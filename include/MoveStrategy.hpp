@@ -13,3 +13,14 @@ class RandomStrategy : public IMoveStrategy {
 public:
     int select(const GameState& state, int playerId) override;
 };
+
+
+class MonteCarloStrategy : public IMoveStrategy {
+    int simulationsPerMove;
+public:
+    MonteCarloStrategy(int sims);
+    int select(const GameState& state, int playerId) override; 
+private:
+    int simulate(GameState state, int playerId); 
+};
+

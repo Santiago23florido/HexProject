@@ -23,7 +23,26 @@ class AIPlayer : public Player {
     int playerId;
     std::unique_ptr<IMoveStrategy> strategy;
 public:
+    AIPlayer(int id); // defaults to RandomStrategy
     AIPlayer(int id, std::unique_ptr<IMoveStrategy> s);
+    int ChooseMove(const GameState& state) override;
+    int Id() const override;
+};
+
+
+// Can act as a human (no strategy) or AI (with strategy)
+class HybridPlayer : public Player {
+    int playerId;
+    std::unique_ptr<IMoveStrategy> strategy;
+public:
+    HybridPlayer(int id); // human by default
+    HybridPlayer(int id, std::unique_ptr<IMoveStrategy> s); // AI when strategy is provided
+    HybridPlayer(const HumanPlayer& other); // copy identity, stay human
+    HybridPlayer(const AIPlayer& other);    // copy identity, become AI (RandomStrategy)
+    HybridPlayer(const HybridPlayer& other); // copy identity, keep mode (human/AI)
+    HybridPlayer& operator=(const HybridPlayer& other);
+    HybridPlayer(HybridPlayer&&) noexcept = default;
+    HybridPlayer& operator=(HybridPlayer&&) noexcept = default;
     int ChooseMove(const GameState& state) override;
     int Id() const override;
 };
