@@ -12,9 +12,11 @@ private:
 public:
     GameState(int n =7);
     GameState(const Board& b, int player);
+    GameState(const GameState& other);
     std::vector<int> GetAvailableMoves() const;
     std::vector<int> LinearBoard() const; // Get linear board representation index = r * N + c
     std::vector<Cube> ToCubeCoordinates() const; //Hex conversion to cube coordinates
     int IsTerminal() const;//1 = terminal,0 = not terminal
     int Winner() const; //0 = no winner, 1 = player 1 wins, 2 = player 2 wins
+    void Update(const Board& b, int player);
 };
