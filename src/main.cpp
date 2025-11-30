@@ -1,25 +1,28 @@
 #include "Board.hpp"
 #include "GameState.hpp"
+#include "MoveStrategy.hpp"
+#include "Player.hpp"
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 int main() {
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
     Board board;
-    int player = 1;
+    HumanPlayer player1(1);
+    AIPlayer player2(2, std::make_unique<MonteCarloStrategy>(100));
+    Player* current = &player1;
 
     while (true) {
         board.print();
-        std::cout << "\nPlayer " << (player == 1 ? "X" : "O") << " turn\n";
-        std::cout << "Enter row and column: ";
-
-        int r, c;
-        std::cin >> r >> c;
-
-        if (!board.place(r, c, player)) {
+        std::cout << "\nPlayer " << (current->Id() == 1 ? "X" : "O") << " turn\n";
+        GameState state(board, current->Id());
+        int moveIdx = current->ChooseMove(state);
+        if (!board.place(moveIdx, current->Id())) {
             std::cout << "Invalid move, try again.\n";
             continue;
         }
-
-        GameState state(board, player);
+        state.Update(board, current->Id());
         int w = state.Winner();
         if (w == 1) {
             board.print();
@@ -32,7 +35,7 @@ int main() {
             break;
         }
 
-        player = (player == 1 ? 2 : 1);
+        current = (current == &player1) ? static_cast<Player*>(&player2) : static_cast<Player*>(&player1);
     }
 
     return 0;

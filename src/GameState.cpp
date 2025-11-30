@@ -18,6 +18,12 @@ static const Cube Directions[6] = {
 
 GameState :: GameState(int n) : N(n), Hex(n, std::vector<int>(n, 0)) , Player(0){}
 GameState :: GameState(const Board& b,int player) : N(b.N), Hex(b.board), Player(player){}
+GameState :: GameState(const GameState& other) : N(other.N), Hex(other.Hex), Player(other.Player) {}
+void GameState :: Update(const Board& b, int player) {
+    N = b.N;
+    Hex = b.board;
+    Player = player;
+}
 //Linear list representation of indexes in current board
 std::vector<int> GameState::LinearBoard() const {
     std :: vector<int> LinearHex;  //Single number  Board Representations

@@ -3,6 +3,7 @@
 using namespace std;
 
 Board::Board(int n) : N(n), board(n, std::vector<int>(n, 0)) {}
+Board::Board(const Board& other) : N(other.N), board(other.board) {}
 
 void Board::print() const {
     cout << "\nHEX BOARD " << N << "x" << N << "\n\n";
@@ -45,4 +46,12 @@ bool Board::place(int r, int c, int player) {
 
     *cell = player;
     return true;
+}
+
+// Linear index variant: idx = r * N + c
+bool Board::place(int idx, int player) {
+    if (idx < 0 || idx >= N * N) return false;
+    const int r = idx / N;
+    const int c = idx % N;
+    return place(r, c, player);
 }
