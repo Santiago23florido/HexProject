@@ -16,11 +16,9 @@ public:
 
 
 class MonteCarloStrategy : public IMoveStrategy {
-    int simulationsPerMove;
+    int SimulationsPerMove;
 public:
     MonteCarloStrategy(int sims);
     int select(const GameState& state, int playerId) override; 
-private:
     int simulate(GameState state, int playerId); 
 };
-
