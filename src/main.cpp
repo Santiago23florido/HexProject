@@ -1,25 +1,23 @@
 #include "Board.hpp"
 #include "GameState.hpp"
+#include "Player.hpp"
 #include <iostream>
+
+HumanPlayer Player1 = HumanPlayer(1);
+HumanPlayer Player2 = HumanPlayer(2);
 
 int main() {
     Board board;
-    int player = 1;
+    HumanPlayer Player = Player1;
 
     while (true) {
         board.print();
-        std::cout << "\nPlayer " << (player == 1 ? "X" : "O") << " turn\n";
+        std::cout << "\nPlayer " << (Player.Id() == 1 ? "X" : "O") << " turn\n";
         std::cout << "Enter row and column: ";
-
-        int r, c;
-        std::cin >> r >> c;
-
-        if (!board.place(r, c, player)) {
-            std::cout << "Invalid move, try again.\n";
-            continue;
-        }
-
-        GameState state(board, player);
+        GameState state(board, Player.Id());
+        int Move = Player.ChooseMove(state);
+        board.place(Move,Player.Id());
+        state.Update(board,Player.Id());
         int w = state.Winner();
         if (w == 1) {
             board.print();
@@ -32,7 +30,7 @@ int main() {
             break;
         }
 
-        player = (player == 1 ? 2 : 1);
+        Player = (Player.Id() == Player1.Id() ? Player2 : Player1);
     }
 
     return 0;
