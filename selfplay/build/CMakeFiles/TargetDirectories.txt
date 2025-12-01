@@ -1,0 +1,3 @@
+/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/selfplay.dir
+/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/edit_cache.dir
+/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/rebuild_cache.dir
