@@ -47,7 +47,7 @@ Graph buildHexGraph(int N, bool addBorderSuperNodes) {
         const Cube& cur = cubes[idx];
         for (int d = 0; d < 6; ++d) {
             Cube nb = cur + Directions[d];
-            auto it = keyToIdx.find(nb.key());
+            auto it = keyToIdx.find(nb.key()); //Unordered map iterator
             if (it != keyToIdx.end()) {
                 int nidx = it->second;
                 if (nidx > idx) {
