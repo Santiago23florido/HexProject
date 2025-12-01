@@ -11,7 +11,7 @@ void Board::print() const {
     int row_index = 0;
     for (auto row = board.begin(); row != board.end(); ++row) {
 
-       //Desplacement of rows for hexagonal demolayout
+       // Indent rows for hexagonal layout
         for (int s = 0; s < row_index; s++)
             cout << " ";
 

@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <random>
+#include <chrono>
 
 //Random selection from the available moves list
 int RandomStrategy::select(const GameState& state, int playerId) {
@@ -121,8 +122,8 @@ uint64_t Zobrist::applyMoveHash(uint64_t hash, int moveIndex, int color) const{
     if (moveIndex < 0 || moveIndex >= boardSize) return hash;
     if (color != 1 && color != 2) return hash;
     int colorIndex = color - 1;
-    hash ^= keys[moveIndex][colorIndex]; // agrega la pieza
-    hash ^= side;                        // alterna el turno
+    hash ^= keys[moveIndex][colorIndex]; // add piece
+    hash ^= side;                        // toggle side to move
     return hash;
 }
 
@@ -130,7 +131,108 @@ uint64_t Zobrist::undoMoveHash(uint64_t hash, int moveIndex, int color) const{
     if (moveIndex < 0 || moveIndex >= boardSize) return hash;
     if (color != 1 && color != 2) return hash;
     int colorIndex = color - 1;
-    hash ^= side;                        // revierte el turno
-    hash ^= keys[moveIndex][colorIndex]; // quita la pieza
+    hash ^= side;                        // revert side to move
+    hash ^= keys[moveIndex][colorIndex]; // remove piece
     return hash;
+}
+
+
+NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs)
+    : maxDepth(maxDepth),
+      timeLimitMs(timeLimitMs),
+      transposition(1 << 16),                  // placeholder size
+      killers(MAX_DEPTH, { -1, -1 }),
+      history(128, 0) {}                       // placeholder move space
+
+
+int NegamaxStrategy::select(const GameState& state, int playerId) {
+    SearchResult res = iterativeDeepening(state, playerId);
+    return res.bestMove;
+}
+
+SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int playerId) const {
+    using clock = std::chrono::steady_clock;
+    const auto start = clock::now();
+
+    SearchResult best{-1, std::numeric_limits<int>::min(), true, false, false};
+    int guess = 0;
+    const int window = 50;
+
+    for (int depth = 1; depth <= maxDepth; ++depth) {
+        auto now = clock::now();
+        auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - start).count();
+        if (elapsedMs >= timeLimitMs) break;
+
+        int alpha = guess - window;
+        int beta  = guess + window;
+
+        SearchResult res = negamax(state, depth, alpha, beta, playerId, static_cast<uint64_t>(start.time_since_epoch().count()));
+
+        if (res.failLow || res.failHigh) {
+            alpha = std::numeric_limits<int>::min();
+            beta  = std::numeric_limits<int>::max();
+            res = negamax(state, depth, alpha, beta, playerId, static_cast<uint64_t>(start.time_since_epoch().count()));
+        }
+
+        if (!res.completed) break;
+        best = res;
+        guess = res.score;
+    }
+    return best;
+}
+
+SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alpha, int beta, int playerId, uint64_t startTime) const{
+    using clock = std::chrono::steady_clock;
+    auto now = clock::now();
+    auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(
+                         now.time_since_epoch() - std::chrono::steady_clock::time_point::duration(startTime))
+                         .count();
+    if (elapsedMs >= timeLimitMs) {
+        return {-1, 0, false, false, false}; // time limit hit
+    }
+
+    int winner = state.Winner();
+    int opponent = (playerId == 1 ? 2 : 1);
+    if (winner == playerId) return {-1, 100000, true, false, false};
+    if (winner == opponent) return {-1, -100000, true, false, false};
+    if (depth == 0) return {-1, 0, true, false, false};
+
+    std::vector<int> moves = state.GetAvailableMoves();
+    if (moves.empty()) return {-1, 0, true, false, false};
+
+    int bestMove = moves.front();
+    int bestScore = std::numeric_limits<int>::min();
+    const int alphaOrig = alpha;
+    const int betaOrig = beta;
+
+    // Rebuild board from state once for reuse
+    auto linear = state.LinearBoard();
+    const int n = static_cast<int>(std::sqrt(linear.size()));
+
+    for (int m : moves) {
+        Board b(n);
+        for (int idx = 0; idx < static_cast<int>(linear.size()); ++idx) {
+            if (linear[idx] != 0) {
+                b.place(idx, linear[idx]);
+            }
+        }
+        b.place(m, playerId);
+        int nextPlayer = (playerId == 1 ? 2 : 1);
+        GameState child(b, nextPlayer);
+
+        SearchResult childRes = negamax(child, depth - 1, -beta, -alpha, nextPlayer, startTime);
+        if (!childRes.completed) return {bestMove, bestScore, false, false, false};
+
+        int score = -childRes.score;
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = m;
+        }
+        if (score > alpha) alpha = score;
+        if (alpha >= beta) break; // beta cut
+    }
+
+    bool failLow = bestScore <= alphaOrig;
+    bool failHigh = bestScore >= betaOrig;
+    return {bestMove, bestScore, true, failLow, failHigh};
 }
