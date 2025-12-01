@@ -1,8 +1,8 @@
 #include "GameRunner.hpp"
 
-#include <cmath>
 #include <vector>
 
+// Runs a single self-play game with two provided strategies
 GameRunner::GameRunner(int boardSize, IMoveStrategy& p1Strategy, IMoveStrategy& p2Strategy)
     : boardSize(boardSize), p1(p1Strategy), p2(p2Strategy) {}
 
@@ -11,19 +11,8 @@ int GameRunner::playOne(DataCollector& collector) {
     int currentPlayer = 1;
     GameState state(board, currentPlayer);
 
-    auto linearize = [&](const Board& b) {
-        std::vector<int> linear;
-        linear.reserve(boardSize * boardSize);
-        for (int r = 0; r < boardSize; ++r) {
-            for (int c = 0; c < boardSize; ++c) {
-                linear.push_back(b.board[r][c]);
-            }
-        }
-        return linear;
-    };
-
     while (true) {
-        collector.recordState(boardSize, linearize(board), currentPlayer);
+        collector.recordState(boardSize, state.LinearBoard(), currentPlayer);
 
         int winner = state.Winner();
         if (winner != 0) {
