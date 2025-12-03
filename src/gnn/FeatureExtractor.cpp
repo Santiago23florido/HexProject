@@ -30,6 +30,8 @@ void FeatureExtractor::flatten(const Graph& g, FeatureBatch& batch) const {
         batch.nodeFeatures.push_back(nf.sideA);
         batch.nodeFeatures.push_back(nf.sideB);
         batch.nodeFeatures.push_back(nf.degree);
+        batch.nodeFeatures.push_back(nf.distToA);
+        batch.nodeFeatures.push_back(nf.distToB);
     }
 
     batch.edgeSrc.clear();

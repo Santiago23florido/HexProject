@@ -10,6 +10,12 @@ add_executable(hex
     src/Cube.cpp
     src/Player.cpp
     src/MoveStrategy.cpp
+    src/gnn/Graph.cpp
+    src/gnn/FeatureExtractor.cpp
+    src/gnn/GNNModel.cpp
 )
 
-target_include_directories(hex PUBLIC include)
+target_include_directories(hex PUBLIC include include/gnn)
+
+find_package(Torch REQUIRED)
+target_link_libraries(hex PRIVATE ${TORCH_LIBRARIES})
