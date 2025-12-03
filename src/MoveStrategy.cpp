@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <string>
 
 //Random selection from the available moves list
 int RandomStrategy::select(const GameState& state, int playerId) {
@@ -137,15 +138,20 @@ uint64_t Zobrist::undoMoveHash(uint64_t hash, int moveIndex, int color) const{
 }
 
 
-NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs)
+NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath)
     : maxDepth(maxDepth),
       timeLimitMs(timeLimitMs),
       transposition(1 << 16),                  // placeholder size
       killers(MAX_DEPTH, { -1, -1 }),
-      history(128, 0) {}                       // placeholder move space
+      history(128, 0),
+      model(modelPath) {}                      // load TorchScript model
 
 
 int NegamaxStrategy::select(const GameState& state, int playerId) {
+    if (!usageLogged) {
+        usageLogged = true;
+        std::cout << "[Negamax] Using GNN evaluation\n";
+    }
     SearchResult res = iterativeDeepening(state, playerId);
     return res.bestMove;
 }
@@ -166,6 +172,7 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         int alpha = guess - window;
         int beta  = guess + window;
 
+        std::cout << "[Negamax] Depth " << depth << " start | alpha=" << alpha << " beta=" << beta << "\n";
         SearchResult res = negamax(state, depth, alpha, beta, playerId, static_cast<uint64_t>(start.time_since_epoch().count()));
 
         if (res.failLow || res.failHigh) {
@@ -177,6 +184,8 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         if (!res.completed) break;
         best = res;
         guess = res.score;
+        std::cout << "[Negamax] Depth " << depth << " done | bestMove=" << best.bestMove
+                  << " score=" << best.score << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
     }
     return best;
 }
@@ -195,7 +204,17 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     int opponent = (playerId == 1 ? 2 : 1);
     if (winner == playerId) return {-1, 100000, true, false, false};
     if (winner == opponent) return {-1, -100000, true, false, false};
-    if (depth == 0) return {-1, 0, true, false, false};
+    if (depth == 0) {
+        int evalScore = 0;
+        if (model.isLoaded()) {
+            FeatureBatch batch = extractor.toBatch(state);
+            float val = model.evaluate(batch, playerId);
+            evalScore = static_cast<int>(val * valueScale);
+            std::cout << "[GNN] Eval depth0 | player=" << playerId << " val=" << val
+                      << " scaled=" << evalScore << "\n";
+        }
+        return {-1, evalScore, true, false, false};
+    }
 
     std::vector<int> moves = state.GetAvailableMoves();
     if (moves.empty()) return {-1, 0, true, false, false};

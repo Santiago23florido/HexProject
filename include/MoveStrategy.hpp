@@ -6,6 +6,8 @@
 #include <iostream>
 #include "GameState.hpp"
 #include "Board.hpp"
+#include "gnn/FeatureExtractor.hpp"
+#include "gnn/GNNModel.hpp"
 
 class IMoveStrategy{
     public:
@@ -67,7 +69,7 @@ struct TTEntry {
 // Simple negamax-based strategy interface
 class NegamaxStrategy : public IMoveStrategy {
 public:
-    NegamaxStrategy(int maxDepth, int timeLimitMs);
+    NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "models/hex_value_ts.pt");
     int select(const GameState& state, int playerId) override;
     int getmaxDepth(const NegamaxStrategy& strat)const;
 
@@ -76,8 +78,12 @@ private:
     SearchResult negamax(const GameState& state, int depth, int alpha, int beta, int playerId, uint64_t startTime) const;
     int maxDepth;
     int timeLimitMs;
+    int valueScale{1000}; // scale GNN output to search score space
+    mutable bool usageLogged{false};
     static constexpr int MAX_DEPTH = 64;
     std::vector<TTEntry> transposition;         // fixed-size TT
     std::vector<std::array<int, 2>> killers;    // killer moves per depth
     std::vector<int> history;                   // history scores indexed by move id
+    FeatureExtractor extractor;
+    GNNModel model;
 };

@@ -22,14 +22,14 @@ public:
     FeatureExtractor() = default;
 
     // Build or reuse the graph for a given size, then fill features from Board
-    FeatureBatch toBatch(const Board& board);
+    FeatureBatch toBatch(const Board& board) const;
     // Overload for GameState convenience
-    FeatureBatch toBatch(const GameState& state);
+    FeatureBatch toBatch(const GameState& state) const;
 
 private:
-    Graph& getGraph(int N);
+    Graph& getGraph(int N) const;
     void flatten(const Graph& g, FeatureBatch& batch) const;
 
-    std::unordered_map<int, Graph> cache; // graphs by board size
+    mutable std::unordered_map<int, Graph> cache; // graphs by board size
     static constexpr int FEATURE_DIM = 8; // p1, p2, empty, sideA, sideB, degree, distToA, distToB
 };

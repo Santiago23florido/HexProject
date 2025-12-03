@@ -10,7 +10,8 @@ int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     Board board;
     HumanPlayer player1(1);
-    AIPlayer player2(2, std::make_unique<MonteCarloStrategy>(100));
+    const std::string modelPath = "../scripts/models/hex_value_ts.pt"; // adjust if you run from a different cwd
+    AIPlayer player2(2, std::make_unique<NegamaxStrategy>(3, 2000, modelPath));
     Player* current = &player1;
 
     while (true) {

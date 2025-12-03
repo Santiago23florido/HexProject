@@ -121,7 +121,8 @@ class SimpleGNN(nn.Module):
 
     def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
         # Simple mean aggregator
-        src, dst = edge_index
+        src = edge_index[0]
+        dst = edge_index[1]
         deg = torch.zeros(x.size(0), device=x.device)
         deg.index_add_(0, src, torch.ones_like(src, dtype=torch.float32, device=x.device))
         deg = torch.clamp(deg, min=1.0)
@@ -179,7 +180,17 @@ def train(args):
     if args.output:
         os.makedirs(os.path.dirname(args.output), exist_ok=True)
         torch.save(model.state_dict(), args.output)
-        print(f"Saved model to {args.output}")
+        print(f"Saved state_dict to {args.output}")
+        # Also export TorchScript for C++/libtorch consumption
+        ts_path = args.output
+        if ts_path.endswith(".pt"):
+            base, ext = os.path.splitext(ts_path)
+            ts_path = base + "_ts.pt"
+        model_cpu = model.cpu()
+        model_cpu.eval()
+        scripted = torch.jit.script(model_cpu)
+        scripted.save(ts_path)
+        print(f"Saved TorchScript model to {ts_path}")
 
 
 if __name__ == "__main__":
