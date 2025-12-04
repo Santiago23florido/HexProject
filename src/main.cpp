@@ -9,9 +9,10 @@
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     Board board;
-    HumanPlayer player1(1);
     const std::string modelPath = "../scripts/models/hex_value_ts.pt"; // adjust if you run from a different cwd
-    AIPlayer player2(2, std::make_unique<NegamaxStrategy>(3, 2000, modelPath));
+    const bool heuristicOnly = true;
+    AIPlayer player1(1, std::make_unique<NegamaxStrategy>(3, 2000, modelPath, heuristicOnly));
+    HumanPlayer player2(2);
     Player* current = &player1;
 
     while (true) {
