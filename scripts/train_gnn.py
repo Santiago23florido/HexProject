@@ -189,12 +189,11 @@ def train(args):
             target = torch.tensor(float(s["result"]), device=device)
             moves_target = s.get("moves_to_end", None)
             moves_tensor = None
+            moves_norm = None
             if moves_target is not None:
                 # Normalize by max plies (~ N*N) to keep target in [0,1]
-                moves_tensor = torch.tensor(
-                    float(moves_target) / float(max(1, s["N"] * s["N"])),
-                    device=device,
-                )
+                moves_norm = float(moves_target) / float(max(1, s["N"] * s["N"]))
+                moves_tensor = torch.tensor(moves_norm, device=device)
 
             opt.zero_grad()
             pred = model(feats, edge_index)
@@ -202,6 +201,10 @@ def train(args):
             if moves_tensor is not None:
                 aux_pred = model.predict_moves(feats, edge_index)
                 loss = loss + args.aux_weight * aux_loss_fn(aux_pred, moves_tensor)
+                # Emphasize late-game states (fewer moves remaining) if requested
+                if args.endgame_weight > 0:
+                    weight = 1.0 + args.endgame_weight * (1.0 - moves_norm)
+                    loss = loss * weight
             loss.backward()
             opt.step()
 
@@ -234,6 +237,7 @@ if __name__ == "__main__":
     parser.add_argument("--limit", type=int, default=None, help="Optional limit on number of samples")
     parser.add_argument("--epochs", type=int, default=20, help="Training epochs")
     parser.add_argument("--aux-weight", type=float, default=0.1, help="Weight for moves_to_end auxiliary loss")
+    parser.add_argument("--endgame-weight", type=float, default=0.0, help="Extra weight for late-game samples (uses moves_to_end)")
     parser.add_argument("--lr", type=float, default=1e-3, help="Learning rate")
     parser.add_argument("--output", type=str, default=default_out, help="Path to save the TorchScript model (single file used by C++)")
     args = parser.parse_args()

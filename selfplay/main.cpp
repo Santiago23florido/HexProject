@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 #include <numeric>
+#include <queue>
 #include <random>
 #include <string>
 
@@ -35,8 +36,46 @@ Board randomStartingBoard(int boardSize, int minPairs, int maxPairs, std::mt1993
             b.place(cells[i], player);
         }
 
+        auto hasConnectedChain = [&](int player, int minLen) {
+            static const int evenDirs[6][2] = {{-1, -1}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 0}};
+            static const int oddDirs[6][2] = {{-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, 0}, {1, 1}};
+            std::vector<int> visited(totalCells, 0);
+            for (int idx = 0; idx < totalCells; ++idx) {
+                int r = idx / boardSize;
+                int c = idx % boardSize;
+                if (b.board[r][c] != player || visited[idx]) continue;
+                int comp = 0;
+                std::queue<int> q;
+                q.push(idx);
+                visited[idx] = 1;
+                while (!q.empty()) {
+                    int cur = q.front();
+                    q.pop();
+                    comp++;
+                    int cr = cur / boardSize;
+                    int cc = cur % boardSize;
+                    const int (*dirs)[2] = (cr % 2 == 0) ? evenDirs : oddDirs;
+                    for (int d = 0; d < 6; ++d) {
+                        int nr = cr + dirs[d][0];
+                        int nc = cc + dirs[d][1];
+                        if (nr < 0 || nr >= boardSize || nc < 0 || nc >= boardSize) continue;
+                        if (b.board[nr][nc] != player) continue;
+                        int nidx = nr * boardSize + nc;
+                        if (!visited[nidx]) {
+                            visited[nidx] = 1;
+                            q.push(nidx);
+                        }
+                    }
+                }
+                if (comp >= minLen) return true;
+            }
+            return false;
+        };
+
         GameState st(b, 1);
-        if (st.Winner() == 0) {
+        bool p1Chain = hasConnectedChain(1, 2);
+        bool p2Chain = hasConnectedChain(2, 2);
+        if (st.Winner() == 0 && p1Chain && p2Chain) {
             outPairs = pairs;
             return b;
         }
@@ -52,7 +91,9 @@ int main(int argc, char** argv) {
     int games = 1000;            // default number of games (can be overridden by argv)
     int minDepth = 1;
     int maxDepth = 5;
-    const int timeLimitMs = 1000; // per-move time cap to keep self-play fast
+    int minPairs = 2;             // starting random stone pairs per player (curriculum control)
+    int maxPairs = 4;
+    int timeLimitMs = 1000;       // per-move time cap to keep self-play fast
     const int flushEveryGames = 20; // write to disk in small batches to avoid high RAM use
     std::string outputPath = "selfplay_data.jsonl";
 
@@ -60,9 +101,14 @@ int main(int argc, char** argv) {
     if (argc > 2) minDepth = std::atoi(argv[2]);
     if (argc > 3) maxDepth = std::atoi(argv[3]);
     if (argc > 4) outputPath = argv[4];
+    if (argc > 5) minPairs = std::atoi(argv[5]);
+    if (argc > 6) maxPairs = std::atoi(argv[6]);
+    if (argc > 7) timeLimitMs = std::atoi(argv[7]);
 
     if (minDepth < 1) minDepth = 1;
     if (maxDepth < minDepth) maxDepth = minDepth;
+    if (minPairs < 1) minPairs = 1;
+    if (maxPairs < minPairs) maxPairs = minPairs;
 
     // Seed both rand() (used inside strategies) and a dedicated RNG for depth selection.
     unsigned seed = static_cast<unsigned>(
@@ -115,7 +161,7 @@ int main(int argc, char** argv) {
             NegamaxHeuristicStrategy p1(depthP1, timeLimitMs);
             NegamaxHeuristicStrategy p2(depthP2, timeLimitMs);
             int initPairs = 0;
-            Board startBoard = randomStartingBoard(boardSize, 2, 4, rng, initPairs);
+            Board startBoard = randomStartingBoard(boardSize, minPairs, maxPairs, rng, initPairs);
 
             GameRunner runner(boardSize, p1, p2);
 

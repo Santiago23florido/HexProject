@@ -24,7 +24,8 @@ int main() {
 
     HumanPlayer humanPlayer(1);
     AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000));
-    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(3, 2000, modelPath));
+    // Give the GNN more search depth/time to compensate for higher evaluation cost.
+    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath));
 
     Player* playerX = &humanPlayer;
     Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
