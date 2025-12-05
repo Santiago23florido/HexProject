@@ -4,8 +4,11 @@
 #include <limits>
 #include <vector>
 #include <iostream>
+#include <chrono>
 #include "GameState.hpp"
 #include "Board.hpp"
+#include "gnn/FeatureExtractor.hpp"
+#include "gnn/GNNModel.hpp"
 
 class IMoveStrategy{
     public:
@@ -67,17 +70,41 @@ struct TTEntry {
 // Simple negamax-based strategy interface
 class NegamaxStrategy : public IMoveStrategy {
 public:
-    NegamaxStrategy(int maxDepth, int timeLimitMs);
+    NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt", bool heuristicOnly = false);
     int select(const GameState& state, int playerId) override;
     int getmaxDepth(const NegamaxStrategy& strat)const;
 
 private:
     SearchResult iterativeDeepening(const GameState& state, int playerId) const;
-    SearchResult negamax(const GameState& state, int depth, int alpha, int beta, int playerId, uint64_t startTime) const;
+    SearchResult negamax(const GameState& state, int depth, int alpha, int beta, int playerId, std::chrono::steady_clock::time_point startTime) const;
     int maxDepth;
     int timeLimitMs;
+    int valueScale{1000}; // scale GNN output to search score space
+    bool useHeuristic{false};
+    mutable bool usageLogged{false};
+    mutable int rootPlayer{1};
+    mutable int lastEvalPlayer{0};
+    mutable float lastEvalVal{0.0f};
+    mutable int lastEvalScaled{0};
     static constexpr int MAX_DEPTH = 64;
-    std::vector<TTEntry> transposition;         // fixed-size TT
+    static constexpr std::size_t TT_SIZE = 1u << 18;
+    mutable std::vector<TTEntry> transposition; // fixed-size TT
     std::vector<std::array<int, 2>> killers;    // killer moves per depth
     std::vector<int> history;                   // history scores indexed by move id
+    mutable Zobrist zobrist;
+    mutable int zobristCells{0};
+    FeatureExtractor extractor;
+    GNNModel model;
+};
+
+// Forces heuristic evaluation inside Negamax
+class NegamaxHeuristicStrategy : public NegamaxStrategy {
+public:
+    NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs);
+};
+
+// Forces GNN evaluation inside Negamax (falls back to heuristic if model fails to load)
+class NegamaxGnnStrategy : public NegamaxStrategy {
+public:
+    NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt");
 };

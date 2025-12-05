@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <queue>
 #include <unordered_map>
-
 #include "Cube.hpp"
 
 Graph buildHexGraph(int N, bool addBorderSuperNodes) {
@@ -66,7 +66,6 @@ Graph buildHexGraph(int N, bool addBorderSuperNodes) {
         g.features[idx] = nf;
     }
 
-    
     if (addBorderSuperNodes) {
         const int superA = g.superOffset;     // for player 1 sides (columns)
         const int superB = g.superOffset + 1; // for player 2 sides (rows)
@@ -84,6 +83,36 @@ Graph buildHexGraph(int N, bool addBorderSuperNodes) {
         }
         g.features[superA].degree = static_cast<float>(g.adj[superA].size()) / std::max(1, 2 * N);
         g.features[superB].degree = static_cast<float>(g.adj[superB].size()) / std::max(1, 2 * N);
+
+        // Unweighted BFS from each supernode to compute shortest hop counts
+        auto bfs = [&](int source, std::vector<float>& out) {
+            out.assign(g.numNodes, std::numeric_limits<float>::infinity());
+            std::queue<int> q;
+            out[source] = 0.f;
+            q.push(source);
+            while (!q.empty()) {
+                int u = q.front();
+                q.pop();
+                float du = out[u];
+                for (int v : g.adj[u]) {
+                    if (out[v] > du + 1.f) {
+                        out[v] = du + 1.f;
+                        q.push(v);
+                    }
+                }
+            }
+        };
+
+        std::vector<float> distA;
+        std::vector<float> distB;
+        bfs(superA, distA);
+        bfs(superB, distB);
+
+        float norm = static_cast<float>(baseNodes > 0 ? baseNodes : 1); // normalize by board cells
+        for (int i = 0; i < baseNodes; ++i) {
+            g.features[i].distToA = distA[i] / norm; // normalized shortest hops to side A
+            g.features[i].distToB = distB[i] / norm; // normalized shortest hops to side B
+        }
     }
 
     return g;

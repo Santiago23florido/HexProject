@@ -5,7 +5,7 @@
 
 #include "gnn/Graph.hpp"
 
-Graph& FeatureExtractor::getGraph(int N) {
+Graph& FeatureExtractor::getGraph(int N) const {
     auto it = cache.find(N);
     if (it != cache.end()) {
         return it->second;
@@ -30,6 +30,8 @@ void FeatureExtractor::flatten(const Graph& g, FeatureBatch& batch) const {
         batch.nodeFeatures.push_back(nf.sideA);
         batch.nodeFeatures.push_back(nf.sideB);
         batch.nodeFeatures.push_back(nf.degree);
+        batch.nodeFeatures.push_back(nf.distToA);
+        batch.nodeFeatures.push_back(nf.distToB);
     }
 
     batch.edgeSrc.clear();
@@ -42,7 +44,7 @@ void FeatureExtractor::flatten(const Graph& g, FeatureBatch& batch) const {
     }
 }
 
-FeatureBatch FeatureExtractor::toBatch(const Board& board) {
+FeatureBatch FeatureExtractor::toBatch(const Board& board) const {
     const int N = board.N;
     Graph& g = getGraph(N);
     fillFeatures(g, board);
@@ -52,7 +54,7 @@ FeatureBatch FeatureExtractor::toBatch(const Board& board) {
     return batch;
 }
 
-FeatureBatch FeatureExtractor::toBatch(const GameState& state) {
+FeatureBatch FeatureExtractor::toBatch(const GameState& state) const {
     const auto linear = state.LinearBoard();
     const int N = static_cast<int>(std::sqrt(linear.size()));
     Graph& g = getGraph(N);
