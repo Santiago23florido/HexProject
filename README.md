@@ -1,82 +1,73 @@
-# Hex Game Engine (C++)
+# Hex Project
 
-This project provides an object-oriented implementation of the board game Hex. The engine models the board, game state, coordinate systems, and winner detection in a clear and extensible architecture. It serves as a foundation for future AI methods such as Monte Carlo Tree Search and neural network evaluation (AlphaZero style).
+Hex game engine and AI stack in C++ with a TorchScript GNN value network. The repository contains:
+- A full Hex rules implementation (board, game state, winner detection).
+- Two search-based agents: a handcrafted heuristic Negamax and a GNN-guided Negamax.
+- A self-play generator to create training data for the GNN.
+- A Python training script to produce the TorchScript model consumed by C++.
 
-## Game Overview
+## Engine and Rules
+- Board and state: `Board`, `GameState`, `Cube` model the 7×7 Hex board (configurable) with cube coordinates for robust neighbor lookup.
+- Winner detection: BFS over connected stones reaches opposite sides (X: left–right, O: top–bottom).
+- Move legality and turn tracking handled by `GameState`.
 
-Hex is a deterministic two-player connection game played on an N×N rhombus-shaped board of hexagonal cells.
+## Agents
+- **Heuristic Negamax**: evaluation mixes shortest-path heuristics, liberties, bridges, center control, stone count, and immediate-win checks. Hashing via Zobrist plus a transposition table.
+- **GNN Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts.pt`). Current defaults: depth 5, 3000 ms per move for GNN; depth 3, 2000 ms for heuristic.
+- **Interactive play**: `./build/hex` asks if you want heuristic (`h`, default) or GNN (`g`).
 
-- Player X aims to connect the left and right sides of the board.
-- Player O aims to connect the top and bottom sides.
-- Draws are theoretically impossible; one player must win.
-
-This project currently supports human-vs-human gameplay through a text-based interface.
-
-## Object-Oriented Structure
-
-| Class | Description |
-|------|-------------|
-| `Board` | Maintains the board matrix, handles move placement, and renders the board to the console. |
-| `GameState` | Wraps the board as a logical state, tracks the current player, generates legal moves, and determines if the game is finished. |
-| `Cube` | Represents positions using cube coordinates, enabling robust neighbor calculations for winner detection. |
-| `MoveStrategy` | Defines interfaces and implementations for move selection (Random, Monte Carlo, Negamax scaffold). |
-| `Zobrist` | Provides hashing utilities for incremental state hashing (for transposition tables). |
-| `gnn::Graph` | Represents the Hex board as a graph with per-node features, ready for GNN input. |
-| `FeatureExtractor` | Converts `Board`/`GameState` into flattened tensors (features + edge lists) for the GNN backend. |
-
-The separation of state logic from board representation makes this implementation suitable for integration with search algorithms and machine learning components.
-
-## Coordinate System
-
-Although the board is stored in a standard 2D matrix (row, column), winner detection uses cube coordinates. Cube coordinates allow each cell to have exactly six neighbors, simplifying adjacency checks.
-
-The system converts each board cell to cube coordinates, enabling graph search operations that are independent of the visual representation.
-
-## Winner Detection (BFS)
-
-Winner detection proceeds by:
-
-1. Identifying starting edge cells for a given player.
-2. Mapping all board cells to cube coordinates.
-3. Performing a Breadth-First Search (BFS) through connected stones of the same player.
-4. Detecting whether the search reaches the opposite target edge.
-
-If so, the current player is declared the winner.
-
-## Build Instructions
-
+## Build and Run
 ```bash
-mkdir build
-cd build
-cmake ..
-make
-./hex
-
-## Self-Play Data Generation
-
-A separate `selfplay` target generates training data for a future GNN evaluator:
-
-```bash
-cd selfplay
-mkdir build && cd build
-cmake ..
-make
-./selfplay <games> <sims-base> <output.jsonl>
+cmake -S . -B build
+cmake --build build
+./build/hex
 ```
 
-- Runs self-play across board sizes 4..11.
-- Per game, Monte Carlo simulations per move are randomized in [4, 20].
-- Writes one JSONL file per board size with samples `(N, board, to_move, result)`.
+## Self-Play Generator
+Binary under `selfplay/` to produce JSONL training data.
 
-## Current Progress
+Build:
+```bash
+cmake -S selfplay -B selfplay/build
+cmake --build selfplay/build
+```
 
-- Core engine (Board, GameState, Cube) implemented with winner detection via BFS.
-- Move strategies: Random, Monte Carlo; Negamax scaffold with Zobrist hashing utilities started.
-- Graph representation and feature extraction for GNN input implemented in C++.
-- Self-play generator produces training data across multiple board sizes with randomized simulations.
+Run:
+```bash
+./selfplay/build/selfplay <games> <minDepth> <maxDepth> <outputPath> <minPairs> <maxPairs> <timeLimitMs>
+```
+- Players: two heuristic Negamax agents with depth randomized in `[minDepth, maxDepth]`.
+- Time per move: `timeLimitMs` ms.
+- Starting positions: random pairs of stones per player (`pairs ∈ [minPairs, maxPairs]`), rejecting boards unless both players have at least one connected chain of length ≥ 2 to ensure meaningful mid/late-game patterns.
+- Files: writes one JSONL per board size, e.g. `selfplay_data_N7.jsonl`. Flushes every 20 games to avoid high RAM use.
+- Sample fields: `N`, `board` (flattened), `to_move`, `result` (+1/-1/0 from `to_move` perspective), `moves_to_end` (plies remaining).
 
-## Next Steps
+## GNN Features and Training (Python)
+Script: `scripts/train_gnn.py`.
+- Input features per node (8): `p1, p2, empty, sideA, sideB, degree, distToA, distToB` — matches C++ `FeatureExtractor`.
+- Model: three linear layers (hidden 128) with mean aggregation and global mean pool.
+- Outputs:
+  - Value head in `[-1, 1]` (from `to_move` perspective).
+  - Auxiliary head predicts normalized `moves_to_end` (training only; not used at inference).
+- Arguments: `--epochs`, `--lr`, `--aux-weight` (aux loss weight), `--endgame-weight` (emphasize late-game samples using `moves_to_end`), `--data`, `--limit`, `--output`.
 
-- Implement GNNModel loading/inference (e.g., ONNX/LibTorch) and integrate value evaluation into search.
-- Flesh out Negamax (transposition table, move ordering, time controls) and add a proper evaluation function.
-- Expand self-play options (strategy mix, more control over simulations/time) and add validation scripts.
+Example training:
+```bash
+python3 scripts/train_gnn.py \
+  --data selfplay/build/selfplay_data_N7.jsonl \
+  --epochs 20 --lr 1e-3 \
+  --aux-weight 0.1 --endgame-weight 1.0
+```
+The TorchScript model is saved to `scripts/models/hex_value_ts.pt` and loaded automatically by `./build/hex` and the self-play generator.
+
+## Code Map (high level)
+- `src/`: game loop (`main.cpp`), strategies, hashing, GNN wrapper.
+- `include/`: headers for board/state/strategies/gnn.
+- `selfplay/`: standalone generator and serializer for JSONL data.
+- `scripts/`: training script and model artifacts.
+
+## Notes and Next Steps
+- Improve search ordering (killer/history heuristics), and tune depth/time defaults.
+- Expand self-play curriculum (more sizes, teacher-student setups).
+- Add symmetry augmentation during training to multiply examples.
+- Optional: integrate policy head to guide move ordering alongside value.
