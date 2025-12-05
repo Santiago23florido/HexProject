@@ -10,7 +10,7 @@ Hex is a deterministic two-player connection game played on an N×N rhombus-shap
 - Player O aims to connect the top and bottom sides.
 - Draws are theoretically impossible; one player must win.
 
-This project currently supports human-vs-human gameplay through a text-based interface.
+This project supports human vs human and human vs AI (random or Monte Carlo) through a text-based interface.
 
 ## Object-Oriented Structure
 
@@ -19,10 +19,8 @@ This project currently supports human-vs-human gameplay through a text-based int
 | `Board` | Maintains the board matrix, handles move placement, and renders the board to the console. |
 | `GameState` | Wraps the board as a logical state, tracks the current player, generates legal moves, and determines if the game is finished. |
 | `Cube` | Represents positions using cube coordinates, enabling robust neighbor calculations for winner detection. |
-| `MoveStrategy` | Defines interfaces and implementations for move selection (Random, Monte Carlo, Negamax scaffold). |
-| `Zobrist` | Provides hashing utilities for incremental state hashing (for transposition tables). |
-| `gnn::Graph` | Represents the Hex board as a graph with per-node features, ready for GNN input. |
-| `FeatureExtractor` | Converts `Board`/`GameState` into flattened tensors (features + edge lists) for the GNN backend. |
+| `Player` hierarchy | `HumanPlayer` reads input, `AIPlayer` delegates to a move strategy. |
+| `MoveStrategy` | Interface for AI policies. Includes `RandomStrategy` and `MonteCarloStrategy` (configurable rollouts). |
 
 The separation of state logic from board representation makes this implementation suitable for integration with search algorithms and machine learning components.
 
@@ -43,6 +41,12 @@ Winner detection proceeds by:
 
 If so, the current player is declared the winner.
 
+## AI Play
+
+- Default setup: Player X is human, Player O uses `MonteCarloStrategy` (simulation count set in `src/main.cpp`).
+- The Monte Carlo bot prints a trace like `[MonteCarlo] move (r,c) wins X/N` on its turn.
+- RNG is seeded in `main` with `std::srand(std::time(nullptr))` to avoid repeating sequences.
+
 ## Build Instructions
 
 ```bash
@@ -51,32 +55,12 @@ cd build
 cmake ..
 make
 ./hex
-
-## Self-Play Data Generation
-
-A separate `selfplay` target generates training data for a future GNN evaluator:
-
-```bash
-cd selfplay
-mkdir build && cd build
-cmake ..
-make
-./selfplay <games> <sims-base> <output.jsonl>
 ```
 
-- Runs self-play across board sizes 4..11.
-- Per game, Monte Carlo simulations per move are randomized in [4, 20].
-- Writes one JSONL file per board size with samples `(N, board, to_move, result)`.
+## Usage
 
-## Current Progress
-
-- Core engine (Board, GameState, Cube) implemented with winner detection via BFS.
-- Move strategies: Random, Monte Carlo; Negamax scaffold with Zobrist hashing utilities started.
-- Graph representation and feature extraction for GNN input implemented in C++.
-- Self-play generator produces training data across multiple board sizes with randomized simulations.
-
-## Next Steps
-
-- Implement GNNModel loading/inference (e.g., ONNX/LibTorch) and integrate value evaluation into search.
-- Flesh out Negamax (transposition table, move ordering, time controls) and add a proper evaluation function.
-- Expand self-play options (strategy mix, more control over simulations/time) and add validation scripts.
+- Run `./hex` and follow the prompts. Input moves as `row column` (0-based).
+- Board size defaults to 7 (see `Board` constructor in `src/main.cpp`); change it there if needed.
+- To change AI strength, adjust the simulation count when constructing `MonteCarloStrategy` in `src/main.cpp`.
+- For a quick random bot, construct `AIPlayer(int id)` without passing a strategy.
+- For human vs human, instantiate bot
