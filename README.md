@@ -63,4 +63,4 @@ make
 - Board size defaults to 7 (see `Board` constructor in `src/main.cpp`); change it there if needed.
 - To change AI strength, adjust the simulation count when constructing `MonteCarloStrategy` in `src/main.cpp`.
 - For a quick random bot, construct `AIPlayer(int id)` without passing a strategy.
-- For human vs human, instantiate both players as `HumanPlayer` and skip strategies.
+- For human vs human, instantiate bot
