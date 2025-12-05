@@ -70,7 +70,7 @@ struct TTEntry {
 // Simple negamax-based strategy interface
 class NegamaxStrategy : public IMoveStrategy {
 public:
-    NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "models/hex_value_ts.pt", bool heuristicOnly = false);
+    NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt", bool heuristicOnly = false);
     int select(const GameState& state, int playerId) override;
     int getmaxDepth(const NegamaxStrategy& strat)const;
 
@@ -95,4 +95,16 @@ private:
     mutable int zobristCells{0};
     FeatureExtractor extractor;
     GNNModel model;
+};
+
+// Forces heuristic evaluation inside Negamax
+class NegamaxHeuristicStrategy : public NegamaxStrategy {
+public:
+    NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs);
+};
+
+// Forces GNN evaluation inside Negamax (falls back to heuristic if model fails to load)
+class NegamaxGnnStrategy : public NegamaxStrategy {
+public:
+    NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt");
 };

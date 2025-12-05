@@ -12,7 +12,46 @@
 #include <chrono>
 #include <string>
 #include <queue>
+#include <filesystem>
 #include "gnn/Graph.hpp"
+
+namespace {
+
+std::string defaultModelPath() {
+    return "scripts/models/hex_value_ts.pt";
+}
+
+// Try a few common locations so the model loads whether we run from build/, selfplay/, or repo root.
+std::string resolveModelPath(const std::string& hint) {
+    namespace fs = std::filesystem;
+    const fs::path hinted = hint.empty() ? fs::path(defaultModelPath()) : fs::path(hint);
+    std::vector<fs::path> candidates;
+
+    // First, try the path as provided relative to the current working directory.
+    candidates.push_back(hinted);
+
+    // Then, walk up a few parent directories to find scripts/models under the repo root.
+    fs::path cwd = fs::current_path();
+    for (int up = 0; up < 4; ++up) {
+        fs::path base = cwd;
+        for (int i = 0; i < up && base.has_parent_path(); ++i) {
+            base = base.parent_path();
+        }
+        candidates.push_back(base / hinted);
+        candidates.push_back(base / defaultModelPath());
+    }
+
+    for (const auto& cand : candidates) {
+        if (!cand.empty() && fs::exists(cand)) {
+            return cand.lexically_normal().string();
+        }
+    }
+
+    // Fall back to the original string if nothing was found; caller will handle the failure.
+    return hinted.lexically_normal().string();
+}
+
+} // namespace
 
 // Reuse hex graphs with supernodes for heuristics
 static const Graph& getPlainGraph(int N) {
@@ -312,7 +351,14 @@ NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::strin
       transposition(TT_SIZE),                  // fixed-size TT
       killers(MAX_DEPTH, { -1, -1 }),
       history(128, 0),
-      model(modelPath) {}                      // load TorchScript model
+      model(heuristicOnly ? std::string()
+                          : resolveModelPath(modelPath.empty() ? defaultModelPath() : modelPath)) {}
+
+NegamaxHeuristicStrategy::NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs)
+    : NegamaxStrategy(maxDepth, timeLimitMs, defaultModelPath(), true) {}
+
+NegamaxGnnStrategy::NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath)
+    : NegamaxStrategy(maxDepth, timeLimitMs, modelPath.empty() ? defaultModelPath() : modelPath, false) {}
 
 
 int NegamaxStrategy::select(const GameState& state, int playerId) {
@@ -321,7 +367,8 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
         if (useHeuristic) {
             std::cout << "[Negamax] Using heuristic evaluation\n";
         } else if (model.isLoaded()) {
-            std::cout << "[Negamax] Using GNN evaluation\n";
+            const bool cuda = model.usesCuda();
+            std::cout << "[Negamax] Using GNN evaluation (" << (cuda ? "CUDA" : "CPU") << ")\n";
         } else {
             std::cout << "[Negamax] GNN not loaded, falling back to heuristic evaluation\n";
         }

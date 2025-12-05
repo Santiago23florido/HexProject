@@ -28,6 +28,21 @@ def load_samples(paths: List[str], limit: int = None) -> List[dict]:
     return samples
 
 
+def select_default_data() -> List[str]:
+    """
+    Pick the most recent N=7 JSONL self-play file under selfplay/build.
+    Falls back to the newest JSONL if none match the _N7 pattern.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    default_dir = os.path.normpath(os.path.join(here, "..", "selfplay", "build"))
+    paths_n7 = glob.glob(os.path.join(default_dir, "*_N7.jsonl"))
+    candidates = paths_n7 if paths_n7 else glob.glob(os.path.join(default_dir, "*.jsonl"))
+    if not candidates:
+        return []
+    newest = max(candidates, key=os.path.getmtime)
+    return [newest]
+
+
 def build_graph(sample: dict) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Build edge index for the hex grid (no supernodes in edge list).
@@ -80,7 +95,7 @@ def bfs_distances(N: int, edge_index: torch.Tensor, targets: List[int]) -> List[
 def build_features(sample: dict, edge_index: torch.Tensor) -> torch.Tensor:
     """
     Build per-node features matching C++ FeatureExtractor:
-    p1, p2, empty, sideA, sideB, degree, distToA, distToB
+    p1, p2, empty, sideA, sideB, degree, distToA, distToB.
     """
     N = sample["N"]
     board = sample["board"]
@@ -113,14 +128,15 @@ def build_features(sample: dict, edge_index: torch.Tensor) -> torch.Tensor:
 
 
 class SimpleGNN(nn.Module):
-    def __init__(self, in_dim: int = 8, hidden: int = 64):
+    def __init__(self, in_dim: int = 8, hidden: int = 128):
         super().__init__()
         self.lin1 = nn.Linear(in_dim, hidden)
         self.lin2 = nn.Linear(hidden, hidden)
-        self.head = nn.Linear(hidden, 1)
+        self.lin3 = nn.Linear(hidden, hidden)
+        self.head_value = nn.Linear(hidden, 1)
+        self.head_moves = nn.Linear(hidden, 1)
 
-    def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
-        # Simple mean aggregator
+    def encode(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
         src = edge_index[0]
         dst = edge_index[1]
         deg = torch.zeros(x.size(0), device=x.device)
@@ -133,25 +149,29 @@ class SimpleGNN(nn.Module):
 
         h = torch.relu(self.lin1(x + agg))
         h = torch.relu(self.lin2(h))
-        # Global mean pool
+        h = torch.relu(self.lin3(h))
         h = h.mean(dim=0, keepdim=True)
-        out = torch.tanh(self.head(h))  # value in [-1,1]
+        return h
+
+    def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
+        h = self.encode(x, edge_index)
+        out = torch.tanh(self.head_value(h))  # value in [-1,1]
         return out.squeeze()
+
+    def predict_moves(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
+        h = self.encode(x, edge_index)
+        moves = torch.relu(self.head_moves(h))
+        return moves.squeeze()
 
 
 def train(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    # Resolve data files: if none provided, use defaults under ../selfplay/build/
-    data_paths = args.data
+    # Resolve data files: if none provided, use newest N=7 self-play JSONL under selfplay/build
+    data_paths = args.data or select_default_data()
     if not data_paths:
-        here = os.path.dirname(os.path.abspath(__file__))
-        default_dir = os.path.normpath(os.path.join(here, "..", "selfplay", "build"))
-        candidates = sorted(glob.glob(os.path.join(default_dir, "*.jsonl")))
-        data_paths = candidates
-    if not data_paths:
-        raise RuntimeError("No data files found. Provide --data or place JSONL files under selfplay/build/.")
+        raise RuntimeError("No data files found. Generate self-play JSONL under selfplay/build/ or pass --data.")
 
     samples = load_samples(data_paths, limit=args.limit)
     print(f"Loaded {len(samples)} samples from {data_paths}")
@@ -159,6 +179,7 @@ def train(args):
     model = SimpleGNN().to(device)
     opt = optim.Adam(model.parameters(), lr=args.lr)
     loss_fn = nn.MSELoss()
+    aux_loss_fn = nn.MSELoss()
 
     for epoch in range(1, args.epochs + 1):
         total_loss = 0.0
@@ -166,10 +187,21 @@ def train(args):
             edge_index = build_graph(s).to(device)
             feats = build_features(s, edge_index.cpu()).to(device)
             target = torch.tensor(float(s["result"]), device=device)
+            moves_target = s.get("moves_to_end", None)
+            moves_tensor = None
+            if moves_target is not None:
+                # Normalize by max plies (~ N*N) to keep target in [0,1]
+                moves_tensor = torch.tensor(
+                    float(moves_target) / float(max(1, s["N"] * s["N"])),
+                    device=device,
+                )
 
             opt.zero_grad()
             pred = model(feats, edge_index)
             loss = loss_fn(pred, target)
+            if moves_tensor is not None:
+                aux_pred = model.predict_moves(feats, edge_index)
+                loss = loss + args.aux_weight * aux_loss_fn(aux_pred, moves_tensor)
             loss.backward()
             opt.step()
 
@@ -178,27 +210,31 @@ def train(args):
         print(f"Epoch {epoch}/{args.epochs} - loss: {avg_loss:.4f}")
 
     if args.output:
-        os.makedirs(os.path.dirname(args.output), exist_ok=True)
-        torch.save(model.state_dict(), args.output)
-        print(f"Saved state_dict to {args.output}")
-        # Also export TorchScript for C++/libtorch consumption
-        ts_path = args.output
-        if ts_path.endswith(".pt"):
-            base, ext = os.path.splitext(ts_path)
-            ts_path = base + "_ts.pt"
+        out_path = args.output
+        # Resolve relative paths from the script directory so C++ can load scripts/models/hex_value_ts.pt
+        if not os.path.isabs(out_path):
+            out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), out_path)
+        out_dir = os.path.dirname(out_path)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
+
         model_cpu = model.cpu()
         model_cpu.eval()
         scripted = torch.jit.script(model_cpu)
-        scripted.save(ts_path)
-        print(f"Saved TorchScript model to {ts_path}")
+        scripted.save(out_path)
+        print(f"Saved TorchScript model to {out_path}")
 
 
 if __name__ == "__main__":
+    here = os.path.dirname(os.path.abspath(__file__))
+    default_out = os.path.join(here, "models", "hex_value_ts.pt")
+
     parser = argparse.ArgumentParser(description="Train a simple GNN value network for Hex.")
     parser.add_argument("--data", nargs="+", default=[], help="JSONL files with self-play samples (defaults to data/*.jsonl or selfplay/build/*.jsonl)")
     parser.add_argument("--limit", type=int, default=None, help="Optional limit on number of samples")
-    parser.add_argument("--epochs", type=int, default=5, help="Training epochs")
+    parser.add_argument("--epochs", type=int, default=20, help="Training epochs")
+    parser.add_argument("--aux-weight", type=float, default=0.1, help="Weight for moves_to_end auxiliary loss")
     parser.add_argument("--lr", type=float, default=1e-3, help="Learning rate")
-    parser.add_argument("--output", type=str, default="models/hex_value.pt", help="Path to save the model")
+    parser.add_argument("--output", type=str, default=default_out, help="Path to save the TorchScript model (single file used by C++)")
     args = parser.parse_args()
     train(args)

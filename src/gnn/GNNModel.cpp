@@ -1,5 +1,6 @@
 #include "gnn/GNNModel.hpp"
 
+#include <filesystem>
 #include <iostream>
 #include <vector>
 
@@ -13,14 +14,30 @@ struct GNNModel::Impl {
 };
 
 GNNModel::GNNModel(const std::string& modelPath) {
+    if (modelPath.empty()) {
+        return;
+    }
+
+    namespace fs = std::filesystem;
+    fs::path path(modelPath);
+    if (!path.is_absolute()) {
+        path = fs::current_path() / path;
+    }
+    path = path.lexically_normal();
+    if (!fs::exists(path)) {
+        std::cerr << "[GNN] Model file not found at " << path
+                  << " (falling back to heuristic evaluation)\n";
+        return;
+    }
+
     try {
         impl = new Impl();
-        impl->module = torch::jit::load(modelPath);
+        impl->module = torch::jit::load(path.string());
         impl->useCuda = torch::cuda::is_available();
         impl->device = impl->useCuda ? torch::Device(torch::kCUDA) : torch::Device(torch::kCPU);
         impl->module.to(impl->device);
         impl->module.eval();
-        std::cout << "[GNN] Loaded model from " << modelPath
+        std::cout << "[GNN] Loaded model from " << path.string()
                   << " | device: " << (impl->useCuda ? "CUDA" : "CPU") << "\n";
         loaded = true;
     } catch (const std::exception& e) {
@@ -33,6 +50,10 @@ GNNModel::GNNModel(const std::string& modelPath) {
 
 bool GNNModel::isLoaded() const {
     return loaded;
+}
+
+bool GNNModel::usesCuda() const {
+    return loaded && impl != nullptr && impl->useCuda;
 }
 
 float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {

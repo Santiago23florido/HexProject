@@ -11,6 +11,7 @@ public:
     ~GNNModel();
 
     bool isLoaded() const;
+    bool usesCuda() const;
 
     // Value from player 1 perspective in [-1,1]; flips sign if toMove == 2.
     float evaluate(const FeatureBatch& batch, int toMove) const;

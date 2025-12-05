@@ -5,15 +5,31 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <limits>
 
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-    Board board;
     const std::string modelPath = "../scripts/models/hex_value_ts.pt"; // adjust if you run from a different cwd
-    const bool heuristicOnly = true;
-    AIPlayer player1(1, std::make_unique<NegamaxStrategy>(3, 2000, modelPath, heuristicOnly));
-    HumanPlayer player2(2);
-    Player* current = &player1;
+    Board board;
+
+    // Default: human (X) vs heuristic AI (O); optional GNN AI if selected.
+    char modeChoice = 'h';
+    std::cout << "Jugar contra IA heuristica (h) o IA GNN (g)? [h]: ";
+    if (!(std::cin >> modeChoice)) {
+        modeChoice = 'h';
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
+
+    HumanPlayer humanPlayer(1);
+    AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000));
+    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(3, 2000, modelPath));
+
+    Player* playerX = &humanPlayer;
+    Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
+                               : static_cast<Player*>(&heuristicAI);
+    Player* current = playerX;
 
     while (true) {
         board.print();
@@ -37,7 +53,7 @@ int main() {
             break;
         }
 
-        current = (current == &player1) ? static_cast<Player*>(&player2) : static_cast<Player*>(&player1);
+        current = (current == playerX) ? playerO : playerX;
     }
 
     return 0;

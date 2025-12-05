@@ -1,8 +1,11 @@
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
+#include <numeric>
+#include <random>
 #include <string>
 
 #include "DataCollector.hpp"
@@ -10,51 +13,73 @@
 #include "MoveStrategy.hpp"
 #include "Serializer.hpp"
 
+namespace {
+
+// Build a starting board with an equal number of random stones for both players.
+Board randomStartingBoard(int boardSize, int minPairs, int maxPairs, std::mt19937& rng, int& outPairs) {
+    const int totalCells = boardSize * boardSize;
+    int safeMax = std::max(1, std::min(maxPairs, totalCells / 2));
+    int safeMin = std::max(1, std::min(minPairs, safeMax));
+    std::uniform_int_distribution<int> pairsDist(safeMin, safeMax);
+    std::vector<int> cells(totalCells);
+
+    Board last(boardSize);
+    for (int attempt = 0; attempt < 10; ++attempt) {
+        Board b(boardSize);
+        std::iota(cells.begin(), cells.end(), 0);
+        std::shuffle(cells.begin(), cells.end(), rng);
+
+        int pairs = pairsDist(rng);
+        for (int i = 0; i < pairs * 2; ++i) {
+            int player = (i % 2) + 1;
+            b.place(cells[i], player);
+        }
+
+        GameState st(b, 1);
+        if (st.Winner() == 0) {
+            outPairs = pairs;
+            return b;
+        }
+        last = std::move(b);
+    }
+    outPairs = safeMin;
+    return last; // fallback even if an early win was drawn
+}
+
+} // namespace
+
 int main(int argc, char** argv) {
-    int games = 100;
-    int sims = 10;
-    const int minSims = 4;
-    const int maxSims = 20;
+    int games = 1000;            // default number of games (can be overridden by argv)
+    int minDepth = 1;
+    int maxDepth = 5;
+    const int timeLimitMs = 1000; // per-move time cap to keep self-play fast
+    const int flushEveryGames = 20; // write to disk in small batches to avoid high RAM use
     std::string outputPath = "selfplay_data.jsonl";
 
     if (argc > 1) games = std::atoi(argv[1]);
-    if (argc > 2) sims = std::atoi(argv[2]);
-    if (argc > 3) outputPath = argv[3];
+    if (argc > 2) minDepth = std::atoi(argv[2]);
+    if (argc > 3) maxDepth = std::atoi(argv[3]);
+    if (argc > 4) outputPath = argv[4];
 
-    if (sims < minSims) sims = minSims;
-    if (sims > maxSims) sims = maxSims;
+    if (minDepth < 1) minDepth = 1;
+    if (maxDepth < minDepth) maxDepth = minDepth;
 
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
+    // Seed both rand() (used inside strategies) and a dedicated RNG for depth selection.
+    unsigned seed = static_cast<unsigned>(
+        std::chrono::steady_clock::now().time_since_epoch().count() ^
+        static_cast<unsigned>(std::random_device{}()));
+    std::srand(seed);
+    std::mt19937 rng(seed);
 
-    // Run self-play for board sizes 4..11 (inclusive)
-    std::vector<int> sizes;
-    for (int n = 4; n <= 8; ++n) sizes.push_back(n);
+    // Run self-play only for board size 7 (training focus)
+    std::vector<int> sizes = {7};
 
     for (int boardSize : sizes) {
         DataCollector collector;
         auto start = std::chrono::steady_clock::now();
+        std::uniform_int_distribution<int> depthDist(minDepth, maxDepth);
 
-        for (int i = 0; i < games; ++i) {
-            int simsThisGame = minSims + (std::rand() % (maxSims - minSims + 1));
-            MonteCarloStrategy p1(simsThisGame);
-            MonteCarloStrategy p2(simsThisGame);
-            GameRunner runner(boardSize, p1, p2);
-
-            int winner = runner.playOne(collector);
-            auto now = std::chrono::steady_clock::now();
-            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
-            double avgPerGame = (i + 1) > 0 ? static_cast<double>(elapsed) / static_cast<double>(i + 1) : 0.0;
-            double remaining = avgPerGame * static_cast<double>(games - i - 1);
-
-            std::cout << "[N=" << boardSize << "] Game " << (i + 1) << "/" << games
-                      << " winner: " << winner
-                      << " | sims per move: " << simsThisGame
-                      << " | elapsed: " << elapsed << "s"
-                      << " | est. remaining: " << static_cast<long long>(remaining) << "s"
-                      << "\n";
-        }
-
-        // Write one file per board size
+        // Build per-board-size output path once, then append batches.
         std::string outPath = outputPath;
         if (outputPath.find(".jsonl") != std::string::npos) {
             auto pos = outputPath.find(".jsonl");
@@ -63,15 +88,61 @@ int main(int argc, char** argv) {
             outPath = outputPath + "_N" + std::to_string(boardSize);
         }
 
-        bool ok = Serializer::writeJsonl(collector.samples(), outPath);
-        if (ok) {
-            std::cout << "[N=" << boardSize << "] Wrote " << collector.samples().size()
-                      << " samples to " << outPath
-                      << " with sims per move randomized in [" << minSims << "," << maxSims << "]\n";
-        } else {
-            std::cerr << "[N=" << boardSize << "] Failed to write output to " << outPath << "\n";
-            return 1;
+        bool firstChunk = true;
+        size_t totalSamplesWritten = 0;
+        auto flushSamples = [&](const std::string& reason) -> bool {
+            auto chunk = collector.consumeSamples();
+            if (chunk.empty()) return true;
+
+            bool ok = Serializer::writeJsonl(chunk, outPath, /*append=*/!firstChunk);
+            if (!ok) {
+                std::cerr << "[N=" << boardSize << "] Failed to write output to " << outPath << "\n";
+                return false;
+            }
+
+            firstChunk = false;
+            totalSamplesWritten += chunk.size();
+            std::cout << "[N=" << boardSize << "] Flushed " << chunk.size()
+                      << " samples (" << totalSamplesWritten << " total) to " << outPath
+                      << " after " << reason << "\n";
+            return true;
+        };
+
+        for (int i = 0; i < games; ++i) {
+            int depthP1 = depthDist(rng);
+            int depthP2 = depthDist(rng);
+
+            NegamaxHeuristicStrategy p1(depthP1, timeLimitMs);
+            NegamaxHeuristicStrategy p2(depthP2, timeLimitMs);
+            int initPairs = 0;
+            Board startBoard = randomStartingBoard(boardSize, 2, 4, rng, initPairs);
+
+            GameRunner runner(boardSize, p1, p2);
+
+            int winner = runner.playOne(collector, &startBoard);
+            auto now = std::chrono::steady_clock::now();
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
+            double avgPerGame = (i + 1) > 0 ? static_cast<double>(elapsed) / static_cast<double>(i + 1) : 0.0;
+            double remaining = avgPerGame * static_cast<double>(games - i - 1);
+
+            std::cout << "[N=" << boardSize << "] Game " << (i + 1) << "/" << games
+                      << " winner: " << winner
+                      << " | depths: P1=" << depthP1 << " P2=" << depthP2
+                      << " | init stones/player: " << initPairs
+                      << " | time cap: " << timeLimitMs << "ms"
+                      << " | elapsed: " << elapsed << "s"
+                      << " | est. remaining: " << static_cast<long long>(remaining) << "s"
+                      << "\n";
+
+            if ((i + 1) % flushEveryGames == 0) {
+                if (!flushSamples(std::to_string(i + 1) + " games")) return 1;
+            }
         }
+
+        if (!flushSamples("final batch")) return 1;
+        std::cout << "[N=" << boardSize << "] Completed " << games << " games, wrote "
+                  << totalSamplesWritten << " samples to " << outPath
+                  << " with depths randomized in [" << minDepth << "," << maxDepth << "]\n";
     }
 
     return 0;

@@ -16,6 +16,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/santiago/IN204/HexProject/src/GameState.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/MoveStrategy.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/Player.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.o.d"
+  "/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o.d"
+  "/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o.d"
+  "/home/santiago/IN204/HexProject/src/gnn/Graph.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o.d"
   "/home/santiago/IN204/HexProject/selfplay/main.cpp" "CMakeFiles/selfplay.dir/main.cpp.o" "gcc" "CMakeFiles/selfplay.dir/main.cpp.o.d"
   )
 
