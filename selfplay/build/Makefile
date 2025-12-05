@@ -321,6 +321,78 @@ home/santiago/IN204/HexProject/src/Player.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.s
 .PHONY : home/santiago/IN204/HexProject/src/Player.cpp.s
 
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o: home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o
+
+# target to build an object file
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o
+
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.i: home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.i
+
+# target to preprocess a source file
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.i
+
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.s: home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.s
+
+# target to generate assembly for a file
+home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.s
+
+home/santiago/IN204/HexProject/src/gnn/GNNModel.o: home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.o
+
+# target to build an object file
+home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o
+
+home/santiago/IN204/HexProject/src/gnn/GNNModel.i: home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.i
+
+# target to preprocess a source file
+home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.i
+
+home/santiago/IN204/HexProject/src/gnn/GNNModel.s: home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.s
+
+# target to generate assembly for a file
+home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.s
+
+home/santiago/IN204/HexProject/src/gnn/Graph.o: home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.o
+
+# target to build an object file
+home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o
+
+home/santiago/IN204/HexProject/src/gnn/Graph.i: home/santiago/IN204/HexProject/src/gnn/Graph.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.i
+
+# target to preprocess a source file
+home/santiago/IN204/HexProject/src/gnn/Graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.cpp.i
+
+home/santiago/IN204/HexProject/src/gnn/Graph.s: home/santiago/IN204/HexProject/src/gnn/Graph.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.s
+
+# target to generate assembly for a file
+home/santiago/IN204/HexProject/src/gnn/Graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/gnn/Graph.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -378,6 +450,15 @@ help:
 	@echo "... home/santiago/IN204/HexProject/src/Player.o"
 	@echo "... home/santiago/IN204/HexProject/src/Player.i"
 	@echo "... home/santiago/IN204/HexProject/src/Player.s"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.i"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.s"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/GNNModel.o"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/GNNModel.i"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/GNNModel.s"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/Graph.o"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/Graph.i"
+	@echo "... home/santiago/IN204/HexProject/src/gnn/Graph.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
