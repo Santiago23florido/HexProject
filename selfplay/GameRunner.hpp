@@ -10,7 +10,7 @@ public:
     GameRunner(int boardSize, IMoveStrategy& p1Strategy, IMoveStrategy& p2Strategy);
 
     // Plays one full game, records all states, returns winner (0 if draw)
-    int playOne(DataCollector& collector);
+    int playOne(DataCollector& collector, const Board* startingBoard = nullptr);
 
 private:
     int boardSize;

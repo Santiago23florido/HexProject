@@ -3,8 +3,9 @@
 #include <fstream>
 #include <sstream>
 
-bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::string& path) {
-    std::ofstream out(path);
+bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::string& path, bool append) {
+    std::ios_base::openmode mode = append ? std::ios::app : std::ios::trunc;
+    std::ofstream out(path, mode);
     if (!out.is_open()) return false;
 
     for (const auto& s : samples) {
@@ -12,6 +13,7 @@ bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::strin
         out << "\"N\":" << s.N << ",";
         out << "\"to_move\":" << s.toMove << ",";
         out << "\"result\":" << s.result << ",";
+        out << "\"moves_to_end\":" << s.movesToEnd << ",";
         out << "\"board\":[";
         for (size_t i = 0; i < s.board.size(); ++i) {
             out << s.board[i];

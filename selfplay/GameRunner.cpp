@@ -6,8 +6,8 @@
 GameRunner::GameRunner(int boardSize, IMoveStrategy& p1Strategy, IMoveStrategy& p2Strategy)
     : boardSize(boardSize), p1(p1Strategy), p2(p2Strategy) {}
 
-int GameRunner::playOne(DataCollector& collector) {
-    Board board(boardSize);
+int GameRunner::playOne(DataCollector& collector, const Board* startingBoard) {
+    Board board = startingBoard ? *startingBoard : Board(boardSize);
     int currentPlayer = 1;
     GameState state(board, currentPlayer);
 

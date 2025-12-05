@@ -14,6 +14,8 @@ struct NodeFeatures {
     float sideA{0.f};  // 1.0 if cell touches player 1 target sides (columns 0 or N-1)
     float sideB{0.f};  // 1.0 if cell touches player 2 target sides (rows 0 or N-1)
     float degree{0.f}; // normalized degree (neighbors / 6.0)
+    float distToA{0.f}; // normalized shortest hops to supernode A (columns), 0 if not used
+    float distToB{0.f}; // normalized shortest hops to supernode B (rows), 0 if not used
 };
 
 

@@ -7,5 +7,5 @@
 
 class Serializer {
 public:
-    static bool writeJsonl(const std::vector<Sample>& samples, const std::string& path);
+    static bool writeJsonl(const std::vector<Sample>& samples, const std::string& path, bool append = false);
 };

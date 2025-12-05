@@ -9,7 +9,12 @@ void DataCollector::recordState(int N, const std::vector<int>& board, int toMove
 }
 
 void DataCollector::finalizeGame(int winner) {
-    for (auto& s : gameBuffer) {
+    const int totalStates = static_cast<int>(gameBuffer.size());
+
+    for (int idx = 0; idx < totalStates; ++idx) {
+        auto& s = gameBuffer[idx];
+        s.movesToEnd = totalStates - idx - 1; // 0 for the terminal position
+
         if (winner == 0) {
             s.result = 0;
         } else if (winner == s.toMove) {
@@ -25,4 +30,10 @@ void DataCollector::finalizeGame(int winner) {
 void DataCollector::reset() {
     gameBuffer.clear();
     allSamples.clear();
+}
+
+std::vector<Sample> DataCollector::consumeSamples() {
+    std::vector<Sample> out;
+    out.swap(allSamples);
+    return out;
 }
