@@ -186,7 +186,12 @@ def train(args):
         for s in samples:
             edge_index = build_graph(s).to(device)
             feats = build_features(s, edge_index.cpu()).to(device)
-            target = torch.tensor(float(s["result"]), device=device)
+            # C++ inference expects values from player 1's perspective and flips if toMove==2.
+            # Data is stored from the to_move player's view, so we flip here to align targets.
+            result = float(s["result"])
+            if s.get("to_move") == 2:
+                result = -result
+            target = torch.tensor(result, device=device)
             moves_target = s.get("moves_to_end", None)
             moves_tensor = None
             moves_norm = None
