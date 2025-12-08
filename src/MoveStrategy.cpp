@@ -74,15 +74,33 @@ static Board buildBoard(const std::vector<int>& linear) {
     return b;
 }
 
-static bool hasImmediateWin(const Board& base, const std::vector<int>& moves, int player) {
-    const int n = base.N;
+static int countImmediateWins(const Board& base, const std::vector<int>& moves, int player) {
+    int wins = 0;
     for (int m : moves) {
         Board copy(base);
         copy.place(m, player);
         GameState child(copy, player);
-        if (child.Winner() == player) return true;
+        if (child.Winner() == player) {
+            wins++;
+            if (wins > 1) break; // early exit once double-threat is detected
+        }
     }
-    return false;
+    return wins;
+}
+
+static int findImmediateWinningMove(const GameState& state, int player) {
+    const auto moves = state.GetAvailableMoves();
+    if (moves.empty()) return -1;
+    Board base = buildBoard(state.LinearBoard());
+    for (int m : moves) {
+        Board copy(base);
+        copy.place(m, player);
+        GameState child(copy, player);
+        if (child.Winner() == player) {
+            return m;
+        }
+    }
+    return -1;
 }
 
 static int boundaryDistance(const std::vector<int>& linear, int player) {
@@ -189,8 +207,12 @@ static int heuristicEval(const GameState& state, int playerId) {
     const auto moves = state.GetAvailableMoves();
     int opp = (playerId == 1 ? 2 : 1);
 
-    if (hasImmediateWin(base, moves, playerId)) return 90000;
-    if (hasImmediateWin(base, moves, opp)) return -90000;
+    int selfWins = countImmediateWins(base, moves, playerId);
+    if (selfWins > 0) return 90000;
+
+    int oppWins = countImmediateWins(base, moves, opp);
+    if (oppWins >= 2) return -90000; // double threat: cannot block both
+    const bool singleThreat = (oppWins == 1); // blockable in one move
 
     int distSelf = boundaryDistance(linear, playerId);
     int distOpp = boundaryDistance(linear, opp);
@@ -215,6 +237,7 @@ static int heuristicEval(const GameState& state, int playerId) {
     score += (bridgesSelf - bridgesOpp) * 10;
     score += center * 2;
     score += (stonesSelf - stonesOpp) * 8;
+    if (singleThreat) score -= 40000; // encourage blocking the opponent's immediate win
     return score;
 }
 
@@ -373,6 +396,16 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
             std::cout << "[Negamax] GNN not loaded, falling back to heuristic evaluation\n";
         }
     }
+    const int immediateWin = findImmediateWinningMove(state, playerId);
+    if (immediateWin >= 0) {
+        const auto linear = state.LinearBoard();
+        const int n = static_cast<int>(std::sqrt(linear.size()));
+        const int row = (n > 0 ? immediateWin / n : -1);
+        const int col = (n > 0 ? immediateWin % n : -1);
+        std::cout << "[Negamax] Movimiento ganador en un paso | move=" << immediateWin
+                  << " (" << row << "," << col << ")\n";
+        return immediateWin;
+    }
     rootPlayer = playerId;
     SearchResult res = iterativeDeepening(state, playerId);
     return res.bestMove;
@@ -383,6 +416,7 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
     const auto start = clock::now();
 
     SearchResult best{-1, std::numeric_limits<int>::min(), true, false, false};
+    int depthReached = 0;
     int guess = 0;
     const int window = valueScale * 4; // keep aspiration wide enough for scaled scores
     lastEvalPlayer = 0;
@@ -409,6 +443,7 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         if (!res.completed) break;
         best = res;
         guess = res.score;
+        depthReached = depth;
         std::cout << "[Negamax] Depth " << depth << " done | bestMove=" << best.bestMove
                   << " score=" << best.score << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
         if (lastEvalPlayer != 0) {
@@ -416,6 +451,21 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
                       << " val=" << lastEvalVal << " scaled=" << lastEvalScaled << "\n";
         }
     }
+
+    // Extra summary of the final choice (works for both heuristic and GNN)
+    const bool usingGnn = (!useHeuristic && model.isLoaded());
+    if (best.bestMove >= 0) {
+        const auto linear = state.LinearBoard();
+        const int n = static_cast<int>(std::sqrt(linear.size()));
+        const int row = (n > 0 ? best.bestMove / n : -1);
+        const int col = (n > 0 ? best.bestMove % n : -1);
+        const char* prefix = usingGnn ? "[GNN]" : "[Heuristic]";
+        std::cout << prefix << " Final choice | depth=" << depthReached
+                  << " move=" << best.bestMove << " (" << row << "," << col << ")"
+                  << " score=" << best.score
+                  << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
+    }
+
     return best;
 }
 
