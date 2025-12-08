@@ -13,11 +13,12 @@ public:
     bool isLoaded() const;
     bool usesCuda() const;
 
-    // Value from player 1 perspective in [-1,1]; flips sign if toMove == 2.
+    // Value for the current player in [-1,1] with no sign flip.
     float evaluate(const FeatureBatch& batch, int toMove) const;
 
 private:
     bool loaded{false};
+    mutable bool evalLogged{false};
 
     struct Impl;
     Impl* impl{nullptr};
