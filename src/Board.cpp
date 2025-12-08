@@ -6,32 +6,25 @@ Board::Board(int n) : N(n), board(n, std::vector<int>(n, 0)) {}
 Board::Board(const Board& other) : N(other.N), board(other.board) {}
 
 void Board::print() const {
-    cout << "\nHEX BOARD " << N << "x" << N << "\n\n";
+    std::cout << "\nHEX BOARD " << N << "x" << N << "\n\n";
 
-    int row_index = 0;
-    for (auto row = board.begin(); row != board.end(); ++row) {
+    for (int r = 0; r < N; ++r) {
 
-       // Indent rows for hexagonal layout
-        for (int s = 0; s < row_index; s++)
-            cout << " ";
+        // Layout tipo odd-r: filas pares sin indent, impares con desplazamiento.
+        int indent = (r % 2 == 0) ? 0 : 1;
+        for (int s = 0; s < indent; ++s)
+            std::cout << " ";
 
-        // Columns Iteration
-        auto col = row->begin();
-        while (col != row->end()) {
-
+        for (int c = 0; c < N; ++c) {
             char symbol = '.';
-            if (*col == 1) symbol = 'X';
-            else if (*col == 2) symbol = 'O';
+            if (board[r][c] == 1) symbol = 'X';
+            else if (board[r][c] == 2) symbol = 'O';
 
-            cout << symbol;
-
-            ++col;
-            if (col != row->end())
-                cout << " ";
+            std::cout << symbol;
+            if (c + 1 < N)
+                std::cout << " ";
         }
-
-        cout << "\n";
-        row_index++;
+        std::cout << "\n";
     }
 }
 

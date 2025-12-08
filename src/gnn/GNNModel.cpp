@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 #include <torch/script.h>
 #include <torch/torch.h>
@@ -60,18 +61,46 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
     if (!loaded || impl == nullptr) return 0.0f;
 
     torch::NoGradGuard no_grad;
+    const int64_t expectedSize = static_cast<int64_t>(batch.numNodes) * static_cast<int64_t>(batch.featureDim);
+    if (expectedSize > 0 && static_cast<int64_t>(batch.nodeFeatures.size()) != expectedSize) {
+        std::cerr << "[GNN] Feature size mismatch | featureDim=" << batch.featureDim
+                  << " numNodes=" << batch.numNodes
+                  << " got=" << batch.nodeFeatures.size()
+                  << " expected=" << expectedSize << "\n";
+    }
+    assert(batch.featureDim > 0);
+    if (batch.numNodes > 0) {
+        assert(static_cast<int64_t>(batch.nodeFeatures.size()) >= expectedSize);
+    }
+
     torch::Tensor x = torch::from_blob(const_cast<float*>(batch.nodeFeatures.data()),
                                        {batch.numNodes, batch.featureDim},
                                        torch::TensorOptions().dtype(torch::kFloat32)).to(impl->device);
+    if (batch.featureDim >= 10) {
+        const float p1 = (toMove == 1 ? 1.0f : 0.0f);
+        const float p2 = (toMove == 2 ? 1.0f : 0.0f);
+        x.select(1, 8).fill_(p1);
+        x.select(1, 9).fill_(p2);
+    }
+    const auto tensorDim = x.size(1);
+    assert(tensorDim == batch.featureDim);
 
     // Edge index: two rows, E columns, owning its memory
     torch::Tensor src = torch::tensor(batch.edgeSrc, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
     torch::Tensor dst = torch::tensor(batch.edgeDst, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
     torch::Tensor edge_index = torch::stack({src, dst}, 0);
 
-    auto output = impl->module.forward({x, edge_index}).toTensor().item<float>();
-    float val = output;
-    if (toMove == 2) val = -val;
+    auto output = impl->module.forward({x, edge_index}).toTensor();
+    if (!evalLogged) {
+        evalLogged = true;
+        std::cout << "[GNN] Eval info | device=" << (impl->useCuda ? "CUDA" : "CPU")
+                  << " featureDim=" << batch.featureDim
+                  << " tensorDim=" << tensorDim
+                  << " nodes=" << batch.numNodes
+                  << " edges=" << batch.edgeSrc.size()
+                  << " output=" << output.item<float>() << "\n";
+    }
+    float val = output.item<float>();
     return val;
 }
 

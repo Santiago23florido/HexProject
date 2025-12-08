@@ -89,11 +89,11 @@ Board randomStartingBoard(int boardSize, int minPairs, int maxPairs, std::mt1993
 
 int main(int argc, char** argv) {
     int games = 1000;            // default number of games (can be overridden by argv)
-    int minDepth = 1;
-    int maxDepth = 5;
+    int minDepth = 10;
+    int maxDepth = 20;
     int minPairs = 2;             // starting random stone pairs per player (curriculum control)
-    int maxPairs = 4;
-    int timeLimitMs = 1000;       // per-move time cap to keep self-play fast
+    int maxPairs = 6;
+    int timeLimitMs = 10000;       // per-move time cap to keep self-play fast
     const int flushEveryGames = 20; // write to disk in small batches to avoid high RAM use
     std::string outputPath = "selfplay_data.jsonl";
 
