@@ -31,5 +31,5 @@ private:
     void flatten(const Graph& g, FeatureBatch& batch) const;
 
     mutable std::unordered_map<int, Graph> cache; // graphs by board size
-    static constexpr int FEATURE_DIM = 8; // p1, p2, empty, sideA, sideB, degree, distToA, distToB
+    static constexpr int FEATURE_DIM = 10; // p1, p2, empty, sideA, sideB, degree, distToA, distToB, toMoveP1, toMoveP2
 };
