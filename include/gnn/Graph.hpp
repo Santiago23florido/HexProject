@@ -16,6 +16,8 @@ struct NodeFeatures {
     float degree{0.f}; // normalized degree (neighbors / 6.0)
     float distToA{0.f}; // normalized shortest hops to supernode A (columns), 0 if not used
     float distToB{0.f}; // normalized shortest hops to supernode B (rows), 0 if not used
+    float toMoveP1{0.f}; // one-hot current player (filled at inference)
+    float toMoveP2{0.f};
 };
 
 

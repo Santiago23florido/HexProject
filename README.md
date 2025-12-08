@@ -44,12 +44,14 @@ Run:
 
 ## GNN Features and Training (Python)
 Script: `scripts/train_gnn.py`.
-- Input features per node (8): `p1, p2, empty, sideA, sideB, degree, distToA, distToB` — matches C++ `FeatureExtractor`.
-- Model: three linear layers (hidden 128) with mean aggregation and global mean pool.
+- Input features per node (10): `p1, p2, empty, sideA, sideB, degree, distToA, distToB, toMoveP1, toMoveP2` — identical ordering in Python and C++ extractors. Distances are BFS hops to the target borders, normalized by board area, computed without supernodes.
+- Model: 3 message-passing blocks (hidden 128) with mean aggregation, layer-norm residuals, global mean+max pooling, and two heads.
 - Outputs:
-  - Value head in `[-1, 1]` (from `to_move` perspective).
-  - Auxiliary head predicts normalized `moves_to_end` (training only; not used at inference).
-- Arguments: `--epochs`, `--lr`, `--aux-weight` (aux loss weight), `--endgame-weight` (emphasize late-game samples using `moves_to_end`), `--data`, `--limit`, `--output`.
+  - Value head: scalar in `[-1, 1]` meaning advantage for the *current player* (TorchScript and C++ wrapper use the same sign; no flips).
+  - Auxiliary head: predicts normalized `moves_to_end` (training only).
+- Loss: SmoothL1 on value targets (`result` clamped to [-1,1]) scaled by a confidence weight `w = 0.2 + 0.8*(1 - moves_norm)`, optionally amplified by `endgame_weight`. Aux MSE is added with `--aux-weight`.
+- Data shuffle each epoch; dataset stats (mean/std, +/- counts, examples) printed once for sanity. `--self-test` runs a tiny 2-sample overfit check to verify the pipeline.
+- Arguments: `--epochs`, `--lr`, `--aux-weight`, `--endgame-weight`, `--data`, `--limit`, `--output`, `--self-test`.
 
 Example training:
 ```bash

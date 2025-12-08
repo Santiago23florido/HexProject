@@ -10,7 +10,7 @@ Graph& FeatureExtractor::getGraph(int N) const {
     if (it != cache.end()) {
         return it->second;
     }
-    Graph g = buildHexGraph(N, true);
+    Graph g = buildHexGraph(N, false);
     auto inserted = cache.emplace(N, std::move(g));
     return inserted.first->second;
 }
@@ -32,6 +32,8 @@ void FeatureExtractor::flatten(const Graph& g, FeatureBatch& batch) const {
         batch.nodeFeatures.push_back(nf.degree);
         batch.nodeFeatures.push_back(nf.distToA);
         batch.nodeFeatures.push_back(nf.distToB);
+        batch.nodeFeatures.push_back(nf.toMoveP1);
+        batch.nodeFeatures.push_back(nf.toMoveP2);
     }
 
     batch.edgeSrc.clear();
