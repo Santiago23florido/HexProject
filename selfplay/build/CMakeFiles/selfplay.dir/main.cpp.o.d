@@ -204,11 +204,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: \
  /usr/include/c++/13/bits/random.tcc \
  /home/santiago/IN204/HexProject/selfplay/DataCollector.hpp \
  /home/santiago/IN204/HexProject/selfplay/GameRunner.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/MoveStrategy.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/MoveStrategy.hpp \
  /usr/include/c++/13/array /usr/include/c++/13/compare \
- /home/santiago/IN204/HexProject/selfplay/../include/GameState.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Board.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Cube.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Cube.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/FeatureExtractor.hpp \
  /usr/include/c++/13/unordered_map \
  /usr/include/c++/13/bits/unordered_map.h \

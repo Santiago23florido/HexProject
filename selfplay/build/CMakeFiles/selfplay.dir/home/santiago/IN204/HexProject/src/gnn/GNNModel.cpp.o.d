@@ -129,7 +129,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/c++/13/bits/stl_vector.h \
  /usr/include/c++/13/bits/stl_bvector.h \
  /usr/include/c++/13/bits/vector.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/Board.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
  /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
  /usr/include/c++/13/ios /usr/include/c++/13/exception \
  /usr/include/c++/13/bits/exception_ptr.h \
@@ -167,8 +167,8 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/GameState.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Cube.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Cube.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/Graph.hpp \
  /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
  /usr/include/c++/13/cstdint \
@@ -192,8 +192,8 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/c++/13/bits/shared_ptr_base.h \
  /usr/include/c++/13/bits/allocated_ptr.h \
  /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/bits/fs_dir.h \
- /usr/include/c++/13/bits/fs_ops.h \
- /home/santiago/libtorch/include/torch/script.h \
+ /usr/include/c++/13/bits/fs_ops.h /usr/include/c++/13/cassert \
+ /usr/include/assert.h /home/santiago/libtorch/include/torch/script.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/types.h \
  /home/santiago/libtorch/include/ATen/ATen.h \
  /home/santiago/libtorch/include/ATen/Context.h \
@@ -204,7 +204,6 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/torch/headeronly/macros/cmake_macros.h \
  /home/santiago/libtorch/include/c10/macros/Macros.h \
  /home/santiago/libtorch/include/torch/headeronly/macros/Macros.h \
- /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/santiago/libtorch/include/c10/util/Backtrace.h \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/stl_tempbuf.h \
  /usr/include/c++/13/bits/stl_raw_storage_iter.h \
