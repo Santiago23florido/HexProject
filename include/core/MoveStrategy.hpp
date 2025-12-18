@@ -5,8 +5,8 @@
 #include <vector>
 #include <iostream>
 #include <chrono>
-#include "GameState.hpp"
-#include "Board.hpp"
+#include "core/GameState.hpp"
+#include "core/Board.hpp"
 #include "gnn/FeatureExtractor.hpp"
 #include "gnn/GNNModel.hpp"
 

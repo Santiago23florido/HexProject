@@ -31,32 +31,56 @@ endif()
 # ==== Find Torch (libtorch) ====
 find_package(Torch REQUIRED)
 
-# ==== Main executable ====
-add_executable(hex
-    src/main.cpp
-    src/Board.cpp
-    src/GameState.cpp
-    src/Cube.cpp
-    src/Player.cpp
-    src/MoveStrategy.cpp
+# ==== Find SFML ====
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
+# ==== Core library (engine + strategies + GNN) ====
+add_library(hex_core
+    src/core/Board.cpp
+    src/core/GameState.cpp
+    src/core/Cube.cpp
+    src/core/Player.cpp
+    src/core/MoveStrategy.cpp
     src/gnn/Graph.cpp
     src/gnn/FeatureExtractor.cpp
     src/gnn/GNNModel.cpp
 )
 
-target_include_directories(hex PUBLIC
-    include
-    include/gnn
+target_include_directories(hex_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/gnn
 )
 
 # ==== Link with libtorch ====
-target_link_libraries(hex PRIVATE "${TORCH_LIBRARIES}")
+target_link_libraries(hex_core PUBLIC "${TORCH_LIBRARIES}")
 
 # Define USE_TORCH so your #ifdef USE_TORCH code is enabled
-target_compile_definitions(hex PRIVATE USE_TORCH)
+target_compile_definitions(hex_core PUBLIC USE_TORCH)
 
-# ==== RPATH so the binary can find libtorch .so files at runtime ====
-set_target_properties(hex PROPERTIES
-    BUILD_RPATH "$ENV{HOME}/libtorch/lib"
-    INSTALL_RPATH "$ENV{HOME}/libtorch/lib"
+# ==== Executables ====
+add_executable(hex src/cli/main.cpp)
+target_link_libraries(hex PRIVATE hex_core)
+
+add_executable(hex_ui
+    src/ui/main.cpp
+    src/ui/ImageViewer.cpp
+    src/ui/HexTile.cpp
 )
+target_include_directories(hex_ui PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_link_libraries(hex_ui PRIVATE
+    hex_core
+    sfml-graphics
+    sfml-window
+    sfml-system
+)
+
+# ==== RPATH so the binaries can find libtorch .so files at runtime ====
+foreach(target_name IN ITEMS hex hex_ui)
+    set_target_properties(${target_name} PROPERTIES
+        BUILD_RPATH "$ENV{HOME}/libtorch/lib"
+        INSTALL_RPATH "$ENV{HOME}/libtorch/lib"
+    )
+endforeach()

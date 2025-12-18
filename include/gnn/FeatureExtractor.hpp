@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Board.hpp"
-#include "GameState.hpp"
+#include "core/Board.hpp"
+#include "core/GameState.hpp"
 #include "gnn/Graph.hpp"
 
 // Flattened tensors ready for a GNN backend
