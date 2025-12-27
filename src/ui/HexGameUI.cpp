@@ -1,0 +1,331 @@
+#include "ui/HexGameUI.hpp"
+
+#include "core/GameState.hpp"
+#include "core/MoveStrategy.hpp"
+
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <limits>
+#include <memory>
+
+constexpr float kWindowMargin = 24.0f;
+
+HexGameUI::Tile::Tile(
+    const sf::Texture& texture,
+    const sf::Vector2f& centerPos,
+    int idx,
+    float scale)
+    : sprite(texture), center(centerPos), index(idx) {
+    sprite.setScale(scale);
+    sprite.setPosition(center.x, center.y);
+}
+
+HexGameUI::HexGameUI(
+    const std::string& texturePath,
+    int boardSize,
+    float tileScale,
+    bool useGnnAi,
+    const std::string& modelPath)
+    : texturePath_(texturePath),
+      modelPath_(modelPath),
+      boardSize_(boardSize),
+      tileScale_(tileScale),
+      useGnnAi_(useGnnAi),
+      board_(boardSize),
+      heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
+      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath)) {
+    if (!loadTexture()) {
+        return;
+    }
+
+    buildLayout();
+    updateTileColors();
+}
+
+bool HexGameUI::loadTexture() {
+    if (boardSize_ <= 0) {
+        error_ = "Board size must be positive.";
+        return false;
+    }
+    if (tileScale_ <= 0.0f) {
+        error_ = "Tile scale must be positive.";
+        return false;
+    }
+    if (!texture_.loadFromFile(texturePath_)) {
+        error_ = "Failed to load texture: " + texturePath_;
+        return false;
+    }
+    textureSize_ = texture_.getSize();
+    if (textureSize_.x == 0 || textureSize_.y == 0) {
+        error_ = "Invalid texture size.";
+        return false;
+    }
+    tileWidth_ = static_cast<float>(textureSize_.x) * tileScale_;
+    tileHeight_ = static_cast<float>(textureSize_.y) * tileScale_;
+    return true;
+}
+
+void HexGameUI::buildLayout() {
+    tiles_.clear();
+
+    float minX = std::numeric_limits<float>::max();
+    float maxX = std::numeric_limits<float>::lowest();
+    float minY = std::numeric_limits<float>::max();
+    float maxY = std::numeric_limits<float>::lowest();
+
+    const float halfW = tileWidth_ * 0.5f;
+    const float halfH = tileHeight_ * 0.5f;
+
+    const float dxCol = 2.0f * halfW * 0.498269896f;
+    const float dyCol = -2.0f * halfH * 0.532818532f;
+
+    const float dxRowOdd = 2.0f * halfW * 1.0f;
+    const float dyRowOdd = 2.0f * halfH * 0.0f;
+
+    const float dxRowEven = 2.0f * halfW * 0.498269896f;
+    const float dyRowEven = 2.0f * halfH * 0.525096525f;
+
+    std::vector<sf::Vector2f> centers;
+    centers.reserve(static_cast<std::size_t>(boardSize_ * boardSize_));
+
+    sf::Vector2f rowStart(0.0f, 0.0f);
+    for (int row = 0; row < boardSize_; ++row) {
+        sf::Vector2f c = rowStart;
+        for (int col = 0; col < boardSize_; ++col) {
+            centers.emplace_back(c);
+            minX = std::min(minX, c.x);
+            maxX = std::max(maxX, c.x);
+            minY = std::min(minY, c.y);
+            maxY = std::max(maxY, c.y);
+            c.x += dxCol;
+            c.y += dyCol;
+        }
+
+        if (row + 1 >= boardSize_) {
+            break;
+        }
+        if ((row + 1) % 2 == 1) {
+            rowStart.x += dxRowOdd;
+            rowStart.y += dyRowOdd;
+        } else {
+            rowStart.x += dxRowEven;
+            rowStart.y += dyRowEven;
+        }
+    }
+
+    float boardWidth = (maxX - minX) + tileWidth_;
+    float boardHeight = (maxY - minY) + tileHeight_;
+
+    windowSize_ = sf::Vector2u(
+        static_cast<unsigned int>(std::ceil(boardWidth + 2.0f * kWindowMargin)),
+        static_cast<unsigned int>(std::ceil(boardHeight + 2.0f * kWindowMargin)));
+
+    sf::Vector2f offset(
+        kWindowMargin + tileWidth_ / 2.0f - minX,
+        kWindowMargin + tileHeight_ / 2.0f - minY);
+
+    tiles_.reserve(static_cast<std::size_t>(boardSize_ * boardSize_));
+    for (int row = 0; row < boardSize_; ++row) {
+        for (int col = 0; col < boardSize_; ++col) {
+            int idx = row * boardSize_ + col;
+            const sf::Vector2f& baseCenter = centers[static_cast<std::size_t>(idx)];
+            sf::Vector2f center(baseCenter.x + offset.x, baseCenter.y + offset.y);
+            tiles_.emplace_back(texture_, center, idx, tileScale_);
+        }
+    }
+
+    std::sort(tiles_.begin(), tiles_.end(), [](const Tile& a, const Tile& b) {
+        if (a.center.y == b.center.y) {
+            return a.center.x < b.center.x;
+        }
+        return a.center.y < b.center.y;
+    });
+}
+
+void HexGameUI::updateTileColors() {
+    const sf::Color emptyColor(210, 210, 220);
+    const sf::Color playerXColor(210, 70, 70);
+    const sf::Color playerOColor(70, 120, 210);
+
+    for (auto& tile : tiles_) {
+        int row = tile.index / boardSize_;
+        int col = tile.index % boardSize_;
+        int value = board_.board[row][col];
+        if (value == 1) {
+            tile.sprite.setColor(playerXColor);
+        } else if (value == 2) {
+            tile.sprite.setColor(playerOColor);
+        } else {
+            tile.sprite.setColor(emptyColor);
+        }
+    }
+}
+
+bool HexGameUI::applyMove(int moveIdx) {
+    if (moveIdx < 0 || moveIdx >= boardSize_ * boardSize_) {
+        return false;
+    }
+
+    if (!board_.place(moveIdx, currentPlayerId_)) {
+        return false;
+    }
+
+    GameState state(board_, currentPlayerId_);
+    int winner = state.Winner();
+    if (winner != 0) {
+        gameOver_ = true;
+        winnerId_ = winner;
+    } else {
+        currentPlayerId_ = (currentPlayerId_ == 1) ? 2 : 1;
+    }
+
+    updateTileColors();
+    printBoardStatus();
+    return true;
+}
+
+int HexGameUI::pickTileIndex(const sf::Vector2f& pos) const {
+    int bestIndex = -1;
+    float bestDist2 = std::numeric_limits<float>::max();
+
+    for (const auto& tile : tiles_) {
+        if (!pointInHex(pos, tile.center)) {
+            continue;
+        }
+        float dx = pos.x - tile.center.x;
+        float dy = pos.y - tile.center.y;
+        float dist2 = dx * dx + dy * dy;
+        if (dist2 < bestDist2) {
+            bestDist2 = dist2;
+            bestIndex = tile.index;
+        }
+    }
+    return bestIndex;
+}
+
+bool HexGameUI::pointInHex(const sf::Vector2f& pos, const sf::Vector2f& center) const {
+    float dx = std::fabs(pos.x - center.x);
+    float dy = std::fabs(pos.y - center.y);
+
+    float halfW = tileWidth_ / 2.0f;
+    float halfH = tileHeight_ / 2.0f;
+    if (dx > halfW || dy > halfH) {
+        return false;
+    }
+
+    float inner = tileWidth_ / 4.0f;
+    if (dx <= inner) {
+        return true;
+    }
+
+    float maxY = tileHeight_ - (2.0f * tileHeight_ / tileWidth_) * dx;
+    return dy <= maxY;
+}
+
+void HexGameUI::updateWindowTitle(sf::RenderWindow& window) const {
+    if (gameOver_) {
+        if (winnerId_ == 1) {
+            window.setTitle("Hex UI - Winner X");
+        } else if (winnerId_ == 2) {
+            window.setTitle("Hex UI - Winner O");
+        } else {
+            window.setTitle("Hex UI - Game Over");
+        }
+        return;
+    }
+
+    if (currentPlayerId_ == 1) {
+        window.setTitle("Hex UI - Turn X");
+    } else {
+        window.setTitle("Hex UI - Turn O");
+    }
+}
+
+void HexGameUI::printBoardStatus() const {
+    board_.print();
+    if (gameOver_) {
+        if (winnerId_ == 1) {
+            std::cout << "\nPlayer X wins!\n";
+        } else if (winnerId_ == 2) {
+            std::cout << "\nPlayer O wins!\n";
+        } else {
+            std::cout << "\nGame over.\n";
+        }
+        return;
+    }
+    std::cout << "\nPlayer " << (currentPlayerId_ == 1 ? "X" : "O") << " turn\n";
+}
+
+void HexGameUI::resetGame() {
+    board_ = Board(boardSize_);
+    currentPlayerId_ = 1;
+    gameOver_ = false;
+    winnerId_ = 0;
+    updateTileColors();
+    printBoardStatus();
+}
+
+int HexGameUI::run() {
+    if (!error_.empty()) {
+        std::cerr << error_ << "\n";
+        return 1;
+    }
+    if (windowSize_.x == 0 || windowSize_.y == 0) {
+        std::cerr << "Invalid window size.\n";
+        return 1;
+    }
+
+    sf::RenderWindow window(
+        sf::VideoMode(windowSize_.x, windowSize_.y),
+        "Hex UI - Viewer");
+    window.setFramerateLimit(60);
+    updateWindowTitle(window);
+    printBoardStatus();
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed ||
+                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                window.close();
+            }
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
+                resetGame();
+                updateWindowTitle(window);
+            }
+            if (!gameOver_ && currentPlayerId_ == 1 &&
+                event.type == sf::Event::MouseButtonPressed &&
+                event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                int moveIdx = pickTileIndex(pos);
+                if (applyMove(moveIdx)) {
+                    updateWindowTitle(window);
+                }
+            }
+        }
+
+        if (!gameOver_ && currentPlayerId_ == 2) {
+            GameState state(board_, currentPlayerId_);
+            int moveIdx = useGnnAi_ ? gnnAI_.ChooseMove(state)
+                                    : heuristicAI_.ChooseMove(state);
+            if (!applyMove(moveIdx)) {
+                const auto fallback = state.GetAvailableMoves();
+                for (int idx : fallback) {
+                    if (applyMove(idx)) {
+                        break;
+                    }
+                }
+            }
+            updateWindowTitle(window);
+        }
+
+        window.clear(sf::Color(30, 30, 40));
+        for (const auto& tile : tiles_) {
+            tile.sprite.draw(window);
+        }
+        window.display();
+    }
+    return 0;
+}

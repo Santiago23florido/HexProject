@@ -22,6 +22,10 @@ void HexTile::setScale(float scaleX, float scaleY) {
     sprite_.setScale(scale_.x, scale_.y);
 }
 
+void HexTile::setColor(const sf::Color& color) {
+    sprite_.setColor(color);
+}
+
 sf::Vector2f HexTile::getPosition() const {
     return sprite_.getPosition();
 }

@@ -10,6 +10,7 @@ public:
     void setRotation(float degrees);
     void setScale(float factor);
     void setScale(float scaleX, float scaleY);
+    void setColor(const sf::Color& color);
 
     sf::Vector2f getPosition() const;
     float getRotation() const;

@@ -64,6 +64,7 @@ target_link_libraries(hex PRIVATE hex_core)
 
 add_executable(hex_ui
     src/ui/main.cpp
+    src/ui/HexGameUI.cpp
     src/ui/ImageViewer.cpp
     src/ui/HexTile.cpp
 )
