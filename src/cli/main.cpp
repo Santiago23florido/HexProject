@@ -1,7 +1,7 @@
-#include "Board.hpp"
-#include "GameState.hpp"
-#include "MoveStrategy.hpp"
-#include "Player.hpp"
+#include "core/Board.hpp"
+#include "core/GameState.hpp"
+#include "core/MoveStrategy.hpp"
+#include "core/Player.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <iostream>

@@ -1,6 +1,6 @@
-#include "GameState.hpp"
-#include "Board.hpp"
-#include "Cube.hpp"
+#include "core/GameState.hpp"
+#include "core/Board.hpp"
+#include "core/Cube.hpp"
 #include <vector>
 #include <iostream>
 #include <unordered_map>

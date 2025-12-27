@@ -35,11 +35,11 @@ add_executable(selfplay
     GameRunner.cpp
     DataCollector.cpp
     Serializer.cpp
-    ${ROOT_DIR}/src/Board.cpp
-    ${ROOT_DIR}/src/GameState.cpp
-    ${ROOT_DIR}/src/Cube.cpp
-    ${ROOT_DIR}/src/Player.cpp
-    ${ROOT_DIR}/src/MoveStrategy.cpp
+    ${ROOT_DIR}/src/core/Board.cpp
+    ${ROOT_DIR}/src/core/GameState.cpp
+    ${ROOT_DIR}/src/core/Cube.cpp
+    ${ROOT_DIR}/src/core/Player.cpp
+    ${ROOT_DIR}/src/core/MoveStrategy.cpp
     ${ROOT_DIR}/src/gnn/Graph.cpp
     ${ROOT_DIR}/src/gnn/FeatureExtractor.cpp
     ${ROOT_DIR}/src/gnn/GNNModel.cpp
@@ -47,6 +47,7 @@ add_executable(selfplay
 
 target_include_directories(selfplay PUBLIC
     ${ROOT_DIR}/include
+    ${ROOT_DIR}/include/core
     ${ROOT_DIR}/include/gnn
 )
 

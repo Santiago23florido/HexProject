@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
-#include "GameState.hpp"
-#include "MoveStrategy.hpp"
+#include "core/GameState.hpp"
+#include "core/MoveStrategy.hpp"
 
 // Player base interface
 class Player {

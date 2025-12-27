@@ -14,7 +14,7 @@
 \maketitle
 
 \begin{abstract}
-Le jeu de Hex mis en place offre d\'ej\`a une architecture orient\'ee objet claire et extensible: \texttt{Board} encapsule le plateau, \texttt{GameState} regroupe la logique de victoire et des coups, \texttt{Cube} mod\'elise la g\'eom\'etrie hexagonale. Cette base se prolonge naturellement vers une interface graphique SFML qui continuera d'exploiter et d'enrichir les principes de POO. Ce document pr\'esente de fa\c con globale pourquoi ce projet est un candidat pertinent pour le travail final de POO.
+Le jeu de Hex mis en place offre d\'ej\`a une architecture orient\'ee objet claire et extensible: \texttt{Board} encapsule le plateau, \texttt{GameState} regroupe la logique de victoire et des coups, \texttt{Cube} mod\'elise la g\'eom\'etrie hexagonale. Cette base se prolonge naturellement vers une interface graphique SFML qui continuera d'exploiter et d'enrichir les principes de POO. L'architecture int\`egre aussi deux IA (heuristique et r\'eseau de neurones graphes TorchScript) branch\'ees sur un N\'egamax modulaire. Ce document pr\'esente de fa\c con globale pourquoi ce projet est un candidat pertinent pour le travail final de POO.
 \end{abstract}
 
 \section{Vue d'ensemble orient\'ee objet}
@@ -24,65 +24,47 @@ L'application console actuelle (\texttt{main.cpp}) illustre l'abstraction du dom
     \item \textbf{GameState}: fournit les repr\'esentations lin\'eaires, les coups disponibles et la d\'etection de victoire (BFS sur les connexions), en s'appuyant sur le mod\`ele de donn\'ees sans se soucier d'affichage.
     \item \textbf{Cube}: porte le syst\`eme de coordonn\'ees cubiques et les directions, isolant le calcul g\'eom\'etrique.
 \end{itemize}
-La responsabilit\'e de chaque classe est nette et rend le projet ais\'e \`a maintenir, tester et faire \'evoluer.
+La responsabilit\'e de chaque classe est nette et rend le projet ais\'e \`a maintenir, tester et faire \'evoluer. C\^ot\'e IA, toutes les d\'ecisions passent par l'interface \texttt{IMoveStrategy} (\texttt{RandomStrategy}, \texttt{MonteCarloStrategy}, \texttt{NegamaxHeuristicStrategy}, \texttt{NegamaxGnnStrategy}), inject\'ee dans le runner console ou self-play: la POO garantit l'interchangeabilit\'e des strat\'egies sans changer la logique de jeu.
 
 \section{Justification pour le projet final}
-Le code d\'ej\`a en place d\'emontre les notions fondamentales de POO (encapsulation, s\'eparation des responsabilit\'es, mod\'elisation d'objets du domaine). Il est suffisamment complet pour une partie jouable et assez modulable pour int\'egrer des fonctionnalit\'es suppl\'ementaires sans remettre en cause le noyau objet. Le passage \`a une interface SFML enrichira le projet en illustrant l'extension de classes existantes et l'introduction de nouveaux objets d\'edi\'es \`a l'affichage et aux entr\'ees.
+Le code d\'ej\`a en place d\'emontre les notions fondamentales de POO (encapsulation, s\'eparation des responsabilit\'es, mod\'elisation d'objets du domaine). Il est suffisamment complet pour une partie jouable contre une IA heuristique ou une IA GNN (TorchScript) pilot\'ee par \texttt{NegamaxStrategy} avec table de transposition, killer/history heuristics et valeurs de Zobrist. L'\'evaluation change uniquement via le polymorphisme (\texttt{NegamaxHeuristicStrategy} vs \texttt{NegamaxGnnStrategy}) tandis que la recherche reste inchang\'ee, ce qui illustre la solidit\'e de la conception objet. Le passage \`a une interface SFML enrichira le projet en illustrant l'extension de classes existantes et l'introduction de nouveaux objets d\'edi\'es \`a l'affichage et aux entr\'ees.
 
 \section{Apports POO via l'interface SFML}
 L'int\'egration d'une interface graphique SFML permet de continuer la d\'emarche objet:
 \begin{itemize}
     \item Cr\'eation d'une classe \texttt{HexView} responsable du dessin du plateau (tuiles, pions, grille), s'appuyant sur \texttt{Board} pour lire l'\'etat courant.
     \item Introduction d'un \texttt{InputHandler} SFML pour transformer les clics souris en coordonn\'ees hexagonales et invoquer \texttt{Board::place}, conservant l'API existante.
-    \item Possibilit\'e d'un \texttt{GameController} qui orchestre \texttt{GameState}, \texttt{HexView} et les entr\'ees SFML, sans m\^eme modifier les classes de logique: la POO est renforc\'ee par la composition d'objets sp\'ecialis\'es.
+    \item Possibilit\'e d'un \texttt{GameController} qui orchestre \texttt{GameState}, \texttt{HexView} et les entr\'ees SFML, sans m\^eme modifier les classes de logique ni \texttt{IMoveStrategy}: la POO est renforc\'ee par la composition d'objets sp\'ecialis\'es.
     \item Ajout d'animations ou de surlignages en encapsulant ces comportements dans des objets graphiques d\'edi\'es, tout en gardant les r\`egles du jeu au sein de \texttt{GameState}.
 \end{itemize}
 Cette organisation montre comment l'interface visuelle s'appuie sur les abstractions existantes et comment de nouvelles classes prolongent la structure objet.
 
-\section{Apports algorithmiques pour renforcer le mod\`ele}
-En s'inspirant de projets similaires , qui combine modélisation POO et algorithmes de recherche avancés, il est possible d'enrichir le jeu Hex avec une couche décisionnelle claire et modulaire.
-
-\subsection{Analyse de connectivit\'e : BFS et A*}
-La d\'etection de victoire utilise d\'ej\`a un BFS, mais cette logique peut être étendue:
-
+\section{IA Hex d\'ej\`a r\'ealis\'ee : heuristique et GNN}
+\subsection{Strat\'egies interchangeables et N\'egamax}
 \begin{itemize}
-    \item \textbf{Évaluation de positions} : calcul de la distance minimale entre les bords \`a relier par chaque joueur.
-    \item \textbf{Heuristique pour IA} : A* permet d'obtenir une estimation de progression plus informative que BFS.
+    \item \textbf{Interface unique}: \texttt{IMoveStrategy} est impl\'ement\'ee par \texttt{RandomStrategy}, \texttt{MonteCarloStrategy}, \texttt{NegamaxHeuristicStrategy} et \texttt{NegamaxGnnStrategy}. \texttt{GameRunner} injecte deux strat\'egies pour g\'en\'erer des parties self-play ou pour le binaire interactif.
+    \item \textbf{Recherche factoris\'ee}: \texttt{NegamaxStrategy} mutualise l'it\'erative deepening, l'\'elagage $\alpha$--$\beta$, une table de transposition (h\^achage de Zobrist). Les sous-classes ne changent que l'\'evaluation: c'est le polymorphisme appliqu\'e \`a l'IA.
 \end{itemize}
 
-Une classe \texttt{PathEvaluator} peut encapsuler BFS/A* tout en restant indépendante de l'affichage.
-
-\subsection{Prise de décision : Minimax avec élagage $\alpha$–$\beta$}
-Pour ajouter une IA comparable \`a celle du projet Quoridor, un module décisionnel peut être intégré:
-
+\subsection{Evaluation par r\'eseau de neurones graphes}
 \begin{itemize}
-    \item \textbf{\texttt{AIPlayer}} : implémente une interface \texttt{IPlayer} et applique Minimax/Negamax.
-    \item \textbf{Élagage $\alpha$–$\beta$} : réduit les branches explorées pour maintenir un temps de réponse compatible avec SFML.
-    \item \textbf{Heuristique d'évaluation} : repose sur \texttt{PathEvaluator} pour estimer la force de chaque position.
+    \item \textbf{Extraction objet}: \texttt{FeatureExtractor} construit et met en cache un \texttt{Graph} hexagonal par taille, puis aplatit dix caract\'eristiques par case (occupation, c\^ot\'es cibles, degr\'e, distances BFS, joueur au trait) compatibles avec le script Python d'entra\^inement.
+    \item \textbf{Encapsulation TorchScript}: \texttt{GNNModel} utilise un patron PIMPL pour isoler libtorch, g\'erer CPU/CUDA et renvoyer une valeur dans $[-1,1]$ pour le joueur courant. Si le mod\`ele \texttt{scripts/models/hex\_value\_ts.pt} manque, la strat\'egie bascule automatiquement vers l'heuristique.
+    \item \textbf{N\'egamax GNN}: \texttt{NegamaxGnnStrategy} compose \texttt{FeatureExtractor} et \texttt{GNNModel} dans la recherche existante; l'appel \`a l'IA GNN se fait donc sans coupler la logique du jeu \`a libtorch.
 \end{itemize}
 
-Cette architecture respecte la séparation logique : les règles restent dans \texttt{GameState} et la décision est déléguée à un module externe.
-
-\subsection{Extensions}
-Plusieurs éléments peuvent enrichir le projet :
-
+\subsection{Pipeline d\'ej\`a utilis\'e}
 \begin{itemize}
-    \item \textbf{Difficulté ajustable} : profondeur de recherche, aléatoire contrôlée, étendue de l'exploration.
-    \item \textbf{Replays et logs} : via un \texttt{MatchRecorder}.
-    \item \textbf{Tests unitaires d’algorithmes} : validation de l'heuristique, vérification des chemins, robustesse du contrôleur.
+    \item \textbf{Self-play}: le binaire \texttt{selfplay} orchestre deux strat\'egies via \texttt{GameRunner} et stocke chaque \'etat avec \texttt{DataCollector} pour g\'en\'erer des JSONL d'entra\^inement.
+    \item \textbf{Apprentissage}: \texttt{scripts/train\_gnn.py} entra\^ine un GNN sur ces donn\'ees et exporte le TorchScript consomm\'e par C++; le binaire interactif (\texttt{src/ui/main.cpp}) propose d\'ej\`a de choisir l'IA heuristique (\texttt{h}) ou GNN (\texttt{g}).
 \end{itemize}
-
-Ainsi, le modèle objet initial s’étend naturellement vers une architecture hybride logique–algorithmique cohérente.
 
 \section{Plan de travail orient\'e POO pour le jeu complet}
 La structure actuelle sert de socle pour un ensemble coh\'erent d'\'etapes, toutes centr\'ees sur des objets sp\'ecialis\'es:
 \begin{itemize}
-    \item \textbf{Gestion des joueurs}: interface \texttt{IPlayer} avec impl\'ementations Humain et IA; injection dans \texttt{GameController}.
-    \item \textbf{R\`egles configurables}: objet \texttt{Ruleset} (taille, couleurs, timer) param\'etrant \texttt{Board} et \texttt{HexView}.
-    \item \textbf{Chrono et scores}: classes \texttt{Clock} et \texttt{Scoreboard} gérées par SFML.
-    \item \textbf{Rejeu et sauvegarde}: \texttt{MatchRecorder} pour enregistrer et rejouer une partie.
-    \item \textbf{Menu et sc\`enes}: \texttt{SceneManager} permettant de naviguer entre menu, partie et rejoue.
-    \item \textbf{Effets visuels modulaires}: overlays graphiques sans altérer \texttt{GameState}.
+    \item \textbf{D\'ej\`a livr\'e}: moteur console, IA heuristique et IA GNN TorchScript interchangeables via \texttt{IMoveStrategy}, g\'en\'erateur self-play et script d'entra\^inement.
+    \item \textbf{\`A poursuivre}: interface SFML (\texttt{HexView}, \texttt{InputHandler}, \texttt{GameController}) en r\'eutilisant les strat\'egies existantes; \texttt{Ruleset} param\'etrable; enregistrement/replay (\texttt{MatchRecorder}) et gestion des sc\`enes; tests unitaires suppl\'ementaires sur l'heuristique et le contr\^oleur.
+    \item \textbf{Effets visuels modulaires}: overlays graphiques sans alt\'erer \texttt{GameState}.
 \end{itemize}
 
 \section{Conclusion}

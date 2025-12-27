@@ -1,4 +1,4 @@
-#include "Board.hpp"
+#include "core/Board.hpp"
 #include <iostream>
 using namespace std;
 

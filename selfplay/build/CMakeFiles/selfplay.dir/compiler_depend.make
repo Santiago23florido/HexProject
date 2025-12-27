@@ -487,1157 +487,6 @@ CMakeFiles/selfplay.dir/Serializer.cpp.o: /home/santiago/IN204/HexProject/selfpl
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
 
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Board.cpp.o: /home/santiago/IN204/HexProject/src/Board.cpp \
-  /home/santiago/IN204/HexProject/include/Board.hpp \
-  /usr/include/alloca.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/c++/13/backward/binders.h \
-  /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/alloc_traits.h \
-  /usr/include/c++/13/bits/allocator.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
-  /usr/include/c++/13/bits/basic_string.h \
-  /usr/include/c++/13/bits/basic_string.tcc \
-  /usr/include/c++/13/bits/char_traits.h \
-  /usr/include/c++/13/bits/charconv.h \
-  /usr/include/c++/13/bits/concept_check.h \
-  /usr/include/c++/13/bits/cpp_type_traits.h \
-  /usr/include/c++/13/bits/cxxabi_forced.h \
-  /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/exception.h \
-  /usr/include/c++/13/bits/exception_defines.h \
-  /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/functexcept.h \
-  /usr/include/c++/13/bits/functional_hash.h \
-  /usr/include/c++/13/bits/hash_bytes.h \
-  /usr/include/c++/13/bits/invoke.h \
-  /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
-  /usr/include/c++/13/bits/locale_classes.h \
-  /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/localefwd.h \
-  /usr/include/c++/13/bits/memory_resource.h \
-  /usr/include/c++/13/bits/memoryfwd.h \
-  /usr/include/c++/13/bits/move.h \
-  /usr/include/c++/13/bits/nested_exception.h \
-  /usr/include/c++/13/bits/new_allocator.h \
-  /usr/include/c++/13/bits/ostream.tcc \
-  /usr/include/c++/13/bits/ostream_insert.h \
-  /usr/include/c++/13/bits/postypes.h \
-  /usr/include/c++/13/bits/predefined_ops.h \
-  /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/range_access.h \
-  /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/std_abs.h \
-  /usr/include/c++/13/bits/stl_algobase.h \
-  /usr/include/c++/13/bits/stl_bvector.h \
-  /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_iterator.h \
-  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_uninitialized.h \
-  /usr/include/c++/13/bits/stl_vector.h \
-  /usr/include/c++/13/bits/streambuf.tcc \
-  /usr/include/c++/13/bits/streambuf_iterator.h \
-  /usr/include/c++/13/bits/string_view.tcc \
-  /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
-  /usr/include/c++/13/bits/uses_allocator_args.h \
-  /usr/include/c++/13/bits/utility.h \
-  /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cctype \
-  /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cstddef \
-  /usr/include/c++/13/cstdio \
-  /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
-  /usr/include/c++/13/debug/assertions.h \
-  /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/alloc_traits.h \
-  /usr/include/c++/13/ext/atomicity.h \
-  /usr/include/c++/13/ext/numeric_traits.h \
-  /usr/include/c++/13/ext/string_conversions.h \
-  /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/ios \
-  /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
-  /usr/include/c++/13/new \
-  /usr/include/c++/13/ostream \
-  /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/stdexcept \
-  /usr/include/c++/13/streambuf \
-  /usr/include/c++/13/string \
-  /usr/include/c++/13/string_view \
-  /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tuple \
-  /usr/include/c++/13/type_traits \
-  /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/vector \
-  /usr/include/ctype.h \
-  /usr/include/endian.h \
-  /usr/include/errno.h \
-  /usr/include/features-time64.h \
-  /usr/include/features.h \
-  /usr/include/linux/errno.h \
-  /usr/include/locale.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/stdc-predef.h \
-  /usr/include/stdio.h \
-  /usr/include/stdlib.h \
-  /usr/include/time.h \
-  /usr/include/wchar.h \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
-
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Cube.cpp.o: /home/santiago/IN204/HexProject/src/Cube.cpp \
-  /home/santiago/IN204/HexProject/include/Board.hpp \
-  /home/santiago/IN204/HexProject/include/Cube.hpp \
-  /usr/include/alloca.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/c++/13/backward/binders.h \
-  /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/alloc_traits.h \
-  /usr/include/c++/13/bits/allocator.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
-  /usr/include/c++/13/bits/basic_string.h \
-  /usr/include/c++/13/bits/basic_string.tcc \
-  /usr/include/c++/13/bits/char_traits.h \
-  /usr/include/c++/13/bits/charconv.h \
-  /usr/include/c++/13/bits/concept_check.h \
-  /usr/include/c++/13/bits/cpp_type_traits.h \
-  /usr/include/c++/13/bits/cxxabi_forced.h \
-  /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/exception.h \
-  /usr/include/c++/13/bits/exception_defines.h \
-  /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/functexcept.h \
-  /usr/include/c++/13/bits/functional_hash.h \
-  /usr/include/c++/13/bits/hash_bytes.h \
-  /usr/include/c++/13/bits/invoke.h \
-  /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
-  /usr/include/c++/13/bits/locale_classes.h \
-  /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/localefwd.h \
-  /usr/include/c++/13/bits/memory_resource.h \
-  /usr/include/c++/13/bits/memoryfwd.h \
-  /usr/include/c++/13/bits/move.h \
-  /usr/include/c++/13/bits/nested_exception.h \
-  /usr/include/c++/13/bits/new_allocator.h \
-  /usr/include/c++/13/bits/ostream.tcc \
-  /usr/include/c++/13/bits/ostream_insert.h \
-  /usr/include/c++/13/bits/postypes.h \
-  /usr/include/c++/13/bits/predefined_ops.h \
-  /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/range_access.h \
-  /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/std_abs.h \
-  /usr/include/c++/13/bits/stl_algobase.h \
-  /usr/include/c++/13/bits/stl_bvector.h \
-  /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_iterator.h \
-  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_uninitialized.h \
-  /usr/include/c++/13/bits/stl_vector.h \
-  /usr/include/c++/13/bits/streambuf.tcc \
-  /usr/include/c++/13/bits/streambuf_iterator.h \
-  /usr/include/c++/13/bits/string_view.tcc \
-  /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
-  /usr/include/c++/13/bits/uses_allocator_args.h \
-  /usr/include/c++/13/bits/utility.h \
-  /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cctype \
-  /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cstddef \
-  /usr/include/c++/13/cstdio \
-  /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
-  /usr/include/c++/13/debug/assertions.h \
-  /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/alloc_traits.h \
-  /usr/include/c++/13/ext/atomicity.h \
-  /usr/include/c++/13/ext/numeric_traits.h \
-  /usr/include/c++/13/ext/string_conversions.h \
-  /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/ios \
-  /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
-  /usr/include/c++/13/new \
-  /usr/include/c++/13/ostream \
-  /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/stdexcept \
-  /usr/include/c++/13/streambuf \
-  /usr/include/c++/13/string \
-  /usr/include/c++/13/string_view \
-  /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tuple \
-  /usr/include/c++/13/type_traits \
-  /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/vector \
-  /usr/include/ctype.h \
-  /usr/include/endian.h \
-  /usr/include/errno.h \
-  /usr/include/features-time64.h \
-  /usr/include/features.h \
-  /usr/include/linux/errno.h \
-  /usr/include/locale.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/stdc-predef.h \
-  /usr/include/stdio.h \
-  /usr/include/stdlib.h \
-  /usr/include/time.h \
-  /usr/include/wchar.h \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
-
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.o: /home/santiago/IN204/HexProject/src/GameState.cpp \
-  /home/santiago/IN204/HexProject/include/Board.hpp \
-  /home/santiago/IN204/HexProject/include/Cube.hpp \
-  /home/santiago/IN204/HexProject/include/GameState.hpp \
-  /usr/include/alloca.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/c++/13/algorithm \
-  /usr/include/c++/13/backward/binders.h \
-  /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/algorithmfwd.h \
-  /usr/include/c++/13/bits/alloc_traits.h \
-  /usr/include/c++/13/bits/allocator.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
-  /usr/include/c++/13/bits/basic_string.h \
-  /usr/include/c++/13/bits/basic_string.tcc \
-  /usr/include/c++/13/bits/char_traits.h \
-  /usr/include/c++/13/bits/charconv.h \
-  /usr/include/c++/13/bits/concept_check.h \
-  /usr/include/c++/13/bits/cpp_type_traits.h \
-  /usr/include/c++/13/bits/cxxabi_forced.h \
-  /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/enable_special_members.h \
-  /usr/include/c++/13/bits/erase_if.h \
-  /usr/include/c++/13/bits/exception.h \
-  /usr/include/c++/13/bits/exception_defines.h \
-  /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/functexcept.h \
-  /usr/include/c++/13/bits/functional_hash.h \
-  /usr/include/c++/13/bits/hash_bytes.h \
-  /usr/include/c++/13/bits/hashtable.h \
-  /usr/include/c++/13/bits/hashtable_policy.h \
-  /usr/include/c++/13/bits/invoke.h \
-  /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
-  /usr/include/c++/13/bits/locale_classes.h \
-  /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/localefwd.h \
-  /usr/include/c++/13/bits/memory_resource.h \
-  /usr/include/c++/13/bits/memoryfwd.h \
-  /usr/include/c++/13/bits/move.h \
-  /usr/include/c++/13/bits/nested_exception.h \
-  /usr/include/c++/13/bits/new_allocator.h \
-  /usr/include/c++/13/bits/node_handle.h \
-  /usr/include/c++/13/bits/ostream.tcc \
-  /usr/include/c++/13/bits/ostream_insert.h \
-  /usr/include/c++/13/bits/postypes.h \
-  /usr/include/c++/13/bits/predefined_ops.h \
-  /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/range_access.h \
-  /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/std_abs.h \
-  /usr/include/c++/13/bits/stl_algo.h \
-  /usr/include/c++/13/bits/stl_algobase.h \
-  /usr/include/c++/13/bits/stl_bvector.h \
-  /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_heap.h \
-  /usr/include/c++/13/bits/stl_iterator.h \
-  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_tempbuf.h \
-  /usr/include/c++/13/bits/stl_uninitialized.h \
-  /usr/include/c++/13/bits/stl_vector.h \
-  /usr/include/c++/13/bits/streambuf.tcc \
-  /usr/include/c++/13/bits/streambuf_iterator.h \
-  /usr/include/c++/13/bits/string_view.tcc \
-  /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uniform_int_dist.h \
-  /usr/include/c++/13/bits/unordered_map.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
-  /usr/include/c++/13/bits/uses_allocator_args.h \
-  /usr/include/c++/13/bits/utility.h \
-  /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cctype \
-  /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cstddef \
-  /usr/include/c++/13/cstdio \
-  /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
-  /usr/include/c++/13/debug/assertions.h \
-  /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/aligned_buffer.h \
-  /usr/include/c++/13/ext/alloc_traits.h \
-  /usr/include/c++/13/ext/atomicity.h \
-  /usr/include/c++/13/ext/numeric_traits.h \
-  /usr/include/c++/13/ext/string_conversions.h \
-  /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/ios \
-  /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
-  /usr/include/c++/13/new \
-  /usr/include/c++/13/ostream \
-  /usr/include/c++/13/pstl/execution_defs.h \
-  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/stdexcept \
-  /usr/include/c++/13/streambuf \
-  /usr/include/c++/13/string \
-  /usr/include/c++/13/string_view \
-  /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tuple \
-  /usr/include/c++/13/type_traits \
-  /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/vector \
-  /usr/include/ctype.h \
-  /usr/include/endian.h \
-  /usr/include/errno.h \
-  /usr/include/features-time64.h \
-  /usr/include/features.h \
-  /usr/include/linux/errno.h \
-  /usr/include/locale.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/stdc-predef.h \
-  /usr/include/stdio.h \
-  /usr/include/stdlib.h \
-  /usr/include/time.h \
-  /usr/include/wchar.h \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h
-
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o: /home/santiago/IN204/HexProject/src/MoveStrategy.cpp \
-  /home/santiago/IN204/HexProject/include/Board.hpp \
-  /home/santiago/IN204/HexProject/include/Cube.hpp \
-  /home/santiago/IN204/HexProject/include/GameState.hpp \
-  /home/santiago/IN204/HexProject/include/MoveStrategy.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/FeatureExtractor.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/GNNModel.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/Graph.hpp \
-  /usr/include/alloca.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/c++/13/algorithm \
-  /usr/include/c++/13/array \
-  /usr/include/c++/13/backward/binders.h \
-  /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/algorithmfwd.h \
-  /usr/include/c++/13/bits/alloc_traits.h \
-  /usr/include/c++/13/bits/allocated_ptr.h \
-  /usr/include/c++/13/bits/allocator.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
-  /usr/include/c++/13/bits/basic_string.h \
-  /usr/include/c++/13/bits/basic_string.tcc \
-  /usr/include/c++/13/bits/char_traits.h \
-  /usr/include/c++/13/bits/charconv.h \
-  /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/codecvt.h \
-  /usr/include/c++/13/bits/concept_check.h \
-  /usr/include/c++/13/bits/cpp_type_traits.h \
-  /usr/include/c++/13/bits/cxxabi_forced.h \
-  /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/deque.tcc \
-  /usr/include/c++/13/bits/enable_special_members.h \
-  /usr/include/c++/13/bits/erase_if.h \
-  /usr/include/c++/13/bits/exception.h \
-  /usr/include/c++/13/bits/exception_defines.h \
-  /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/fs_dir.h \
-  /usr/include/c++/13/bits/fs_fwd.h \
-  /usr/include/c++/13/bits/fs_ops.h \
-  /usr/include/c++/13/bits/fs_path.h \
-  /usr/include/c++/13/bits/functexcept.h \
-  /usr/include/c++/13/bits/functional_hash.h \
-  /usr/include/c++/13/bits/hash_bytes.h \
-  /usr/include/c++/13/bits/hashtable.h \
-  /usr/include/c++/13/bits/hashtable_policy.h \
-  /usr/include/c++/13/bits/invoke.h \
-  /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
-  /usr/include/c++/13/bits/locale_classes.h \
-  /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_conv.h \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/locale_facets_nonio.h \
-  /usr/include/c++/13/bits/locale_facets_nonio.tcc \
-  /usr/include/c++/13/bits/localefwd.h \
-  /usr/include/c++/13/bits/memory_resource.h \
-  /usr/include/c++/13/bits/memoryfwd.h \
-  /usr/include/c++/13/bits/move.h \
-  /usr/include/c++/13/bits/nested_exception.h \
-  /usr/include/c++/13/bits/new_allocator.h \
-  /usr/include/c++/13/bits/node_handle.h \
-  /usr/include/c++/13/bits/ostream.tcc \
-  /usr/include/c++/13/bits/ostream_insert.h \
-  /usr/include/c++/13/bits/parse_numbers.h \
-  /usr/include/c++/13/bits/postypes.h \
-  /usr/include/c++/13/bits/predefined_ops.h \
-  /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/quoted_string.h \
-  /usr/include/c++/13/bits/random.h \
-  /usr/include/c++/13/bits/random.tcc \
-  /usr/include/c++/13/bits/range_access.h \
-  /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/shared_ptr.h \
-  /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/specfun.h \
-  /usr/include/c++/13/bits/sstream.tcc \
-  /usr/include/c++/13/bits/std_abs.h \
-  /usr/include/c++/13/bits/stl_algo.h \
-  /usr/include/c++/13/bits/stl_algobase.h \
-  /usr/include/c++/13/bits/stl_bvector.h \
-  /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_deque.h \
-  /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_heap.h \
-  /usr/include/c++/13/bits/stl_iterator.h \
-  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_numeric.h \
-  /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_queue.h \
-  /usr/include/c++/13/bits/stl_tempbuf.h \
-  /usr/include/c++/13/bits/stl_uninitialized.h \
-  /usr/include/c++/13/bits/stl_vector.h \
-  /usr/include/c++/13/bits/streambuf.tcc \
-  /usr/include/c++/13/bits/streambuf_iterator.h \
-  /usr/include/c++/13/bits/string_view.tcc \
-  /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uniform_int_dist.h \
-  /usr/include/c++/13/bits/unique_ptr.h \
-  /usr/include/c++/13/bits/unordered_map.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
-  /usr/include/c++/13/bits/uses_allocator_args.h \
-  /usr/include/c++/13/bits/utility.h \
-  /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cctype \
-  /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/chrono \
-  /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cmath \
-  /usr/include/c++/13/codecvt \
-  /usr/include/c++/13/compare \
-  /usr/include/c++/13/cstddef \
-  /usr/include/c++/13/cstdint \
-  /usr/include/c++/13/cstdio \
-  /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/ctime \
-  /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
-  /usr/include/c++/13/debug/assertions.h \
-  /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/deque \
-  /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/aligned_buffer.h \
-  /usr/include/c++/13/ext/alloc_traits.h \
-  /usr/include/c++/13/ext/atomicity.h \
-  /usr/include/c++/13/ext/concurrence.h \
-  /usr/include/c++/13/ext/numeric_traits.h \
-  /usr/include/c++/13/ext/string_conversions.h \
-  /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/filesystem \
-  /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/iomanip \
-  /usr/include/c++/13/ios \
-  /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
-  /usr/include/c++/13/limits \
-  /usr/include/c++/13/locale \
-  /usr/include/c++/13/new \
-  /usr/include/c++/13/numeric \
-  /usr/include/c++/13/ostream \
-  /usr/include/c++/13/pstl/execution_defs.h \
-  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/13/pstl/glue_numeric_defs.h \
-  /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/queue \
-  /usr/include/c++/13/random \
-  /usr/include/c++/13/ratio \
-  /usr/include/c++/13/sstream \
-  /usr/include/c++/13/stdexcept \
-  /usr/include/c++/13/streambuf \
-  /usr/include/c++/13/string \
-  /usr/include/c++/13/string_view \
-  /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tr1/bessel_function.tcc \
-  /usr/include/c++/13/tr1/beta_function.tcc \
-  /usr/include/c++/13/tr1/ell_integral.tcc \
-  /usr/include/c++/13/tr1/exp_integral.tcc \
-  /usr/include/c++/13/tr1/gamma.tcc \
-  /usr/include/c++/13/tr1/hypergeometric.tcc \
-  /usr/include/c++/13/tr1/legendre_function.tcc \
-  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/13/tr1/poly_hermite.tcc \
-  /usr/include/c++/13/tr1/poly_laguerre.tcc \
-  /usr/include/c++/13/tr1/riemann_zeta.tcc \
-  /usr/include/c++/13/tr1/special_function_util.h \
-  /usr/include/c++/13/tuple \
-  /usr/include/c++/13/type_traits \
-  /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/vector \
-  /usr/include/ctype.h \
-  /usr/include/endian.h \
-  /usr/include/errno.h \
-  /usr/include/features-time64.h \
-  /usr/include/features.h \
-  /usr/include/libintl.h \
-  /usr/include/linux/errno.h \
-  /usr/include/locale.h \
-  /usr/include/math.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/stdc-predef.h \
-  /usr/include/stdint.h \
-  /usr/include/stdio.h \
-  /usr/include/stdlib.h \
-  /usr/include/time.h \
-  /usr/include/wchar.h \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
-
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.o: /home/santiago/IN204/HexProject/src/Player.cpp \
-  /home/santiago/IN204/HexProject/include/Board.hpp \
-  /home/santiago/IN204/HexProject/include/Cube.hpp \
-  /home/santiago/IN204/HexProject/include/GameState.hpp \
-  /home/santiago/IN204/HexProject/include/MoveStrategy.hpp \
-  /home/santiago/IN204/HexProject/include/Player.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/FeatureExtractor.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/GNNModel.hpp \
-  /home/santiago/IN204/HexProject/include/gnn/Graph.hpp \
-  /usr/include/alloca.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/c++/13/algorithm \
-  /usr/include/c++/13/array \
-  /usr/include/c++/13/backward/auto_ptr.h \
-  /usr/include/c++/13/backward/binders.h \
-  /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/algorithmfwd.h \
-  /usr/include/c++/13/bits/align.h \
-  /usr/include/c++/13/bits/alloc_traits.h \
-  /usr/include/c++/13/bits/allocated_ptr.h \
-  /usr/include/c++/13/bits/allocator.h \
-  /usr/include/c++/13/bits/atomic_base.h \
-  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
-  /usr/include/c++/13/bits/basic_ios.h \
-  /usr/include/c++/13/bits/basic_ios.tcc \
-  /usr/include/c++/13/bits/basic_string.h \
-  /usr/include/c++/13/bits/basic_string.tcc \
-  /usr/include/c++/13/bits/char_traits.h \
-  /usr/include/c++/13/bits/charconv.h \
-  /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/concept_check.h \
-  /usr/include/c++/13/bits/cpp_type_traits.h \
-  /usr/include/c++/13/bits/cxxabi_forced.h \
-  /usr/include/c++/13/bits/cxxabi_init_exception.h \
-  /usr/include/c++/13/bits/enable_special_members.h \
-  /usr/include/c++/13/bits/erase_if.h \
-  /usr/include/c++/13/bits/exception.h \
-  /usr/include/c++/13/bits/exception_defines.h \
-  /usr/include/c++/13/bits/exception_ptr.h \
-  /usr/include/c++/13/bits/functexcept.h \
-  /usr/include/c++/13/bits/functional_hash.h \
-  /usr/include/c++/13/bits/hash_bytes.h \
-  /usr/include/c++/13/bits/hashtable.h \
-  /usr/include/c++/13/bits/hashtable_policy.h \
-  /usr/include/c++/13/bits/invoke.h \
-  /usr/include/c++/13/bits/ios_base.h \
-  /usr/include/c++/13/bits/istream.tcc \
-  /usr/include/c++/13/bits/locale_classes.h \
-  /usr/include/c++/13/bits/locale_classes.tcc \
-  /usr/include/c++/13/bits/locale_facets.h \
-  /usr/include/c++/13/bits/locale_facets.tcc \
-  /usr/include/c++/13/bits/localefwd.h \
-  /usr/include/c++/13/bits/memory_resource.h \
-  /usr/include/c++/13/bits/memoryfwd.h \
-  /usr/include/c++/13/bits/move.h \
-  /usr/include/c++/13/bits/nested_exception.h \
-  /usr/include/c++/13/bits/new_allocator.h \
-  /usr/include/c++/13/bits/node_handle.h \
-  /usr/include/c++/13/bits/ostream.tcc \
-  /usr/include/c++/13/bits/ostream_insert.h \
-  /usr/include/c++/13/bits/parse_numbers.h \
-  /usr/include/c++/13/bits/postypes.h \
-  /usr/include/c++/13/bits/predefined_ops.h \
-  /usr/include/c++/13/bits/ptr_traits.h \
-  /usr/include/c++/13/bits/range_access.h \
-  /usr/include/c++/13/bits/refwrap.h \
-  /usr/include/c++/13/bits/requires_hosted.h \
-  /usr/include/c++/13/bits/shared_ptr.h \
-  /usr/include/c++/13/bits/shared_ptr_atomic.h \
-  /usr/include/c++/13/bits/shared_ptr_base.h \
-  /usr/include/c++/13/bits/specfun.h \
-  /usr/include/c++/13/bits/std_abs.h \
-  /usr/include/c++/13/bits/stl_algo.h \
-  /usr/include/c++/13/bits/stl_algobase.h \
-  /usr/include/c++/13/bits/stl_bvector.h \
-  /usr/include/c++/13/bits/stl_construct.h \
-  /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_heap.h \
-  /usr/include/c++/13/bits/stl_iterator.h \
-  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
-  /usr/include/c++/13/bits/stl_iterator_base_types.h \
-  /usr/include/c++/13/bits/stl_pair.h \
-  /usr/include/c++/13/bits/stl_raw_storage_iter.h \
-  /usr/include/c++/13/bits/stl_tempbuf.h \
-  /usr/include/c++/13/bits/stl_uninitialized.h \
-  /usr/include/c++/13/bits/stl_vector.h \
-  /usr/include/c++/13/bits/streambuf.tcc \
-  /usr/include/c++/13/bits/streambuf_iterator.h \
-  /usr/include/c++/13/bits/string_view.tcc \
-  /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uniform_int_dist.h \
-  /usr/include/c++/13/bits/unique_ptr.h \
-  /usr/include/c++/13/bits/unordered_map.h \
-  /usr/include/c++/13/bits/uses_allocator.h \
-  /usr/include/c++/13/bits/uses_allocator_args.h \
-  /usr/include/c++/13/bits/utility.h \
-  /usr/include/c++/13/bits/vector.tcc \
-  /usr/include/c++/13/cctype \
-  /usr/include/c++/13/cerrno \
-  /usr/include/c++/13/chrono \
-  /usr/include/c++/13/clocale \
-  /usr/include/c++/13/cmath \
-  /usr/include/c++/13/compare \
-  /usr/include/c++/13/cstddef \
-  /usr/include/c++/13/cstdint \
-  /usr/include/c++/13/cstdio \
-  /usr/include/c++/13/cstdlib \
-  /usr/include/c++/13/ctime \
-  /usr/include/c++/13/cwchar \
-  /usr/include/c++/13/cwctype \
-  /usr/include/c++/13/debug/assertions.h \
-  /usr/include/c++/13/debug/debug.h \
-  /usr/include/c++/13/exception \
-  /usr/include/c++/13/ext/aligned_buffer.h \
-  /usr/include/c++/13/ext/alloc_traits.h \
-  /usr/include/c++/13/ext/atomicity.h \
-  /usr/include/c++/13/ext/concurrence.h \
-  /usr/include/c++/13/ext/numeric_traits.h \
-  /usr/include/c++/13/ext/string_conversions.h \
-  /usr/include/c++/13/ext/type_traits.h \
-  /usr/include/c++/13/initializer_list \
-  /usr/include/c++/13/ios \
-  /usr/include/c++/13/iosfwd \
-  /usr/include/c++/13/iostream \
-  /usr/include/c++/13/istream \
-  /usr/include/c++/13/limits \
-  /usr/include/c++/13/memory \
-  /usr/include/c++/13/new \
-  /usr/include/c++/13/ostream \
-  /usr/include/c++/13/pstl/execution_defs.h \
-  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
-  /usr/include/c++/13/pstl/glue_memory_defs.h \
-  /usr/include/c++/13/pstl/pstl_config.h \
-  /usr/include/c++/13/ratio \
-  /usr/include/c++/13/stdexcept \
-  /usr/include/c++/13/streambuf \
-  /usr/include/c++/13/string \
-  /usr/include/c++/13/string_view \
-  /usr/include/c++/13/system_error \
-  /usr/include/c++/13/tr1/bessel_function.tcc \
-  /usr/include/c++/13/tr1/beta_function.tcc \
-  /usr/include/c++/13/tr1/ell_integral.tcc \
-  /usr/include/c++/13/tr1/exp_integral.tcc \
-  /usr/include/c++/13/tr1/gamma.tcc \
-  /usr/include/c++/13/tr1/hypergeometric.tcc \
-  /usr/include/c++/13/tr1/legendre_function.tcc \
-  /usr/include/c++/13/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/13/tr1/poly_hermite.tcc \
-  /usr/include/c++/13/tr1/poly_laguerre.tcc \
-  /usr/include/c++/13/tr1/riemann_zeta.tcc \
-  /usr/include/c++/13/tr1/special_function_util.h \
-  /usr/include/c++/13/tuple \
-  /usr/include/c++/13/type_traits \
-  /usr/include/c++/13/typeinfo \
-  /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/vector \
-  /usr/include/ctype.h \
-  /usr/include/endian.h \
-  /usr/include/errno.h \
-  /usr/include/features-time64.h \
-  /usr/include/features.h \
-  /usr/include/linux/errno.h \
-  /usr/include/locale.h \
-  /usr/include/math.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/stdc-predef.h \
-  /usr/include/stdint.h \
-  /usr/include/stdio.h \
-  /usr/include/stdlib.h \
-  /usr/include/time.h \
-  /usr/include/wchar.h \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
-  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
-  /usr/include/x86_64-linux-gnu/bits/locale.h \
-  /usr/include/x86_64-linux-gnu/bits/long-double.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
-  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
-  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/timesize.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/error_constants.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
-  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
-  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
-
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o: /home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp \
   /home/santiago/IN204/HexProject/include/Board.hpp \
   /home/santiago/IN204/HexProject/include/Cube.hpp \
@@ -7488,27 +6337,49 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
   /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h
 
 
+/usr/include/c++/13/bits/random.h:
+
 /home/santiago/IN204/HexProject/selfplay/main.cpp:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h:
 
 /usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
-/usr/include/string.h:
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_fp32_activation.h:
 
-/usr/include/linux/limits.h:
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight_ops.h:
 
-/usr/include/limits.h:
+/home/santiago/libtorch/include/torch/csrc/jit/runtime/variable_tensor_list.h:
 
-/usr/include/c++/13/typeindex:
+/home/santiago/libtorch/include/ATen/ops/unfold_backward.h:
 
-/usr/include/c++/13/thread:
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_ops.h:
 
-/usr/include/c++/13/stack:
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine.h:
 
-/usr/include/c++/13/shared_mutex:
+/home/santiago/libtorch/include/ATen/ops/cudnn_grid_sampler_native.h:
 
-/usr/include/c++/13/optional:
+/home/santiago/libtorch/include/ATen/ops/_index_put_impl_ops.h:
+
+/usr/include/linux/errno.h:
+
+/home/santiago/libtorch/include/ATen/ops/exponential_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/exponential_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/expm1_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/sparse_compressed_tensor_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/expm1.h:
+
+/home/santiago/libtorch/include/ATen/ops/expand_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/log_native.h:
 
 /home/santiago/libtorch/include/ATen/core/enum_tag.h:
 
@@ -7534,6 +6405,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/empty.h:
 
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/einsum.h:
+
 /home/santiago/libtorch/include/ATen/ops/embedding_sparse_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/embedding_renorm.h:
@@ -7557,10 +6432,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/elu_native.h:
 
 /usr/include/c++/13/bits/refwrap.h:
-
-/home/santiago/libtorch/include/ATen/ops/einsum.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_backward.h:
 
 /home/santiago/libtorch/include/ATen/ops/dstack.h:
 
@@ -7594,10 +6465,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/sgn_ops.h:
 
-/usr/include/c++/13/unordered_set:
-
-/home/santiago/libtorch/include/ATen/ops/dense_dim_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/fft_ifftshift_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/mkldnn_linear_native.h:
@@ -7620,6 +6487,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/tr1/legendre_function.tcc:
 
+/home/santiago/libtorch/include/ATen/ops/histogram_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/nll_loss_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/cumprod_meta.h:
@@ -7629,6 +6498,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/cumprod.h:
 
 /home/santiago/libtorch/include/ATen/ops/cummin_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/expand_copy.h:
 
 /home/santiago/libtorch/include/ATen/ops/cummaxmin_backward_ops.h:
 
@@ -7692,6 +6563,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/cov_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/as_strided_copy_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/cudnn_is_acceptable.h:
+
 /home/santiago/libtorch/include/ATen/ops/absolute.h:
 
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward_reduce_ops.h:
@@ -7725,6 +6600,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/sinh_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/cos_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/cos_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/avg_pool2d.h:
 
@@ -7765,6 +6642,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/nested_to_padded_tensor.h:
 
 /home/santiago/libtorch/include/ATen/ops/conv_transpose2d_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/conv_transpose2d.h:
+
+/home/santiago/libtorch/include/ATen/ops/deg2rad_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/conv_transpose1d_ops.h:
 
@@ -7811,8 +6692,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/combinations.h:
 
 /home/santiago/libtorch/include/ATen/ops/column_stack_ops.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h:
 
 /home/santiago/libtorch/include/ATen/ops/grid_sampler_ops.h:
 
@@ -7862,6 +6741,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/gt_meta.h:
 
+/home/santiago/libtorch/include/ATen/ops/chalf_ops.h:
+
+/home/santiago/libtorch/include/ATen/core/TensorBase.h:
+
+/home/santiago/libtorch/include/ATen/ops/mkldnn_rnn_layer_backward_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/diagonal.h:
 
 /home/santiago/libtorch/include/ATen/ops/chain_matmul_ops.h:
@@ -7895,6 +6780,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/c10/util/LeftRight.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/version.h:
+
+/home/santiago/libtorch/include/ATen/ops/expand_as_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/equal_native.h:
 
@@ -7956,6 +6843,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/bitwise_left_shift_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/bitwise_left_shift_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_svdvals.h:
+
 /home/santiago/libtorch/include/ATen/ops/bitwise_left_shift.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_tanh_native.h:
@@ -8015,6 +6906,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward_elemt_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/exponential.h:
+
+/home/santiago/libtorch/include/ATen/ops/to_padded_tensor.h:
 
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward_elemt_native.h:
 
@@ -8212,6 +7107,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/samplers/base.h:
 
+/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_fused_attention_overrideable_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/soft_margin_loss_backward.h:
+
 /home/santiago/libtorch/include/ATen/ops/affine_grid_generator_backward.h:
 
 /usr/include/c++/13/bits/alloc_traits.h:
@@ -8304,6 +7203,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool1d_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/corrcoef.h:
+
+/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool1d.h:
+
 /home/santiago/libtorch/include/ATen/ops/_cufft_clear_plan_cache.h:
 
 /home/santiago/libtorch/include/ATen/ops/acosh_ops.h:
@@ -8315,6 +7218,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/acosh.h:
 
 /home/santiago/libtorch/include/ATen/ops/absolute_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_weight_norm_differentiable_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_is_zerotensor_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/abs_native.h:
 
@@ -8338,9 +7245,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/conv.h:
 
-/home/santiago/libtorch/include/ATen/ops/_weight_norm_differentiable_backward.h:
+/home/santiago/libtorch/include/ATen/ops/_coalesced.h:
 
-/home/santiago/libtorch/include/ATen/ops/_is_zerotensor_native.h:
+/home/santiago/libtorch/include/ATen/ops/column_stack_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/empty_like.h:
 
@@ -8348,9 +7255,17 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_validate_sparse_csc_tensor_args.h:
 
+/home/santiago/libtorch/include/ATen/ops/batch_norm_update_stats_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/unsafe_chunk_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/miopen_rnn_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask.h:
 
 /home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_native.h:
 
@@ -8414,13 +7329,13 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/all_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_select_backward_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/convolution_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/affine_grid_generator_backward_ops.h:
 
 /usr/include/c++/13/bits/stl_pair.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_select_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/chalf_native.h:
 
@@ -8558,6 +7473,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/cudnn_is_acceptable_ops.h:
 
+/usr/include/c++/13/shared_mutex:
+
 /home/santiago/libtorch/include/ATen/ops/_unique2.h:
 
 /home/santiago/libtorch/include/ATen/ops/_unique.h:
@@ -8652,9 +7569,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_test_serialization_subcmul_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h:
-
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_learnable_per_tensor_affine_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fused_moving_avg_obs_fq_helper.h:
 
 /home/santiago/libtorch/include/ATen/ops/_test_parallel_materialize_ops.h:
 
@@ -8663,6 +7580,16 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_test_parallel_materialize.h:
 
 /home/santiago/libtorch/include/ATen/ops/item.h:
+
+/home/santiago/libtorch/include/ATen/ops/expand_copy_ops.h:
+
+/home/santiago/libtorch/include/ATen/DeviceGuard.h:
+
+/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h:
+
+/home/santiago/libtorch/include/ATen/ops/addmm.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_optional_intlist_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fused_adamw_native.h:
 
@@ -8764,6 +7691,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/margin_ranking_loss.h:
 
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight.h:
+
+/home/santiago/libtorch/include/ATen/ops/_validate_sparse_coo_tensor_args_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sparse_sum_backward_native.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
@@ -8818,6 +7749,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_convert_indices_from_csr_to_coo_meta.h:
 
+/home/santiago/libtorch/include/ATen/ops/_foreach_exp_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/sparse_sampled_addmm_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_backward_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_addmm_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_resize_output_native.h:
@@ -8827,6 +7764,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_addmm_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/upsample_linear1d_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/fractional_max_pool2d_backward.h:
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_mm_reduce_impl_ops.h:
 
@@ -8860,6 +7799,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_csr_sum.h:
 
+/home/santiago/libtorch/include/ATen/ops/_unsafe_view.h:
+
+/home/santiago/libtorch/include/ATen/ops/_sparse_csr_prod.h:
+
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/distance.h:
 
 /home/santiago/libtorch/include/ATen/ops/norm_except_dim.h:
@@ -8885,6 +7828,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/convolution_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/ravel_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/is_signed.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_shifted_chebyshev_polynomial_v_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_per_tensor_affine_cachemask_tensor_qparams.h:
 
@@ -8964,9 +7911,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/diag_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_native_batch_norm_legit_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_native_batch_norm_legit_ops.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/normalization.h:
 
@@ -9019,10 +7966,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_fused_attention_overrideable_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/fft_hfft_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_fused_attention_overrideable_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/soft_margin_loss_backward.h:
 
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward.h:
 
@@ -9080,6 +8023,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_int_mm.h:
 
+/home/santiago/libtorch/include/ATen/ops/triangular_solve_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_efficient_attention_backward_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/cumprod_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_learnable_per_tensor_affine_native.h:
@@ -9120,6 +8067,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_logsumexp_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/_safe_softmax_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/diagonal_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_exp.h:
@@ -9148,15 +8097,19 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_reshape_alias_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/binomial_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/_triton_multi_head_attention_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/binomial_ops.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/modules/instancenorm.h:
 
 /home/santiago/libtorch/include/ATen/ops/_reshape_alias_copy_native.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/transformer.h:
+
+/home/santiago/libtorch/include/ATen/ops/gru_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_reshape_alias_copy.h:
 
@@ -9181,6 +8134,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/stdio.h:
 
 /home/santiago/libtorch/include/ATen/ops/_print_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_print.h:
 
 /home/santiago/libtorch/include/ATen/ops/rshift_native.h:
 
@@ -9208,6 +8163,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/view_as_complex_copy.h:
 
+/home/santiago/libtorch/include/ATen/ops/_to_sparse_csc_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_pdist_forward.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sobol_engine_draw.h:
 
 /home/santiago/libtorch/include/ATen/ops/_pdist_backward_native.h:
@@ -9215,6 +8174,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/quantized_gru_cell_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_pad_enum_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_pad_enum_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/dist_native.h:
 
@@ -9242,143 +8205,147 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/hardswish_backward.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_get_values.h:
+/home/santiago/libtorch/include/ATen/ops/coalesce_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/cos.h:
+/home/santiago/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/any_native.h:
+/home/santiago/libtorch/include/ATen/ops/fft_ihfftn_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/broadcast_to_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nnpack_available_native.h:
+/home/santiago/libtorch/include/ATen/ops/batch_norm_backward_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/mkldnn_rnn_layer_ops.h:
+/home/santiago/libtorch/include/ATen/ops/cauchy_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_tanh.h:
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/detail/TensorDataContainer.h:
 
-/home/santiago/libtorch/include/ATen/ops/slice_backward_native.h:
+/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_ops.h:
+/home/santiago/libtorch/include/ATen/ops/linalg_householder_product.h:
 
-/home/santiago/libtorch/include/ATen/ops/rrelu_native.h:
+/home/santiago/libtorch/include/ATen/ops/_test_autograd_multiple_dispatch_view_copy_native.h:
 
-/home/santiago/libtorch/include/ATen/core/List.h:
+/home/santiago/libtorch/include/ATen/ops/softplus_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_pack_quantized_matrix_ops.h:
+/home/santiago/libtorch/include/ATen/ops/mul.h:
 
-/home/santiago/libtorch/include/ATen/ops/is_coalesced.h:
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/functional/fold.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_copy.h:
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/adaptive.h:
 
-/home/santiago/libtorch/include/ATen/ops/soft_margin_loss_backward_native.h:
+/home/santiago/libtorch/include/ATen/ops/cummaxmin_backward_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h:
+/home/santiago/libtorch/include/ATen/ops/adaptive_max_pool3d_backward_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h:
+/home/santiago/libtorch/include/ATen/ops/_lu_with_info_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_ops.h:
+/home/santiago/libtorch/include/ATen/ops/fliplr_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_validate_sparse_csr_tensor_args.h:
+/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_native.h:
+/home/santiago/libtorch/include/ATen/ops/_validate_sparse_bsc_tensor_args_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy_ops.h:
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
-/home/santiago/libtorch/include/ATen/ops/slice.h:
+/home/santiago/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h:
 
-/home/santiago/libtorch/include/ATen/ops/_sobol_engine_ff_native.h:
+/home/santiago/libtorch/include/ATen/ops/_native_multi_head_attention_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy.h:
+/home/santiago/libtorch/include/ATen/ops/clone_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer.h:
+/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact2d.h:
 
-/home/santiago/libtorch/include/ATen/ops/all.h:
+/home/santiago/libtorch/include/ATen/ops/index_select_backward_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_saturate_weight_to_fp16_ops.h:
+/home/santiago/libtorch/include/ATen/ops/resize_as_sparse_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/linalg_det_ops.h:
+/home/santiago/libtorch/include/ATen/ops/empty_strided_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_strides_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/sym_numel.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_strides.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets.h:
-
-/home/santiago/libtorch/include/ATen/ops/conv_transpose3d_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/frexp.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_softmax_with_shape_native.h:
-
-/usr/include/c++/13/bits/locale_facets_nonio.h:
-
-/home/santiago/libtorch/include/torch/headeronly/util/complex.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_size_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/isfinite_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/broadcast_to.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
-/home/santiago/libtorch/include/ATen/ops/fft_fft2.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_size.h:
-
-/home/santiago/libtorch/include/ATen/ops/cholesky_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_tensorsolve.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_functorch_fallback_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_trunc_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/frac_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list.h:
-
-/usr/include/c++/13/cstring:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/logit.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/addmv_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_check_tensor_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/mode.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_acos.h:
-
-/home/santiago/libtorch/include/ATen/ops/nansum_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned.h:
+/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_for_cpu_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_batch_norm_no_update.h:
 
-/home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell_backward_impl_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned.h:
 
-/home/santiago/libtorch/include/c10/util/OptionalArrayRef.h:
+/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_native.h:
 
-/home/santiago/libtorch/include/ATen/core/stack.h:
+/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_flash_attention_backward.h:
 
-/home/santiago/libtorch/include/ATen/ops/bilinear_ops.h:
+/home/santiago/libtorch/include/ATen/ops/unsqueeze.h:
 
-/home/santiago/libtorch/include/ATen/ops/_weight_norm_interface_backward.h:
+/home/santiago/libtorch/include/ATen/ops/_make_dep_token_native.h:
 
-/home/santiago/libtorch/include/ATen/core/function.h:
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
-/home/santiago/libtorch/include/ATen/ops/leaky_relu_backward_ops.h:
+/home/santiago/libtorch/include/ATen/ops/fmod_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fw_primal.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/modules/activation.h:
+
+/home/santiago/libtorch/include/ATen/ops/cudnn_batch_norm_backward_native.h:
+
+/usr/include/c++/13/bits/stream_iterator.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cast_Float.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_physical_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_physical_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_to_cpu_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_histogramdd_from_bin_cts_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_compute_linear_combination_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/fractional_max_pool2d_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/logical_or.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_optional_filled_intlist_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_vecdot_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/resolve_conj_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/linear_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/avg_pool2d_backward_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/_coalesce_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_warn_in_autograd_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/addcdiv_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_for_cpu.h:
+
+/home/santiago/libtorch/include/c10/util/quint4x2.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_floor.h:
+
+/home/santiago/libtorch/include/ATen/ops/_chunk_cat_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/detach_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fused_adam_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/replication_pad1d_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_linalg_solve_ex.h:
+
+/home/santiago/libtorch/include/ATen/ops/_wrapped_linear_prepack_ops.h:
+
+/home/santiago/libtorch/include/ATen/Device.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_norm.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_logsumexp_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cdist_forward_ops.h:
 
@@ -9396,7 +8363,17 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_padded_dense_to_jagged_forward_ops.h:
 
+/usr/include/c++/13/typeindex:
+
 /home/santiago/libtorch/include/ATen/ops/_mps_convolution.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_get_values.h:
+
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_fp32_activation_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/asinh.h:
+
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cast_Long_native.h:
 
@@ -9405,6 +8382,20 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_cast_Int_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/mkldnn_convolution_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/clamp_min_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/ldexp.h:
+
+/home/santiago/libtorch/include/ATen/ops/avg_pool2d_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/isnan_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_has_same_storage_numel.h:
+
+/home/santiago/libtorch/include/ATen/ops/count_nonzero_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/sparse_mask_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cast_Char_ops.h:
 
@@ -9452,13 +8443,13 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_make_dual_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine.h:
+
+/home/santiago/libtorch/include/ATen/NestedTensorImpl.h:
+
+/usr/include/c++/13/bits/concept_check.h:
+
 /usr/include/c++/13/bits/stringfwd.h:
-
-/home/santiago/libtorch/include/ATen/ops/qr_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_batch_norm_impl_index_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/fractional_max_pool3d_backward_native.h:
 
@@ -9490,6 +8481,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_sub_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cast_Float_ops.h:
+
 /usr/include/c++/13/bits/streambuf.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/cumulative_trapezoid.h:
@@ -9510,12 +8505,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/std_abs.h:
 
-/usr/include/linux/errno.h:
-
-/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_efficient_attention_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/triangular_solve_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/abs.h:
 
 /home/santiago/libtorch/include/ATen/ops/_efficientzerotensor_native.h:
@@ -9523,6 +8512,24 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/autograd.h:
 
 /home/santiago/libtorch/include/ATen/ops/_grouped_mm_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/all.h:
+
+/home/santiago/libtorch/include/ATen/ops/_saturate_weight_to_fp16_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_det_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_strides_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/sym_numel.h:
+
+/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/resize_as_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cdist_forward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fused_sgd_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/cummin_ops.h:
 
@@ -9542,14 +8549,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_div.h:
 
-/home/santiago/libtorch/include/ATen/ops/matrix_exp_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/pairwise_distance_ops.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/ordered_dict.h:
-
 /home/santiago/libtorch/include/ATen/core/qualified_name.h:
 
 /home/santiago/libtorch/include/ATen/ops/elu_backward_meta.h:
@@ -9564,7 +8563,21 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/linalg_multi_dot_ops.h:
 
+/usr/include/c++/13/tuple:
+
 /home/santiago/libtorch/include/ATen/ops/_fft_r2c_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets_ops.h:
+
+/home/santiago/libtorch/include/ATen/TensorUtils.h:
+
+/home/santiago/libtorch/include/ATen/NamedTensorUtils.h:
+
+/home/santiago/libtorch/include/ATen/ops/hardshrink_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/mkldnn_linear_backward_input_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_expm1_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/argmin.h:
 
@@ -9586,6 +8599,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_convolution.h:
 
+/home/santiago/libtorch/include/ATen/core/function.h:
+
+/home/santiago/libtorch/include/ATen/ops/leaky_relu_backward_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sparse_csr_tensor_unsafe_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/clamp_min_ops.h:
@@ -9604,6 +8621,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_batch_norm_no_update_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/acos_meta.h:
+
+/home/santiago/libtorch/include/ATen/core/ivalue_inl.h:
+
 /home/santiago/libtorch/include/ATen/core/boxing/KernelFunction.h:
 
 /usr/include/c++/13/fstream:
@@ -9614,9 +8635,31 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_addmm_activation.h:
 
+/usr/include/c++/13/optional:
+
 /home/santiago/libtorch/include/ATen/ops/bitwise_and_ops.h:
 
 /home/santiago/libtorch/include/ATen/core/aten_interned_strings.h:
+
+/home/santiago/libtorch/include/ATen/ops/squeeze_copy_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/convolution_overrideable.h:
+
+/home/santiago/libtorch/include/ATen/ops/add_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/range.h:
+
+/home/santiago/libtorch/include/ATen/ops/_triton_scaled_dot_attention_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cufft_get_plan_cache_size.h:
+
+/home/santiago/libtorch/include/ATen/ops/softplus_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_copy_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/bitwise_or_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cudnn_init_dropout_state_ops.h:
 
 /home/santiago/libtorch/include/ATen/core/UnsafeFromTH.h:
 
@@ -9625,12 +8668,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/linalg_ldl_solve_native.h:
-
-/home/santiago/libtorch/include/ATen/core/TensorBase.h:
-
-/home/santiago/libtorch/include/ATen/ops/chalf_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/mkldnn_rnn_layer_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_dim_arange.h:
 
@@ -9644,6 +8681,30 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/roll_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/_embedding_bag_sparse_backward_native.h:
+
+/home/santiago/libtorch/include/c10/util/order_preserving_flat_hash_map.h:
+
+/home/santiago/libtorch/include/ATen/ops/arctan2.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_cross_ops.h:
+
+/usr/include/c++/13/type_traits:
+
+/home/santiago/libtorch/include/ATen/ops/t_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool3d_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/bernoulli.h:
+
+/home/santiago/libtorch/include/ATen/ops/index_reduce_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/unflatten_dense_tensors.h:
+
+/home/santiago/libtorch/include/ATen/core/Tensor.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_norm_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/embedding_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/cosine_similarity_native.h:
@@ -9656,6 +8717,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/clamp_min_meta.h:
 
+/home/santiago/libtorch/include/ATen/ops/_convert_indices_from_csr_to_coo_native.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
 /home/santiago/libtorch/include/ATen/core/NamedTensor.h:
 
 /home/santiago/libtorch/include/ATen/ops/retain_grad_ops.h:
@@ -9667,6 +8732,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_foreach_maximum_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/fft_ifftn.h:
+
+/home/santiago/libtorch/include/ATen/core/List.h:
+
+/home/santiago/libtorch/include/ATen/ops/fbgemm_pack_quantized_matrix_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/elu_ops.h:
 
@@ -9681,6 +8750,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_foreach_lerp.h:
 
 /usr/include/c++/13/bits/fstream.tcc:
+
+/home/santiago/libtorch/include/ATen/ops/_sobol_engine_ff_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy.h:
 
 /home/santiago/libtorch/include/ATen/ops/_is_any_true.h:
 
@@ -9742,6 +8815,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_gammainc.h:
 
+/home/santiago/libtorch/include/ATen/ops/_foreach_minimum_native.h:
+
+/usr/include/stdlib.h:
+
 /home/santiago/libtorch/include/ATen/TensorOperators.h:
 
 /home/santiago/libtorch/include/ATen/ops/conj_physical_native.h:
@@ -9788,24 +8865,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/serialize/output-archive.h:
 
-/home/santiago/libtorch/include/ATen/ops/cauchy_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_for_cpu_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/batch_norm_backward_native.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/detail/TensorDataContainer.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_sqrt_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/arccosh.h:
-
-/home/santiago/libtorch/include/ATen/ops/retains_grad_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta_ops.h:
-
-/home/santiago/libtorch/include/ATen/TensorGeometry.h:
-
 /home/santiago/libtorch/include/ATen/ops/amax.h:
 
 /home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward.h:
@@ -9824,37 +8883,45 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/mkldnn_linear_backward_weights_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/special_i0.h:
+
+/home/santiago/libtorch/include/ATen/SavedTensorHooks.h:
+
+/home/santiago/libtorch/include/ATen/ops/poisson_nll_loss_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/select_backward_native.h:
+
+/home/santiago/libtorch/include/torch/headeronly/util/bit_cast.h:
+
+/home/santiago/libtorch/include/ATen/ops/bartlett_window.h:
+
+/home/santiago/libtorch/include/ATen/ops/_cslt_compress.h:
+
+/usr/include/c++/13/bits/deque.tcc:
+
 /home/santiago/libtorch/include/ATen/ops/fft_fft_ops.h:
 
 /usr/include/c++/13/ext/type_traits.h:
 
 /usr/include/c++/13/bits/invoke.h:
 
+/home/santiago/libtorch/include/ATen/ops/eye.h:
+
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_learnable_per_tensor_affine.h:
-
-/home/santiago/libtorch/include/ATen/ops/add_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/range.h:
-
-/home/santiago/libtorch/include/ATen/ops/convolution_overrideable.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fft_c2r_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/miopen_batch_norm_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/clone_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact2d.h:
-
-/home/santiago/libtorch/include/ATen/ops/index_select_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/resize_as_sparse_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/empty_strided_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_for_cpu_ops.h:
-
 /home/santiago/libtorch/include/ATen/NamedTensor.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_trunc.h:
+
+/usr/include/c++/13/bits/basic_ios.h:
+
+/usr/include/c++/13/bits/parse_numbers.h:
+
+/home/santiago/libtorch/include/ATen/ops/lgamma_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/alias_copy_native.h:
 
@@ -9878,15 +8945,17 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/col_indices_copy.h:
 
-/usr/include/c++/13/bits/shared_ptr.h:
-
 /home/santiago/libtorch/include/ATen/ops/var_mean_ops.h:
+
+/usr/include/c++/13/bits/shared_ptr.h:
 
 /home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_lgamma_native.h:
 
 /home/santiago/libtorch/include/torch/csrc/autograd/variable.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_copy.h:
 
 /home/santiago/libtorch/include/ATen/ops/_flash_attention_forward.h:
 
@@ -9912,23 +8981,13 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_cummax_helper.h:
 
-/home/santiago/libtorch/include/ATen/Device.h:
-
-/home/santiago/libtorch/include/ATen/ops/_wrapped_linear_prepack_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_norm.h:
-
 /home/santiago/libtorch/include/ATen/ops/_cast_Byte_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_per_tensor_affine_cachemask_tensor_qparams_native.h:
 
+/usr/include/c++/13/thread:
+
 /home/santiago/libtorch/include/ATen/BlasBackend.h:
-
-/usr/include/c++/13/tr1/special_function_util.h:
-
-/home/santiago/libtorch/include/ATen/ops/choose_qparams_optimized_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fill_diagonal_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/embedding_backward.h:
 
@@ -9939,6 +8998,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/batch_norm_backward_elemt.h:
 
 /home/santiago/libtorch/include/ATen/ops/isin.h:
+
+/home/santiago/libtorch/include/ATen/ops/choose_qparams_optimized_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/fill_diagonal_ops.h:
+
+/usr/include/c++/13/tr1/special_function_util.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/samplers/sequential.h:
 
@@ -9952,189 +9017,41 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_backward_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_to_sparse_csc_ops.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
-/home/santiago/libtorch/include/ATen/ops/_pdist_forward.h:
+/home/santiago/libtorch/include/ATen/ops/broadcast_to.h:
 
-/home/santiago/libtorch/include/ATen/ops/_sparse_csr_prod.h:
-
-/home/santiago/libtorch/include/ATen/ops/_unsafe_view.h:
-
-/home/santiago/libtorch/include/ATen/ops/unbind_copy_native.h:
-
-/usr/include/c++/13/bits/shared_ptr_atomic.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_sinc_ops.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/cloneable.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_i0.h:
-
-/home/santiago/libtorch/include/ATen/SavedTensorHooks.h:
-
-/home/santiago/libtorch/include/ATen/ops/poisson_nll_loss_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/select_backward_native.h:
-
-/home/santiago/libtorch/include/torch/headeronly/util/bit_cast.h:
-
-/usr/include/c++/13/bits/atomic_lockfree_defines.h:
-
-/home/santiago/libtorch/include/ATen/ops/sparse_resize.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conj_copy_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/logit_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sparse_mm_reduce_impl_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/max_pool1d.h:
-
-/usr/include/c++/13/tr1/poly_laguerre.tcc:
-
-/home/santiago/libtorch/include/ATen/ops/_thnn_fused_gru_cell_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_slow_conv2d_forward.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_log10.h:
-
-/home/santiago/libtorch/include/ATen/ops/_linalg_svd.h:
-
-/home/santiago/libtorch/include/ATen/ops/_embedding_bag_sparse_backward_native.h:
-
-/home/santiago/libtorch/include/c10/util/order_preserving_flat_hash_map.h:
-
-/home/santiago/libtorch/include/ATen/ops/arctan2.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_cross_ops.h:
-
-/usr/include/c++/13/type_traits:
-
-/home/santiago/libtorch/include/ATen/ops/t_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool3d_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/bernoulli.h:
-
-/home/santiago/libtorch/include/ATen/ops/index_reduce_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/unflatten_dense_tensors.h:
-
-/home/santiago/libtorch/include/ATen/core/Tensor.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_norm_native.h:
-
-/home/santiago/IN204/HexProject/include/Player.hpp:
-
-/home/santiago/IN204/HexProject/src/Player.cpp:
-
-/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool3d_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/max_pool2d_with_indices_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_print.h:
-
-/home/santiago/libtorch/include/ATen/ops/_safe_softmax_native.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h:
-
-/usr/include/c++/13/bits/ostream.tcc:
-
-/usr/include/x86_64-linux-gnu/sys/select.h:
+/home/santiago/libtorch/include/ATen/ops/fft_fft2.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cummax_helper_native.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
+/home/santiago/libtorch/include/ATen/ops/dot.h:
+
+/home/santiago/libtorch/include/ATen/ops/to_sparse_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack.h:
+
+/home/santiago/libtorch/include/ATen/ops/concatenate_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/batch_norm_stats_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/igamma.h:
+
+/home/santiago/libtorch/include/ATen/ops/slice_scatter_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/to_native.h:
+
+/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
+
 /usr/include/x86_64-linux-gnu/bits/fp-logb.h:
 
+/usr/include/c++/13/debug/debug.h:
+
+/home/santiago/libtorch/include/ATen/ops/_euclidean_dist.h:
+
 /home/santiago/libtorch/include/ATen/ops/eye_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cast_Long.h:
-
-/home/santiago/libtorch/include/ATen/ops/ctc_loss.h:
-
-/home/santiago/libtorch/include/ATen/core/Range.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sobol_engine_initialize_state_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/reflection_pad2d_backward_ops.h:
-
-/usr/include/c++/13/tr1/riemann_zeta.tcc:
-
-/home/santiago/libtorch/include/c10/core/impl/LocalDispatchKeySet.h:
-
-/home/santiago/libtorch/include/ATen/core/dispatch/CppSignature.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
-
-/home/santiago/libtorch/include/ATen/ops/meshgrid.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_sqrt_ops.h:
-
-/usr/include/c++/13/bits/node_handle.h:
-
-/usr/include/c++/13/tr1/poly_hermite.tcc:
-
-/home/santiago/libtorch/include/ATen/ops/cumulative_trapezoid_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/random_native.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/modules/adaptive.h:
-
-/home/santiago/libtorch/include/ATen/ops/bartlett_window.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cslt_compress.h:
-
-/usr/include/c++/13/bits/deque.tcc:
-
-/usr/include/c++/13/tuple:
-
-/usr/include/c++/13/queue:
-
-/home/santiago/libtorch/include/ATen/ops/ravel_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/cudnn_grid_sampler_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/cudnn_is_acceptable.h:
-
-/home/santiago/libtorch/include/ATen/ops/as_strided_copy_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine.h:
-
-/home/santiago/libtorch/include/ATen/ops/gelu.h:
-
-/home/santiago/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_safe_softmax_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_eigvals_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/cos_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_coalesced.h:
-
-/home/santiago/libtorch/include/ATen/ops/column_stack_native.h:
-
-/usr/include/c++/13/filesystem:
-
-/home/santiago/libtorch/include/ATen/ops/_make_per_tensor_quantized_tensor.h:
-
-/home/santiago/libtorch/include/ATen/ops/logcumsumexp.h:
-
-/home/santiago/libtorch/include/ATen/core/ATen_fwd.h:
-
-/home/santiago/libtorch/include/ATen/ops/huber_loss_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/max_unpool3d.h:
-
-/home/santiago/libtorch/include/ATen/ops/scatter_reduce_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward_ops.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/pimpl-inl.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_abs_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/arctan_native.h:
 
@@ -10149,6 +9066,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_foreach_sigmoid.h:
 
 /home/santiago/libtorch/include/ATen/ops/mkldnn_linear_backward_input_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_sqrt_ops.h:
+
+/usr/include/c++/13/bits/node_handle.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fw_primal_native.h:
 
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h:
 
@@ -10192,6 +9115,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
+/usr/include/string.h:
+
 /home/santiago/libtorch/include/ATen/ops/_use_cudnn_ctc_loss_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/fft_hfft.h:
@@ -10199,6 +9124,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_triton_scaled_dot_attention.h:
 
 /usr/include/c++/13/ext/alloc_traits.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_trunc_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_functorch_fallback_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/frac_meta.h:
 
 /home/santiago/IN204/HexProject/selfplay/Serializer.cpp:
 
@@ -10208,47 +9139,17 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/core/IListRef_inl.h:
 
-/home/santiago/libtorch/include/ATen/ops/_triton_scaled_dot_attention_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/acos_meta.h:
-
-/home/santiago/libtorch/include/ATen/core/ivalue_inl.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cufft_get_plan_cache_size.h:
-
-/home/santiago/libtorch/include/ATen/ops/softplus_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_pad_enum_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_backward_native.h:
-
-/usr/include/c++/13/bits/fs_path.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_shifted_chebyshev_polynomial_u_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_make_dual_copy.h:
-
-/home/santiago/libtorch/include/ATen/ops/lstm_cell_native.h:
-
 /home/santiago/libtorch/include/ATen/core/class_type.h:
-
-/home/santiago/libtorch/include/ATen/ops/margin_ranking_loss_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/log_sigmoid_forward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_indices_copy.h:
 
+/home/santiago/libtorch/include/ATen/CPUGeneratorImpl.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
-
-/usr/include/c++/13/bits/unique_ptr.h:
-
-/home/santiago/libtorch/include/ATen/ops/miopen_convolution_relu.h:
 
 /home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
-
-/home/santiago/libtorch/include/ATen/ops/_linalg_eigvals_ops.h:
 
 /usr/include/c++/13/bits/postypes.h:
 
@@ -10262,11 +9163,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_cast_Half.h:
 
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight_fp32_activation_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_foreach_round_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_lstm_mps_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foobar_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_add_batch_dim_native.h:
 
@@ -10286,9 +9185,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/linalg_svd_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool1d.h:
+/home/santiago/libtorch/include/ATen/ops/_foreach_tanh.h:
 
-/home/santiago/libtorch/include/ATen/ops/corrcoef.h:
+/home/santiago/libtorch/include/ATen/ops/slice_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_ops.h:
 
 /usr/include/c++/13/bits/ios_base.h:
 
@@ -10309,6 +9210,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
+
+/home/santiago/libtorch/include/ATen/ops/repeat_interleave_native.h:
+
+/usr/include/c++/13/bits/istream.tcc:
+
+/home/santiago/libtorch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/vision.h:
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_softmax.h:
 
@@ -10338,7 +9247,15 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/rename_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_strides.h:
+
 /home/santiago/libtorch/include/ATen/detail/HIPHooksInterface.h:
+
+/usr/include/c++/13/filesystem:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/dsplit.h:
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_coo_tensor_unsafe.h:
 
@@ -10350,10 +9267,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_dimV.h:
 
-/usr/include/c++/13/bits/stl_raw_storage_iter.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_erfc_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/special_spherical_bessel_j0_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/to_mkldnn.h:
@@ -10361,6 +9274,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_linalg_slogdet_native.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+
+/home/santiago/libtorch/include/ATen/core/stack.h:
+
+/home/santiago/libtorch/include/ATen/ops/bilinear_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/nanmean.h:
 
@@ -10384,23 +9301,15 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/pstl/execution_defs.h:
 
-/usr/include/c++/13/deque:
-
 /home/santiago/libtorch/include/ATen/ops/mul_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_i0e_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/slice_backward_ops.h:
 
+/usr/include/c++/13/deque:
+
 /home/santiago/libtorch/include/ATen/ops/block_diag_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_trunc.h:
-
-/usr/include/c++/13/bits/basic_ios.h:
-
-/usr/include/c++/13/bits/parse_numbers.h:
-
-/home/santiago/libtorch/include/ATen/ops/lgamma_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/channel_shuffle_ops.h:
 
@@ -10415,6 +9324,20 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/detach.h:
 
 /home/santiago/libtorch/include/ATen/ops/angle_native.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/functional/loss.h:
+
+/home/santiago/libtorch/include/ATen/ops/binary_cross_entropy_with_logits.h:
+
+/usr/include/c++/13/bits/ptr_traits.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/can_cast_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_pow_ops.h:
+
+/home/santiago/libtorch/include/torch/headeronly/macros/Export.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_expm1_native.h:
 
@@ -10436,18 +9359,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/acos_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/bitwise_left_shift_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_svdvals.h:
-
-/home/santiago/libtorch/include/ATen/ops/_pad_circular_native.h:
-
-/usr/include/c++/13/bits/locale_facets_nonio.tcc:
-
-/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_copy_ops.h:
-
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h:
@@ -10464,6 +9375,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/mT.h:
 
+/home/santiago/libtorch/include/ATen/ops/is_coalesced.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_copy.h:
+
+/home/santiago/libtorch/include/ATen/ops/soft_margin_loss_backward_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_linear_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/linalg_eigvalsh.h:
@@ -10478,24 +9395,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/scaled_dot_product_attention_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_saturate_weight_to_fp16.h:
-
-/home/santiago/libtorch/include/ATen/ops/as_strided_copy_ops.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sparse_softmax_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/isneginf_ops.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_autograd_multiple_dispatch.h:
-
-/home/santiago/libtorch/include/ATen/ops/le_ops.h:
-
-/home/santiago/libtorch/include/torch/custom_class.h:
-
 /home/santiago/libtorch/include/ATen/ops/avg_pool2d_backward_native.h:
 
 /usr/include/asm-generic/errno.h:
@@ -10504,37 +9403,29 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
 
-/home/santiago/libtorch/include/ATen/DeviceGuard.h:
-
-/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_optional_intlist_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/addmm.h:
-
-/home/santiago/libtorch/include/torch/csrc/jit/api/module.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_clamp_max_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/max_pool1d_with_indices.h:
-
 /home/santiago/libtorch/include/ATen/ops/_nested_get_offsets.h:
 
 /home/santiago/libtorch/include/ATen/ops/_dyn_quant_matmul_4bit.h:
 
 /usr/include/c++/13/bits/unordered_map.h:
 
-/usr/include/c++/13/bits/quoted_string.h:
-
-/home/santiago/libtorch/include/ATen/ops/_make_dep_token_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/values.h:
-
 /home/santiago/libtorch/include/ATen/ops/_cslt_sparse_mm_native.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+/home/santiago/libtorch/include/ATen/ops/gelu_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/fft_rfft_native.h:
+/home/santiago/libtorch/include/ATen/Utils.h:
+
+/home/santiago/libtorch/include/ATen/ops/native_group_norm_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/conv_transpose2d_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/rnn_relu_cell.h:
+
+/home/santiago/libtorch/include/ATen/ops/matrix_power.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/special.h:
+
+/home/santiago/IN204/HexProject/selfplay/GameRunner.hpp:
 
 /home/santiago/libtorch/include/ATen/ops/ccol_indices_ops.h:
 
@@ -10572,55 +9463,19 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/unordered_set.h:
 
-/home/santiago/libtorch/include/ATen/TensorUtils.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_minimum_native.h:
-
-/usr/include/stdlib.h:
-
-/home/santiago/libtorch/include/ATen/NamedTensorUtils.h:
-
-/home/santiago/libtorch/include/ATen/ops/hardshrink_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/mkldnn_linear_backward_input_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_expm1_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/argmin_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/_has_compatible_shallow_copy_type_ops.h:
 
 /home/santiago/libtorch/include/ATen/core/operator_name.h:
 
-/home/santiago/libtorch/include/ATen/ops/mv_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_linalg_check_errors_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/sub_ops.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/functional/loss.h:
-
-/home/santiago/libtorch/include/ATen/ops/binary_cross_entropy_with_logits.h:
-
-/usr/include/c++/13/bits/ptr_traits.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conj_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/can_cast_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_pow_ops.h:
-
-/home/santiago/libtorch/include/torch/headeronly/macros/Export.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fused_dropout.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_sign.h:
-
-/usr/include/c++/13/bits/stl_queue.h:
-
-/home/santiago/libtorch/include/ATen/ops/_mixed_dtypes_linear_ops.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/transforms/collate.h:
 
@@ -10652,9 +9507,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/digamma_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/cholesky_inverse_ops.h:
+/home/santiago/libtorch/include/ATen/ops/vdot_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/upsample_nearest3d_meta.h:
+/home/santiago/libtorch/include/ATen/ops/upsample_bicubic2d_backward.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cufft_get_plan_cache_max_size_ops.h:
 
@@ -10682,6 +9537,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/diag.h:
 
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_native.h:
+
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
 
 /home/santiago/libtorch/include/ATen/ops/moveaxis_ops.h:
@@ -10708,6 +9565,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/ext/atomicity.h:
 
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/modules/adaptive.h:
+
 /home/santiago/libtorch/include/ATen/ops/amin_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_mm.h:
@@ -10724,9 +9583,23 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/shared_ptr_base.h:
 
+/home/santiago/libtorch/include/ATen/ops/exp_ops.h:
+
+/usr/include/c++/13/bits/uses_allocator_args.h:
+
 /home/santiago/libtorch/include/ATen/ops/_test_serialization_subcmul_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d_native.h:
+
+/usr/include/c++/13/bits/ostream.tcc:
+
+/home/santiago/libtorch/include/ATen/ops/digamma_meta.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_softmax_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_test_parallel_materialize_native.h:
 
@@ -10750,6 +9623,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
+/home/santiago/libtorch/include/ATen/ops/index_put.h:
+
 /home/santiago/libtorch/include/ATen/ops/_sobol_engine_scramble_native.h:
 
 /home/santiago/libtorch/include/c10/core/CompileTimeFunctionPointer.h:
@@ -10762,41 +9637,43 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/threshold_meta.h:
 
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/home/santiago/libtorch/include/ATen/ops/fractional_max_pool3d_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact1d_meta.h:
-
-/usr/include/c++/13/bits/streambuf_iterator.h:
-
-/home/santiago/libtorch/include/ATen/ops/add.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_sinh_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/masked_scatter_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_add_batch_dim.h:
-
-/home/santiago/libtorch/include/ATen/ops/hamming_window.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_eigvalsh_ops.h:
-
 /usr/include/c++/13/ostream:
+
+/home/santiago/libtorch/include/ATen/ops/_cast_Double_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/hsplit.h:
+
+/home/santiago/libtorch/include/ATen/ops/logsumexp_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/feature_alpha_dropout.h:
+
+/home/santiago/libtorch/include/ATen/ops/_fused_sgd_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/linear_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_coalesced_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_sparse_csr_tensor_unsafe.h:
+
+/usr/include/c++/13/tr1/riemann_zeta.tcc:
+
+/home/santiago/libtorch/include/c10/core/impl/LocalDispatchKeySet.h:
+
+/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
+
+/home/santiago/libtorch/include/ATen/ops/_pin_memory_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/native_batch_norm_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_stack_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/gt_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_sparse_bsc_tensor_unsafe.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_sub_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/resize_as_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cdist_forward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_fused_sgd_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_log_softmax_meta.h:
 
@@ -10804,15 +9681,21 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_unique_ops.h:
 
+/home/santiago/libtorch/include/ATen/NativeFunctions.h:
+
 /home/santiago/libtorch/include/ATen/ops/randint_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_copy_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/addbmm_native.h:
 
-/usr/include/c++/13/set:
+/home/santiago/libtorch/include/ATen/ops/linalg_lu_solve_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/special_psi_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_add_relu_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_attention_math_for_mps_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_chunk_cat_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_hermite_polynomial_h_meta.h:
 
@@ -10820,9 +9703,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/range_access.h:
 
-/home/santiago/libtorch/include/ATen/ops/batch_norm.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_addcmul_ops.h:
+/home/santiago/libtorch/include/ATen/ops/conv_transpose3d_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/frexp.h:
 
 /usr/include/x86_64-linux-gnu/asm/errno.h:
 
@@ -10850,13 +9735,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_acos_ops.h:
 
+/usr/include/linux/limits.h:
+
 /home/santiago/libtorch/include/ATen/core/alias_info.h:
-
-/home/santiago/libtorch/include/ATen/ops/_to_cpu_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cudnn_attention_forward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_histogramdd_from_bin_cts_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_batch_norm_impl_index.h:
 
@@ -10874,6 +9755,26 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/reflection_pad1d.h:
 
+/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact1d_meta.h:
+
+/usr/include/c++/13/bits/streambuf_iterator.h:
+
+/home/santiago/libtorch/include/ATen/detail/IPUHooksInterface.h:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_clamp_min_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/add.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_sinh_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/masked_scatter_backward_native.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/home/santiago/libtorch/include/ATen/ops/fractional_max_pool3d_meta.h:
+
 /home/santiago/libtorch/include/ATen/core/ivalue.h:
 
 /usr/include/c++/13/array:
@@ -10881,24 +9782,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_cslt_sparse_mm.h:
 
 /home/santiago/libtorch/include/c10/core/StreamGuard.h:
-
-/home/santiago/libtorch/include/ATen/ops/concatenate_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/batch_norm_stats_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/igamma.h:
-
-/home/santiago/libtorch/include/ATen/ops/slice_scatter_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/to_native.h:
-
-/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
-
-/home/santiago/libtorch/include/ATen/ops/dot.h:
-
-/home/santiago/libtorch/include/ATen/ops/to_sparse_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack.h:
 
 /home/santiago/libtorch/include/ATen/ops/_weight_norm_differentiable_backward_native.h:
 
@@ -10912,15 +9795,39 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/stl_vector.h:
 
+/home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_addmm.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_cos_ops.h:
+
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/enum.h:
+
+/home/santiago/libtorch/include/ATen/detail/MPSHooksInterface.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conj_copy_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/logit_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_sparse_mm_reduce_impl_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/max_pool1d.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_lu_factor_ex_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/_embedding_bag_per_sample_weights_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_coalesce_ops.h:
+
+/usr/include/c++/13/bits/atomic_base.h:
+
+/home/santiago/libtorch/include/ATen/ops/_make_dep_token_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/values.h:
+
+/usr/include/c++/13/bits/quoted_string.h:
 
 /usr/include/c++/13/bits/locale_classes.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/_foobar_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/index_put.h:
-
-/usr/include/c++/13/bits/fs_fwd.h:
 
 /usr/include/c++/13/bits/cxxabi_init_exception.h:
 
@@ -10952,17 +9859,15 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_spdiags_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/cholesky_inverse_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/upsample_nearest3d_meta.h:
+
 /usr/include/c++/13/tr1/gamma.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/frobenius_norm_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/index_copy.h:
-
-/home/santiago/libtorch/include/ATen/ops/digamma_meta.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_softmax_native.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
@@ -10971,10 +9876,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fw_primal_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/concat.h:
-
-/usr/include/errno.h:
 
 /usr/include/c++/13/bits/stl_stack.h:
 
@@ -11004,9 +9905,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_gather_sparse_backward_ops.h:
 
-/usr/include/c++/13/initializer_list:
+/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d.h:
 
-/home/santiago/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h:
+/home/santiago/libtorch/include/ATen/core/LegacyTypeDispatch.h:
 
 /usr/include/c++/13/debug/assertions.h:
 
@@ -11022,6 +9923,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/unsafe_split.h:
 
+/home/santiago/libtorch/include/ATen/ops/output_nr_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_assert_async_native.h:
+
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
 /usr/include/c++/13/bits/string_view.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/miopen_convolution_transpose.h:
@@ -11030,13 +9937,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_erf_ops.h:
 
-/home/santiago/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h:
+/home/santiago/libtorch/include/ATen/ops/batch_norm.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cdist_backward.h:
-
-/usr/include/c++/13/bitset:
+/home/santiago/libtorch/include/ATen/ops/_foreach_addcmul_ops.h:
 
 /usr/include/c++/13/bits/basic_string.h:
 
@@ -11049,6 +9952,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/c++/13/bits/erase_if.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_clamp_min.h:
+
+/home/santiago/libtorch/include/ATen/core/dispatch/CppSignature.h:
+
+/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d_ops.h:
 
 /home/santiago/libtorch/include/ATen/ScalarOps.h:
 
@@ -11072,6 +9979,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_backward_ops.h:
+
 /usr/include/stdint.h:
 
 /home/santiago/libtorch/include/ATen/ops/arccosh_ops.h:
@@ -11079,18 +9988,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_validate_sparse_csr_tensor_args_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/cumsum.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/convolution_overrideable_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/group_norm_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_nested_sum_backward_ops.h:
-
-/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
-
-/home/santiago/libtorch/include/ATen/ops/unfold.h:
 
 /home/santiago/libtorch/include/ATen/core/MT19937RNGEngine.h:
 
@@ -11106,6 +10003,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/to_sparse_bsc_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/addmv_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_check_tensor_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/mode.h:
+
 /home/santiago/libtorch/include/ATen/detail/MTIAHooksInterface.h:
 
 /usr/include/c++/13/bits/allocator.h:
@@ -11114,6 +10019,26 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/unordered_map:
 
+/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_cholesky_ex_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/log_sigmoid_forward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/margin_ranking_loss_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_validate_sparse_csr_tensor_args.h:
+
+/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_linalg_det_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_dyn_quant_pack_4bit_weight_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/reflection_pad3d_meta.h:
+
 /home/santiago/libtorch/include/ATen/ops/dot_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_log_ops.h:
@@ -11121,10 +10046,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/alias_copy_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_i1e_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_euclidean_dist.h:
-
-/usr/include/c++/13/debug/debug.h:
 
 /home/santiago/libtorch/include/ATen/PadNd.h:
 
@@ -11160,10 +10081,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/endian.h:
 
-/home/santiago/libtorch/include/ATen/ops/_to_sparse_csr_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/igamma_meta.h:
-
 /home/santiago/libtorch/include/ATen/ops/atleast_2d_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_ctc_loss_ops.h:
@@ -11180,14 +10097,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_cholesky_solve_helper_native.h:
 
-/usr/include/c++/13/bits/chrono.h:
-
-/home/santiago/libtorch/include/ATen/ops/sub.h:
-
-/home/santiago/libtorch/include/ATen/ops/cholesky_solve_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_is_all_true_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/_functional_sym_constrain_range.h:
 
 /home/santiago/libtorch/include/ATen/ops/index_select_ops.h:
@@ -11202,31 +10111,31 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/reflection_pad3d_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/fft_rfft_native.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
+
+/home/santiago/libtorch/include/torch/csrc/jit/api/module.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_clamp_max_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/max_pool1d_with_indices.h:
+
 /home/santiago/libtorch/include/ATen/ops/lcm_native.h:
-
-/usr/include/c++/13/backward/auto_ptr.h:
-
-/home/santiago/libtorch/include/ATen/ops/mse_loss_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/repeat_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_sigmoid_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/exp_ops.h:
-
-/usr/include/c++/13/bits/uses_allocator_args.h:
-
 /home/santiago/libtorch/include/ATen/ops/_cdist_backward_ops.h:
 
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
+/home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/fmod_native.h:
+/home/santiago/libtorch/include/ATen/ops/_add_batch_dim.h:
 
-/home/santiago/libtorch/include/ATen/ops/_cast_Float_ops.h:
+/home/santiago/libtorch/include/ATen/ops/hamming_window.h:
 
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_fw_primal.h:
+/home/santiago/libtorch/include/ATen/ops/linalg_eigvalsh_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_efficient_attention_backward_native.h:
 
@@ -11274,6 +10183,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/predefined_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward_ops.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/pimpl-inl.h:
+
+/usr/include/c++/13/bits/chrono.h:
+
+/home/santiago/libtorch/include/ATen/ops/sub.h:
+
 /home/santiago/libtorch/include/ATen/ops/batch_norm_gather_stats_with_counts_native.h:
 
 /usr/include/c++/13/algorithm:
@@ -11298,9 +10215,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/argwhere_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/special_ndtr_ops.h:
+
 /usr/include/c++/13/bits/allocated_ptr.h:
 
-/home/santiago/libtorch/include/ATen/ops/special_ndtr_ops.h:
+/usr/include/x86_64-linux-gnu/sys/select.h:
 
 /home/santiago/libtorch/include/ATen/ops/nanmean_ops.h:
 
@@ -11322,23 +10241,7 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_cos_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_addmm.h:
-
-/home/santiago/libtorch/include/ATen/ops/fractional_max_pool2d_backward.h:
-
-/usr/include/c++/13/bits/locale_conv.h:
-
 /home/santiago/libtorch/include/ATen/ops/slow_conv_dilated3d.h:
-
-/home/santiago/libtorch/include/ATen/ops/conv_transpose2d.h:
-
-/home/santiago/libtorch/include/ATen/ops/deg2rad_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/sparse_sampled_addmm_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_exp_ops.h:
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
@@ -11348,19 +10251,17 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_maximum_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_copy_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_thnn_fused_lstm_cell_backward_impl_ops.h:
 
-/home/santiago/libtorch/include/torch/csrc/jit/serialization/unpickler.h:
-
-/home/santiago/libtorch/include/ATen/core/LegacyTypeDispatch.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d.h:
+/home/santiago/libtorch/include/c10/util/OptionalArrayRef.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fused_rms_norm_ops.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
 
-/home/santiago/libtorch/include/ATen/ops/_cast_Byte_native.h:
+/home/santiago/libtorch/include/c10/core/GradMode.h:
+
+/home/santiago/libtorch/include/ATen/ops/_compute_linear_combination.h:
 
 /home/santiago/libtorch/include/ATen/ops/elu_backward_ops.h:
 
@@ -11371,6 +10272,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h:
 
 /home/santiago/libtorch/include/c10/core/DeviceGuard.h:
+
+/home/santiago/libtorch/include/torch/csrc/jit/serialization/unpickler.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_jagged_copy_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/rrelu_native.h:
 
 /usr/include/c++/13/bits/hashtable.h:
 
@@ -11383,8 +10290,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/nested_to_padded_tensor_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/rot90.h:
-
-/usr/include/c++/13/bits/random.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fake_quantize_learnable_per_channel_affine_backward_native.h:
 
@@ -11414,15 +10319,13 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/cstdlib:
 
-/home/santiago/libtorch/include/ATen/ops/batch_norm_update_stats_native.h:
+/home/santiago/libtorch/include/ATen/ops/_pad_circular_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/unsafe_chunk_ops.h:
+/usr/include/c++/13/bits/locale_facets_nonio.tcc:
 
-/home/santiago/libtorch/include/ATen/ops/_weight_int4pack_mm_with_scales_and_zeros_native.h:
+/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_backward_native.h:
 
-/home/santiago/IN204/HexProject/src/GameState.cpp:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/upsampling.h:
+/home/santiago/libtorch/include/ATen/ops/_foreach_copy_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cast_Int.h:
 
@@ -11432,13 +10335,23 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_cast_Long_ops.h:
 
-/home/santiago/libtorch/include/c10/util/quint4x2.h:
+/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_floor.h:
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/detail/static.h:
+
+/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/mkldnn_rnn_layer_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_embedding_bag_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/unsafe_split_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/diff_ops.h:
 
 /usr/include/c++/13/bits/exception_defines.h:
+
+/home/santiago/libtorch/include/ATen/ops/meshgrid.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fused_adamw.h:
 
@@ -11447,6 +10360,18 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_base.h:
 
 /usr/include/c++/13/bits/char_traits.h:
+
+/home/santiago/libtorch/include/ATen/ops/_thnn_fused_gru_cell_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_matrix_rank.h:
+
+/home/santiago/libtorch/include/ATen/ops/gelu.h:
+
+/home/santiago/libtorch/include/ATen/ops/_scaled_grouped_mm_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_safe_softmax_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_eigvals_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fused_rms_norm.h:
 
@@ -11459,22 +10384,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_embedding_bag_ops.h:
 
 /usr/include/c++/13/cmath:
-
-/home/santiago/libtorch/include/ATen/ops/gelu_meta.h:
-
-/home/santiago/libtorch/include/ATen/Utils.h:
-
-/home/santiago/libtorch/include/ATen/ops/native_group_norm_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/conv_transpose2d_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/rnn_relu_cell.h:
-
-/home/santiago/libtorch/include/ATen/ops/matrix_power.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/special.h:
-
-/home/santiago/IN204/HexProject/selfplay/GameRunner.hpp:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_frac.h:
 
@@ -11504,37 +10413,21 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/smooth_l1_loss_ops.h:
 
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cast_Double_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/hsplit.h:
-
-/home/santiago/libtorch/include/ATen/ops/logsumexp_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/clamp_min_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/ldexp.h:
-
-/home/santiago/libtorch/include/ATen/ops/avg_pool2d_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/isnan_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_has_same_storage_numel.h:
-
-/home/santiago/libtorch/include/ATen/ops/_assert_async_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/output_nr_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/count_nonzero_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/sparse_mask_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/det.h:
 
 /home/santiago/libtorch/include/ATen/ops/grid_sampler_native.h:
 
 /home/santiago/libtorch/include/ATen/ParallelOpenMP.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h:
+
+/home/santiago/libtorch/include/ATen/ops/_test_autograd_multiple_dispatch.h:
+
+/home/santiago/libtorch/include/ATen/ops/le_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_mixed_dtypes_linear_ops.h:
+
+/usr/include/c++/13/bits/stl_queue.h:
 
 /home/santiago/libtorch/include/ATen/ops/adaptive_max_pool2d_backward.h:
 
@@ -11560,12 +10453,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/affine_grid_generator_ops.h:
 
-/usr/include/libintl.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_tile_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/indices.h:
-
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
 
 /home/santiago/libtorch/include/ATen/core/op_registration/op_registration.h:
@@ -11576,11 +10463,31 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/bits/algorithmfwd.h:
 
+/home/santiago/libtorch/include/ATen/ops/_cast_Byte_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_linalg_eigvals_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/slow_conv_transpose3d.h:
+
+/home/santiago/libtorch/include/ATen/ops/copy_sparse_to_sparse_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_unsafe_masked_index_put_accumulate_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_coalesced_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_dirichlet_grad_native.h:
+
+/home/santiago/libtorch/include/torch/csrc/autograd/utils/warnings.h:
+
+/usr/include/c++/13/bits/stl_heap.h:
+
 /usr/include/c++/13/bits/functional_hash.h:
 
 /home/santiago/libtorch/include/ATen/ops/arange_native.h:
 
 /home/santiago/libtorch/include/c10/util/ArrayRef.h:
+
+/home/santiago/libtorch/include/ATen/ops/expm1_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/upsample_bilinear2d_backward.h:
 
@@ -11600,217 +10507,47 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/max_pool2d_with_indices_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/repeat_interleave_native.h:
+/usr/include/c++/13/initializer_list:
 
-/usr/include/c++/13/bits/istream.tcc:
-
-/home/santiago/libtorch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/vision.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_logsumexp_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/unsafe_split_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_embedding_bag_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_attention_math_for_mps_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_chunk_cat_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/linear_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/avg_pool2d_backward_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_coalesce_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_lu_factor_ex_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_embedding_bag_per_sample_weights_backward.h:
-
-/usr/include/c++/13/bits/atomic_base.h:
-
-/home/santiago/libtorch/include/ATen/ops/_coalesce_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/fractional_max_pool2d_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/logical_or.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_optional_filled_intlist_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_vecdot_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/resolve_conj_native.h:
-
-/home/santiago/libtorch/include/ATen/NestedTensorImpl.h:
-
-/usr/include/c++/13/bits/concept_check.h:
-
-/home/santiago/libtorch/include/ATen/ops/feature_alpha_dropout.h:
-
-/home/santiago/libtorch/include/ATen/ops/_fused_sgd_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/linear_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/_coalesced_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_sparse_csr_tensor_unsafe.h:
-
-/home/santiago/libtorch/include/ATen/ops/slow_conv_transpose3d.h:
-
-/home/santiago/libtorch/include/ATen/ops/copy_sparse_to_sparse_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_unsafe_masked_index_put_accumulate_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_dirichlet_grad_native.h:
-
-/home/santiago/libtorch/include/torch/csrc/autograd/utils/warnings.h:
-
-/usr/include/c++/13/bits/stl_heap.h:
-
-/home/santiago/libtorch/include/ATen/ops/_coalesced_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/squeeze_copy_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_matrix_rank.h:
-
-/home/santiago/libtorch/include/ATen/ops/_thnn_fused_gru_cell_backward.h:
-
-/home/santiago/libtorch/include/c10/core/GradMode.h:
-
-/home/santiago/libtorch/include/ATen/ops/_compute_linear_combination.h:
-
-/home/santiago/libtorch/include/ATen/ops/_compute_linear_combination_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conj_copy.h:
-
-/home/santiago/libtorch/include/ATen/detail/MPSHooksInterface.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conj_copy_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/bitwise_or_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_cudnn_init_dropout_state_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_minimum.h:
-
-/home/santiago/libtorch/include/ATen/ops/_conj_physical_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/cudnn_batch_norm_backward_native.h:
-
-/usr/include/c++/13/bits/stream_iterator.h:
-
-/home/santiago/libtorch/include/ATen/detail/XPUHooksInterface.h:
+/home/santiago/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h:
 
 /home/santiago/libtorch/include/ATen/ops/_unsafe_masked_index.h:
 
-/home/santiago/libtorch/include/ATen/ops/_cast_Float.h:
+/home/santiago/libtorch/include/ATen/detail/XPUHooksInterface.h:
 
-/home/santiago/libtorch/include/ATen/ops/_conj_physical_ops.h:
+/usr/include/c++/13/tr1/poly_hermite.tcc:
 
-/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d_native.h:
+/home/santiago/libtorch/include/ATen/ops/cumulative_trapezoid_native.h:
 
-/home/santiago/libtorch/include/ATen/NativeFunctions.h:
+/home/santiago/libtorch/include/ATen/ops/random_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_linalg_solve_ex.h:
+/home/santiago/libtorch/include/ATen/ops/_foreach_minimum.h:
 
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/modules/activation.h:
+/home/santiago/libtorch/include/ATen/ops/_cast_Long.h:
 
-/home/santiago/libtorch/include/ATen/ops/_conv_depthwise2d_ops.h:
+/home/santiago/libtorch/include/ATen/ops/ctc_loss.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+/home/santiago/libtorch/include/ATen/ops/igamma_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/_convert_indices_from_csr_to_coo_native.h:
+/home/santiago/libtorch/include/ATen/ops/_to_sparse_csr_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_test_warn_in_autograd_ops.h:
+/home/santiago/libtorch/include/ATen/core/Range.h:
 
-/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta_native.h:
+/home/santiago/libtorch/include/ATen/ops/_sobol_engine_initialize_state_ops.h:
 
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/detail/static.h:
+/home/santiago/libtorch/include/ATen/ops/reflection_pad2d_backward_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_chunk_cat_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_saturate_weight_to_fp16.h:
 
-/home/santiago/libtorch/include/ATen/ops/detach_ops.h:
+/home/santiago/libtorch/include/torch/custom_class.h:
 
-/home/santiago/libtorch/include/ATen/ops/_fused_adam_ops.h:
+/home/santiago/libtorch/include/ATen/ops/as_strided_copy_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/replication_pad1d_backward_native.h:
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
-/home/santiago/libtorch/include/ATen/ops/addcdiv_native.h:
+/home/santiago/libtorch/include/ATen/ops/_sparse_softmax_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_for_cpu.h:
-
-/home/santiago/libtorch/include/ATen/ops/_upsample_nearest_exact1d_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_flash_attention_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/unsqueeze.h:
-
-/home/santiago/libtorch/include/ATen/ops/_make_dep_token_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/cummaxmin_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/adaptive_max_pool3d_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_lu_with_info_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fliplr_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convert_weight_to_int4pack_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_validate_sparse_bsc_tensor_args_ops.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
-
-/home/santiago/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight.h:
-
-/home/santiago/libtorch/include/ATen/ops/_native_multi_head_attention_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool3d_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/coalesce_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_use_cudnn_rnn_flatten_weight_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fft_ihfftn_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_householder_product.h:
-
-/home/santiago/libtorch/include/ATen/ops/_test_autograd_multiple_dispatch_view_copy_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/softplus_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/mul.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/functional/fold.h:
-
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/adaptive.h:
-
-/home/santiago/libtorch/include/ATen/ops/_fw_primal_native.h:
-
-/usr/include/x86_64-linux-gnu/sys/single_threaded.h:
-
-/home/santiago/libtorch/include/ATen/ops/_pin_memory_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/native_batch_norm_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_stack_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/gt_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_convolution_double_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/_linalg_det_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_dyn_quant_pack_4bit_weight_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/reflection_pad3d_meta.h:
-
-/home/santiago/libtorch/include/ATen/CPUGeneratorImpl.h:
+/home/santiago/libtorch/include/ATen/ops/isneginf_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/addcdiv_meta.h:
 
@@ -11858,15 +10595,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/script.h:
 
-/usr/include/c++/13/iosfwd:
-
 /home/santiago/libtorch/include/ATen/ops/_convert_indices_from_coo_to_csr_native.h:
 
+/usr/include/c++/13/iosfwd:
+
 /home/santiago/libtorch/include/ATen/ops/_copy_from_native.h:
-
-/usr/include/c++/13/bits/align.h:
-
-/home/santiago/libtorch/include/ATen/ops/mkldnn_convolution.h:
 
 /home/santiago/libtorch/include/ATen/ops/as_strided_ops.h:
 
@@ -11919,6 +10652,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/take_along_dim.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cudnn_attention_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_batch_norm_impl_index_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/qr_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_storage_offsets_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cudnn_attention_forward.h:
 
@@ -11996,6 +10735,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_cummax_helper_ops.h:
 
+/home/santiago/libtorch/include/torch/headeronly/util/complex.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_size_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/isfinite_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_embedding_bag_sparse_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/fmax_native.h:
@@ -12062,6 +10807,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_dyn_quant_matmul_4bit_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/special_psi_ops.h:
+
+/usr/include/c++/13/set:
+
 /home/santiago/libtorch/include/ATen/ops/amax_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_dyn_quant_pack_4bit_weight_ops.h:
@@ -12091,6 +10840,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_embedding_bag_backward_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_unsafe_index_put_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_scaled_modified_bessel_k1_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_choose_qparams_per_tensor_ops.h:
 
@@ -12208,10 +10961,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/jit/frontend/tree_views.h:
 
-/home/santiago/libtorch/include/ATen/ops/max_unpool2d.h:
-
-/home/santiago/libtorch/include/ATen/ops/_flash_attention_backward.h:
-
 /home/santiago/libtorch/include/ATen/ops/quantile_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_frac_ops.h:
@@ -12228,9 +10977,21 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_is_all_true_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/eye_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_abs_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/align_tensors_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/full_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_acos.h:
+
+/home/santiago/libtorch/include/ATen/ops/_is_all_true_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/cholesky_solve_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/nansum_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_amp_foreach_non_finite_check_and_unscale_ops.h:
 
@@ -12272,14 +11033,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_modified_bessel_i1.h:
 
-/home/santiago/libtorch/include/ATen/ops/col_indices.h:
-
-/home/santiago/libtorch/include/ATen/ops/erf_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/allclose_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/empty_quantized_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/is_distributed.h:
 
 /home/santiago/libtorch/include/ATen/ops/log_normal.h:
@@ -12291,6 +11044,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/_foreach_pow_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/lcm_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_size.h:
+
+/home/santiago/libtorch/include/ATen/ops/cholesky_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/linalg_tensorsolve.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_asin.h:
 
@@ -12420,9 +11179,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/unique_dim_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/_triton_multi_head_attention_native.h:
+/home/santiago/libtorch/include/torch/csrc/autograd/autograd_not_implemented_fallback.h:
 
-/home/santiago/libtorch/include/ATen/ops/is_distributed_native.h:
+/home/santiago/libtorch/include/ATen/ops/_foreach_log_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_efficient_attention_forward_native.h:
 
@@ -12456,13 +11215,19 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_grid_sampler_2d_cpu_fallback_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_foreach_log10.h:
+
+/usr/include/c++/13/tr1/poly_laguerre.tcc:
+
+/home/santiago/libtorch/include/ATen/ops/_thnn_fused_gru_cell_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_slow_conv2d_forward.h:
+
 /home/santiago/libtorch/include/ATen/ops/_foreach_acos_native.h:
 
 /usr/include/c++/13/numeric:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_log10_native.h:
-
-/home/santiago/IN204/HexProject/src/Cube.cpp:
 
 /home/santiago/libtorch/include/ATen/core/type_factory.h:
 
@@ -12478,19 +11243,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/erfc_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/_jagged_to_padded_dense_forward.h:
 
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_foreach_log2.h:
-
-/home/santiago/libtorch/include/ATen/ops/conv_transpose1d.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_erfinv.h:
-
-/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_log2_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/matrix_power_ops.h:
 
@@ -12500,19 +11257,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_dimI.h:
 
-/home/santiago/libtorch/include/ATen/ops/expm1_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/sparse_compressed_tensor_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/det_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_mul.h:
 
 /home/santiago/libtorch/include/ATen/ops/contiguous_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/dsplit.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_nnpack_available_ops.h:
 
@@ -12558,9 +11307,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_reciprocal_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/min_meta.h:
+/home/santiago/libtorch/include/ATen/ops/expand_copy_native.h:
 
-/usr/include/c++/13/bits/fs_dir.h:
+/usr/include/c++/13/bits/basic_ios.tcc:
+
+/home/santiago/libtorch/include/ATen/ops/min_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_reciprocal_ops.h:
 
@@ -12586,6 +11337,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/jit/api/object.h:
 
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer_copy_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/slice.h:
+
 /home/santiago/libtorch/include/c10/util/Flags.h:
 
 /home/santiago/libtorch/include/ATen/ops/_cudnn_rnn_backward_ops.h:
@@ -12603,6 +11358,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/leaky_relu_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_nested_get_values_copy_native.h:
+
+/usr/include/c++/13/stack:
 
 /home/santiago/libtorch/include/ATen/ops/_foreach_sin_native.h:
 
@@ -12706,10 +11463,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/c10/core/SymBool.h:
 
-/usr/include/c++/13/pstl/glue_memory_defs.h:
-
-/home/santiago/libtorch/include/ATen/ops/sym_storage_offset.h:
-
 /home/santiago/libtorch/include/ATen/ops/_indices_copy_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/_functional_sym_constrain_range_ops.h:
@@ -12758,6 +11511,16 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/segment_reduce_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_foreach_sqrt_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/arccosh.h:
+
+/home/santiago/libtorch/include/ATen/ops/retains_grad_native.h:
+
+/home/santiago/libtorch/include/ATen/TensorGeometry.h:
+
+/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/batch_norm_elemt.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
@@ -12773,8 +11536,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/utils/convert_parameters.h:
 
 /home/santiago/libtorch/include/ATen/ops/_fw_primal_copy_ops.h:
-
-/usr/include/c++/13/memory:
 
 /home/santiago/libtorch/include/ATen/ops/_efficientzerotensor_ops.h:
 
@@ -12838,6 +11599,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_has_same_storage_numel_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_left_aligned_ops.h:
+
 /home/santiago/libtorch/include/ATen/ops/eq_meta.h:
 
 /home/santiago/libtorch/include/ATen/DeviceAccelerator.h:
@@ -12858,11 +11621,13 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/as_strided_copy.h:
 
-/home/santiago/libtorch/include/ATen/ops/_index_put_impl_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_lu_with_info_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/mish_backward_ops.h:
+/home/santiago/libtorch/include/ATen/ops/less_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/silu_backward_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/mish_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/argmax_ops.h:
 
@@ -12914,6 +11679,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_linalg_solve_ex_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/is_distributed_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_triton_multi_head_attention_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_linalg_svd.h:
+
 /usr/include/c++/13/bits/locale_facets.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/_log_softmax_backward_data_native.h:
@@ -12930,6 +11701,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_logcumsumexp_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/_foobar_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_lstm_mps_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/_remove_batch_dim.h:
 
 /home/santiago/libtorch/include/ATen/ops/_lstm_mps_ops.h:
@@ -12944,13 +11719,29 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_lu_with_info.h:
 
-/home/santiago/libtorch/include/ATen/ops/_lu_with_info_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/less_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/expand.h:
 
 /home/santiago/libtorch/include/ATen/ops/index_select_backward.h:
+
+/usr/include/errno.h:
+
+/home/santiago/libtorch/include/ATen/ops/concat.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_shifted_chebyshev_polynomial_u_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/_make_dual_copy.h:
+
+/home/santiago/libtorch/include/ATen/ops/lstm_cell_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_weight_norm_interface_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/_make_per_tensor_quantized_tensor.h:
+
+/home/santiago/libtorch/include/ATen/ops/logcumsumexp.h:
+
+/home/santiago/libtorch/include/ATen/core/ATen_fwd.h:
+
+/home/santiago/libtorch/include/ATen/ops/huber_loss_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_copy_from_and_resize.h:
 
@@ -13033,6 +11824,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/relu6.h:
 
 /home/santiago/libtorch/include/ATen/ops/_mps_convolution_transpose.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/logit.h:
 
 /home/santiago/libtorch/include/ATen/ops/_native_multi_head_attention.h:
 
@@ -13142,105 +11937,79 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_nested_get_values_copy_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/expand_as_ops.h:
+/home/santiago/libtorch/include/ATen/ops/col_indices.h:
 
-/home/santiago/libtorch/include/ATen/ops/expand_copy.h:
+/home/santiago/libtorch/include/ATen/ops/erf_native.h:
 
-/usr/include/c++/13/bits/basic_ios.tcc:
+/home/santiago/libtorch/include/ATen/ops/empty_quantized_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/expand_copy_native.h:
+/home/santiago/libtorch/include/ATen/ops/allclose_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/log_native.h:
+/home/santiago/libtorch/include/ATen/ops/group_norm_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/expand_copy_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/special_shifted_chebyshev_polynomial_v_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/is_signed.h:
-
-/home/santiago/libtorch/include/ATen/ops/empty_permuted_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/expand_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/expand_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/upsample_bicubic2d_backward.h:
-
-/home/santiago/libtorch/include/ATen/ops/vdot_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/expm1.h:
-
-/home/santiago/libtorch/include/ATen/ops/_add_relu_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/linalg_lu_solve_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/expm1_meta.h:
-
-/home/santiago/libtorch/include/ATen/ops/exponential.h:
-
-/home/santiago/libtorch/include/ATen/ops/to_padded_tensor.h:
-
-/home/santiago/libtorch/include/ATen/ops/exponential_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/exponential_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/eye.h:
-
-/home/santiago/libtorch/include/ATen/ops/eye_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask.h:
-
-/home/santiago/libtorch/include/ATen/detail/IPUHooksInterface.h:
-
-/home/santiago/libtorch/include/ATen/ops/_foreach_clamp_min_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/gru_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_backward_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_cachemask_ops.h:
-
-/home/santiago/libtorch/include/ATen/ops/triu.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_sum_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/upsample_trilinear3d_meta.h:
 
-/home/santiago/libtorch/include/ATen/ops/histogram_ops.h:
+/home/santiago/libtorch/include/ATen/ops/triu.h:
 
-/home/santiago/libtorch/include/ATen/ops/special_scaled_modified_bessel_k1_native.h:
+/usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h:
 
-/home/santiago/libtorch/include/ATen/ops/fake_quantize_per_tensor_affine_ops.h:
+/home/santiago/libtorch/include/ATen/ops/unfold.h:
 
-/home/santiago/libtorch/include/ATen/ops/unfold_backward.h:
+/home/santiago/libtorch/include/ATen/ops/expand_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_log_native.h:
+/home/santiago/libtorch/include/ATen/ops/empty_permuted_native.h:
 
-/home/santiago/libtorch/include/torch/csrc/autograd/autograd_not_implemented_fallback.h:
+/home/santiago/libtorch/include/ATen/ops/matrix_exp_backward.h:
 
-/home/santiago/libtorch/include/ATen/ops/_validate_sparse_coo_tensor_args_native.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_mask_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight.h:
+/home/santiago/libtorch/include/ATen/ops/pairwise_distance_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight_fp32_activation_native.h:
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/ordered_dict.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight_ops.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list.h:
 
-/home/santiago/libtorch/include/torch/csrc/jit/runtime/variable_tensor_list.h:
+/usr/include/c++/13/cstring:
 
-/home/santiago/libtorch/include/ATen/ops/asinh.h:
+/home/santiago/libtorch/include/ATen/ops/_cdist_backward.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight.h:
+/usr/include/c++/13/bitset:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_fp32_activation.h:
+/home/santiago/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h:
 
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_fp32_activation_native.h:
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/convolution_overrideable_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_from_tensor_list_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_tensor_softmax_with_shape_native.h:
+
+/usr/include/c++/13/bits/locale_facets_nonio.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nested_view_from_buffer.h:
+
+/home/santiago/libtorch/include/ATen/ops/conv_transpose1d.h:
+
+/home/santiago/libtorch/include/ATen/ops/special_erfinv.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_log2_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_new_zeros_with_same_feature_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/broadcast_to_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/_nnpack_available_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/cos.h:
+
+/home/santiago/libtorch/include/ATen/ops/any_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_linalg_check_errors_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/mv_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/_validate_compressed_sparse_indices.h:
 
@@ -13568,9 +12337,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/masked_scatter_native.h:
 
-/home/santiago/libtorch/include/ATen/core/Dict.h:
-
 /home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_flash_attention_for_cpu.h:
+
+/home/santiago/libtorch/include/ATen/core/Dict.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_chebyshev_polynomial_v_ops.h:
 
@@ -13608,11 +12377,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/gcd_native.h:
 
+/home/santiago/libtorch/include/ATen/ops/_efficientzerotensor.h:
+
 /home/santiago/libtorch/include/ATen/ops/rnn_relu.h:
 
 /home/santiago/libtorch/include/ATen/ops/atleast_1d_native.h:
-
-/home/santiago/libtorch/include/ATen/ops/_efficientzerotensor.h:
 
 /home/santiago/libtorch/include/ATen/ops/gcd_ops.h:
 
@@ -13932,6 +12701,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/c10/util/TypeTraits.h:
 
+/usr/include/limits.h:
+
 /home/santiago/libtorch/include/ATen/ops/igammac_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/imag.h:
@@ -13982,6 +12753,12 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/autograd/anomaly_mode.h:
 
+/home/santiago/libtorch/include/ATen/ops/_sparse_semi_structured_tile_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/indices.h:
+
+/usr/include/libintl.h:
+
 /home/santiago/libtorch/include/ATen/ops/embedding_backward_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/indices_copy.h:
@@ -14030,10 +12807,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/lerp.h:
 
-/usr/include/c++/13/bits/stl_deque.h:
-
-/home/santiago/libtorch/include/ATen/ops/is_conj_native.h:
-
 /home/santiago/libtorch/include/ATen/ops/is_floating_point.h:
 
 /home/santiago/libtorch/include/ATen/ops/is_floating_point_native.h:
@@ -14081,6 +12854,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/quantized_max_pool1d.h:
 
 /home/santiago/libtorch/include/ATen/ops/softshrink_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/mkldnn_convolution.h:
+
+/usr/include/c++/13/bits/align.h:
 
 /home/santiago/libtorch/include/ATen/ops/_convolution_ops.h:
 
@@ -14191,10 +12968,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/logcumsumexp_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/unsafe_chunk_native.h:
-
-/usr/include/c++/13/bits/stl_numeric.h:
-
-/home/santiago/libtorch/include/ATen/ops/kl_div.h:
 
 /home/santiago/libtorch/include/ATen/ops/_test_functorch_fallback.h:
 
@@ -14326,9 +13099,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/linalg_eig.h:
 
-/home/santiago/libtorch/include/ATen/ops/can_cast_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/upsample_nearest3d_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/can_cast_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/linalg_eig_ops.h:
 
@@ -14497,8 +13270,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/linalg_solve_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/native_layer_norm_backward_native.h:
-
-/home/santiago/IN204/HexProject/src/MoveStrategy.cpp:
 
 /home/santiago/libtorch/include/ATen/ops/_ctc_loss_backward.h:
 
@@ -14744,9 +13515,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/split_copy_native.h:
 
-/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
-
 /home/santiago/libtorch/include/ATen/ops/binary_cross_entropy_backward_native.h:
+
+/usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h:
 
 /home/santiago/libtorch/include/ATen/ops/lu_unpack_native.h:
 
@@ -14858,6 +13629,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/max_pool2d_with_indices_backward_meta.h:
 
+/home/santiago/libtorch/include/ATen/ops/adaptive_avg_pool3d_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/max_pool2d_with_indices_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_flash_attention_backward.h:
+
+/home/santiago/libtorch/include/ATen/ops/max_unpool2d.h:
+
 /home/santiago/libtorch/include/ATen/ops/max_pool2d_with_indices_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/max_pool3d.h:
@@ -14959,6 +13738,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/samplers.h:
 
 /home/santiago/libtorch/include/ATen/ops/miopen_convolution_add_relu_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/miopen_convolution_relu.h:
+
+/usr/include/c++/13/bits/unique_ptr.h:
 
 /home/santiago/libtorch/include/ATen/ops/miopen_convolution_transpose_native.h:
 
@@ -15115,6 +13898,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/sort_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/mse_loss_backward_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/mse_loss_ops.h:
+
+/usr/include/c++/13/backward/auto_ptr.h:
 
 /home/santiago/libtorch/include/ATen/ops/msort.h:
 
@@ -15760,6 +14547,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/range_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/ravel_ops.h:
+
+/usr/include/c++/13/queue:
+
 /home/santiago/libtorch/include/ATen/ops/real_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/hardshrink_backward_meta.h:
@@ -15813,10 +14604,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/reflection_pad3d_backward.h:
 
 /home/santiago/libtorch/include/ATen/ops/reflection_pad3d_ops.h:
-
-/usr/include/c++/13/iomanip:
-
-/home/santiago/libtorch/include/ATen/ops/relu.h:
 
 /home/santiago/libtorch/include/ATen/ops/remainder_ops.h:
 
@@ -15930,9 +14717,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/rms_norm.h:
 
-/home/santiago/libtorch/include/c10/core/PyHandleCache.h:
-
 /home/santiago/libtorch/include/ATen/ops/sparse_mask.h:
+
+/home/santiago/libtorch/include/c10/core/PyHandleCache.h:
 
 /home/santiago/libtorch/include/ATen/ops/rms_norm_native.h:
 
@@ -15990,9 +14777,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/row_stack.h:
 
-/home/santiago/libtorch/include/torch/csrc/api/include/torch/data/transforms/stack.h:
-
 /home/santiago/libtorch/include/ATen/ops/_foreach_maximum.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/data/transforms/stack.h:
 
 /home/santiago/libtorch/include/ATen/ops/rrelu_ops.h:
 
@@ -16059,6 +14846,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/adaptive_max_pool2d_backward_meta.h:
 
 /home/santiago/libtorch/include/ATen/ops/scatter_reduce_meta.h:
+
+/home/santiago/libtorch/include/ATen/ops/max_unpool3d.h:
+
+/home/santiago/libtorch/include/ATen/ops/scatter_reduce_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/kl_div.h:
+
+/usr/include/c++/13/bits/stl_numeric.h:
 
 /home/santiago/libtorch/include/ATen/ops/searchsorted.h:
 
@@ -16200,9 +14995,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/slogdet_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/diagonal_copy_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/fbgemm_linear_fp16_weight_fp32_activation_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/diagonal_copy_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/sym_is_contiguous.h:
 
@@ -16311,6 +15106,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 /home/santiago/libtorch/include/ATen/ops/sparse_csr_tensor_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/sparse_mask_ops.h:
+
+/home/santiago/libtorch/include/ATen/ops/sparse_resize.h:
+
+/usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
 /home/santiago/libtorch/include/ATen/ops/sparse_resize_and_clear_ops.h:
 
@@ -16430,9 +15229,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/dequantize_ops.h:
 
-/home/santiago/libtorch/include/ATen/ops/clamp.h:
-
 /home/santiago/libtorch/include/ATen/ops/_fw_primal_copy_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/clamp.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_hermite_polynomial_h_ops.h:
 
@@ -16490,11 +15289,11 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_modified_bessel_i0_meta.h:
 
+/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_native.h:
+
 /home/santiago/libtorch/include/ATen/ops/gather_native.h:
 
 /usr/include/c++/13/bits/enable_special_members.h:
-
-/home/santiago/libtorch/include/ATen/ops/fbgemm_linear_int8_weight_native.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_modified_bessel_i0_native.h:
 
@@ -16548,6 +15347,14 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/special_sinc.h:
 
+/home/santiago/libtorch/include/ATen/ops/special_sinc_ops.h:
+
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/cloneable.h:
+
+/home/santiago/libtorch/include/ATen/ops/unbind_copy_native.h:
+
+/usr/include/c++/13/bits/shared_ptr_atomic.h:
+
 /home/santiago/libtorch/include/ATen/ops/fft_ihfft2.h:
 
 /home/santiago/libtorch/include/ATen/ops/special_softmax.h:
@@ -16564,9 +15371,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/module.h:
 
-/home/santiago/libtorch/include/ATen/ops/_convolution_mode_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/affine_grid_generator_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_convolution_mode_ops.h:
 
 /home/santiago/libtorch/include/c10/core/TensorOptions.h:
 
@@ -16758,6 +15565,10 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/sym_size_ops.h:
 
+/home/santiago/libtorch/include/ATen/ops/sym_storage_offset.h:
+
+/usr/include/c++/13/pstl/glue_memory_defs.h:
+
 /home/santiago/libtorch/include/ATen/ops/log2_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/sym_storage_offset_ops.h:
@@ -16812,9 +15623,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/tensordot_native.h:
 
-/home/santiago/libtorch/include/ATen/ops/_foreach_cosh_ops.h:
-
 /home/santiago/libtorch/include/ATen/ops/fake_quantize_per_channel_affine_cachemask_backward_native.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_cosh_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/tensordot_ops.h:
 
@@ -16928,8 +15739,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/trapezoid.h:
 
-/home/santiago/IN204/HexProject/src/Board.cpp:
-
 /home/santiago/libtorch/include/ATen/ops/trapezoid_ops.h:
 
 /home/santiago/libtorch/include/ATen/ops/triangular_solve_meta.h:
@@ -16950,9 +15759,9 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/ATen/ops/_scaled_dot_product_fused_attention_overrideable_native.h:
 
-/usr/include/c++/13/tr1/beta_function.tcc:
-
 /usr/include/c++/13/ios:
+
+/usr/include/c++/13/tr1/beta_function.tcc:
 
 /home/santiago/libtorch/include/ATen/ops/tril_indices_ops.h:
 
@@ -17498,6 +16307,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/rnn.h:
 
+/home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/options/upsampling.h:
+
 /home/santiago/libtorch/include/ATen/ops/fft_rfftn_ops.h:
 
 /home/santiago/libtorch/include/torch/csrc/api/include/torch/nn/pimpl.h:
@@ -17674,15 +16485,31 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/atomic:
 
+/usr/include/c++/13/bits/fs_dir.h:
+
+/usr/include/c++/13/bits/fs_fwd.h:
+
+/usr/include/c++/13/bits/fs_path.h:
+
 /home/santiago/libtorch/include/ATen/ops/int_repr_native.h:
 
 /usr/include/c++/13/bits/list.tcc:
+
+/usr/include/c++/13/bits/locale_conv.h:
 
 /usr/include/c++/13/bits/std_function.h:
 
 /usr/include/c++/13/bits/std_thread.h:
 
+/home/santiago/libtorch/include/ATen/ops/is_conj_native.h:
+
+/usr/include/c++/13/bits/stl_deque.h:
+
 /usr/include/c++/13/bits/stl_list.h:
+
+/home/santiago/libtorch/include/ATen/ops/_foreach_erfc_native.h:
+
+/usr/include/c++/13/bits/stl_raw_storage_iter.h:
 
 /home/santiago/libtorch/include/ATen/ops/result_type_ops.h:
 
@@ -17700,8 +16527,18 @@ CMakeFiles/selfplay.dir/main.cpp.o: /home/santiago/IN204/HexProject/selfplay/mai
 
 /usr/include/c++/13/functional:
 
+/home/santiago/libtorch/include/ATen/ops/relu.h:
+
+/usr/include/c++/13/iomanip:
+
 /usr/include/c++/13/iterator:
 
 /usr/include/c++/13/list:
 
+/usr/include/c++/13/memory:
+
 /usr/include/c++/13/mutex:
+
+/home/santiago/libtorch/include/ATen/ops/dense_dim_ops.h:
+
+/usr/include/c++/13/unordered_set:
