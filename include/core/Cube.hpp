@@ -1,5 +1,5 @@
 #pragma once
-#include "Board.hpp"
+#include "core/Board.hpp"
 #include <vector>
 #include <iostream>
 

@@ -1,7 +1,7 @@
-#include "GameState.hpp"
-#include "Board.hpp"
-#include "Cube.hpp"
-#include "MoveStrategy.hpp"
+#include "core/GameState.hpp"
+#include "core/Board.hpp"
+#include "core/Cube.hpp"
+#include "core/MoveStrategy.hpp"
 #include <cstdlib>
 #include <cmath>
 #include <vector>
