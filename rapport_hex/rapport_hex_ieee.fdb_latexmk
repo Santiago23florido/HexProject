@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1763973191.80009 "/home/santiago/IN204/HexProject/rapport_hex/rapport_hex_ieee.tex" "rapport_hex_ieee.pdf" "rapport_hex_ieee" 1763973192.32421 0
+["pdflatex"] 1765788901.2874 "/home/santiago/IN204/HexProject/rapport_hex/rapport_hex_ieee.tex" "rapport_hex_ieee.pdf" "rapport_hex_ieee" 1765788901.98279 0
   "/etc/texmf/web2c/texmf.cnf" 1762418151.39241 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/santiago/IN204/HexProject/rapport_hex/rapport_hex_ieee.tex" 1763973190.88767 6681 83d073bc02f4f9ec96145a784a35ec5b ""
+  "/home/santiago/IN204/HexProject/rapport_hex/rapport_hex_ieee.tex" 1765788901.01105 7539 39d683d315eb38bf685090f48172fedd ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrb8r.tfm" 1136768653 1292 3059476c50a24578715759f22652f3d0 ""
@@ -22,6 +22,8 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm" 1136768653 4640 532ca3305aad10cc01d769f3f91f1029 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri8t.tfm" 1136768653 6944 94c55ad86e6ea2826f78ba2240d50df9 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb" 1136849748 50493 4ed1f7e9eba8f1f3e1ec25195460190d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
@@ -85,9 +87,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1762418170.6716 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1762418224 8214723 66b18d21e2ef1ecd23d5c483e8c60b4e ""
-  "rapport_hex_ieee.aux" 1763973192.27356 1574 9831c4b45c65c46f1b859c5ff16e1e4c "pdflatex"
-  "rapport_hex_ieee.out" 1763973192.27738 1991 b439038bc072ac775f9ee6311fdb7e28 "pdflatex"
-  "rapport_hex_ieee.tex" 1763973190.88767 6681 83d073bc02f4f9ec96145a784a35ec5b ""
+  "rapport_hex_ieee.aux" 1765788901.924 1576 2ff108e6fecf7de84cae9eeb02cd2af2 "pdflatex"
+  "rapport_hex_ieee.out" 1765788901.924 2038 55d6125738b72a37f129629303a6de54 "pdflatex"
+  "rapport_hex_ieee.tex" 1765788901.01105 7539 39d683d315eb38bf685090f48172fedd ""
   (generated)
   "rapport_hex_ieee.aux"
   "rapport_hex_ieee.log"

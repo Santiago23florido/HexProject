@@ -60,7 +60,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.
  /usr/include/c++/13/bits/stl_vector.h \
  /usr/include/c++/13/bits/stl_bvector.h \
  /usr/include/c++/13/bits/refwrap.h /usr/include/c++/13/bits/vector.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/Board.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
  /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
  /usr/include/c++/13/ios /usr/include/c++/13/iosfwd \
  /usr/include/c++/13/bits/stringfwd.h /usr/include/c++/13/bits/postypes.h \
@@ -163,8 +163,8 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.
  /usr/include/c++/13/bits/basic_ios.tcc \
  /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
  /usr/include/c++/13/bits/istream.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/GameState.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Cube.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Cube.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/Graph.hpp \
  /usr/include/c++/13/algorithm /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \

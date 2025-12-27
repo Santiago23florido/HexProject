@@ -1,5 +1,5 @@
-#include "Player.hpp"
-#include "MoveStrategy.hpp"
+#include "core/Player.hpp"
+#include "core/MoveStrategy.hpp"
 #include <algorithm>
 #include <iostream>
 #include <cmath>

@@ -11,7 +11,7 @@
 
 #include "DataCollector.hpp"
 #include "GameRunner.hpp"
-#include "MoveStrategy.hpp"
+#include "core/MoveStrategy.hpp"
 #include "Serializer.hpp"
 
 namespace {

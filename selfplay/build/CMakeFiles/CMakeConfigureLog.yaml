@@ -1194,3 +1194,46 @@ events:
         12.8
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c88d9/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_c88d9.dir/build.make CMakeFiles/cmTC_c88d9.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_c88d9.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_c88d9.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_c88d9
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c88d9.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_c88d9.dir/detect_cuda_version.cc.o -o cmTC_c88d9  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...

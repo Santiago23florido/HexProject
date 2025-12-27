@@ -1,8 +1,8 @@
 #pragma once
 
-#include "MoveStrategy.hpp"
-#include "Board.hpp"
-#include "GameState.hpp"
+#include "core/MoveStrategy.hpp"
+#include "core/Board.hpp"
+#include "core/GameState.hpp"
 #include "DataCollector.hpp"
 
 class GameRunner {
