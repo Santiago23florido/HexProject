@@ -10,6 +10,7 @@
 #include <memory>
 
 constexpr float kWindowMargin = 24.0f;
+constexpr sf::Uint8 kHoverAlpha = 180;
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -152,13 +153,14 @@ void HexGameUI::updateTileColors() {
         int row = tile.index / boardSize_;
         int col = tile.index % boardSize_;
         int value = board_.board[row][col];
+        sf::Color color = emptyColor;
         if (value == 1) {
-            tile.sprite.setColor(playerXColor);
+            color = playerXColor;
         } else if (value == 2) {
-            tile.sprite.setColor(playerOColor);
-        } else {
-            tile.sprite.setColor(emptyColor);
+            color = playerOColor;
         }
+        color.a = (tile.index == hoveredIndex_) ? kHoverAlpha : 255;
+        tile.sprite.setColor(color);
     }
 }
 
@@ -242,6 +244,26 @@ void HexGameUI::updateWindowTitle(sf::RenderWindow& window) const {
     }
 }
 
+void HexGameUI::updateHover(const sf::RenderWindow& window) {
+    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+    if (pixelPos.x < 0 || pixelPos.y < 0 ||
+        pixelPos.x >= static_cast<int>(window.getSize().x) ||
+        pixelPos.y >= static_cast<int>(window.getSize().y)) {
+        if (hoveredIndex_ != -1) {
+            hoveredIndex_ = -1;
+            updateTileColors();
+        }
+        return;
+    }
+
+    sf::Vector2f pos = window.mapPixelToCoords(pixelPos);
+    int idx = pickTileIndex(pos);
+    if (idx != hoveredIndex_) {
+        hoveredIndex_ = idx;
+        updateTileColors();
+    }
+}
+
 void HexGameUI::printBoardStatus() const {
     board_.print();
     if (gameOver_) {
@@ -284,6 +306,7 @@ int HexGameUI::run() {
     printBoardStatus();
 
     while (window.isOpen()) {
+        bool humanMovedThisFrame = false;
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
@@ -294,7 +317,7 @@ int HexGameUI::run() {
                 resetGame();
                 updateWindowTitle(window);
             }
-            if (!gameOver_ && currentPlayerId_ == 1 &&
+            if (!gameOver_ &&
                 event.type == sf::Event::MouseButtonPressed &&
                 event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f pos = window.mapPixelToCoords(
@@ -302,11 +325,14 @@ int HexGameUI::run() {
                 int moveIdx = pickTileIndex(pos);
                 if (applyMove(moveIdx)) {
                     updateWindowTitle(window);
+                    humanMovedThisFrame = true;
                 }
             }
         }
 
-        if (!gameOver_ && currentPlayerId_ == 2) {
+        updateHover(window);
+
+        if (!gameOver_ && currentPlayerId_ == 2 && !humanMovedThisFrame) {
             GameState state(board_, currentPlayerId_);
             int moveIdx = useGnnAi_ ? gnnAI_.ChooseMove(state)
                                     : heuristicAI_.ChooseMove(state);

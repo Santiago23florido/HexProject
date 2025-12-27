@@ -35,6 +35,7 @@ private:
     int pickTileIndex(const sf::Vector2f& pos) const;
     bool pointInHex(const sf::Vector2f& pos, const sf::Vector2f& center) const;
     void updateWindowTitle(sf::RenderWindow& window) const;
+    void updateHover(const sf::RenderWindow& window);
     void printBoardStatus() const;
     void resetGame();
 
@@ -50,6 +51,7 @@ private:
     int currentPlayerId_ = 1;
     bool gameOver_ = false;
     int winnerId_ = 0;
+    int hoveredIndex_ = -1;
 
     sf::Texture texture_;
     sf::Vector2u textureSize_{0, 0};
