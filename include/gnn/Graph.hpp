@@ -1,6 +1,6 @@
 #pragma once
-#include "../Board.hpp"
-#include "../GameState.hpp"
+#include "core/Board.hpp"
+#include "core/GameState.hpp"
 #include <vector>
 
 

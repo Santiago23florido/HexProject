@@ -1,6 +1,6 @@
 #pragma once
-#include "Board.hpp"
-#include "Cube.hpp"
+#include "core/Board.hpp"
+#include "core/Cube.hpp"
 #include <vector>
 #include <iostream>
 

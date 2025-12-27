@@ -201,125 +201,125 @@ Serializer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/Serializer.cpp.s
 .PHONY : Serializer.cpp.s
 
-home/santiago/IN204/HexProject/src/Board.o: home/santiago/IN204/HexProject/src/Board.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Board.o
+home/santiago/IN204/HexProject/src/core/Board.o: home/santiago/IN204/HexProject/src/core/Board.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.o
 
 # target to build an object file
-home/santiago/IN204/HexProject/src/Board.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Board.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Board.cpp.o
+home/santiago/IN204/HexProject/src/core/Board.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.cpp.o
 
-home/santiago/IN204/HexProject/src/Board.i: home/santiago/IN204/HexProject/src/Board.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Board.i
+home/santiago/IN204/HexProject/src/core/Board.i: home/santiago/IN204/HexProject/src/core/Board.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.i
 
 # target to preprocess a source file
-home/santiago/IN204/HexProject/src/Board.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Board.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Board.cpp.i
+home/santiago/IN204/HexProject/src/core/Board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.cpp.i
 
-home/santiago/IN204/HexProject/src/Board.s: home/santiago/IN204/HexProject/src/Board.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Board.s
+home/santiago/IN204/HexProject/src/core/Board.s: home/santiago/IN204/HexProject/src/core/Board.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.s
 
 # target to generate assembly for a file
-home/santiago/IN204/HexProject/src/Board.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Board.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Board.cpp.s
+home/santiago/IN204/HexProject/src/core/Board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Board.cpp.s
 
-home/santiago/IN204/HexProject/src/Cube.o: home/santiago/IN204/HexProject/src/Cube.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Cube.o
+home/santiago/IN204/HexProject/src/core/Cube.o: home/santiago/IN204/HexProject/src/core/Cube.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.o
 
 # target to build an object file
-home/santiago/IN204/HexProject/src/Cube.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Cube.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Cube.cpp.o
+home/santiago/IN204/HexProject/src/core/Cube.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.cpp.o
 
-home/santiago/IN204/HexProject/src/Cube.i: home/santiago/IN204/HexProject/src/Cube.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Cube.i
+home/santiago/IN204/HexProject/src/core/Cube.i: home/santiago/IN204/HexProject/src/core/Cube.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.i
 
 # target to preprocess a source file
-home/santiago/IN204/HexProject/src/Cube.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Cube.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Cube.cpp.i
+home/santiago/IN204/HexProject/src/core/Cube.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.cpp.i
 
-home/santiago/IN204/HexProject/src/Cube.s: home/santiago/IN204/HexProject/src/Cube.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Cube.s
+home/santiago/IN204/HexProject/src/core/Cube.s: home/santiago/IN204/HexProject/src/core/Cube.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.s
 
 # target to generate assembly for a file
-home/santiago/IN204/HexProject/src/Cube.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Cube.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Cube.cpp.s
+home/santiago/IN204/HexProject/src/core/Cube.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Cube.cpp.s
 
-home/santiago/IN204/HexProject/src/GameState.o: home/santiago/IN204/HexProject/src/GameState.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/GameState.o
+home/santiago/IN204/HexProject/src/core/GameState.o: home/santiago/IN204/HexProject/src/core/GameState.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.o
 
 # target to build an object file
-home/santiago/IN204/HexProject/src/GameState.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/GameState.cpp.o
+home/santiago/IN204/HexProject/src/core/GameState.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.cpp.o
 
-home/santiago/IN204/HexProject/src/GameState.i: home/santiago/IN204/HexProject/src/GameState.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/GameState.i
+home/santiago/IN204/HexProject/src/core/GameState.i: home/santiago/IN204/HexProject/src/core/GameState.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.i
 
 # target to preprocess a source file
-home/santiago/IN204/HexProject/src/GameState.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/GameState.cpp.i
+home/santiago/IN204/HexProject/src/core/GameState.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.cpp.i
 
-home/santiago/IN204/HexProject/src/GameState.s: home/santiago/IN204/HexProject/src/GameState.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/GameState.s
+home/santiago/IN204/HexProject/src/core/GameState.s: home/santiago/IN204/HexProject/src/core/GameState.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.s
 
 # target to generate assembly for a file
-home/santiago/IN204/HexProject/src/GameState.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/GameState.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/GameState.cpp.s
+home/santiago/IN204/HexProject/src/core/GameState.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/GameState.cpp.s
 
-home/santiago/IN204/HexProject/src/MoveStrategy.o: home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.o
+home/santiago/IN204/HexProject/src/core/MoveStrategy.o: home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.o
 
 # target to build an object file
-home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.cpp.o
+home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o
 
-home/santiago/IN204/HexProject/src/MoveStrategy.i: home/santiago/IN204/HexProject/src/MoveStrategy.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.i
+home/santiago/IN204/HexProject/src/core/MoveStrategy.i: home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.i
 
 # target to preprocess a source file
-home/santiago/IN204/HexProject/src/MoveStrategy.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.cpp.i
+home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.i
 
-home/santiago/IN204/HexProject/src/MoveStrategy.s: home/santiago/IN204/HexProject/src/MoveStrategy.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.s
+home/santiago/IN204/HexProject/src/core/MoveStrategy.s: home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.s
 
 # target to generate assembly for a file
-home/santiago/IN204/HexProject/src/MoveStrategy.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/MoveStrategy.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/MoveStrategy.cpp.s
+home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.s
 
-home/santiago/IN204/HexProject/src/Player.o: home/santiago/IN204/HexProject/src/Player.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Player.o
+home/santiago/IN204/HexProject/src/core/Player.o: home/santiago/IN204/HexProject/src/core/Player.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.o
 
 # target to build an object file
-home/santiago/IN204/HexProject/src/Player.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.o
-.PHONY : home/santiago/IN204/HexProject/src/Player.cpp.o
+home/santiago/IN204/HexProject/src/core/Player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.cpp.o
 
-home/santiago/IN204/HexProject/src/Player.i: home/santiago/IN204/HexProject/src/Player.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Player.i
+home/santiago/IN204/HexProject/src/core/Player.i: home/santiago/IN204/HexProject/src/core/Player.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.i
 
 # target to preprocess a source file
-home/santiago/IN204/HexProject/src/Player.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.i
-.PHONY : home/santiago/IN204/HexProject/src/Player.cpp.i
+home/santiago/IN204/HexProject/src/core/Player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.i
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.cpp.i
 
-home/santiago/IN204/HexProject/src/Player.s: home/santiago/IN204/HexProject/src/Player.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Player.s
+home/santiago/IN204/HexProject/src/core/Player.s: home/santiago/IN204/HexProject/src/core/Player.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.s
 
 # target to generate assembly for a file
-home/santiago/IN204/HexProject/src/Player.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/Player.cpp.s
-.PHONY : home/santiago/IN204/HexProject/src/Player.cpp.s
+home/santiago/IN204/HexProject/src/core/Player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.s
+.PHONY : home/santiago/IN204/HexProject/src/core/Player.cpp.s
 
 home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o: home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o
 .PHONY : home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o
@@ -435,21 +435,21 @@ help:
 	@echo "... Serializer.o"
 	@echo "... Serializer.i"
 	@echo "... Serializer.s"
-	@echo "... home/santiago/IN204/HexProject/src/Board.o"
-	@echo "... home/santiago/IN204/HexProject/src/Board.i"
-	@echo "... home/santiago/IN204/HexProject/src/Board.s"
-	@echo "... home/santiago/IN204/HexProject/src/Cube.o"
-	@echo "... home/santiago/IN204/HexProject/src/Cube.i"
-	@echo "... home/santiago/IN204/HexProject/src/Cube.s"
-	@echo "... home/santiago/IN204/HexProject/src/GameState.o"
-	@echo "... home/santiago/IN204/HexProject/src/GameState.i"
-	@echo "... home/santiago/IN204/HexProject/src/GameState.s"
-	@echo "... home/santiago/IN204/HexProject/src/MoveStrategy.o"
-	@echo "... home/santiago/IN204/HexProject/src/MoveStrategy.i"
-	@echo "... home/santiago/IN204/HexProject/src/MoveStrategy.s"
-	@echo "... home/santiago/IN204/HexProject/src/Player.o"
-	@echo "... home/santiago/IN204/HexProject/src/Player.i"
-	@echo "... home/santiago/IN204/HexProject/src/Player.s"
+	@echo "... home/santiago/IN204/HexProject/src/core/Board.o"
+	@echo "... home/santiago/IN204/HexProject/src/core/Board.i"
+	@echo "... home/santiago/IN204/HexProject/src/core/Board.s"
+	@echo "... home/santiago/IN204/HexProject/src/core/Cube.o"
+	@echo "... home/santiago/IN204/HexProject/src/core/Cube.i"
+	@echo "... home/santiago/IN204/HexProject/src/core/Cube.s"
+	@echo "... home/santiago/IN204/HexProject/src/core/GameState.o"
+	@echo "... home/santiago/IN204/HexProject/src/core/GameState.i"
+	@echo "... home/santiago/IN204/HexProject/src/core/GameState.s"
+	@echo "... home/santiago/IN204/HexProject/src/core/MoveStrategy.o"
+	@echo "... home/santiago/IN204/HexProject/src/core/MoveStrategy.i"
+	@echo "... home/santiago/IN204/HexProject/src/core/MoveStrategy.s"
+	@echo "... home/santiago/IN204/HexProject/src/core/Player.o"
+	@echo "... home/santiago/IN204/HexProject/src/core/Player.i"
+	@echo "... home/santiago/IN204/HexProject/src/core/Player.s"
 	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.o"
 	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.i"
 	@echo "... home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.s"

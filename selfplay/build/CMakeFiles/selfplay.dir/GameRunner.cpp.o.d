@@ -2,7 +2,7 @@ CMakeFiles/selfplay.dir/GameRunner.cpp.o: \
  /home/santiago/IN204/HexProject/selfplay/GameRunner.cpp \
  /usr/include/stdc-predef.h \
  /home/santiago/IN204/HexProject/selfplay/GameRunner.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/MoveStrategy.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/MoveStrategy.hpp \
  /usr/include/c++/13/array /usr/include/c++/13/compare \
  /usr/include/c++/13/initializer_list \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
@@ -162,9 +162,9 @@ CMakeFiles/selfplay.dir/GameRunner.cpp.o: \
  /usr/include/c++/13/bits/istream.tcc /usr/include/c++/13/chrono \
  /usr/include/c++/13/bits/chrono.h /usr/include/c++/13/ratio \
  /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
- /home/santiago/IN204/HexProject/selfplay/../include/GameState.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Board.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/Cube.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
+ /home/santiago/IN204/HexProject/selfplay/../include/core/Cube.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/FeatureExtractor.hpp \
  /usr/include/c++/13/unordered_map \
  /usr/include/c++/13/bits/unordered_map.h \

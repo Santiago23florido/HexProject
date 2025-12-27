@@ -5,7 +5,7 @@
 #include <limits>
 #include <queue>
 #include <unordered_map>
-#include "Cube.hpp"
+#include "core/Cube.hpp"
 
 Graph buildHexGraph(int N, bool addBorderSuperNodes) {
     Graph g;
