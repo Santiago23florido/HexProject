@@ -9,14 +9,15 @@ public:
     void setPosition(float x, float y);
     void setRotation(float degrees);
     void setScale(float factor);
+    void setScale(float scaleX, float scaleY);
 
     sf::Vector2f getPosition() const;
     float getRotation() const;
-    float getScale() const;
+    sf::Vector2f getScale() const;
 
     void draw(sf::RenderTarget& target) const;
 
 private:
     sf::Sprite sprite_;
-    float scale_ = 1.0f;
+    sf::Vector2f scale_{1.0f, 1.0f};
 };

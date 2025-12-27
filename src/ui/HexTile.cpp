@@ -14,8 +14,12 @@ void HexTile::setRotation(float degrees) {
 }
 
 void HexTile::setScale(float factor) {
-    scale_ = factor;
-    sprite_.setScale(scale_, scale_);
+    setScale(factor, factor);
+}
+
+void HexTile::setScale(float scaleX, float scaleY) {
+    scale_ = sf::Vector2f(scaleX, scaleY);
+    sprite_.setScale(scale_.x, scale_.y);
 }
 
 sf::Vector2f HexTile::getPosition() const {
@@ -26,7 +30,7 @@ float HexTile::getRotation() const {
     return sprite_.getRotation();
 }
 
-float HexTile::getScale() const {
+sf::Vector2f HexTile::getScale() const {
     return scale_;
 }
 
