@@ -14,7 +14,7 @@ int main() {
 
     // Default: human (X) vs heuristic AI (O); optional GNN AI if selected.
     char modeChoice = 'h';
-    std::cout << "Jugar contra IA heuristica (h) o IA GNN (g)? [h]: ";
+    std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
     if (!(std::cin >> modeChoice)) {
         modeChoice = 'h';
         std::cin.clear();
