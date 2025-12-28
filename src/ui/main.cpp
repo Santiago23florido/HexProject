@@ -21,6 +21,14 @@ int main() {
     const int boardSize = 7;
     const float tileScale = 0.1f;
 
-    HexGameUI game("../assets/hex1.png", boardSize, tileScale, useGnnAi, modelPath);
+    HexGameUI game(
+        "../assets/hex1.png",
+        "../assets/background.png",
+        "../assets/Player 1.png",
+        "../assets/Player 2.png",
+        boardSize,
+        tileScale,
+        useGnnAi,
+        modelPath);
     return game.run();
 }

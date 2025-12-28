@@ -11,6 +11,8 @@
 
 constexpr float kWindowMargin = 24.0f;
 constexpr sf::Uint8 kHoverAlpha = 180;
+constexpr float kPlayerIconMargin = 12.0f;
+constexpr sf::Uint8 kInactivePlayerAlpha = 90;
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -24,11 +26,17 @@ HexGameUI::Tile::Tile(
 
 HexGameUI::HexGameUI(
     const std::string& texturePath,
+    const std::string& backgroundPath,
+    const std::string& player1Path,
+    const std::string& player2Path,
     int boardSize,
     float tileScale,
     bool useGnnAi,
     const std::string& modelPath)
     : texturePath_(texturePath),
+      backgroundPath_(backgroundPath),
+      player1Path_(player1Path),
+      player2Path_(player2Path),
       modelPath_(modelPath),
       boardSize_(boardSize),
       tileScale_(tileScale),
@@ -37,6 +45,12 @@ HexGameUI::HexGameUI(
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
       gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath)) {
     if (!loadTexture()) {
+        return;
+    }
+    if (!loadBackgroundTexture()) {
+        return;
+    }
+    if (!loadPlayerTextures()) {
         return;
     }
 
@@ -64,6 +78,46 @@ bool HexGameUI::loadTexture() {
     }
     tileWidth_ = static_cast<float>(textureSize_.x) * tileScale_;
     tileHeight_ = static_cast<float>(textureSize_.y) * tileScale_;
+    return true;
+}
+
+bool HexGameUI::loadBackgroundTexture() {
+    if (backgroundPath_.empty()) {
+        return true;
+    }
+    if (!backgroundTexture_.loadFromFile(backgroundPath_)) {
+        error_ = "Failed to load background texture: " + backgroundPath_;
+        return false;
+    }
+    const sf::Vector2u backgroundSize = backgroundTexture_.getSize();
+    if (backgroundSize.x == 0 || backgroundSize.y == 0) {
+        error_ = "Invalid background texture size.";
+        return false;
+    }
+    backgroundSprite_.setTexture(backgroundTexture_);
+    return true;
+}
+
+bool HexGameUI::loadPlayerTextures() {
+    if (player1Path_.empty() || player2Path_.empty()) {
+        return true;
+    }
+    if (!player1Texture_.loadFromFile(player1Path_)) {
+        error_ = "Failed to load player 1 texture: " + player1Path_;
+        return false;
+    }
+    if (!player2Texture_.loadFromFile(player2Path_)) {
+        error_ = "Failed to load player 2 texture: " + player2Path_;
+        return false;
+    }
+    const sf::Vector2u size1 = player1Texture_.getSize();
+    const sf::Vector2u size2 = player2Texture_.getSize();
+    if (size1.x == 0 || size1.y == 0 || size2.x == 0 || size2.y == 0) {
+        error_ = "Invalid player texture size.";
+        return false;
+    }
+    player1Sprite_.setTexture(player1Texture_);
+    player2Sprite_.setTexture(player2Texture_);
     return true;
 }
 
@@ -124,7 +178,7 @@ void HexGameUI::buildLayout() {
 
     sf::Vector2f offset(
         kWindowMargin + tileWidth_ / 2.0f - minX,
-        kWindowMargin + tileHeight_ / 2.0f - minY);
+        kWindowMargin + tileHeight_ / 2.0f - minY + 20.0f);
 
     tiles_.reserve(static_cast<std::size_t>(boardSize_ * boardSize_));
     for (int row = 0; row < boardSize_; ++row) {
@@ -302,6 +356,32 @@ int HexGameUI::run() {
         sf::VideoMode(windowSize_.x, windowSize_.y),
         "Hex UI - Viewer");
     window.setFramerateLimit(60);
+    if (backgroundTexture_.getSize().x != 0 && backgroundTexture_.getSize().y != 0) {
+        const sf::Vector2u backgroundSize = backgroundTexture_.getSize();
+        const float scaleX =
+            (static_cast<float>(windowSize_.x) / backgroundSize.x) * 1.5f;
+        const float scaleY =
+            (static_cast<float>(windowSize_.y) / backgroundSize.y) * 1.05f;
+        backgroundSprite_.setScale(scaleX, scaleY);
+        const float scaledWidth = backgroundSize.x * scaleX;
+        const float offsetX = (static_cast<float>(windowSize_.x) - scaledWidth) / 2.0f;
+        backgroundSprite_.setPosition(offsetX, 0.0f);
+    }
+    if (player1Texture_.getSize().x != 0 && player2Texture_.getSize().x != 0) {
+        const float desiredHeight = tileHeight_ * 2.0f;
+        const float scale1 =
+            desiredHeight / static_cast<float>(player1Texture_.getSize().y);
+        const float scale2 =
+            desiredHeight / static_cast<float>(player2Texture_.getSize().y);
+        player1Sprite_.setScale(scale1, scale1);
+        player2Sprite_.setScale(scale2, scale2);
+        player1Sprite_.setPosition(kPlayerIconMargin, kPlayerIconMargin);
+        const float player2Width =
+            static_cast<float>(player2Texture_.getSize().x) * scale2;
+        player2Sprite_.setPosition(
+            static_cast<float>(windowSize_.x) - player2Width - kPlayerIconMargin,
+            kPlayerIconMargin);
+    }
     updateWindowTitle(window);
     printBoardStatus();
 
@@ -347,9 +427,25 @@ int HexGameUI::run() {
             updateWindowTitle(window);
         }
 
+        if (player1Texture_.getSize().x != 0 && player2Texture_.getSize().x != 0) {
+            const sf::Uint8 player1Alpha =
+                (currentPlayerId_ == 1) ? 255 : kInactivePlayerAlpha;
+            const sf::Uint8 player2Alpha =
+                (currentPlayerId_ == 2) ? 255 : kInactivePlayerAlpha;
+            player1Sprite_.setColor(sf::Color(255, 255, 255, player1Alpha));
+            player2Sprite_.setColor(sf::Color(255, 255, 255, player2Alpha));
+        }
+
         window.clear(sf::Color(30, 30, 40));
+        if (backgroundTexture_.getSize().x != 0 && backgroundTexture_.getSize().y != 0) {
+            window.draw(backgroundSprite_);
+        }
         for (const auto& tile : tiles_) {
             tile.sprite.draw(window);
+        }
+        if (player1Texture_.getSize().x != 0 && player2Texture_.getSize().x != 0) {
+            window.draw(player1Sprite_);
+            window.draw(player2Sprite_);
         }
         window.display();
     }
