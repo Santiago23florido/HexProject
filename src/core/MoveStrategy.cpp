@@ -402,7 +402,7 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
         const int n = static_cast<int>(std::sqrt(linear.size()));
         const int row = (n > 0 ? immediateWin / n : -1);
         const int col = (n > 0 ? immediateWin % n : -1);
-        std::cout << "[Negamax] Movimiento ganador en un paso | move=" << immediateWin
+        std::cout << "[Negamax] Immediate winning move in one step | move=" << immediateWin
                   << " (" << row << "," << col << ")\n";
         return immediateWin;
     }
