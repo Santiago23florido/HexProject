@@ -10,7 +10,7 @@ int main() {
     const std::string modelPath = "../scripts/models/hex_value_ts.pt";
 
     char modeChoice = 'h';
-    std::cout << "Jugar contra IA heuristica (h) o IA GNN (g)? [h]: ";
+    std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
     if (!(std::cin >> modeChoice)) {
         modeChoice = 'h';
         std::cin.clear();
@@ -26,6 +26,11 @@ int main() {
         "../assets/background.png",
         "../assets/Player 1.png",
         "../assets/Player 2.png",
+        "../assets/start_page.png",
+        "../assets/start_button.png",
+        "../assets/HEX.png",
+        "../assets/Player1win.png",
+        "../assets/Player2win.png",
         boardSize,
         tileScale,
         useGnnAi,
