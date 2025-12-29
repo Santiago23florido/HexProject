@@ -14,7 +14,7 @@ struct GNNModel::Impl {
     bool useCuda{false};
 };
 
-GNNModel::GNNModel(const std::string& modelPath) {
+GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
     if (modelPath.empty()) {
         return;
     }
@@ -33,13 +33,20 @@ GNNModel::GNNModel(const std::string& modelPath) {
 
     try {
         impl = new Impl();
-        impl->module = torch::jit::load(path.string());
-        impl->useCuda = torch::cuda::is_available();
+
+        //verification of cuda availability
+        bool cudaAvailable = torch::cuda::is_available();
+    
+        impl->useCuda = preferCuda && cudaAvailable;
         impl->device = impl->useCuda ? torch::Device(torch::kCUDA) : torch::Device(torch::kCPU);
+        impl->module = torch::jit::load(path.string());
         impl->module.to(impl->device);
         impl->module.eval();
-        std::cout << "[GNN] Loaded model from " << path.string()
-                  << " | device: " << (impl->useCuda ? "CUDA" : "CPU") << "\n";
+
+        std::cout << "[GNN] Device set to: " << (impl->useCuda ? "GPU (CUDA)" : "CPU") << "\n";
+        if (preferCuda && !cudaAvailable){
+            std::cout << "[Warning] GPU requested but not available. Falling back to CPU.\n";
+        }
         loaded = true;
     } catch (const std::exception& e) {
         std::cerr << "Failed to load TorchScript model: " << e.what() << "\n";
