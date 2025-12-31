@@ -34,6 +34,7 @@ int main() {
         boardSize,
         tileScale,
         useGnnAi,
-        modelPath);
+        modelPath,
+        true);
     return game.run();
 }

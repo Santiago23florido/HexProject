@@ -23,7 +23,8 @@ public:
         int boardSize,
         float tileScale,
         bool useGnnAi,
-        const std::string& modelPath);
+        const std::string& modelPath,
+        bool preferCuda);
 
     int run();
 

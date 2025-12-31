@@ -7,7 +7,7 @@
 // Wrapper for TorchScript model evaluation (value head).
 class GNNModel {
 public:
-    explicit GNNModel(const std::string& modelPath);
+    explicit GNNModel(const std::string& modelPath, bool preferCuda = false);
     ~GNNModel();
 
     bool isLoaded() const;
