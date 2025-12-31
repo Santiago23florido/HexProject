@@ -50,7 +50,8 @@ HexGameUI::HexGameUI(
     int boardSize,
     float tileScale,
     bool useGnnAi,
-    const std::string& modelPath)
+    const std::string& modelPath,
+    bool preferCuda)
     : texturePath_(texturePath),
       backgroundPath_(backgroundPath),
       player1Path_(player1Path),
@@ -66,7 +67,7 @@ HexGameUI::HexGameUI(
       useGnnAi_(useGnnAi),
       board_(boardSize),
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
-      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath)) {
+      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
     if (!loadTexture()) {
         return;
     }
