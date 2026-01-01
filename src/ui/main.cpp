@@ -1,5 +1,8 @@
 #include "ui/HexGameUI.hpp"
 
+#include <torch/torch.h>
+#include <ATen/cuda/CUDAContext.h>  //info hardware cuda
+
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -9,32 +12,46 @@ int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     const std::string modelPath = "../scripts/models/hex_value_ts.pt";
 
-    char modeChoice = 'h';
-    std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
-    if (!(std::cin >> modeChoice)) {
-        modeChoice = 'h';
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
+    bool useGnnAi = true;
+    bool preferCuda = true;
 
     const int boardSize = 7;
     const float tileScale = 0.1f;
 
-    HexGameUI game(
-        "../assets/hex1.png",
-        "../assets/background.png",
-        "../assets/Player 1.png",
-        "../assets/Player 2.png",
-        "../assets/start_page.png",
-        "../assets/start_button.png",
-        "../assets/HEX.png",
-        "../assets/Player1win.png",
-        "../assets/Player2win.png",
-        boardSize,
-        tileScale,
-        useGnnAi,
-        modelPath,
-        true);
-    return game.run();
+    std::cout << "--- HARDWARE CHECK ---" << std::endl;
+    if (torch::cuda::is_available()) {
+        auto properties = at::cuda::getDeviceProperties(0); 
+        std::cout << "CUDA is available!" << std::endl;
+        std::cout << "Device Name: " << properties->name << std::endl;
+        // Cambiamos total_memory por totalGlobalMem
+        std::cout << "Memory: " << properties->totalGlobalMem / (1024 * 1024) << " MB" << std::endl;
+    } else {
+        std::cout << "CUDA NOT FOUND. Using CPU." << std::endl;
+    }
+
+    try
+    {
+        HexGameUI game(
+            "../assets/hex1.png",
+            "../assets/background.png",
+            "../assets/Player 1.png",
+            "../assets/Player 2.png",
+            "../assets/start_page.png",
+            "../assets/start_button.png",
+            "../assets/HEX.png",
+            "../assets/Player1win.png",
+            "../assets/Player2win.png",
+            boardSize,
+            tileScale,
+            useGnnAi,
+            modelPath,
+            preferCuda);
+
+        return game.run();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
+        return 1;
+    }
 }
