@@ -8,6 +8,8 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <torch/torch.h>
+#include <cuda_runtime.h>
 
 constexpr float kWindowMargin = 24.0f;
 constexpr sf::Uint8 kHoverAlpha = 180;
@@ -194,7 +196,45 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
 
+    // Visual configuration button AI
+    aiConfigText_.setFont(startFont_);
+    aiConfigText_.setCharacterSize(20);
+    aiConfigText_.setFillColor(sf::Color::White);
+    // Initial Text for state of AI
+    aiConfigText_.setString(useGnnAi_ ? "Mode AI: GNN (Neuronal)" : "Mode AI: Heuristic");
+
+    aiConfigBox_.setFillColor(sf::Color(0, 0, 0, 160));
+    aiConfigBox_.setOutlineColor(sf::Color::White);
+    aiConfigBox_.setOutlineThickness(1.5f);
+
+    // Information about hardware
+    hardwareInfoText_.setFont(startFont_);
+    hardwareInfoText_.setCharacterSize(14);
+    hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
+
+    std::string gpuName = "No detected GPU";
+    bool cudaAvailable = false;
+
+    if (torch::cuda::is_available()) {
+        cudaAvailable = true;
+        cudaDeviceProp prop;
+        // Obtenemos las propiedades de la primera GPU encontrada
+        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+            gpuName = prop.name;
+        } else {
+            gpuName = "Error al obtener nombre";
+        }
+    }
+
+    // 3. Seteamos el texto final según el resultado
+    if (cudaAvailable) {
+        hardwareInfoText_.setString("Hardware: " + gpuName + " (CUDA)");
+    } else {
+        hardwareInfoText_.setString("Hardware: CPU (Modo Heurístico)");
+    }
+
     showStartScreen_ = true;
+
     return true;
 }
 
@@ -509,6 +549,20 @@ int HexGameUI::run() {
             (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
         startButtonSprite_.setPosition(buttonX, buttonY);
 
+        // Configuración botón AI
+        float configBtnWidth = 300.0f;
+        float configBtnHeight = 45.0f;
+        float configX = (windowSize_.x - configBtnWidth) / 2.0f;
+        float configY = buttonY + (startButtonTexture_.getSize().y * buttonScale) + 80.0f;
+        aiConfigBox_.setSize(sf::Vector2f(configBtnWidth, configBtnHeight));
+        aiConfigBox_.setPosition(configX, configY);
+        sf::FloatRect textBounds = aiConfigText_.getLocalBounds();
+        aiConfigText_.setPosition(
+            configX + (configBtnWidth - textBounds.width) / 2.0f,
+            configY + (configBtnHeight - textBounds.height) / 2.0f - textBounds.top
+        );
+        hardwareInfoText_.setPosition(configX, configY + configBtnHeight + 10.0f);
+
         const float desiredTitleWidth =
             static_cast<float>(windowSize_.x) * kStartTitleWidthRatio;
         const float titleScale = desiredTitleWidth / titleSize.x;
@@ -581,6 +635,25 @@ int HexGameUI::run() {
                         updateWindowTitle(window);
                         printBoardStatus();
                     }
+                
+                    if (aiConfigBox_.getGlobalBounds().contains(pos)) {
+                            useGnnAi_ = !useGnnAi_;
+                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN (Neuronal)" : "Modo IA: Heuristico");
+                            // Cambiamos el color para indicar que se seleccionó
+                            aiConfigBox_.setOutlineColor(sf::Color::Cyan); 
+                        }
+                    }
+
+                    // --- Lógica de "Hover" (Brillo al pasar el mouse) ---
+                    if (event.type == sf::Event::MouseMoved) {
+                        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
+                            aiConfigBox_.setOutlineThickness(2.5f); // Se hace más grueso
+                            aiConfigBox_.setOutlineColor(sf::Color::White);
+                        } else {
+                            aiConfigBox_.setOutlineThickness(1.5f); // Vuelve a la normalidad
+                            aiConfigBox_.setOutlineColor(sf::Color(150, 150, 150));
+                        }
                 }
                 continue;
             }
@@ -603,23 +676,32 @@ int HexGameUI::run() {
 
         if (showStartScreen_) {
             window.clear(sf::Color(30, 30, 40));
-            if (startPageTexture_.getSize().x != 0 && startPageTexture_.getSize().y != 0) {
+
+            if (startPageTexture_.getSize().x != 0) {
                 window.draw(startPageSprite_);
             }
-            if (startTitleTexture_.getSize().x != 0 && startTitleTexture_.getSize().y != 0) {
+
+            if (startTitleTexture_.getSize().x != 0) {
                 window.draw(startTitleSprite_);
             }
-            if (startButtonTexture_.getSize().x != 0 &&
-                startButtonTexture_.getSize().y != 0) {
+
+            if (startButtonTexture_.getSize().x != 0) {
                 window.draw(startButtonSprite_);
             }
+
             if (startFontLoaded_) {
+                window.draw(aiConfigBox_);
+                window.draw(aiConfigText_);
+                window.draw(hardwareInfoText_);
+                
                 window.draw(startHintBox_);
                 window.draw(startHintText_);
             }
+
             window.display();
             continue;
         }
+
 
         updateHover(window);
 

@@ -90,6 +90,13 @@ private:
     sf::Font startFont_;
     sf::Text startHintText_;
     sf::RectangleShape startHintBox_;
+
+    //Menu configuration
+    sf::RectangleShape aiConfigBox_;
+    sf::Text aiConfigText_;
+    sf::Text hardwareInfoText_;
+    bool isAiButtonHovered_ = false;
+
     sf::Clock startScreenClock_;
     sf::Vector2f startHintBoxBasePos_{0.0f, 0.0f};
     sf::Vector2f startHintTextBasePos_{0.0f, 0.0f};
