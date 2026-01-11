@@ -64,6 +64,7 @@ private:
     std::string modelPath_;
     int boardSize_ = 0;
     float tileScale_ = 1.0f;
+    float scaleFactor_ = 2.0f;
     bool useGnnAi_ = false;
 
     Board board_;
@@ -91,11 +92,21 @@ private:
     sf::Text startHintText_;
     sf::RectangleShape startHintBox_;
 
-    //Menu configuration
-    sf::RectangleShape aiConfigBox_;
-    sf::Text aiConfigText_;
-    sf::Text hardwareInfoText_;
-    bool isAiButtonHovered_ = false;
+    sf::RectangleShape settingsButton_; // Button Settings
+    sf::Text settingsButtonText_;
+
+    bool showSettingsMenu_ = false;   //Menu visibility
+    sf::RectangleShape menuBackground_; 
+    sf::RectangleShape menuOverlay_;  
+
+    sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
+    sf::Text aiConfigText_;             // El texto del botón de IA
+    
+    // Options in the settings menu
+    sf::Text menuTitleText_;            
+    sf::Text aiOptionText_;             
+    sf::Text hardwareInfoText_;         
+    sf::Text resolutionText_;           
 
     sf::Clock startScreenClock_;
     sf::Vector2f startHintBoxBasePos_{0.0f, 0.0f};
