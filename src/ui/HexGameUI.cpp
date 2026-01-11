@@ -70,6 +70,7 @@ HexGameUI::HexGameUI(
       board_(boardSize),
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
       gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
+    tileScale_ *= scaleFactor_;
     if (!loadTexture()) {
         return;
     }
@@ -196,20 +197,33 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
 
+    //Menu Settings Button
+    settingsButton_.setSize(sf::Vector2f(150.0f, 40.0f));
+    settingsButton_.setFillColor(sf::Color(100, 100, 100, 200));
+    settingsButtonText_.setFont(startFont_);
+    settingsButtonText_.setString("Settings");
+
+    unsigned int fontSize = static_cast<unsigned int>(10 * scaleFactor_); 
+    settingsButtonText_.setCharacterSize(fontSize);
+    settingsButtonText_.setFillColor(sf::Color::White);
+
+    menuBackground_.setSize(sf::Vector2f(400.0f, 500.0f)); 
+    menuBackground_.setFillColor(sf::Color(45, 45, 48)); 
+    menuBackground_.setOutlineThickness(2.0f);
+    menuBackground_.setOutlineColor(sf::Color::Cyan);
+
+    menuOverlay_.setFillColor(sf::Color(0, 0, 0, 170));
+
     // Visual configuration button AI
     aiConfigText_.setFont(startFont_);
-    aiConfigText_.setCharacterSize(20);
+    aiConfigText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     aiConfigText_.setFillColor(sf::Color::White);
     // Initial Text for state of AI
     aiConfigText_.setString(useGnnAi_ ? "Mode AI: GNN (Neuronal)" : "Mode AI: Heuristic");
 
-    aiConfigBox_.setFillColor(sf::Color(0, 0, 0, 160));
-    aiConfigBox_.setOutlineColor(sf::Color::White);
-    aiConfigBox_.setOutlineThickness(1.5f);
-
     // Information about hardware
     hardwareInfoText_.setFont(startFont_);
-    hardwareInfoText_.setCharacterSize(14);
+    hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
 
     std::string gpuName = "No detected GPU";
@@ -226,11 +240,11 @@ bool HexGameUI::loadStartScreenTextures() {
         }
     }
 
-    // 3. Seteamos el texto final según el resultado
+    // 3. Seteamos el texto final según el resultado    
     if (cudaAvailable) {
-        hardwareInfoText_.setString("Hardware: " + gpuName + " (CUDA)");
+        hardwareInfoText_.setString("Hardware: \n" + gpuName);
     } else {
-        hardwareInfoText_.setString("Hardware: CPU (Modo Heurístico)");
+        hardwareInfoText_.setString("Hardware: \nCPU (Modo Heuristico)");
     }
 
     showStartScreen_ = true;
@@ -499,6 +513,8 @@ int HexGameUI::run() {
     sf::RenderWindow window(
         sf::VideoMode(windowSize_.x, windowSize_.y),
         "Hex UI - Viewer");
+
+    
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
     victoryOverlay_.setPosition(0.0f, 0.0f);
@@ -549,29 +565,37 @@ int HexGameUI::run() {
             (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
         startButtonSprite_.setPosition(buttonX, buttonY);
 
-        // Configuración botón AI
-        float configBtnWidth = 300.0f;
-        float configBtnHeight = 45.0f;
-        float configX = (windowSize_.x - configBtnWidth) / 2.0f;
-        float configY = buttonY + (startButtonTexture_.getSize().y * buttonScale) + 80.0f;
-        aiConfigBox_.setSize(sf::Vector2f(configBtnWidth, configBtnHeight));
-        aiConfigBox_.setPosition(configX, configY);
-        sf::FloatRect textBounds = aiConfigText_.getLocalBounds();
-        aiConfigText_.setPosition(
-            configX + (configBtnWidth - textBounds.width) / 2.0f,
-            configY + (configBtnHeight - textBounds.height) / 2.0f - textBounds.top
+        //Size Button Settings
+        float margin = 10.0f * scaleFactor_;
+        float settingsBtnW = 50.0f * scaleFactor_;
+        float settingsBtnH = 20.0f * scaleFactor_;
+        float settingsBtnX = windowSize_.x - settingsBtnW - margin;
+        float settingsBtnY = margin;
+
+        //Size Menu Settings
+        float menuW = windowSize_.x * 0.6f;
+        float menuH = windowSize_.y * 0.6f;
+        float menuX = (windowSize_.x - menuW) / 2.0f;
+        float menuY = (windowSize_.y - menuH) / 2.0f;
+        menuBackground_.setSize(sf::Vector2f(menuW, menuH));
+        menuBackground_.setPosition(menuX, menuY);
+        menuOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y)); // Cubre toda la pantalla
+
+        //Position AIMode Button
+        aiConfigText_.setPosition(menuX + margin, menuY + margin);
+
+        //Position Hardware info
+        hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
+
+        settingsButton_.setSize(sf::Vector2f(settingsBtnW, settingsBtnH));
+        settingsButton_.setPosition(settingsBtnX, settingsBtnY);
+
+        // Centre the text
+        sf::FloatRect sTextBounds = settingsButtonText_.getLocalBounds();
+        settingsButtonText_.setPosition(
+            settingsBtnX + (settingsBtnW - sTextBounds.width) / 2.0f,
+            settingsBtnY + (settingsBtnH - sTextBounds.height) / 2.0f - sTextBounds.top
         );
-        hardwareInfoText_.setPosition(configX, configY + configBtnHeight + 10.0f);
-
-        const float desiredTitleWidth =
-            static_cast<float>(windowSize_.x) * kStartTitleWidthRatio;
-        const float titleScale = desiredTitleWidth / titleSize.x;
-        startTitleSprite_.setScale(titleScale, titleScale);
-        const float scaledTitleWidth = titleSize.x * titleScale;
-        startTitleSprite_.setPosition(
-            (static_cast<float>(windowSize_.x) - scaledTitleWidth) / 2.0f,
-            kStartTitleTopMargin);
-
         if (startFontLoaded_) {
             const float hintBoxWidth =
                 static_cast<float>(windowSize_.x) * kStartHintBoxWidthRatio;
@@ -625,42 +649,46 @@ int HexGameUI::run() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+
             if (showStartScreen_) {
                 if (event.type == sf::Event::MouseButtonPressed &&
                     event.mouseButton.button == sf::Mouse::Left) {
-                    sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2f mousePos = window.mapPixelToCoords(
                         sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-                    if (startButtonSprite_.getGlobalBounds().contains(pos)) {
-                        showStartScreen_ = false;
-                        updateWindowTitle(window);
-                        printBoardStatus();
-                    }
-                
-                    if (aiConfigBox_.getGlobalBounds().contains(pos)) {
-                            useGnnAi_ = !useGnnAi_;
-                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN (Neuronal)" : "Modo IA: Heuristico");
-                            // Cambiamos el color para indicar que se seleccionó
-                            aiConfigBox_.setOutlineColor(sf::Color::Cyan); 
-                        }
-                    }
 
-                    // --- Lógica de "Hover" (Brillo al pasar el mouse) ---
-                    if (event.type == sf::Event::MouseMoved) {
-                        sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
-                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
-                            aiConfigBox_.setOutlineThickness(2.5f); // Se hace más grueso
-                            aiConfigBox_.setOutlineColor(sf::Color::White);
-                        } else {
-                            aiConfigBox_.setOutlineThickness(1.5f); // Vuelve a la normalidad
-                            aiConfigBox_.setOutlineColor(sf::Color(150, 150, 150));
+                    if (!showSettingsMenu_) {
+                        if (startButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                            showStartScreen_ = false;
+                            updateWindowTitle(window);
+                            printBoardStatus();
                         }
+
+                        if (settingsButton_.getGlobalBounds().contains(mousePos)) {
+                            showSettingsMenu_ = true;
+                        }
+                    } else {
+                        // --- LÓGICA DENTRO DEL MENÚ ---
+                        // Cambiar modo de IA
+                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
+                            useGnnAi_ = !useGnnAi_;
+                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
+                        }
+
+                        // Cerrar menú si haces clic fuera del fondo del menú
+                        if (!menuBackground_.getGlobalBounds().contains(mousePos)) {
+                            showSettingsMenu_ = false;
+                        }
+                    }
                 }
-                continue;
+                continue; // Si estamos en la pantalla de inicio, no procesamos clics del tablero
             }
+
+            // --- LÓGICA DE JUEGO (Solo si no estamos en Start Screen) ---
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 resetGame();
                 updateWindowTitle(window);
             }
+
             if (!gameOver_ &&
                 event.type == sf::Event::MouseButtonPressed &&
                 event.mouseButton.button == sf::Mouse::Left) {
@@ -689,15 +717,25 @@ int HexGameUI::run() {
                 window.draw(startButtonSprite_);
             }
 
-            if (startFontLoaded_) {
-                window.draw(aiConfigBox_);
-                window.draw(aiConfigText_);
-                window.draw(hardwareInfoText_);
+            window.draw(settingsButton_);
+            window.draw(settingsButtonText_);
+
+            if (showSettingsMenu_) {
+                window.draw(menuOverlay_);    
+                window.draw(menuBackground_); 
                 
+                if (startFontLoaded_) {
+                    window.draw(aiConfigBox_);
+                    window.draw(aiConfigText_);
+                    window.draw(hardwareInfoText_);
+                }
+            }
+
+            if (startFontLoaded_ && !showSettingsMenu_) {
                 window.draw(startHintBox_);
                 window.draw(startHintText_);
             }
-
+            
             window.display();
             continue;
         }
