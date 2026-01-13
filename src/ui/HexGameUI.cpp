@@ -28,6 +28,8 @@ constexpr float kVictoryOverlayMaxAlpha = 190.0f;
 constexpr float kVictoryImageWidthRatio = 0.55f;
 constexpr float kVictoryImageScaleStart = 0.92f;
 constexpr float kVictoryImageScaleEnd = 1.0f;
+constexpr float kMusicVolume = 50.0f;
+constexpr float kSfxVolume = 80.0f;
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -275,6 +277,27 @@ bool HexGameUI::loadVictoryTextures() {
     return true;
 }
 
+bool HexGameUI::initAudio() {
+    if (!menuMusic_.openFromFile("../assets/audio/hexMenu.wav")) {
+        error_ = "Failed to load menu music.";
+        return false;
+    }
+    if (!gameMusic_.openFromFile("../assets/audio/hexGame.wav")) {
+        error_ = "Failed to load game music.";
+        return false;
+    }
+    //if (victoryBuffer_.loadFromFile("assets/audio/win_fanfare.wav")) {
+    //    victorySound_.setBuffer(victoryBuffer_);
+    //}
+
+    // Initial Configuration
+    menuMusic_.setLoop(true); 
+    gameMusic_.setLoop(true);
+    menuMusic_.setVolume(kMusicVolume); // Volumen music
+    gameMusic_.setVolume(kMusicVolume);
+    return true;
+}
+
 void HexGameUI::buildLayout() {
     tiles_.clear();
 
@@ -513,7 +536,13 @@ int HexGameUI::run() {
     sf::RenderWindow window(
         sf::VideoMode(windowSize_.x, windowSize_.y),
         "Hex UI - Viewer");
-
+    
+    window.setFramerateLimit(60);           // Esto estabiliza el tiempo para el audio
+    window.setVerticalSyncEnabled(false);
+    if (!initAudio()) {
+            std::cerr << "Error load music" << std::endl;
+    }
+    else menuMusic_.play();
     
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
@@ -629,8 +658,10 @@ int HexGameUI::run() {
     }
 
     while (window.isOpen()) {
+        sf::sleep(sf::milliseconds(1));
         bool humanMovedThisFrame = false;
         sf::Event event;
+        
         if (showStartScreen_ && startFontLoaded_) {
             const float t = startScreenClock_.getElapsedTime().asSeconds();
             const float offsetX =
@@ -661,6 +692,12 @@ int HexGameUI::run() {
                             showStartScreen_ = false;
                             updateWindowTitle(window);
                             printBoardStatus();
+                            if (menuMusic_.getStatus() == sf::Music::Playing) {
+                                menuMusic_.stop();
+                            }
+                            if (gameMusic_.getStatus() != sf::Music::Playing) {
+                                gameMusic_.play();
+                            }
                         }
 
                         if (settingsButton_.getGlobalBounds().contains(mousePos)) {
@@ -701,7 +738,9 @@ int HexGameUI::run() {
                 }
             }
         }
+        sf::sleep(sf::milliseconds(1));
 
+        //Start Screen Rendering
         if (showStartScreen_) {
             window.clear(sf::Color(30, 30, 40));
 
@@ -737,6 +776,7 @@ int HexGameUI::run() {
             }
             
             window.display();
+
             continue;
         }
 

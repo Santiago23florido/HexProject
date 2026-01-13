@@ -1,12 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <vector>
 
 #include "core/Board.hpp"
 #include "core/Player.hpp"
 #include "ui/HexTile.hpp"
+
 
 class HexGameUI {
 public:
@@ -127,4 +129,17 @@ private:
     bool showStartScreen_ = true;
     bool startFontLoaded_ = false;
     bool victoryAnimationActive_ = false;
+
+    //Audio
+    bool initAudio();
+    //Music
+    sf::Music menuMusic_;
+    sf::Music gameMusic_;
+    //Sound Effects
+    sf::SoundBuffer victoryBufffer_;
+    sf::Sound victorySound_;
+    sf::SoundBuffer clickBuffer_;
+    sf::Sound clickSound_;
+    static constexpr float MUSIC_VOLUME = 50.0f;
+    static constexpr float SFX_VOLUME = 80.0f;
 };
