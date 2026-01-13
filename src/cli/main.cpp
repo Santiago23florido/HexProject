@@ -21,11 +21,20 @@ int main() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
+    //GPU
+    bool useCPU = false;
+    if (useGnnAi){
+        char gpuChoice;
+        std::cout << "Prefer GPU if available? [y/n]: ";
+        std::cin >> gpuChoice;
+        useCPU = (gpuChoice == 'y' || gpuChoice == 'Y');
+    }
+
 
     HumanPlayer humanPlayer(1);
     AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000));
     // Give the GNN more search depth/time to compensate for higher evaluation cost.
-    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath));
+    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, useCPU));
 
     Player* playerX = &humanPlayer;
     Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)

@@ -8,19 +8,22 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <torch/torch.h>
+#include <cuda_runtime.h>
 
 constexpr float kWindowMargin = 24.0f;
 constexpr sf::Uint8 kHoverAlpha = 180;
 constexpr float kPlayerIconMargin = 12.0f;
 constexpr sf::Uint8 kInactivePlayerAlpha = 90;
 constexpr float kStartButtonWidthRatio = 0.25f;
-constexpr float kStartTitleWidthRatio = 0.45f;
-constexpr float kStartTitleTopMargin = -40.0f;
+constexpr float kStartTitleWidthRatio = 0.60f;
+constexpr float kStartTitleGap = 16.0f;
 constexpr float kStartHintBoxWidthRatio = 0.60f;
 constexpr float kStartHintBoxHeightRatio = 0.09f;
 constexpr float kStartHintTopMargin = 12.0f;
 constexpr float kStartHintVibrateAmplitude = 2.0f;
 constexpr float kStartHintVibrateSpeed = 18.0f;
+constexpr float kStartButtonPulseSpeed = 2.0f;
 constexpr float kVictoryFadeDuration = 0.9f;
 constexpr float kVictoryOverlayMaxAlpha = 190.0f;
 constexpr float kVictoryImageWidthRatio = 0.55f;
@@ -50,7 +53,8 @@ HexGameUI::HexGameUI(
     int boardSize,
     float tileScale,
     bool useGnnAi,
-    const std::string& modelPath)
+    const std::string& modelPath,
+    bool preferCuda)
     : texturePath_(texturePath),
       backgroundPath_(backgroundPath),
       player1Path_(player1Path),
@@ -66,7 +70,8 @@ HexGameUI::HexGameUI(
       useGnnAi_(useGnnAi),
       board_(boardSize),
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
-      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath)) {
+      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
+    tileScale_ *= scaleFactor_;
     if (!loadTexture()) {
         return;
     }
@@ -193,7 +198,58 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
 
+    //Menu Settings Button
+    settingsButton_.setSize(sf::Vector2f(150.0f, 40.0f));
+    settingsButton_.setFillColor(sf::Color(100, 100, 100, 200));
+    settingsButtonText_.setFont(startFont_);
+    settingsButtonText_.setString("Settings");
+
+    unsigned int fontSize = static_cast<unsigned int>(10 * scaleFactor_); 
+    settingsButtonText_.setCharacterSize(fontSize);
+    settingsButtonText_.setFillColor(sf::Color::White);
+
+    menuBackground_.setSize(sf::Vector2f(400.0f, 500.0f)); 
+    menuBackground_.setFillColor(sf::Color(45, 45, 48)); 
+    menuBackground_.setOutlineThickness(2.0f);
+    menuBackground_.setOutlineColor(sf::Color::Cyan);
+
+    menuOverlay_.setFillColor(sf::Color(0, 0, 0, 170));
+
+    // Visual configuration button AI
+    aiConfigText_.setFont(startFont_);
+    aiConfigText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
+    aiConfigText_.setFillColor(sf::Color::White);
+    // Initial Text for state of AI
+    aiConfigText_.setString(useGnnAi_ ? "Mode AI: GNN (Neuronal)" : "Mode AI: Heuristic");
+
+    // Information about hardware
+    hardwareInfoText_.setFont(startFont_);
+    hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
+    hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
+
+    std::string gpuName = "No detected GPU";
+    bool cudaAvailable = false;
+
+    if (torch::cuda::is_available()) {
+        cudaAvailable = true;
+        cudaDeviceProp prop;
+        // Obtenemos las propiedades de la primera GPU encontrada
+        if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
+            gpuName = prop.name;
+        } else {
+            gpuName = "Error al obtener nombre";
+        }
+    }
+
+    // 3. Seteamos el texto final según el resultado    
+    if (cudaAvailable) {
+        hardwareInfoText_.setString("Hardware: \n" + gpuName);
+    } else {
+        hardwareInfoText_.setString("Hardware: \nCPU (Modo Heuristico)");
+    }
+
     showStartScreen_ = true;
+
     return true;
 }
 
@@ -458,6 +514,8 @@ int HexGameUI::run() {
     sf::RenderWindow window(
         sf::VideoMode(windowSize_.x, windowSize_.y),
         "Hex UI - Viewer");
+
+    
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
     victoryOverlay_.setPosition(0.0f, 0.0f);
@@ -513,10 +571,43 @@ int HexGameUI::run() {
         const float titleScale = desiredTitleWidth / titleSize.x;
         startTitleSprite_.setScale(titleScale, titleScale);
         const float scaledTitleWidth = titleSize.x * titleScale;
-        startTitleSprite_.setPosition(
-            (static_cast<float>(windowSize_.x) - scaledTitleWidth) / 2.0f,
-            kStartTitleTopMargin);
+        const float scaledTitleHeight = titleSize.y * titleScale;
+        const float titleX =
+            (static_cast<float>(windowSize_.x) - scaledTitleWidth) / 2.0f;
+        const float titleY = buttonY - scaledTitleHeight/2.0f - kStartTitleGap*2;
+        startTitleSprite_.setPosition(titleX, titleY);
 
+        //Size Button Settings
+        float margin = 10.0f * scaleFactor_;
+        float settingsBtnW = 50.0f * scaleFactor_;
+        float settingsBtnH = 20.0f * scaleFactor_;
+        float settingsBtnX = windowSize_.x - settingsBtnW - margin;
+        float settingsBtnY = margin;
+
+        //Size Menu Settings
+        float menuW = windowSize_.x * 0.6f;
+        float menuH = windowSize_.y * 0.6f;
+        float menuX = (windowSize_.x - menuW) / 2.0f;
+        float menuY = (windowSize_.y - menuH) / 2.0f;
+        menuBackground_.setSize(sf::Vector2f(menuW, menuH));
+        menuBackground_.setPosition(menuX, menuY);
+        menuOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y)); // Cubre toda la pantalla
+
+        //Position AIMode Button
+        aiConfigText_.setPosition(menuX + margin, menuY + margin);
+
+        //Position Hardware info
+        hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
+
+        settingsButton_.setSize(sf::Vector2f(settingsBtnW, settingsBtnH));
+        settingsButton_.setPosition(settingsBtnX, settingsBtnY);
+
+        // Centre the text
+        sf::FloatRect sTextBounds = settingsButtonText_.getLocalBounds();
+        settingsButtonText_.setPosition(
+            settingsBtnX + (settingsBtnW - sTextBounds.width) / 2.0f,
+            settingsBtnY + (settingsBtnH - sTextBounds.height) / 2.0f - sTextBounds.top
+        );
         if (startFontLoaded_) {
             const float hintBoxWidth =
                 static_cast<float>(windowSize_.x) * kStartHintBoxWidthRatio;
@@ -552,41 +643,82 @@ int HexGameUI::run() {
     while (window.isOpen()) {
         bool humanMovedThisFrame = false;
         sf::Event event;
-        if (showStartScreen_ && startFontLoaded_) {
+        if (showStartScreen_) {
             const float t = startScreenClock_.getElapsedTime().asSeconds();
-            const float offsetX =
-                std::sin(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
-            const float offsetY =
-                std::cos(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
-            startHintBox_.setPosition(
-                startHintBoxBasePos_.x + offsetX,
-                startHintBoxBasePos_.y + offsetY);
-            startHintText_.setPosition(
-                startHintTextBasePos_.x + offsetX,
-                startHintTextBasePos_.y + offsetY);
+            if (startFontLoaded_) {
+                const float offsetX =
+                    std::sin(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
+                const float offsetY =
+                    std::cos(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
+                startHintBox_.setPosition(
+                    startHintBoxBasePos_.x + offsetX,
+                    startHintBoxBasePos_.y + offsetY);
+                startHintText_.setPosition(
+                    startHintTextBasePos_.x + offsetX,
+                    startHintTextBasePos_.y + offsetY);
+            }
+            const sf::Vector2u buttonSize = startButtonTexture_.getSize();
+            if (buttonSize.x != 0 && buttonSize.y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kStartButtonWidthRatio;
+                const float baseScale = desiredWidth / buttonSize.x;
+                const float pulse = 1.5f + 0.25f * std::sin(t * kStartButtonPulseSpeed);
+                const float animatedScale = baseScale * pulse;
+                startButtonSprite_.setScale(animatedScale, animatedScale);
+                const float scaledButtonWidth = buttonSize.x * animatedScale;
+                const float scaledButtonHeight = buttonSize.y * animatedScale;
+                const float buttonX =
+                    (static_cast<float>(windowSize_.x) - scaledButtonWidth) / 2.0f;
+                const float buttonY =
+                    (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
+                startButtonSprite_.setPosition(buttonX, buttonY);
+            }
         }
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+
             if (showStartScreen_) {
                 if (event.type == sf::Event::MouseButtonPressed &&
                     event.mouseButton.button == sf::Mouse::Left) {
-                    sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2f mousePos = window.mapPixelToCoords(
                         sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
-                    if (startButtonSprite_.getGlobalBounds().contains(pos)) {
-                        showStartScreen_ = false;
-                        updateWindowTitle(window);
-                        printBoardStatus();
+
+                    if (!showSettingsMenu_) {
+                        if (startButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                            showStartScreen_ = false;
+                            updateWindowTitle(window);
+                            printBoardStatus();
+                        }
+
+                        if (settingsButton_.getGlobalBounds().contains(mousePos)) {
+                            showSettingsMenu_ = true;
+                        }
+                    } else {
+                        // --- LÓGICA DENTRO DEL MENÚ ---
+                        // Cambiar modo de IA
+                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
+                            useGnnAi_ = !useGnnAi_;
+                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
+                        }
+
+                        // Cerrar menú si haces clic fuera del fondo del menú
+                        if (!menuBackground_.getGlobalBounds().contains(mousePos)) {
+                            showSettingsMenu_ = false;
+                        }
                     }
                 }
-                continue;
+                continue; // Si estamos en la pantalla de inicio, no procesamos clics del tablero
             }
+
+            // --- LÓGICA DE JUEGO (Solo si no estamos en Start Screen) ---
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 resetGame();
                 updateWindowTitle(window);
             }
+
             if (!gameOver_ &&
                 event.type == sf::Event::MouseButtonPressed &&
                 event.mouseButton.button == sf::Mouse::Left) {
@@ -602,23 +734,37 @@ int HexGameUI::run() {
 
         if (showStartScreen_) {
             window.clear(sf::Color(30, 30, 40));
-            if (startPageTexture_.getSize().x != 0 && startPageTexture_.getSize().y != 0) {
+
+            if (startPageTexture_.getSize().x != 0) {
                 window.draw(startPageSprite_);
             }
-            if (startTitleTexture_.getSize().x != 0 && startTitleTexture_.getSize().y != 0) {
+
+            if (startTitleTexture_.getSize().x != 0) {
                 window.draw(startTitleSprite_);
             }
-            if (startButtonTexture_.getSize().x != 0 &&
-                startButtonTexture_.getSize().y != 0) {
+
+            if (startButtonTexture_.getSize().x != 0) {
                 window.draw(startButtonSprite_);
             }
-            if (startFontLoaded_) {
-                window.draw(startHintBox_);
-                window.draw(startHintText_);
+
+            window.draw(settingsButton_);
+            window.draw(settingsButtonText_);
+
+            if (showSettingsMenu_) {
+                window.draw(menuOverlay_);    
+                window.draw(menuBackground_); 
+                
+                if (startFontLoaded_) {
+                    window.draw(aiConfigBox_);
+                    window.draw(aiConfigText_);
+                    window.draw(hardwareInfoText_);
+                }
             }
+
             window.display();
             continue;
         }
+
 
         updateHover(window);
 

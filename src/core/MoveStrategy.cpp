@@ -367,7 +367,7 @@ uint64_t Zobrist::undoMoveHash(uint64_t hash, int moveIndex, int color) const{
 }
 
 
-NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool heuristicOnly)
+NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool heuristicOnly, bool preferCuda)
     : maxDepth(maxDepth),
       timeLimitMs(timeLimitMs),
       useHeuristic(heuristicOnly),
@@ -375,13 +375,13 @@ NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::strin
       killers(MAX_DEPTH, { -1, -1 }),
       history(128, 0),
       model(heuristicOnly ? std::string()
-                          : resolveModelPath(modelPath.empty() ? defaultModelPath() : modelPath)) {}
+                          : resolveModelPath(modelPath.empty() ? defaultModelPath() : modelPath),preferCuda) {}
 
 NegamaxHeuristicStrategy::NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs)
     : NegamaxStrategy(maxDepth, timeLimitMs, defaultModelPath(), true) {}
 
-NegamaxGnnStrategy::NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath)
-    : NegamaxStrategy(maxDepth, timeLimitMs, modelPath.empty() ? defaultModelPath() : modelPath, false) {}
+NegamaxGnnStrategy::NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool preferCuda)
+    : NegamaxStrategy(maxDepth, timeLimitMs, modelPath.empty() ? defaultModelPath() : modelPath, false,preferCuda) {}
 
 
 int NegamaxStrategy::select(const GameState& state, int playerId) {
