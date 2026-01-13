@@ -18,6 +18,13 @@ public:
         const std::string& startPagePath,
         const std::string& startButtonPath,
         const std::string& startTitlePath,
+        const std::string& playerSelectPagePath,
+        const std::string& playerStartButtonPath,
+        const std::string& nextTypeButtonPath,
+        const std::string& humanLabelPath,
+        const std::string& player2HumanLabelPath,
+        const std::string& player2GnnLabelPath,
+        const std::string& player2HeuristicLabelPath,
         const std::string& player1WinPath,
         const std::string& player2WinPath,
         int boardSize,
@@ -29,6 +36,8 @@ public:
     int run();
 
 private:
+    enum class UIScreen { Start, PlayerSelect, Game };
+
     struct Tile {
         HexTile sprite;
         sf::Vector2f center;
@@ -41,6 +50,7 @@ private:
     bool loadBackgroundTexture();
     bool loadPlayerTextures();
     bool loadStartScreenTextures();
+    bool loadPlayerSelectTextures();
     bool loadVictoryTextures();
     void buildLayout();
     void updateTileColors();
@@ -59,6 +69,13 @@ private:
     std::string startPagePath_;
     std::string startButtonPath_;
     std::string startTitlePath_;
+    std::string playerSelectPagePath_;
+    std::string playerStartButtonPath_;
+    std::string nextTypeButtonPath_;
+    std::string humanLabelPath_;
+    std::string player2HumanLabelPath_;
+    std::string player2GnnLabelPath_;
+    std::string player2HeuristicLabelPath_;
     std::string player1WinPath_;
     std::string player2WinPath_;
     std::string modelPath_;
@@ -66,6 +83,7 @@ private:
     float tileScale_ = 1.0f;
     float scaleFactor_ = 2.0f;
     bool useGnnAi_ = false;
+    bool player2IsHuman_ = false;
 
     Board board_;
     AIPlayer heuristicAI_;
@@ -88,6 +106,20 @@ private:
     sf::Sprite startButtonSprite_;
     sf::Texture startTitleTexture_;
     sf::Sprite startTitleSprite_;
+    sf::Texture playerSelectPageTexture_;
+    sf::Sprite playerSelectPageSprite_;
+    sf::Texture playerStartButtonTexture_;
+    sf::Sprite playerStartButtonSprite_;
+    sf::Texture nextTypeButtonTexture_;
+    sf::Sprite nextTypeButtonSprite_;
+    sf::Texture humanLabelTexture_;
+    sf::Sprite humanLabelSprite_;
+    sf::Texture player2HumanLabelTexture_;
+    sf::Sprite player2HumanLabelSprite_;
+    sf::Texture player2GnnLabelTexture_;
+    sf::Sprite player2GnnLabelSprite_;
+    sf::Texture player2HeuristicLabelTexture_;
+    sf::Sprite player2HeuristicLabelSprite_;
     sf::Font startFont_;
     sf::Text startHintText_;
     sf::RectangleShape startHintBox_;
@@ -124,7 +156,8 @@ private:
 
     std::vector<Tile> tiles_;
     std::string error_;
-    bool showStartScreen_ = true;
+    UIScreen screen_ = UIScreen::Start;
+    bool playerSelectEnabled_ = true;
     bool startFontLoaded_ = false;
     bool victoryAnimationActive_ = false;
 };

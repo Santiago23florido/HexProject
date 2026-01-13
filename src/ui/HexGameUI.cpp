@@ -16,6 +16,10 @@ constexpr sf::Uint8 kHoverAlpha = 180;
 constexpr float kPlayerIconMargin = 12.0f;
 constexpr sf::Uint8 kInactivePlayerAlpha = 90;
 constexpr float kStartButtonWidthRatio = 0.25f;
+constexpr float kPlayerStartButtonWidthRatio = 0.35f;
+constexpr float kPlayerNextButtonWidthRatio = 0.20f;
+constexpr float kPlayerHumanLabelWidthRatio = 0.25f;
+constexpr float kPlayerSelectButtonGap = 18.0f;
 constexpr float kStartTitleWidthRatio = 0.60f;
 constexpr float kStartTitleGap = 16.0f;
 constexpr float kStartHintBoxWidthRatio = 0.60f;
@@ -48,6 +52,13 @@ HexGameUI::HexGameUI(
     const std::string& startPagePath,
     const std::string& startButtonPath,
     const std::string& startTitlePath,
+    const std::string& playerSelectPagePath,
+    const std::string& playerStartButtonPath,
+    const std::string& nextTypeButtonPath,
+    const std::string& humanLabelPath,
+    const std::string& player2HumanLabelPath,
+    const std::string& player2GnnLabelPath,
+    const std::string& player2HeuristicLabelPath,
     const std::string& player1WinPath,
     const std::string& player2WinPath,
     int boardSize,
@@ -62,6 +73,13 @@ HexGameUI::HexGameUI(
       startPagePath_(startPagePath),
       startButtonPath_(startButtonPath),
       startTitlePath_(startTitlePath),
+      playerSelectPagePath_(playerSelectPagePath),
+      playerStartButtonPath_(playerStartButtonPath),
+      nextTypeButtonPath_(nextTypeButtonPath),
+      humanLabelPath_(humanLabelPath),
+      player2HumanLabelPath_(player2HumanLabelPath),
+      player2GnnLabelPath_(player2GnnLabelPath),
+      player2HeuristicLabelPath_(player2HeuristicLabelPath),
       player1WinPath_(player1WinPath),
       player2WinPath_(player2WinPath),
       modelPath_(modelPath),
@@ -82,6 +100,9 @@ HexGameUI::HexGameUI(
         return;
     }
     if (!loadStartScreenTextures()) {
+        return;
+    }
+    if (!loadPlayerSelectTextures()) {
         return;
     }
     if (!loadVictoryTextures()) {
@@ -157,7 +178,7 @@ bool HexGameUI::loadPlayerTextures() {
 
 bool HexGameUI::loadStartScreenTextures() {
     if (startPagePath_.empty() || startButtonPath_.empty() || startTitlePath_.empty()) {
-        showStartScreen_ = false;
+        screen_ = UIScreen::Game;
         return true;
     }
     if (!startPageTexture_.loadFromFile(startPagePath_)) {
@@ -248,8 +269,92 @@ bool HexGameUI::loadStartScreenTextures() {
         hardwareInfoText_.setString("Hardware: \nCPU (Modo Heuristico)");
     }
 
-    showStartScreen_ = true;
+    return true;
+}
 
+bool HexGameUI::loadPlayerSelectTextures() {
+    if (playerSelectPagePath_.empty() || playerStartButtonPath_.empty()) {
+        playerSelectEnabled_ = false;
+        return true;
+    }
+    if (!playerSelectPageTexture_.loadFromFile(playerSelectPagePath_)) {
+        error_ = "Failed to load player selection page texture: " + playerSelectPagePath_;
+        return false;
+    }
+    if (!playerStartButtonTexture_.loadFromFile(playerStartButtonPath_)) {
+        error_ = "Failed to load player start button texture: " + playerStartButtonPath_;
+        return false;
+    }
+    if (!nextTypeButtonPath_.empty()) {
+        if (!nextTypeButtonTexture_.loadFromFile(nextTypeButtonPath_)) {
+            error_ = "Failed to load next type button texture: " + nextTypeButtonPath_;
+            return false;
+        }
+        const sf::Vector2u nextSize = nextTypeButtonTexture_.getSize();
+        if (nextSize.x == 0 || nextSize.y == 0) {
+            error_ = "Invalid next type button texture size.";
+            return false;
+        }
+        nextTypeButtonSprite_.setTexture(nextTypeButtonTexture_);
+    }
+    if (!humanLabelPath_.empty()) {
+        if (!humanLabelTexture_.loadFromFile(humanLabelPath_)) {
+            error_ = "Failed to load human label texture: " + humanLabelPath_;
+            return false;
+        }
+        const sf::Vector2u labelSize = humanLabelTexture_.getSize();
+        if (labelSize.x == 0 || labelSize.y == 0) {
+            error_ = "Invalid human label texture size.";
+            return false;
+        }
+        humanLabelSprite_.setTexture(humanLabelTexture_);
+    }
+    if (!player2HumanLabelPath_.empty()) {
+        if (!player2HumanLabelTexture_.loadFromFile(player2HumanLabelPath_)) {
+            error_ = "Failed to load player 2 human label texture: " + player2HumanLabelPath_;
+            return false;
+        }
+        const sf::Vector2u labelSize = player2HumanLabelTexture_.getSize();
+        if (labelSize.x == 0 || labelSize.y == 0) {
+            error_ = "Invalid player 2 human label texture size.";
+            return false;
+        }
+        player2HumanLabelSprite_.setTexture(player2HumanLabelTexture_);
+    }
+    if (!player2GnnLabelPath_.empty()) {
+        if (!player2GnnLabelTexture_.loadFromFile(player2GnnLabelPath_)) {
+            error_ = "Failed to load player 2 GNN label texture: " + player2GnnLabelPath_;
+            return false;
+        }
+        const sf::Vector2u labelSize = player2GnnLabelTexture_.getSize();
+        if (labelSize.x == 0 || labelSize.y == 0) {
+            error_ = "Invalid player 2 GNN label texture size.";
+            return false;
+        }
+        player2GnnLabelSprite_.setTexture(player2GnnLabelTexture_);
+    }
+    if (!player2HeuristicLabelPath_.empty()) {
+        if (!player2HeuristicLabelTexture_.loadFromFile(player2HeuristicLabelPath_)) {
+            error_ = "Failed to load player 2 heuristic label texture: " +
+                     player2HeuristicLabelPath_;
+            return false;
+        }
+        const sf::Vector2u labelSize = player2HeuristicLabelTexture_.getSize();
+        if (labelSize.x == 0 || labelSize.y == 0) {
+            error_ = "Invalid player 2 heuristic label texture size.";
+            return false;
+        }
+        player2HeuristicLabelSprite_.setTexture(player2HeuristicLabelTexture_);
+    }
+    const sf::Vector2u pageSize = playerSelectPageTexture_.getSize();
+    const sf::Vector2u buttonSize = playerStartButtonTexture_.getSize();
+    if (pageSize.x == 0 || pageSize.y == 0 ||
+        buttonSize.x == 0 || buttonSize.y == 0) {
+        error_ = "Invalid player selection texture size.";
+        return false;
+    }
+    playerSelectPageSprite_.setTexture(playerSelectPageTexture_);
+    playerStartButtonSprite_.setTexture(playerStartButtonTexture_);
     return true;
 }
 
@@ -546,7 +651,7 @@ int HexGameUI::run() {
             static_cast<float>(windowSize_.x) - player2Width - kPlayerIconMargin,
             kPlayerIconMargin);
     }
-    if (showStartScreen_) {
+    if (screen_ == UIScreen::Start) {
         const sf::Vector2u pageSize = startPageTexture_.getSize();
         const sf::Vector2u buttonSize = startButtonTexture_.getSize();
         const sf::Vector2u titleSize = startTitleTexture_.getSize();
@@ -635,6 +740,8 @@ int HexGameUI::run() {
 
         startScreenClock_.restart();
         window.setTitle("Hex UI - Start");
+    } else if (screen_ == UIScreen::PlayerSelect) {
+        window.setTitle("Hex UI - Player Select");
     } else {
         updateWindowTitle(window);
         printBoardStatus();
@@ -643,7 +750,7 @@ int HexGameUI::run() {
     while (window.isOpen()) {
         bool humanMovedThisFrame = false;
         sf::Event event;
-        if (showStartScreen_) {
+        if (screen_ == UIScreen::Start) {
             const float t = startScreenClock_.getElapsedTime().asSeconds();
             if (startFontLoaded_) {
                 const float offsetX =
@@ -673,6 +780,81 @@ int HexGameUI::run() {
                     (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
                 startButtonSprite_.setPosition(buttonX, buttonY);
             }
+        } else if (screen_ == UIScreen::PlayerSelect) {
+            float startButtonY = 0.0f;
+            float startButtonHeight = 0.0f;
+            const sf::Vector2u buttonSize = playerStartButtonTexture_.getSize();
+            if (buttonSize.x != 0 && buttonSize.y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kPlayerStartButtonWidthRatio;
+                const float buttonScale = desiredWidth / buttonSize.x;
+                playerStartButtonSprite_.setScale(buttonScale, buttonScale);
+                const float scaledButtonWidth = buttonSize.x * buttonScale;
+                const float scaledButtonHeight = buttonSize.y * buttonScale;
+                const float buttonX =
+                    (static_cast<float>(windowSize_.x) - scaledButtonWidth) / 2.0f;
+                const float buttonY =
+                    (static_cast<float>(windowSize_.y*3.5f/2.0f) - scaledButtonHeight) / 2.0f;
+                playerStartButtonSprite_.setPosition(buttonX, buttonY);
+                startButtonY = buttonY;
+                startButtonHeight = scaledButtonHeight;
+            }
+            const sf::Vector2u nextSize = nextTypeButtonTexture_.getSize();
+            if (nextSize.x != 0 && nextSize.y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kPlayerNextButtonWidthRatio;
+                const float nextScale = desiredWidth / nextSize.x;
+                nextTypeButtonSprite_.setScale(nextScale, nextScale);
+                const float scaledWidth = nextSize.x * nextScale;
+                const float scaledHeight = nextSize.y * nextScale;
+                const float buttonX =
+                    (static_cast<float>(windowSize_.x) * 3.0f / 4.0f) - (scaledWidth / 2.0f);;
+                const float buttonY =
+                    (static_cast<float>(windowSize_.y) * 2.5f / 3.0f) - (scaledHeight / 2.0f);
+                nextTypeButtonSprite_.setPosition(buttonX, buttonY);
+            }
+            const sf::Vector2u labelSize = humanLabelTexture_.getSize();
+            if (labelSize.x != 0 && labelSize.y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kPlayerHumanLabelWidthRatio;
+                const float labelScale = desiredWidth / labelSize.x;
+                humanLabelSprite_.setScale(labelScale, labelScale);
+                const float scaledWidth = labelSize.x * labelScale;
+                const float scaledHeight = labelSize.y * labelScale;
+                const float labelX =
+                    (static_cast<float>(windowSize_.x) * 0.25f) - (scaledWidth / 2.0f);
+                const float labelY =
+                    (static_cast<float>(windowSize_.y) * 0.5f) - (scaledHeight / 2.0f);
+                humanLabelSprite_.setPosition(labelX, labelY);
+            }
+            const sf::Texture* player2LabelTexture = nullptr;
+            sf::Sprite* player2LabelSprite = nullptr;
+            if (player2IsHuman_) {
+                player2LabelTexture = &player2HumanLabelTexture_;
+                player2LabelSprite = &player2HumanLabelSprite_;
+            } else if (useGnnAi_) {
+                player2LabelTexture = &player2GnnLabelTexture_;
+                player2LabelSprite = &player2GnnLabelSprite_;
+            } else {
+                player2LabelTexture = &player2HeuristicLabelTexture_;
+                player2LabelSprite = &player2HeuristicLabelSprite_;
+            }
+            if (player2LabelTexture && player2LabelSprite) {
+                const sf::Vector2u player2Size = player2LabelTexture->getSize();
+                if (player2Size.x != 0 && player2Size.y != 0) {
+                    const float desiredWidth =
+                        static_cast<float>(windowSize_.x) * kPlayerHumanLabelWidthRatio;
+                    const float labelScale = desiredWidth / player2Size.x;
+                    player2LabelSprite->setScale(labelScale, labelScale);
+                    const float scaledWidth = player2Size.x * labelScale;
+                    const float scaledHeight = player2Size.y * labelScale;
+                    const float labelX =
+                        (static_cast<float>(windowSize_.x) * 0.75f) - (scaledWidth / 2.0f);
+                    const float labelY =
+                        (static_cast<float>(windowSize_.y) * 0.5f) - (scaledHeight / 2.0f);
+                    player2LabelSprite->setPosition(labelX, labelY);
+                }
+            }
         }
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
@@ -680,7 +862,7 @@ int HexGameUI::run() {
                 window.close();
             }
 
-            if (showStartScreen_) {
+            if (screen_ == UIScreen::Start) {
                 if (event.type == sf::Event::MouseButtonPressed &&
                     event.mouseButton.button == sf::Mouse::Left) {
                     sf::Vector2f mousePos = window.mapPixelToCoords(
@@ -688,9 +870,15 @@ int HexGameUI::run() {
 
                     if (!showSettingsMenu_) {
                         if (startButtonSprite_.getGlobalBounds().contains(mousePos)) {
-                            showStartScreen_ = false;
-                            updateWindowTitle(window);
-                            printBoardStatus();
+                            showSettingsMenu_ = false;
+                            if (playerSelectEnabled_) {
+                                screen_ = UIScreen::PlayerSelect;
+                                window.setTitle("Hex UI - Player Select");
+                            } else {
+                                screen_ = UIScreen::Game;
+                                updateWindowTitle(window);
+                                printBoardStatus();
+                            }
                         }
 
                         if (settingsButton_.getGlobalBounds().contains(mousePos)) {
@@ -702,6 +890,8 @@ int HexGameUI::run() {
                         if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
                             useGnnAi_ = !useGnnAi_;
                             aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
+                            std::cout << "Modo IA actual: " << (useGnnAi_ ? "GNN" : "Heuristico")
+                                      << "\n";
                         }
 
                         // Cerrar menú si haces clic fuera del fondo del menú
@@ -711,6 +901,40 @@ int HexGameUI::run() {
                     }
                 }
                 continue; // Si estamos en la pantalla de inicio, no procesamos clics del tablero
+            }
+
+            if (screen_ == UIScreen::PlayerSelect) {
+                if (event.type == sf::Event::MouseButtonPressed &&
+                    event.mouseButton.button == sf::Mouse::Left) {
+                    sf::Vector2f mousePos = window.mapPixelToCoords(
+                        sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+
+                    if (nextTypeButtonTexture_.getSize().x != 0 &&
+                        nextTypeButtonTexture_.getSize().y != 0 &&
+                        nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        if (player2IsHuman_) {
+                            player2IsHuman_ = false;
+                            useGnnAi_ = true;
+                        } else if (useGnnAi_) {
+                            useGnnAi_ = false;
+                        } else {
+                            player2IsHuman_ = true;
+                        }
+                        if (player2IsHuman_) {
+                            aiConfigText_.setString("Jugador 2: Humano");
+                            std::cout << "Jugador 2: Humano\n";
+                        } else {
+                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
+                            std::cout << "Jugador 2: IA (" << (useGnnAi_ ? "GNN" : "Heuristico")
+                                      << ")\n";
+                        }
+                    } else if (playerStartButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        screen_ = UIScreen::Game;
+                        updateWindowTitle(window);
+                        printBoardStatus();
+                    }
+                }
+                continue;
             }
 
             // --- LÓGICA DE JUEGO (Solo si no estamos en Start Screen) ---
@@ -732,7 +956,7 @@ int HexGameUI::run() {
             }
         }
 
-        if (showStartScreen_) {
+        if (screen_ == UIScreen::Start) {
             window.clear(sf::Color(30, 30, 40));
 
             if (startPageTexture_.getSize().x != 0) {
@@ -765,10 +989,59 @@ int HexGameUI::run() {
             continue;
         }
 
+        if (screen_ == UIScreen::PlayerSelect) {
+            window.clear(sf::Color(30, 30, 40));
+
+            if (playerSelectPageTexture_.getSize().x != 0) {
+                const sf::Vector2u pageSize = playerSelectPageTexture_.getSize();
+                const float pageScaleX = static_cast<float>(windowSize_.x) / pageSize.x;
+                const float pageScaleY = static_cast<float>(windowSize_.y) / pageSize.y;
+                playerSelectPageSprite_.setScale(pageScaleX, pageScaleY);
+                playerSelectPageSprite_.setPosition(0.0f, 0.0f);
+                window.draw(playerSelectPageSprite_);
+            }
+
+            if (humanLabelTexture_.getSize().x != 0 && humanLabelTexture_.getSize().y != 0) {
+                window.draw(humanLabelSprite_);
+            }
+
+            const sf::Sprite* player2LabelSprite = nullptr;
+            if (player2IsHuman_) {
+                if (player2HumanLabelTexture_.getSize().x != 0 &&
+                    player2HumanLabelTexture_.getSize().y != 0) {
+                    player2LabelSprite = &player2HumanLabelSprite_;
+                }
+            } else if (useGnnAi_) {
+                if (player2GnnLabelTexture_.getSize().x != 0 &&
+                    player2GnnLabelTexture_.getSize().y != 0) {
+                    player2LabelSprite = &player2GnnLabelSprite_;
+                }
+            } else {
+                if (player2HeuristicLabelTexture_.getSize().x != 0 &&
+                    player2HeuristicLabelTexture_.getSize().y != 0) {
+                    player2LabelSprite = &player2HeuristicLabelSprite_;
+                }
+            }
+            if (player2LabelSprite) {
+                window.draw(*player2LabelSprite);
+            }
+
+            if (nextTypeButtonTexture_.getSize().x != 0 && nextTypeButtonTexture_.getSize().y != 0) {
+                window.draw(nextTypeButtonSprite_);
+            }
+
+            if (playerStartButtonTexture_.getSize().x != 0) {
+                window.draw(playerStartButtonSprite_);
+            }
+
+            window.display();
+            continue;
+        }
+
 
         updateHover(window);
 
-        if (!gameOver_ && currentPlayerId_ == 2 && !humanMovedThisFrame) {
+        if (!gameOver_ && currentPlayerId_ == 2 && !humanMovedThisFrame && !player2IsHuman_) {
             GameState state(board_, currentPlayerId_);
             int moveIdx = useGnnAi_ ? gnnAI_.ChooseMove(state)
                                     : heuristicAI_.ChooseMove(state);
