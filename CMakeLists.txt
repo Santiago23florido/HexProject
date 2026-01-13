@@ -32,7 +32,7 @@ endif()
 find_package(Torch REQUIRED)
 
 # ==== Find SFML ====
-find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
 
 # ==== Core library (engine + strategies + GNN) ====
 add_library(hex_core
@@ -76,6 +76,7 @@ target_link_libraries(hex_ui PRIVATE
     sfml-graphics
     sfml-window
     sfml-system
+    sfml-audio
 )
 
 # ==== RPATH so the binaries can find libtorch .so files at runtime ====
