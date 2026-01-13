@@ -16,13 +16,14 @@ constexpr sf::Uint8 kHoverAlpha = 180;
 constexpr float kPlayerIconMargin = 12.0f;
 constexpr sf::Uint8 kInactivePlayerAlpha = 90;
 constexpr float kStartButtonWidthRatio = 0.25f;
-constexpr float kStartTitleWidthRatio = 0.45f;
-constexpr float kStartTitleTopMargin = -40.0f;
+constexpr float kStartTitleWidthRatio = 0.60f;
+constexpr float kStartTitleGap = 16.0f;
 constexpr float kStartHintBoxWidthRatio = 0.60f;
 constexpr float kStartHintBoxHeightRatio = 0.09f;
 constexpr float kStartHintTopMargin = 12.0f;
 constexpr float kStartHintVibrateAmplitude = 2.0f;
 constexpr float kStartHintVibrateSpeed = 18.0f;
+constexpr float kStartButtonPulseSpeed = 2.0f;
 constexpr float kVictoryFadeDuration = 0.9f;
 constexpr float kVictoryOverlayMaxAlpha = 190.0f;
 constexpr float kVictoryImageWidthRatio = 0.55f;
@@ -565,6 +566,17 @@ int HexGameUI::run() {
             (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
         startButtonSprite_.setPosition(buttonX, buttonY);
 
+        const float desiredTitleWidth =
+            static_cast<float>(windowSize_.x) * kStartTitleWidthRatio;
+        const float titleScale = desiredTitleWidth / titleSize.x;
+        startTitleSprite_.setScale(titleScale, titleScale);
+        const float scaledTitleWidth = titleSize.x * titleScale;
+        const float scaledTitleHeight = titleSize.y * titleScale;
+        const float titleX =
+            (static_cast<float>(windowSize_.x) - scaledTitleWidth) / 2.0f;
+        const float titleY = buttonY - scaledTitleHeight/2.0f - kStartTitleGap*2;
+        startTitleSprite_.setPosition(titleX, titleY);
+
         //Size Button Settings
         float margin = 10.0f * scaleFactor_;
         float settingsBtnW = 50.0f * scaleFactor_;
@@ -631,18 +643,36 @@ int HexGameUI::run() {
     while (window.isOpen()) {
         bool humanMovedThisFrame = false;
         sf::Event event;
-        if (showStartScreen_ && startFontLoaded_) {
+        if (showStartScreen_) {
             const float t = startScreenClock_.getElapsedTime().asSeconds();
-            const float offsetX =
-                std::sin(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
-            const float offsetY =
-                std::cos(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
-            startHintBox_.setPosition(
-                startHintBoxBasePos_.x + offsetX,
-                startHintBoxBasePos_.y + offsetY);
-            startHintText_.setPosition(
-                startHintTextBasePos_.x + offsetX,
-                startHintTextBasePos_.y + offsetY);
+            if (startFontLoaded_) {
+                const float offsetX =
+                    std::sin(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
+                const float offsetY =
+                    std::cos(t * kStartHintVibrateSpeed) * kStartHintVibrateAmplitude;
+                startHintBox_.setPosition(
+                    startHintBoxBasePos_.x + offsetX,
+                    startHintBoxBasePos_.y + offsetY);
+                startHintText_.setPosition(
+                    startHintTextBasePos_.x + offsetX,
+                    startHintTextBasePos_.y + offsetY);
+            }
+            const sf::Vector2u buttonSize = startButtonTexture_.getSize();
+            if (buttonSize.x != 0 && buttonSize.y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kStartButtonWidthRatio;
+                const float baseScale = desiredWidth / buttonSize.x;
+                const float pulse = 1.5f + 0.25f * std::sin(t * kStartButtonPulseSpeed);
+                const float animatedScale = baseScale * pulse;
+                startButtonSprite_.setScale(animatedScale, animatedScale);
+                const float scaledButtonWidth = buttonSize.x * animatedScale;
+                const float scaledButtonHeight = buttonSize.y * animatedScale;
+                const float buttonX =
+                    (static_cast<float>(windowSize_.x) - scaledButtonWidth) / 2.0f;
+                const float buttonY =
+                    (static_cast<float>(windowSize_.y) - scaledButtonHeight) / 2.0f;
+                startButtonSprite_.setPosition(buttonX, buttonY);
+            }
         }
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
@@ -731,11 +761,6 @@ int HexGameUI::run() {
                 }
             }
 
-            if (startFontLoaded_ && !showSettingsMenu_) {
-                window.draw(startHintBox_);
-                window.draw(startHintText_);
-            }
-            
             window.display();
             continue;
         }
