@@ -30,6 +30,7 @@ endif()
 
 # ==== Find Torch (libtorch) ====
 find_package(Torch REQUIRED)
+find_package(CUDAToolkit REQUIRED)
 
 # ==== Find SFML ====
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
@@ -51,6 +52,7 @@ target_include_directories(hex_core PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include/core
     ${CMAKE_CURRENT_SOURCE_DIR}/include/gnn
 )
+target_include_directories(hex_core SYSTEM PUBLIC ${TORCH_INCLUDE_DIRS})
 
 # ==== Link with libtorch ====
 target_link_libraries(hex_core PUBLIC "${TORCH_LIBRARIES}")
@@ -76,6 +78,7 @@ target_link_libraries(hex_ui PRIVATE
     sfml-graphics
     sfml-window
     sfml-system
+    CUDA::cudart
 )
 
 # ==== RPATH so the binaries can find libtorch .so files at runtime ====

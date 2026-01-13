@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/src",
+                "${env:HOME}/libtorch/include",
+                "${env:HOME}/libtorch/include/torch/csrc/api/include",
+                "/usr/local/cuda/include",
+                "/usr/local/cuda-12.8/include"
+            ],
+            "defines": [
+                "USE_TORCH"
+            ],
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
