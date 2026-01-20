@@ -44,7 +44,7 @@ public:
 
 private:
     int boardSize{0};
-    std::vector<std::array<uint64_t, 2>> keys; // keys[cell][color]
+    std::vector<std::array<uint64_t, 2>> keys; 
     uint64_t side{0};
 };
 
@@ -56,7 +56,7 @@ struct SearchResult{
     bool failHigh{false};
 };
 
-// Transposition table entry for negamax
+
 enum class TTFlag { EXACT, LOWER, UPPER };
 
 struct TTEntry {
@@ -67,7 +67,7 @@ struct TTEntry {
     int bestMove{-1};
 };
 
-// Simple negamax-based strategy interface
+
 class NegamaxStrategy : public IMoveStrategy {
 public:
     NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt", bool heuristicOnly = false, bool preferCuda = false);
@@ -79,7 +79,7 @@ private:
     SearchResult negamax(const GameState& state, int depth, int alpha, int beta, int playerId, std::chrono::steady_clock::time_point startTime) const;
     int maxDepth;
     int timeLimitMs;
-    int valueScale{1000}; // scale GNN output to search score space
+    int valueScale{1000}; 
     bool useHeuristic{false};
     mutable bool usageLogged{false};
     mutable int rootPlayer{1};
@@ -88,22 +88,22 @@ private:
     mutable int lastEvalScaled{0};
     static constexpr int MAX_DEPTH = 64;
     static constexpr std::size_t TT_SIZE = 1u << 18;
-    mutable std::vector<TTEntry> transposition; // fixed-size TT
-    std::vector<std::array<int, 2>> killers;    // killer moves per depth
-    std::vector<int> history;                   // history scores indexed by move id
+    mutable std::vector<TTEntry> transposition; 
+    mutable std::vector<std::array<int, 2>> killers; 
+    mutable std::vector<int> history;                
     mutable Zobrist zobrist;
     mutable int zobristCells{0};
     FeatureExtractor extractor;
     GNNModel model;
 };
 
-// Forces heuristic evaluation inside Negamax
+
 class NegamaxHeuristicStrategy : public NegamaxStrategy {
 public:
     NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs);
 };
 
-// Forces GNN evaluation inside Negamax (falls back to heuristic if model fails to load)
+
 class NegamaxGnnStrategy : public NegamaxStrategy {
 public:
     NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts.pt", bool preferCuda = false);

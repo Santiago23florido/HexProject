@@ -9,10 +9,10 @@
 
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-    const std::string modelPath = "../scripts/models/hex_value_ts.pt"; // adjust if you run from a different cwd
+    const std::string modelPath = "../scripts/models/hex_value_ts.pt"; 
     Board board;
 
-    // Default: human (X) vs heuristic AI (O); optional GNN AI if selected.
+    
     char modeChoice = 'h';
     std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
     if (!(std::cin >> modeChoice)) {
@@ -21,7 +21,7 @@ int main() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
     bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
-    //GPU
+    
     bool useCPU = false;
     if (useGnnAi){
         char gpuChoice;
@@ -32,8 +32,8 @@ int main() {
 
 
     HumanPlayer humanPlayer(1);
-    AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000));
-    // Give the GNN more search depth/time to compensate for higher evaluation cost.
+    AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000));
+    
     AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, useCPU));
 
     Player* playerX = &humanPlayer;
