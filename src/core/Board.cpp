@@ -1,9 +1,17 @@
 #include "core/Board.hpp"
 #include <iostream>
+#include <stdexcept>
 #include <type_traits>
 using namespace std;
 
 namespace {
+int ValidateBoardSize(int n) {
+    if (n <= 0) {
+        throw std::invalid_argument("Board size must be positive");
+    }
+    return n;
+}
+
 template <typename T, typename Enable = void>
 struct RangeTraits;
 
@@ -27,7 +35,7 @@ bool InRange(T value, T minValue, T maxValue) {
 }
 } // namespace
 
-Board::Board(int n) : N(n), board(n, std::vector<int>(n, 0)) {}
+Board::Board(int n) : N(ValidateBoardSize(n)), board(N, std::vector<int>(N, 0)) {}
 Board::Board(const Board& other) : N(other.N), board(other.board) {}
 
 void Board::print() const {
@@ -55,7 +63,9 @@ void Board::print() const {
 
 bool Board::place(int r, int c, int player) {
     // User input placement validation
-    if (!InRange(r, 0, N) || !InRange(c, 0, N)) return false;
+    if (!InRange(r, 0, N) || !InRange(c, 0, N)) {
+        throw std::out_of_range("Board::place row/column out of range");
+    }
 
     auto row = board.begin() + r;
     auto cell = row->begin() + c;
@@ -68,7 +78,9 @@ bool Board::place(int r, int c, int player) {
 
 // Linear index variant: idx = r * N + c
 bool Board::place(int idx, int player) {
-    if (!InRange(idx, 0, N * N)) return false;
+    if (!InRange(idx, 0, N * N)) {
+        throw std::out_of_range("Board::place index out of range");
+    }
     const int r = idx / N;
     const int c = idx % N;
     return place(r, c, player);

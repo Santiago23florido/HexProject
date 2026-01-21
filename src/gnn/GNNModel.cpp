@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <iostream>
+#include <stdexcept>
+#include <string>
 #include <vector>
 #include <cassert>
 
@@ -26,9 +28,7 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
     }
     path = path.lexically_normal();
     if (!fs::exists(path)) {
-        std::cerr << "[GNN] Model file not found at " << path
-                  << " (falling back to heuristic evaluation)\n";
-        return;
+        throw std::runtime_error(std::string("GNN model file not found at ") + path.string());
     }
 
     try {
@@ -49,10 +49,10 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
         }
         loaded = true;
     } catch (const std::exception& e) {
-        std::cerr << "Failed to load TorchScript model: " << e.what() << "\n";
         loaded = false;
         delete impl;
         impl = nullptr;
+        throw std::runtime_error(std::string("Failed to load TorchScript model: ") + e.what());
     }
 }
 

@@ -6,65 +6,69 @@
 #include <ctime>
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 
 int main() {
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
-    const std::string modelPath = "../scripts/models/hex_value_ts.pt"; 
-    Board board;
+    try {
+        std::srand(static_cast<unsigned>(std::time(nullptr)));
+        const std::string modelPath = "../scripts/models/hex_value_ts.pt"; 
+        Board board;
 
-    
-    char modeChoice = 'h';
-    std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
-    if (!(std::cin >> modeChoice)) {
-        modeChoice = 'h';
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    }
-    bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
-    
-    bool useCPU = false;
-    if (useGnnAi){
-        char gpuChoice;
-        std::cout << "Prefer GPU if available? [y/n]: ";
-        std::cin >> gpuChoice;
-        useCPU = (gpuChoice == 'y' || gpuChoice == 'Y');
-    }
-
-
-    HumanPlayer humanPlayer(1);
-    AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000));
-    
-    AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, useCPU));
-
-    Player* playerX = &humanPlayer;
-    Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
-                               : static_cast<Player*>(&heuristicAI);
-    Player* current = playerX;
-
-    while (true) {
-        board.print();
-        std::cout << "\nPlayer " << (current->Id() == 1 ? "X" : "O") << " turn\n";
-        GameState state(board, current->Id());
-        int moveIdx = current->ChooseMove(state);
-        if (!board.place(moveIdx, current->Id())) {
-            std::cout << "Invalid move, try again.\n";
-            continue;
+        char modeChoice = 'h';
+        std::cout << "Play against heuristic AI (h) or GNN AI (g)? [h]: ";
+        if (!(std::cin >> modeChoice)) {
+            throw std::runtime_error("Failed to read AI mode selection");
         }
-        state.Update(board, current->Id());
-        int w = state.Winner();
-        if (w == 1) {
+        bool useGnnAi = (modeChoice == 'g' || modeChoice == 'G');
+        
+        bool useCPU = false;
+        if (useGnnAi){
+            char gpuChoice;
+            std::cout << "Prefer GPU if available? [y/n]: ";
+            if (!(std::cin >> gpuChoice)) {
+                throw std::runtime_error("Failed to read GPU preference");
+            }
+            useCPU = (gpuChoice == 'y' || gpuChoice == 'Y');
+        }
+
+        HumanPlayer humanPlayer(1);
+        AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000));
+        
+        AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, useCPU));
+
+        Player* playerX = &humanPlayer;
+        Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
+                                   : static_cast<Player*>(&heuristicAI);
+        Player* current = playerX;
+
+        while (true) {
             board.print();
-            std::cout << "\nPlayer X wins!\n";
-            break;
-        }
-        if (w == 2) {
-            board.print();
-            std::cout << "\nPlayer O wins!\n";
-            break;
+            std::cout << "\nPlayer " << (current->Id() == 1 ? "X" : "O") << " turn\n";
+            GameState state(board, current->Id());
+            int moveIdx = current->ChooseMove(state);
+            if (!board.place(moveIdx, current->Id())) {
+                std::cout << "Invalid move, try again.\n";
+                continue;
+            }
+            state.Update(board, current->Id());
+            int w = state.Winner();
+            if (w == 1) {
+                board.print();
+                std::cout << "\nPlayer X wins!\n";
+                break;
+            }
+            if (w == 2) {
+                board.print();
+                std::cout << "\nPlayer O wins!\n";
+                break;
+            }
+
+            current = (current == playerX) ? playerO : playerX;
         }
 
-        current = (current == playerX) ? playerO : playerX;
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
     }
-
-    return 0;
 }
