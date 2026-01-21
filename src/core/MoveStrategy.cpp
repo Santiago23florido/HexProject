@@ -12,6 +12,7 @@
 #include <chrono>
 #include <string>
 #include <queue>
+#include <deque>
 #include <filesystem>
 #include "gnn/Graph.hpp"
 
@@ -21,16 +22,16 @@ std::string defaultModelPath() {
     return "scripts/models/hex_value_ts.pt";
 }
 
-// Try a few common locations so the model loads whether we run from build/, selfplay/, or repo root.
+
 std::string resolveModelPath(const std::string& hint) {
     namespace fs = std::filesystem;
     const fs::path hinted = hint.empty() ? fs::path(defaultModelPath()) : fs::path(hint);
     std::vector<fs::path> candidates;
 
-    // First, try the path as provided relative to the current working directory.
+    
     candidates.push_back(hinted);
 
-    // Then, walk up a few parent directories to find scripts/models under the repo root.
+    
     fs::path cwd = fs::current_path();
     for (int up = 0; up < 4; ++up) {
         fs::path base = cwd;
@@ -47,13 +48,13 @@ std::string resolveModelPath(const std::string& hint) {
         }
     }
 
-    // Fall back to the original string if nothing was found; caller will handle the failure.
+    
     return hinted.lexically_normal().string();
 }
 
-} // namespace
+} 
 
-// Reuse hex graphs with supernodes for heuristics
+
 static const Graph& getPlainGraph(int N) {
     static std::unordered_map<int, Graph> cache;
     auto it = cache.find(N);
@@ -79,10 +80,11 @@ static int countImmediateWins(const Board& base, const std::vector<int>& moves, 
     for (int m : moves) {
         Board copy(base);
         copy.place(m, player);
-        GameState child(copy, player);
+        int nextPlayer = (player == 1 ? 2 : 1);
+        GameState child(copy, nextPlayer);
         if (child.Winner() == player) {
             wins++;
-            if (wins > 1) break; // early exit once double-threat is detected
+            if (wins > 1) break; 
         }
     }
     return wins;
@@ -95,7 +97,8 @@ static int findImmediateWinningMove(const GameState& state, int player) {
     for (int m : moves) {
         Board copy(base);
         copy.place(m, player);
-        GameState child(copy, player);
+        int nextPlayer = (player == 1 ? 2 : 1);
+        GameState child(copy, nextPlayer);
         if (child.Winner() == player) {
             return m;
         }
@@ -105,49 +108,58 @@ static int findImmediateWinningMove(const GameState& state, int player) {
 
 static int boundaryDistance(const std::vector<int>& linear, int player) {
     const int N = static_cast<int>(std::sqrt(linear.size()));
+    if (N <= 0) return 0;
     const Graph& g = getPlainGraph(N);
     const int opp = (player == 1 ? 2 : 1);
-    std::vector<int> dist(g.numNodes, -1);
-    std::queue<int> q;
-    const int superIdx = (player == 1 ? g.superOffset : g.superOffset + 1);
+    const int total = N * N;
+    const int INF = total * 2;
 
-    for (int v : g.adj[superIdx]) {
-        if (v >= N * N) continue;
-        int r = v / N;
-        int c = v % N;
-        bool isStart = (player == 1 ? (c == 0) : (r == 0));
-        if (!isStart) continue;
-        if (linear[v] == opp) continue;
-        dist[v] = 0;
-        q.push(v);
+    std::vector<int> dist(total, INF);
+    std::deque<int> dq;
+
+    auto push_start = [&](int idx) {
+        if (idx < 0 || idx >= total) return;
+        if (linear[idx] == opp) return;
+        int cost = (linear[idx] == player) ? 0 : 1;
+        if (cost < dist[idx]) {
+            dist[idx] = cost;
+            if (cost == 0) dq.push_front(idx);
+            else dq.push_back(idx);
+        }
+    };
+
+    if (player == 1) {
+        for (int r = 0; r < N; ++r) {
+            push_start(r * N); 
+        }
+    } else {
+        for (int c = 0; c < N; ++c) {
+            push_start(c); 
+        }
     }
 
-    int best = N * N * 4;
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
+    while (!dq.empty()) {
+        int u = dq.front();
+        dq.pop_front();
         int du = dist[u];
         if (player == 1) {
-            if ((u % N) == N - 1) {
-                best = std::min(best, du);
-                continue;
-            }
+            if ((u % N) == N - 1) return du;
         } else {
-            if ((u / N) == N - 1) {
-                best = std::min(best, du);
-                continue;
-            }
+            if ((u / N) == N - 1) return du;
         }
         for (int v : g.adj[u]) {
-            if (v >= N * N) continue;
+            if (v >= total) continue;
             if (linear[v] == opp) continue;
-            if (dist[v] == -1) {
-                dist[v] = du + 1;
-                q.push(v);
+            int w = (linear[v] == player) ? 0 : 1;
+            int nd = du + w;
+            if (nd < dist[v]) {
+                dist[v] = nd;
+                if (w == 0) dq.push_front(v);
+                else dq.push_back(v);
             }
         }
     }
-    return best;
+    return INF;
 }
 
 static int libertiesScore(const std::vector<int>& linear, int player) {
@@ -202,20 +214,17 @@ static int centerScore(const std::vector<int>& linear, int player) {
 }
 
 static int heuristicEval(const GameState& state, int playerId) {
-    auto linear = state.LinearBoard();
-    Board base = buildBoard(linear);
-    const auto moves = state.GetAvailableMoves();
+    const auto linear = state.LinearBoard();
+    const int N = static_cast<int>(std::sqrt(linear.size()));
     int opp = (playerId == 1 ? 2 : 1);
-
-    int selfWins = countImmediateWins(base, moves, playerId);
-    if (selfWins > 0) return 90000;
-
-    int oppWins = countImmediateWins(base, moves, opp);
-    if (oppWins >= 2) return -90000; // double threat: cannot block both
-    const bool singleThreat = (oppWins == 1); // blockable in one move
 
     int distSelf = boundaryDistance(linear, playerId);
     int distOpp = boundaryDistance(linear, opp);
+    const int maxDist = std::max(1, N * N);
+    distSelf = std::min(distSelf, maxDist);
+    distOpp = std::min(distOpp, maxDist);
+    if (distSelf == 0) return 90000;
+    if (distOpp == 0) return -90000;
 
     int libsSelf = libertiesScore(linear, playerId);
     int libsOpp = libertiesScore(linear, opp);
@@ -224,24 +233,23 @@ static int heuristicEval(const GameState& state, int playerId) {
     int bridgesOpp = bridgeScore(linear, opp);
 
     int center = centerScore(linear, playerId);
-
-    int stonesSelf = 0, stonesOpp = 0;
-    for (int v : linear) {
-        if (v == playerId) stonesSelf++;
-        else if (v == opp) stonesOpp++;
-    }
+    const int pathWeight = 600 + N * 10;
+    const int threatWeight = 12000 + N * 300;
+    const int bridgeWeight = 6 + N;
+    const int libertyWeight = 2;
+    const int centerWeight = 1;
 
     int score = 0;
-    score += (distOpp - distSelf) * 200; // favor shorter own path, longer rival
-    score += (libsSelf - libsOpp) * 3;
-    score += (bridgesSelf - bridgesOpp) * 10;
-    score += center * 2;
-    score += (stonesSelf - stonesOpp) * 8;
-    if (singleThreat) score -= 40000; // encourage blocking the opponent's immediate win
+    score += (distOpp - distSelf) * pathWeight;
+    if (distSelf == 1) score += threatWeight;
+    if (distOpp == 1) score -= threatWeight;
+    score += (bridgesSelf - bridgesOpp) * bridgeWeight;
+    score += (libsSelf - libsOpp) * libertyWeight;
+    score += center * centerWeight;
     return score;
 }
 
-//Random selection from the available moves list
+
 int RandomStrategy::select(const GameState& state, int playerId) {
     std::vector<int> moves = state.GetAvailableMoves();
     if (moves.empty()) return -1;
@@ -250,7 +258,7 @@ int RandomStrategy::select(const GameState& state, int playerId) {
 
 MonteCarloStrategy::MonteCarloStrategy(int sims) : SimulationsPerMove(sims) {}
 
-// Random playout from given state; returns winner (0 if none)
+
 int MonteCarloStrategy::simulate(GameState state, int currentPlayer) {
     const auto linear = state.LinearBoard();
     if (linear.empty()) return 0;
@@ -291,7 +299,7 @@ int MonteCarloStrategy::select(const GameState& state, int playerId){
     int bestWins = -1;
 
     for (int m : moves) {
-        // Build board for this move
+        
         Board board(n);
         for (int idx = 0; idx < static_cast<int>(linear.size()); ++idx) {
             if (linear[idx] != 0) {
@@ -304,7 +312,7 @@ int MonteCarloStrategy::select(const GameState& state, int playerId){
         int playerToMove = (playerId == 1 ? 2 : 1);
         GameState simState(board, playerToMove);
         if (simState.Winner() == playerId) {
-            return m; // immediate win after this move
+            return m; 
         }
         for (int s = 0; s < SimulationsPerMove; ++s) {
             int w = simulate(simState, playerToMove);
@@ -341,7 +349,7 @@ uint64_t Zobrist::computeHash(const Board& board) const{
         int c = idx % n;
         int val = board.board[r][c];
         if (val == 1 || val == 2) {
-            int colorIndex = val - 1; // player 1 -> 0, player 2 -> 1
+            int colorIndex = val - 1; 
             h ^= keys[idx][colorIndex];
         }
     }
@@ -352,8 +360,8 @@ uint64_t Zobrist::applyMoveHash(uint64_t hash, int moveIndex, int color) const{
     if (moveIndex < 0 || moveIndex >= boardSize) return hash;
     if (color != 1 && color != 2) return hash;
     int colorIndex = color - 1;
-    hash ^= keys[moveIndex][colorIndex]; // add piece
-    hash ^= side;                        // toggle side to move
+    hash ^= keys[moveIndex][colorIndex]; 
+    hash ^= side;                        
     return hash;
 }
 
@@ -361,8 +369,8 @@ uint64_t Zobrist::undoMoveHash(uint64_t hash, int moveIndex, int color) const{
     if (moveIndex < 0 || moveIndex >= boardSize) return hash;
     if (color != 1 && color != 2) return hash;
     int colorIndex = color - 1;
-    hash ^= side;                        // revert side to move
-    hash ^= keys[moveIndex][colorIndex]; // remove piece
+    hash ^= side;                        
+    hash ^= keys[moveIndex][colorIndex]; 
     return hash;
 }
 
@@ -371,7 +379,7 @@ NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::strin
     : maxDepth(maxDepth),
       timeLimitMs(timeLimitMs),
       useHeuristic(heuristicOnly),
-      transposition(TT_SIZE),                  // fixed-size TT
+      transposition(TT_SIZE),                  
       killers(MAX_DEPTH, { -1, -1 }),
       history(128, 0),
       model(heuristicOnly ? std::string()
@@ -418,7 +426,7 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
     SearchResult best{-1, std::numeric_limits<int>::min(), true, false, false};
     int depthReached = 0;
     int guess = 0;
-    const int window = valueScale * 4; // keep aspiration wide enough for scaled scores
+    const int window = valueScale * 4; 
     lastEvalPlayer = 0;
     lastEvalVal = 0.0f;
     lastEvalScaled = 0;
@@ -452,7 +460,7 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         }
     }
 
-    // Extra summary of the final choice (works for both heuristic and GNN)
+    
     const bool usingGnn = (!useHeuristic && model.isLoaded());
     if (best.bestMove >= 0) {
         const auto linear = state.LinearBoard();
@@ -473,7 +481,7 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     using clock = std::chrono::steady_clock;
     auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - startTime).count();
     if (elapsedMs >= timeLimitMs) {
-        return {-1, 0, false, false, false}; // time limit hit
+        return {-1, 0, false, false, false}; 
     }
 
     int winner = state.Winner();
@@ -506,7 +514,7 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     const int alphaOrig = alpha;
     const int betaOrig = beta;
 
-    // Build once per node, reuse across children, and set up hashing
+    
     auto linear = state.LinearBoard();
     const int n = static_cast<int>(std::sqrt(linear.size()));
     if (n * n != zobristCells) {
@@ -536,14 +544,30 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
             bool failHigh = tt.value >= betaOrig;
             return {tt.bestMove, tt.value, true, failLow, failHigh};
         }
-        if (tt.bestMove >= 0) {
-            auto it = std::find(moves.begin(), moves.end(), tt.bestMove);
-            if (it != moves.end()) std::iter_swap(moves.begin(), it);
-        }
+    }
+
+    if (static_cast<int>(history.size()) != n * n) {
+        history.assign(n * n, 0);
+    }
+    const int depthIdx = std::min(depth, MAX_DEPTH - 1);
+    const int ttMove = (tt.key == key ? tt.bestMove : -1);
+    const int killer1 = killers[depthIdx][0];
+    const int killer2 = killers[depthIdx][1];
+    if (moves.size() > 1) {
+        auto scoreMove = [&](int m) {
+            if (m == ttMove) return 100000000;
+            if (m == killer1) return 90000000;
+            if (m == killer2) return 80000000;
+            if (m >= 0 && m < static_cast<int>(history.size())) return history[m];
+            return 0;
+        };
+        std::stable_sort(moves.begin(), moves.end(), [&](int a, int b) {
+            return scoreMove(a) > scoreMove(b);
+        });
     }
 
     for (int m : moves) {
-        Board childBoard(base); // copy base once per move
+        Board childBoard(base); 
         childBoard.place(m, playerId);
         int nextPlayer = (playerId == 1 ? 2 : 1);
         GameState child(childBoard, nextPlayer);
@@ -557,7 +581,18 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
             bestMove = m;
         }
         if (score > alpha) alpha = score;
-        if (alpha >= beta) break; // beta cut
+        if (alpha >= beta) {
+            if (depthIdx >= 0 && depthIdx < static_cast<int>(killers.size())) {
+                if (m != killers[depthIdx][0]) {
+                    killers[depthIdx][1] = killers[depthIdx][0];
+                    killers[depthIdx][0] = m;
+                }
+            }
+            if (m >= 0 && m < static_cast<int>(history.size())) {
+                history[m] += depth * depth;
+            }
+            break; 
+        }
     }
 
     TTFlag flag = TTFlag::EXACT;
