@@ -23,8 +23,10 @@ public:
 
     // Build or reuse the graph for a given size, then fill features from Board
     FeatureBatch toBatch(const Board& board) const;
+    void toBatch(const Board& board, FeatureBatch& batch) const;
     // Overload for GameState convenience
     FeatureBatch toBatch(const GameState& state) const;
+    void toBatch(const GameState& state, FeatureBatch& batch) const;
 
 private:
     Graph& getGraph(int N) const;

@@ -94,6 +94,7 @@ private:
     mutable Zobrist zobrist;
     mutable int zobristCells{0};
     FeatureExtractor extractor;
+    mutable FeatureBatch gnnBatch;
     GNNModel model;
 };
 
