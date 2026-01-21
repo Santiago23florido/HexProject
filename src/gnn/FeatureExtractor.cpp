@@ -47,22 +47,28 @@ void FeatureExtractor::flatten(const Graph& g, FeatureBatch& batch) const {
 }
 
 FeatureBatch FeatureExtractor::toBatch(const Board& board) const {
-    const int N = board.N;
-    Graph& g = getGraph(N);
-    fillFeatures(g, board);
-
     FeatureBatch batch;
-    flatten(g, batch);
+    toBatch(board, batch);
     return batch;
 }
 
 FeatureBatch FeatureExtractor::toBatch(const GameState& state) const {
+    FeatureBatch batch;
+    toBatch(state, batch);
+    return batch;
+}
+
+void FeatureExtractor::toBatch(const Board& board, FeatureBatch& batch) const {
+    const int N = board.N;
+    Graph& g = getGraph(N);
+    fillFeatures(g, board);
+    flatten(g, batch);
+}
+
+void FeatureExtractor::toBatch(const GameState& state, FeatureBatch& batch) const {
     const auto linear = state.LinearBoard();
     const int N = static_cast<int>(std::sqrt(linear.size()));
     Graph& g = getGraph(N);
     fillFeatures(g, state);
-
-    FeatureBatch batch;
     flatten(g, batch);
-    return batch;
 }
