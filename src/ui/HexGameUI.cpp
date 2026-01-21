@@ -33,6 +33,8 @@ constexpr float kVictoryOverlayMaxAlpha = 190.0f;
 constexpr float kVictoryImageWidthRatio = 0.55f;
 constexpr float kVictoryImageScaleStart = 0.92f;
 constexpr float kVictoryImageScaleEnd = 1.0f;
+constexpr float kMusicVolume = 50.0f;
+constexpr float kSfxVolume = 80.0f;
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -87,7 +89,7 @@ HexGameUI::HexGameUI(
       tileScale_(tileScale),
       useGnnAi_(useGnnAi),
       board_(boardSize),
-      heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(3, 2000)),
+      heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000)),
       gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
     tileScale_ *= scaleFactor_;
     if (!loadTexture()) {
@@ -219,7 +221,7 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
 
-    //Menu Settings Button
+    
     settingsButton_.setSize(sf::Vector2f(150.0f, 40.0f));
     settingsButton_.setFillColor(sf::Color(100, 100, 100, 200));
     settingsButtonText_.setFont(startFont_);
@@ -236,14 +238,14 @@ bool HexGameUI::loadStartScreenTextures() {
 
     menuOverlay_.setFillColor(sf::Color(0, 0, 0, 170));
 
-    // Visual configuration button AI
+    
     aiConfigText_.setFont(startFont_);
     aiConfigText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     aiConfigText_.setFillColor(sf::Color::White);
-    // Initial Text for state of AI
+    
     aiConfigText_.setString(useGnnAi_ ? "Mode AI: GNN (Neuronal)" : "Mode AI: Heuristic");
 
-    // Information about hardware
+    
     hardwareInfoText_.setFont(startFont_);
     hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
@@ -254,7 +256,7 @@ bool HexGameUI::loadStartScreenTextures() {
     if (torch::cuda::is_available()) {
         cudaAvailable = true;
         cudaDeviceProp prop;
-        // Obtenemos las propiedades de la primera GPU encontrada
+        
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             gpuName = prop.name;
         } else {
@@ -262,7 +264,7 @@ bool HexGameUI::loadStartScreenTextures() {
         }
     }
 
-    // 3. Seteamos el texto final según el resultado    
+    
     if (cudaAvailable) {
         hardwareInfoText_.setString("Hardware: \n" + gpuName);
     } else {
@@ -378,6 +380,27 @@ bool HexGameUI::loadVictoryTextures() {
     }
     player1WinSprite_.setTexture(player1WinTexture_);
     player2WinSprite_.setTexture(player2WinTexture_);
+    return true;
+}
+
+bool HexGameUI::initAudio() {
+    if (!menuMusic_.openFromFile("../assets/audio/hexMenu.wav")) {
+        error_ = "Failed to load menu music.";
+        return false;
+    }
+    if (!gameMusic_.openFromFile("../assets/audio/hexGame.wav")) {
+        error_ = "Failed to load game music.";
+        return false;
+    }
+    
+    
+    
+
+    
+    menuMusic_.setLoop(true); 
+    gameMusic_.setLoop(true);
+    menuMusic_.setVolume(kMusicVolume); 
+    gameMusic_.setVolume(kMusicVolume);
     return true;
 }
 
@@ -619,7 +642,13 @@ int HexGameUI::run() {
     sf::RenderWindow window(
         sf::VideoMode(windowSize_.x, windowSize_.y),
         "Hex UI - Viewer");
-
+    
+    window.setFramerateLimit(60);           
+    window.setVerticalSyncEnabled(false);
+    if (!initAudio()) {
+            std::cerr << "Error load music" << std::endl;
+    }
+    else menuMusic_.play();
     
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
@@ -682,32 +711,32 @@ int HexGameUI::run() {
         const float titleY = buttonY - scaledTitleHeight/2.0f - kStartTitleGap*2;
         startTitleSprite_.setPosition(titleX, titleY);
 
-        //Size Button Settings
+        
         float margin = 10.0f * scaleFactor_;
         float settingsBtnW = 50.0f * scaleFactor_;
         float settingsBtnH = 20.0f * scaleFactor_;
         float settingsBtnX = windowSize_.x - settingsBtnW - margin;
         float settingsBtnY = margin;
 
-        //Size Menu Settings
+        
         float menuW = windowSize_.x * 0.6f;
         float menuH = windowSize_.y * 0.6f;
         float menuX = (windowSize_.x - menuW) / 2.0f;
         float menuY = (windowSize_.y - menuH) / 2.0f;
         menuBackground_.setSize(sf::Vector2f(menuW, menuH));
         menuBackground_.setPosition(menuX, menuY);
-        menuOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y)); // Cubre toda la pantalla
+        menuOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y)); 
 
-        //Position AIMode Button
+        
         aiConfigText_.setPosition(menuX + margin, menuY + margin);
 
-        //Position Hardware info
+        
         hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
 
         settingsButton_.setSize(sf::Vector2f(settingsBtnW, settingsBtnH));
         settingsButton_.setPosition(settingsBtnX, settingsBtnY);
 
-        // Centre the text
+        
         sf::FloatRect sTextBounds = settingsButtonText_.getLocalBounds();
         settingsButtonText_.setPosition(
             settingsBtnX + (settingsBtnW - sTextBounds.width) / 2.0f,
@@ -748,6 +777,7 @@ int HexGameUI::run() {
     }
 
     while (window.isOpen()) {
+        sf::sleep(sf::milliseconds(1));
         bool humanMovedThisFrame = false;
         sf::Event event;
         if (screen_ == UIScreen::Start) {
@@ -885,8 +915,8 @@ int HexGameUI::run() {
                             showSettingsMenu_ = true;
                         }
                     } else {
-                        // --- LÓGICA DENTRO DEL MENÚ ---
-                        // Cambiar modo de IA
+                        
+                        
                         if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
                             useGnnAi_ = !useGnnAi_;
                             aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
@@ -894,13 +924,13 @@ int HexGameUI::run() {
                                       << "\n";
                         }
 
-                        // Cerrar menú si haces clic fuera del fondo del menú
+                        
                         if (!menuBackground_.getGlobalBounds().contains(mousePos)) {
                             showSettingsMenu_ = false;
                         }
                     }
                 }
-                continue; // Si estamos en la pantalla de inicio, no procesamos clics del tablero
+                continue; 
             }
 
             if (screen_ == UIScreen::PlayerSelect) {
@@ -932,12 +962,16 @@ int HexGameUI::run() {
                         screen_ = UIScreen::Game;
                         updateWindowTitle(window);
                         printBoardStatus();
+
+                        
+                        menuMusic_.stop();
+                        gameMusic_.play();
                     }
                 }
                 continue;
             }
 
-            // --- LÓGICA DE JUEGO (Solo si no estamos en Start Screen) ---
+            
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R) {
                 resetGame();
                 updateWindowTitle(window);
@@ -955,6 +989,7 @@ int HexGameUI::run() {
                 }
             }
         }
+        sf::sleep(sf::milliseconds(1));
 
         if (screen_ == UIScreen::Start) {
             window.clear(sf::Color(30, 30, 40));
@@ -1035,6 +1070,7 @@ int HexGameUI::run() {
             }
 
             window.display();
+
             continue;
         }
 
