@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <iostream>
+#include <unordered_map>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -14,7 +16,30 @@ struct GNNModel::Impl {
     torch::jit::script::Module module;
     torch::Device device{torch::kCPU};
     bool useCuda{false};
+    std::unordered_map<int, torch::Tensor> edgeIndexCache;
 };
+
+namespace {
+struct CacheKey {
+    std::string path;
+    bool useCuda{false};
+
+    bool operator==(const CacheKey& other) const {
+        return useCuda == other.useCuda && path == other.path;
+    }
+};
+
+struct CacheKeyHash {
+    std::size_t operator()(const CacheKey& key) const {
+        std::size_t h1 = std::hash<std::string>{}(key.path);
+        std::size_t h2 = std::hash<bool>{}(key.useCuda);
+        return h1 ^ (h2 + 0x9e3779b97f4a7c15ULL + (h1 << 6) + (h1 >> 2));
+    }
+};
+
+std::mutex g_cacheMutex;
+std::unordered_map<CacheKey, std::weak_ptr<void>, CacheKeyHash> g_modelCache;
+} // namespace
 
 GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
     if (modelPath.empty()) {
@@ -32,16 +57,41 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
     }
 
     try {
-        impl = new Impl();
-
         //verification of cuda availability
         bool cudaAvailable = torch::cuda::is_available();
     
-        impl->useCuda = preferCuda && cudaAvailable;
+        const bool useCuda = preferCuda && cudaAvailable;
+        const CacheKey cacheKey{path.string(), useCuda};
+
+        {
+            std::lock_guard<std::mutex> lock(g_cacheMutex);
+            auto it = g_modelCache.find(cacheKey);
+            if (it != g_modelCache.end()) {
+                auto cached = it->second.lock();
+                if (cached) {
+                    impl = std::static_pointer_cast<Impl>(cached);
+                    loaded = true;
+                    std::cout << "[GNN] Device set to: " << (impl->useCuda ? "GPU (CUDA)" : "CPU") << "\n";
+                    if (preferCuda && !cudaAvailable){
+                        std::cout << "[Warning] GPU requested but not available. Falling back to CPU.\n";
+                    }
+                    return;
+                }
+                g_modelCache.erase(it);
+            }
+        }
+
+        impl = std::make_shared<Impl>();
+        impl->useCuda = useCuda;
         impl->device = impl->useCuda ? torch::Device(torch::kCUDA) : torch::Device(torch::kCPU);
         impl->module = torch::jit::load(path.string());
         impl->module.to(impl->device);
         impl->module.eval();
+
+        {
+            std::lock_guard<std::mutex> lock(g_cacheMutex);
+            g_modelCache.emplace(cacheKey, std::static_pointer_cast<void>(impl));
+        }
 
         std::cout << "[GNN] Device set to: " << (impl->useCuda ? "GPU (CUDA)" : "CPU") << "\n";
         if (preferCuda && !cudaAvailable){
@@ -50,8 +100,7 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
         loaded = true;
     } catch (const std::exception& e) {
         loaded = false;
-        delete impl;
-        impl = nullptr;
+        impl.reset();
         throw std::runtime_error(std::string("Failed to load TorchScript model: ") + e.what());
     }
 }
@@ -92,10 +141,18 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
     const auto tensorDim = x.size(1);
     assert(tensorDim == batch.featureDim);
 
-    // Edge index: two rows, E columns, owning its memory
-    torch::Tensor src = torch::tensor(batch.edgeSrc, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
-    torch::Tensor dst = torch::tensor(batch.edgeDst, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
-    torch::Tensor edge_index = torch::stack({src, dst}, 0);
+    // Edge index: two rows, E columns, owning its memory (cache per board size).
+    const int cacheKey = (batch.N > 0 ? batch.N : batch.numNodes);
+    torch::Tensor edge_index;
+    auto it = impl->edgeIndexCache.find(cacheKey);
+    if (it != impl->edgeIndexCache.end()) {
+        edge_index = it->second;
+    } else {
+        torch::Tensor src = torch::tensor(batch.edgeSrc, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
+        torch::Tensor dst = torch::tensor(batch.edgeDst, torch::TensorOptions().dtype(torch::kInt64)).to(impl->device);
+        edge_index = torch::stack({src, dst}, 0);
+        impl->edgeIndexCache.emplace(cacheKey, edge_index);
+    }
 
     auto output = impl->module.forward({x, edge_index}).toTensor();
     if (!evalLogged) {
@@ -111,6 +168,4 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
     return val;
 }
 
-GNNModel::~GNNModel() {
-    delete impl;
-}
+GNNModel::~GNNModel() = default;
