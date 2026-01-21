@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "gnn/FeatureExtractor.hpp"
@@ -21,5 +22,5 @@ private:
     mutable bool evalLogged{false};
 
     struct Impl;
-    Impl* impl{nullptr};
+    std::shared_ptr<Impl> impl;
 };

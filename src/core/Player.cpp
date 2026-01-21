@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
 
 // Clone to a simple random strategy when a strategy exists
 static std::unique_ptr<IMoveStrategy> CloneStrategy(const std::unique_ptr<IMoveStrategy>& s) {
@@ -23,6 +24,9 @@ static int PromptHumanMove(const GameState& state) {
         int r = 0, c = 0;
         std::cout << "Enter row and column: ";
         std::cin >> r >> c;
+        if (!std::cin) {
+            throw std::runtime_error("Failed to read move input");
+        }
 
         if (r >= 0 && r < n && c >= 0 && c < n) {
             const int idx = r * n + c;
