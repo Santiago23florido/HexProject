@@ -2,11 +2,14 @@
 
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 
 bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::string& path, bool append) {
     std::ios_base::openmode mode = append ? std::ios::app : std::ios::trunc;
     std::ofstream out(path, mode);
-    if (!out.is_open()) return false;
+    if (!out.is_open()) {
+        throw std::runtime_error("Failed to open output file: " + path);
+    }
 
     for (const auto& s : samples) {
         out << "{";
@@ -21,6 +24,9 @@ bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::strin
         }
         out << "]";
         out << "}\n";
+    }
+    if (!out.good()) {
+        throw std::runtime_error("Failed to write output file: " + path);
     }
     return true;
 }

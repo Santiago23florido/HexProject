@@ -491,8 +491,8 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     if (depth == 0) {
         int evalScore = 0;
         if (!useHeuristic && model.isLoaded()) {
-            FeatureBatch batch = extractor.toBatch(state);
-            float val = model.evaluate(batch, playerId);
+            extractor.toBatch(state, gnnBatch);
+            float val = model.evaluate(gnnBatch, playerId);
             evalScore = static_cast<int>(val * valueScale);
             lastEvalPlayer = playerId;
             lastEvalVal = val;
