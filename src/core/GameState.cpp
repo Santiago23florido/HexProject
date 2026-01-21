@@ -1,20 +1,41 @@
 #include "core/GameState.hpp"
 #include "core/Board.hpp"
 #include "core/Cube.hpp"
+#include <cstddef>
 #include <vector>
 #include <iostream>
 #include <unordered_map>
 #include <algorithm>
 
+namespace {
+template <typename T, std::size_t Size>
+struct FixedArray {
+    T data[Size];
 
-static const Cube Directions[6] = {
+    const T& operator[](std::size_t i) const { return data[i]; }
+    T& operator[](std::size_t i) { return data[i]; }
+};
+
+template <typename T>
+struct DirectionsTraits;
+
+template <>
+struct DirectionsTraits<Cube> {
+    static constexpr std::size_t kCount = 6;
+};
+
+constexpr int kDirectionCount = static_cast<int>(DirectionsTraits<Cube>::kCount);
+} // namespace
+
+
+static const FixedArray<Cube, DirectionsTraits<Cube>::kCount> Directions = {{
     Cube(+1, -1, 0),
     Cube(+1, 0, -1),
     Cube(0, +1, -1),
     Cube(-1, +1, 0),
     Cube(-1, 0, +1),
     Cube(0, -1, +1)
-}; //cube directions for neighbors calculation
+}}; //cube directions for neighbors calculation
 
 GameState :: GameState(int n) : N(n), Hex(n, std::vector<int>(n, 0)) , Player(0){}
 GameState :: GameState(const Board& b,int player) : N(b.N), Hex(b.board), Player(player){}
@@ -117,7 +138,7 @@ int GameState :: Winner() const {
         if(col == N-1){
             return 1; // If BFS reaches last column , player 1 wins
         }
-        for (int d = 0;d < 6; d++){ //Exploration of neighbors
+        for (int d = 0; d < kDirectionCount; d++){ //Exploration of neighbors
             Cube NeighborCube = CubeCoords[current] + Directions[d];
             long long NeighborKey = NeighborCube.key();
             auto found = CoordToIndex.find(NeighborKey);
@@ -152,7 +173,7 @@ int GameState :: Winner() const {
         if(row == N-1){
             return 2; // If BFS reaches last row , player 2 wins
         }
-        for (int d = 0;d < 6; d++){ //Exploration of neighbors
+        for (int d = 0; d < kDirectionCount; d++){ //Exploration of neighbors
             Cube NeighborCube = CubeCoords[current] + Directions[d];
             long long NeighborKey = NeighborCube.key();
             auto found = CoordToIndex.find(NeighborKey);

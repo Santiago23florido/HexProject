@@ -2,6 +2,13 @@
 #include <iostream>
 using namespace std;
 
+namespace {
+template <typename T>
+bool InRange(T value, T minValue, T maxValue) {
+    return value >= minValue && value < maxValue;
+}
+} // namespace
+
 Board::Board(int n) : N(n), board(n, std::vector<int>(n, 0)) {}
 Board::Board(const Board& other) : N(other.N), board(other.board) {}
 
@@ -30,7 +37,7 @@ void Board::print() const {
 
 bool Board::place(int r, int c, int player) {
     // User input placement validation
-    if (r < 0 || r >= N || c < 0 || c >= N) return false;
+    if (!InRange(r, 0, N) || !InRange(c, 0, N)) return false;
 
     auto row = board.begin() + r;
     auto cell = row->begin() + c;
@@ -43,7 +50,7 @@ bool Board::place(int r, int c, int player) {
 
 // Linear index variant: idx = r * N + c
 bool Board::place(int idx, int player) {
-    if (idx < 0 || idx >= N * N) return false;
+    if (!InRange(idx, 0, N * N)) return false;
     const int r = idx / N;
     const int c = idx % N;
     return place(r, c, player);
