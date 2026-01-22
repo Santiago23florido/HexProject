@@ -42,6 +42,8 @@ int main() {
             "../assets/player_selection.png",
             "../assets/player_start.png",
             "../assets/next_type.png",
+            "../assets/plusN.png",
+            "../assets/minusN.png",
             "../assets/Player1Select/Human.png",
             "../assets/Player2Select/Human.png",
             "../assets/Player2Select/GNN.png",
