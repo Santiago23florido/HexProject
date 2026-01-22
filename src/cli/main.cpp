@@ -7,11 +7,12 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <thread>
 
 int main() {
     try {
         std::srand(static_cast<unsigned>(std::time(nullptr)));
-        const std::string modelPath = "../scripts/models/hex_value_ts.pt"; 
+        const std::string modelPath = "../scripts/models/hex_value_ts_mp.pt"; 
         Board board;
 
         char modeChoice = 'h';
@@ -34,7 +35,12 @@ int main() {
         HumanPlayer humanPlayer(1);
         AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000));
         
-        AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, useCPU));
+        AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(4, 4000, modelPath, useCPU));
+        if (auto* strat = dynamic_cast<NegamaxStrategy*>(gnnAI.Strategy())) {
+            const unsigned int hc = std::thread::hardware_concurrency();
+            const int threads = (hc > 1u ? static_cast<int>(hc) : 1);
+            strat->setParallelThreads(threads);
+        }
 
         Player* playerX = &humanPlayer;
         Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
