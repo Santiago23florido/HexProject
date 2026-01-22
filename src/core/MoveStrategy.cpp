@@ -10,7 +10,10 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <atomic>
+#include <mutex>
 #include <string>
+#include <thread>
 #include <queue>
 #include <deque>
 #include <filesystem>
@@ -19,7 +22,7 @@
 namespace {
 
 std::string defaultModelPath() {
-    return "scripts/models/hex_value_ts.pt";
+    return "scripts/models/hex_value_ts_mp.pt";
 }
 
 
@@ -213,18 +216,7 @@ static int centerScore(const std::vector<int>& linear, int player) {
     return self;
 }
 
-struct HeuristicFeatures {
-    int N{0};
-    int distSelf{0};
-    int distOpp{0};
-    int libsSelf{0};
-    int libsOpp{0};
-    int bridgesSelf{0};
-    int bridgesOpp{0};
-    int center{0};
-};
-
-static HeuristicFeatures computeHeuristicFeatures(const GameState& state, int playerId) {
+ValueFeatures computeValueFeatures(const GameState& state, int playerId) {
     const auto linear = state.LinearBoard();
     const int N = static_cast<int>(std::sqrt(linear.size()));
     const int opp = (playerId == 1 ? 2 : 1);
@@ -243,20 +235,10 @@ static HeuristicFeatures computeHeuristicFeatures(const GameState& state, int pl
 
     int center = centerScore(linear, playerId);
 
-    return {
-        N,
-        distSelf,
-        distOpp,
-        libsSelf,
-        libsOpp,
-        bridgesSelf,
-        bridgesOpp,
-        center,
-    };
+    return {N, distSelf, distOpp, libsSelf, libsOpp, bridgesSelf, bridgesOpp, center};
 }
 
-static int heuristicEval(const GameState& state, int playerId) {
-    const HeuristicFeatures feat = computeHeuristicFeatures(state, playerId);
+static int heuristicEvalFromFeatures(const ValueFeatures& feat) {
     if (feat.distSelf == 0) return 90000;
     if (feat.distOpp == 0) return -90000;
 
@@ -274,6 +256,11 @@ static int heuristicEval(const GameState& state, int playerId) {
     score += (feat.libsSelf - feat.libsOpp) * libertyWeight;
     score += feat.center * centerWeight;
     return score;
+}
+
+static int heuristicEval(const GameState& state, int playerId) {
+    const ValueFeatures feat = computeValueFeatures(state, playerId);
+    return heuristicEvalFromFeatures(feat);
 }
 
 
@@ -402,34 +389,93 @@ uint64_t Zobrist::undoMoveHash(uint64_t hash, int moveIndex, int color) const{
 }
 
 
-NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool heuristicOnly, bool preferCuda)
+NegamaxStrategy::NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool heuristicOnly, bool preferCuda, float evalMixAlpha, bool loadModel)
     : maxDepth(maxDepth),
       timeLimitMs(timeLimitMs),
       useHeuristic(heuristicOnly),
+      evalMixAlpha(evalMixAlpha),
       transposition(TT_SIZE),                  
       killers(MAX_DEPTH, { -1, -1 }),
       history(128, 0),
-      model(heuristicOnly ? std::string()
-                          : resolveModelPath(modelPath.empty() ? defaultModelPath() : modelPath),preferCuda) {}
+      model((!heuristicOnly && loadModel)
+                ? resolveModelPath(modelPath.empty() ? defaultModelPath() : modelPath)
+                : std::string(),
+            preferCuda) {}
+
+void NegamaxStrategy::setMlpEvaluator(std::function<float(const std::array<float, 7>&)> evaluator) {
+    mlpEvaluator = std::move(evaluator);
+}
+
+void NegamaxStrategy::setEvalMixAlpha(float alpha) {
+    if (alpha < 0.0f) {
+        evalMixAlpha = 0.0f;
+    } else if (alpha > 1.0f) {
+        evalMixAlpha = 1.0f;
+    } else {
+        evalMixAlpha = alpha;
+    }
+}
+
+void NegamaxStrategy::setLogUsage(bool enable) {
+    logUsage = enable;
+}
+
+void NegamaxStrategy::setParallelThreads(int threads) {
+    if (threads < 1) {
+        parallelRootThreads = 1;
+    } else {
+        parallelRootThreads = threads;
+    }
+}
+
+float NegamaxStrategy::mlEvalFromFeatures(const GameState& state, int playerId) const {
+    const ValueFeatures feat = computeValueFeatures(state, playerId);
+    if (feat.distSelf == 0) return 90000.0f;
+    if (feat.distOpp == 0) return -90000.0f;
+    const std::array<float, 7> inputs = {
+        static_cast<float>(feat.distSelf),
+        static_cast<float>(feat.distOpp),
+        static_cast<float>(feat.libsSelf),
+        static_cast<float>(feat.libsOpp),
+        static_cast<float>(feat.bridgesSelf),
+        static_cast<float>(feat.bridgesOpp),
+        static_cast<float>(feat.center),
+    };
+    if (mlpEvaluator) {
+        return mlpEvaluator(inputs);
+    }
+    return model.evaluateFeatures(inputs);
+}
 
 NegamaxHeuristicStrategy::NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs)
     : NegamaxStrategy(maxDepth, timeLimitMs, defaultModelPath(), true) {}
 
-NegamaxGnnStrategy::NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool preferCuda)
-    : NegamaxStrategy(maxDepth, timeLimitMs, modelPath.empty() ? defaultModelPath() : modelPath, false,preferCuda) {}
+NegamaxGnnStrategy::NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath, bool preferCuda, float evalMixAlpha)
+    : NegamaxStrategy(maxDepth,
+                      timeLimitMs,
+                      modelPath.empty() ? defaultModelPath() : modelPath,
+                      false,
+                      preferCuda,
+                      evalMixAlpha,
+                      true) {}
 
 
 int NegamaxStrategy::select(const GameState& state, int playerId) {
     if (!usageLogged) {
         usageLogged = true;
-        if (useHeuristic) {
-            std::cout << "[Negamax] Using heuristic evaluation\n";
-        } else if (model.isLoaded()) {
-            const bool cuda = model.usesCuda();
-            const char* label = model.expectsEdgeIndex() ? "GNN" : "MLP";
-            std::cout << "[Negamax] Using " << label << " evaluation (" << (cuda ? "CUDA" : "CPU") << ")\n";
-        } else {
-            std::cout << "[Negamax] GNN not loaded, falling back to heuristic evaluation\n";
+        if (logUsage) {
+            if (useHeuristic) {
+                std::cout << "[Negamax] Using heuristic evaluation\n";
+            } else if (model.isLoaded() || mlpEvaluator) {
+                const bool cuda = model.usesCuda();
+                const char* label = model.expectsEdgeIndex() ? "GNN" : "MLP";
+                std::cout << "[Negamax] Using " << label << " evaluation (" << (cuda ? "CUDA" : "CPU") << ")\n";
+                if (!model.expectsEdgeIndex() && evalMixAlpha > 0.0f && parallelRootThreads > 1) {
+                    std::cout << "[Negamax] Parallel root threads=" << parallelRootThreads << "\n";
+                }
+            } else {
+                std::cout << "[Negamax] Model not loaded, falling back to heuristic evaluation\n";
+            }
         }
     }
     const int immediateWin = findImmediateWinningMove(state, playerId);
@@ -450,6 +496,12 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
 SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int playerId) const {
     using clock = std::chrono::steady_clock;
     const auto start = clock::now();
+    const bool logSearch = false;
+    const bool useParallelRoot = (parallelRootThreads > 1) &&
+                                 (!useHeuristic) &&
+                                 (evalMixAlpha > 0.0f) &&
+                                 (model.isLoaded()) &&
+                                 (!model.expectsEdgeIndex());
 
     SearchResult best{-1, std::numeric_limits<int>::min(), true, false, false};
     int depthReached = 0;
@@ -467,30 +519,38 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         int alpha = guess - window;
         int beta  = guess + window;
 
-        std::cout << "[Negamax] Depth " << depth << " start | alpha=" << alpha << " beta=" << beta << "\n";
-        SearchResult res = negamax(state, depth, alpha, beta, playerId, start);
+        if (logSearch) {
+            std::cout << "[Negamax] Depth " << depth << " start | alpha=" << alpha << " beta=" << beta << "\n";
+        }
+        SearchResult res = useParallelRoot
+                               ? negamaxParallelRoot(state, depth, alpha, beta, playerId, start)
+                               : negamax(state, depth, alpha, beta, playerId, start);
 
         if (res.failLow || res.failHigh) {
             alpha = std::numeric_limits<int>::min();
             beta  = std::numeric_limits<int>::max();
-            res = negamax(state, depth, alpha, beta, playerId, start);
+            res = useParallelRoot
+                      ? negamaxParallelRoot(state, depth, alpha, beta, playerId, start)
+                      : negamax(state, depth, alpha, beta, playerId, start);
         }
 
         if (!res.completed) break;
         best = res;
         guess = res.score;
         depthReached = depth;
-        std::cout << "[Negamax] Depth " << depth << " done | bestMove=" << best.bestMove
-                  << " score=" << best.score << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
-        if (lastEvalPlayer != 0) {
-            const char* label = model.expectsEdgeIndex() ? "[GNN]" : "[MLP]";
-            std::cout << label << " Depth " << depth << " last eval | nodePlayer=" << lastEvalPlayer
-                      << " val=" << lastEvalVal << " scaled=" << lastEvalScaled << "\n";
+        if (logSearch) {
+            std::cout << "[Negamax] Depth " << depth << " done | bestMove=" << best.bestMove
+                      << " score=" << best.score << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
+            if (lastEvalPlayer != 0) {
+                const char* label = model.expectsEdgeIndex() ? "[GNN]" : "[MLP]";
+                std::cout << label << " Depth " << depth << " last eval | nodePlayer=" << lastEvalPlayer
+                          << " val=" << lastEvalVal << " scaled=" << lastEvalScaled << "\n";
+            }
         }
     }
 
-    const bool usingModel = (!useHeuristic && model.isLoaded());
-    if (best.bestMove >= 0) {
+    const bool usingModel = (!useHeuristic && (model.isLoaded() || mlpEvaluator));
+    if (logSearch && best.bestMove >= 0) {
         const auto linear = state.LinearBoard();
         const int n = static_cast<int>(std::sqrt(linear.size()));
         const int row = (n > 0 ? best.bestMove / n : -1);
@@ -508,6 +568,186 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
     return best;
 }
 
+SearchResult NegamaxStrategy::negamaxParallelRoot(const GameState& state,
+                                                  int depth,
+                                                  int alpha,
+                                                  int beta,
+                                                  int playerId,
+                                                  std::chrono::steady_clock::time_point startTime) const {
+    using clock = std::chrono::steady_clock;
+    auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - startTime).count();
+    if (elapsedMs >= timeLimitMs) {
+        return {-1, 0, false, false, false};
+    }
+
+    int winner = state.Winner();
+    int opponent = (playerId == 1 ? 2 : 1);
+    if (winner == playerId) return {-1, 100000, true, false, false};
+    if (winner == opponent) return {-1, -100000, true, false, false};
+    if (depth == 0) {
+        return negamax(state, depth, alpha, beta, playerId, startTime);
+    }
+
+    std::vector<int> moves = state.GetAvailableMoves();
+    if (moves.empty()) return {-1, 0, true, false, false};
+
+    int bestMove = moves.front();
+    int bestScore = std::numeric_limits<int>::min();
+    const int alphaOrig = alpha;
+    const int betaOrig = beta;
+
+    auto linear = state.LinearBoard();
+    const int n = static_cast<int>(std::sqrt(linear.size()));
+    if (n * n != zobristCells) {
+        zobrist = Zobrist(n * n);
+        zobristCells = n * n;
+    }
+    Board base(n);
+    for (int idx = 0; idx < static_cast<int>(linear.size()); ++idx) {
+        if (linear[idx] != 0) {
+            base.place(idx, linear[idx]);
+        }
+    }
+    const uint64_t key = zobrist.computeHash(base) ^
+                         (static_cast<uint64_t>(playerId) * 0x9e3779b97f4a7c15ULL);
+    TTEntry& tt = transposition[key % transposition.size()];
+    if (tt.key == key && tt.depth >= depth) {
+        if (tt.flag == TTFlag::EXACT) {
+            bool failLow = tt.value <= alphaOrig;
+            bool failHigh = tt.value >= betaOrig;
+            return {tt.bestMove, tt.value, true, failLow, failHigh};
+        } else if (tt.flag == TTFlag::LOWER) {
+            alpha = std::max(alpha, tt.value);
+        } else if (tt.flag == TTFlag::UPPER) {
+            beta = std::min(beta, tt.value);
+        }
+        if (alpha >= beta) {
+            bool failLow = tt.value <= alphaOrig;
+            bool failHigh = tt.value >= betaOrig;
+            return {tt.bestMove, tt.value, true, failLow, failHigh};
+        }
+    }
+
+    if (static_cast<int>(history.size()) != n * n) {
+        history.assign(n * n, 0);
+    }
+    const int depthIdx = std::min(depth, MAX_DEPTH - 1);
+    const int ttMove = (tt.key == key ? tt.bestMove : -1);
+    const int killer1 = killers[depthIdx][0];
+    const int killer2 = killers[depthIdx][1];
+    if (moves.size() > 1) {
+        auto scoreMove = [&](int m) {
+            if (m == ttMove) return 100000000;
+            if (m == killer1) return 90000000;
+            if (m == killer2) return 80000000;
+            if (m >= 0 && m < static_cast<int>(history.size())) return history[m];
+            return 0;
+        };
+        std::stable_sort(moves.begin(), moves.end(), [&](int a, int b) {
+            return scoreMove(a) > scoreMove(b);
+        });
+    }
+
+    const int threadCount = std::max(1, std::min(parallelRootThreads, static_cast<int>(moves.size())));
+    if (threadCount <= 1 || moves.size() == 1) {
+        return negamax(state, depth, alpha, beta, playerId, startTime);
+    }
+
+    auto mlpEvalFn = [this](const std::array<float, 7>& f) { return model.evaluateFeatures(f); };
+
+    auto makeWorker = [&]() {
+        NegamaxStrategy worker(maxDepth, timeLimitMs, std::string(), useHeuristic, false, evalMixAlpha, false);
+        worker.setMlpEvaluator(mlpEvalFn);
+        worker.setEvalMixAlpha(evalMixAlpha);
+        worker.setLogUsage(false);
+        worker.setParallelThreads(1);
+        return worker;
+    };
+
+    int startIndex = 0;
+    {
+        NegamaxStrategy worker = makeWorker();
+        const int m = moves[0];
+        Board childBoard(base);
+        childBoard.place(m, playerId);
+        int nextPlayer = (playerId == 1 ? 2 : 1);
+        GameState child(childBoard, nextPlayer);
+        SearchResult childRes = worker.negamax(child, depth - 1, -beta, -alpha, nextPlayer, startTime);
+        if (!childRes.completed) return {bestMove, bestScore, false, false, false};
+        int score = -childRes.score;
+        bestScore = score;
+        bestMove = m;
+        if (score > alpha) alpha = score;
+        startIndex = 1;
+        if (alpha >= beta) {
+            TTFlag flag = TTFlag::EXACT;
+            if (bestScore <= alphaOrig) flag = TTFlag::UPPER;
+            else if (bestScore >= betaOrig) flag = TTFlag::LOWER;
+            tt = {key, depth, bestScore, flag, bestMove};
+            bool failLow = bestScore <= alphaOrig;
+            bool failHigh = bestScore >= betaOrig;
+            return {bestMove, bestScore, true, failLow, failHigh};
+        }
+    }
+
+    std::atomic<int> nextIdx(startIndex);
+    std::atomic<int> sharedAlpha(alpha);
+    std::atomic<bool> anyIncomplete(false);
+    std::mutex bestMutex;
+
+    auto workerFn = [&]() {
+        NegamaxStrategy worker = makeWorker();
+        while (true) {
+            int idx = nextIdx.fetch_add(1);
+            if (idx >= static_cast<int>(moves.size())) break;
+            int m = moves[static_cast<std::size_t>(idx)];
+            Board childBoard(base);
+            childBoard.place(m, playerId);
+            int nextPlayer = (playerId == 1 ? 2 : 1);
+            GameState child(childBoard, nextPlayer);
+            int alphaSnapshot = sharedAlpha.load();
+            SearchResult childRes = worker.negamax(child, depth - 1, -beta, -alphaSnapshot, nextPlayer, startTime);
+            if (!childRes.completed) {
+                anyIncomplete.store(true);
+                continue;
+            }
+            int score = -childRes.score;
+            {
+                std::lock_guard<std::mutex> lock(bestMutex);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = m;
+                }
+            }
+            int prev = sharedAlpha.load();
+            while (score > prev && !sharedAlpha.compare_exchange_weak(prev, score)) {
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(static_cast<std::size_t>(threadCount));
+    for (int t = 0; t < threadCount; ++t) {
+        threads.emplace_back(workerFn);
+    }
+    for (auto& th : threads) {
+        if (th.joinable()) th.join();
+    }
+
+    if (anyIncomplete.load()) {
+        return {bestMove, bestScore, false, false, false};
+    }
+
+    TTFlag flag = TTFlag::EXACT;
+    if (bestScore <= alphaOrig) flag = TTFlag::UPPER;
+    else if (bestScore >= betaOrig) flag = TTFlag::LOWER;
+    tt = {key, depth, bestScore, flag, bestMove};
+
+    bool failLow = bestScore <= alphaOrig;
+    bool failHigh = bestScore >= betaOrig;
+    return {bestMove, bestScore, true, failLow, failHigh};
+}
+
 SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alpha, int beta, int playerId, std::chrono::steady_clock::time_point startTime) const{
     using clock = std::chrono::steady_clock;
     auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - startTime).count();
@@ -521,39 +761,59 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     if (winner == opponent) return {-1, -100000, true, false, false};
     if (depth == 0) {
         int evalScore = 0;
-        if (!useHeuristic && model.isLoaded()) {
-            if (model.expectsEdgeIndex()) {
-                extractor.toBatch(state, gnnBatch);
-                float val = model.evaluate(gnnBatch, playerId);
-                evalScore = static_cast<int>(val * valueScale);
-                lastEvalPlayer = playerId;
-                lastEvalVal = val;
-                lastEvalScaled = evalScore;
-            } else {
-                HeuristicFeatures feat = computeHeuristicFeatures(state, playerId);
-                if (feat.distSelf == 0) {
-                    evalScore = 90000;
-                    lastEvalVal = static_cast<float>(evalScore);
-                } else if (feat.distOpp == 0) {
-                    evalScore = -90000;
-                    lastEvalVal = static_cast<float>(evalScore);
+        const bool canUseModel = (!useHeuristic && (model.isLoaded() || mlpEvaluator));
+        float mlVal = 0.0f;
+        if (canUseModel) {
+            if (model.isLoaded() && model.expectsEdgeIndex()) {
+                if (evalMixAlpha <= 0.0f) {
+                    evalScore = heuristicEval(state, playerId);
                 } else {
-                    std::array<float, 7> inputs = {
-                        static_cast<float>(feat.distSelf),
-                        static_cast<float>(feat.distOpp),
-                        static_cast<float>(feat.libsSelf),
-                        static_cast<float>(feat.libsOpp),
-                        static_cast<float>(feat.bridgesSelf),
-                        static_cast<float>(feat.bridgesOpp),
-                        static_cast<float>(feat.center),
-                    };
-                    float val = model.evaluateFeatures(inputs);
-                    evalScore = static_cast<int>(std::lround(val));
-                    lastEvalVal = val;
+                    extractor.toBatch(state, gnnBatch);
+                    float val = model.evaluate(gnnBatch, playerId);
+                    mlVal = val * static_cast<float>(valueScale);
+                    if (evalMixAlpha >= 1.0f) {
+                        evalScore = static_cast<int>(std::lround(mlVal));
+                    } else {
+                        const int heurScore = heuristicEval(state, playerId);
+                        float blended = (1.0f - evalMixAlpha) * static_cast<float>(heurScore) +
+                                        evalMixAlpha * mlVal;
+                        evalScore = static_cast<int>(std::lround(blended));
+                    }
                 }
-                lastEvalPlayer = playerId;
-                lastEvalScaled = evalScore;
+            } else {
+                const ValueFeatures feat = computeValueFeatures(state, playerId);
+                const int heurScore = heuristicEvalFromFeatures(feat);
+                if (evalMixAlpha <= 0.0f) {
+                    evalScore = heurScore;
+                } else {
+                    if (feat.distSelf == 0) {
+                        mlVal = 90000.0f;
+                    } else if (feat.distOpp == 0) {
+                        mlVal = -90000.0f;
+                    } else {
+                        const std::array<float, 7> inputs = {
+                            static_cast<float>(feat.distSelf),
+                            static_cast<float>(feat.distOpp),
+                            static_cast<float>(feat.libsSelf),
+                            static_cast<float>(feat.libsOpp),
+                            static_cast<float>(feat.bridgesSelf),
+                            static_cast<float>(feat.bridgesOpp),
+                            static_cast<float>(feat.center),
+                        };
+                        mlVal = mlpEvaluator ? mlpEvaluator(inputs) : model.evaluateFeatures(inputs);
+                    }
+                    if (evalMixAlpha >= 1.0f) {
+                        evalScore = static_cast<int>(std::lround(mlVal));
+                    } else {
+                        float blended = (1.0f - evalMixAlpha) * static_cast<float>(heurScore) +
+                                        evalMixAlpha * mlVal;
+                        evalScore = static_cast<int>(std::lround(blended));
+                    }
+                }
             }
+            lastEvalPlayer = playerId;
+            lastEvalVal = mlVal;
+            lastEvalScaled = evalScore;
         } else {
             evalScore = heuristicEval(state, playerId);
             lastEvalPlayer = 0;

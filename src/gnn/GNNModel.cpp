@@ -184,11 +184,38 @@ float GNNModel::evaluateFeatures(const std::array<float, 7>& features) const {
     if (impl->forwardInputCount < 1) return 0.0f;
 
     torch::NoGradGuard no_grad;
-    torch::Tensor x = torch::from_blob(const_cast<float*>(features.data()),
-                                       {1, static_cast<long>(features.size())},
-                                       torch::TensorOptions().dtype(torch::kFloat32))
-                          .clone()
-                          .to(impl->device);
+    const int inputDim = static_cast<int>(features.size());
+    struct ThreadLocalBuffers {
+        torch::Tensor cpu;
+        torch::Tensor dev;
+        int dim{0};
+        bool useCuda{false};
+        int deviceIndex{-1};
+    };
+    thread_local ThreadLocalBuffers tls;
+    const int deviceIndex = impl->useCuda ? impl->device.index() : -1;
+    if (!tls.cpu.defined() || tls.dim != inputDim || tls.useCuda != impl->useCuda || tls.deviceIndex != deviceIndex) {
+        tls.cpu = torch::zeros({1, inputDim}, torch::TensorOptions().dtype(torch::kFloat32));
+        tls.dim = inputDim;
+        tls.useCuda = impl->useCuda;
+        tls.deviceIndex = deviceIndex;
+        if (impl->useCuda) {
+            tls.dev = torch::zeros({1, inputDim}, torch::TensorOptions().dtype(torch::kFloat32).device(impl->device));
+        } else {
+            tls.dev = torch::Tensor();
+        }
+    }
+
+    auto* data = tls.cpu.data_ptr<float>();
+    for (int i = 0; i < inputDim; ++i) {
+        data[i] = features[static_cast<std::size_t>(i)];
+    }
+
+    torch::Tensor x = tls.cpu;
+    if (impl->useCuda) {
+        tls.dev.copy_(tls.cpu);
+        x = tls.dev;
+    }
     auto output = impl->module.forward({x}).toTensor();
     float val = output.item<float>();
     return val;
