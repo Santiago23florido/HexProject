@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <thread>
 #include <torch/torch.h>
 #include <cuda_runtime.h>
 
@@ -113,6 +114,12 @@ HexGameUI::HexGameUI(
 
     buildLayout();
     updateTileColors();
+
+    if (auto* strat = dynamic_cast<NegamaxStrategy*>(gnnAI_.Strategy())) {
+        const unsigned int hc = std::thread::hardware_concurrency();
+        const int threads = (hc > 1u ? static_cast<int>(hc) : 1);
+        strat->setParallelThreads(threads);
+    }
 }
 
 bool HexGameUI::loadTexture() {

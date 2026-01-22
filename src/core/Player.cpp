@@ -64,6 +64,14 @@ int AIPlayer::ChooseMove(const GameState& state) {
     return strategy->select(state, playerId);
 }
 
+IMoveStrategy* AIPlayer::Strategy() {
+    return strategy.get();
+}
+
+const IMoveStrategy* AIPlayer::Strategy() const {
+    return strategy.get();
+}
+
 HybridPlayer::HybridPlayer(int id)
     : playerId(id) {}
 

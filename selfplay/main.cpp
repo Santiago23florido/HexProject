@@ -10,6 +10,7 @@
 #include <string>
 #include <stdexcept>
 
+#include "RLTrainer.hpp"
 #include "DataCollector.hpp"
 #include "GameRunner.hpp"
 #include "core/MoveStrategy.hpp"
@@ -86,31 +87,146 @@ Board randomStartingBoard(int boardSize, int minPairs, int maxPairs, std::mt1993
     return last; // fallback even if an early win was drawn
 }
 
+struct CliOptions {
+    bool selfplayTrain{false};
+    int games{1000};
+    int minDepth{10};
+    int maxDepth{20};
+    int minPairs{2};
+    int maxPairs{6};
+    int timeLimitMs{10000};
+    std::string outputPath{"selfplay_data.jsonl"};
+
+    int trainGames{200};
+    std::size_t bufferSize{50000};
+    std::size_t batchSize{256};
+    int updatesPerGame{1};
+    float alpha{0.2f};
+    std::string device{"cuda"};
+    bool exportTs{false};
+    int reportEvery{10};
+    int checkpointEvery{10};
+    int snapshotEvery{20};
+    float probFrozen{0.3f};
+    float probHeuristic{0.0f};
+    std::size_t maxFrozen{5};
+    int selfplayThreads{1};
+    bool randomFirstMove{true};
+};
+
+bool hasFlagStyleArgs(int argc, char** argv) {
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg.rfind("--", 0) == 0) return true;
+    }
+    return false;
+}
+
+bool parseFlagOptions(int argc, char** argv, CliOptions& opts) {
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--selfplay-train") {
+            opts.selfplayTrain = true;
+        } else if (arg == "--train-games" && i + 1 < argc) {
+            opts.trainGames = std::atoi(argv[++i]);
+        } else if (arg == "--buffer-size" && i + 1 < argc) {
+            opts.bufferSize = static_cast<std::size_t>(std::stoul(argv[++i]));
+        } else if (arg == "--batch-size" && i + 1 < argc) {
+            opts.batchSize = static_cast<std::size_t>(std::stoul(argv[++i]));
+        } else if (arg == "--updates-per-game" && i + 1 < argc) {
+            opts.updatesPerGame = std::atoi(argv[++i]);
+        } else if (arg == "--alpha" && i + 1 < argc) {
+            opts.alpha = std::stof(argv[++i]);
+        } else if (arg == "--device" && i + 1 < argc) {
+            opts.device = argv[++i];
+        } else if (arg == "--report-every" && i + 1 < argc) {
+            opts.reportEvery = std::atoi(argv[++i]);
+        } else if (arg == "--checkpoint-every" && i + 1 < argc) {
+            opts.checkpointEvery = std::atoi(argv[++i]);
+        } else if (arg == "--snapshot-every" && i + 1 < argc) {
+            opts.snapshotEvery = std::atoi(argv[++i]);
+        } else if (arg == "--prob-frozen" && i + 1 < argc) {
+            opts.probFrozen = std::stof(argv[++i]);
+        } else if (arg == "--prob-heuristic" && i + 1 < argc) {
+            opts.probHeuristic = std::stof(argv[++i]);
+        } else if (arg == "--max-frozen" && i + 1 < argc) {
+            opts.maxFrozen = static_cast<std::size_t>(std::stoul(argv[++i]));
+        } else if (arg == "--selfplay-threads" && i + 1 < argc) {
+            opts.selfplayThreads = std::atoi(argv[++i]);
+        } else if (arg == "--export-ts") {
+            opts.exportTs = true;
+        } else if (arg == "--random-first-move") {
+            opts.randomFirstMove = true;
+        } else if (arg == "--no-random-first-move") {
+            opts.randomFirstMove = false;
+        } else if (arg == "--games" && i + 1 < argc) {
+            opts.games = std::atoi(argv[++i]);
+        } else if (arg == "--min-depth" && i + 1 < argc) {
+            opts.minDepth = std::atoi(argv[++i]);
+        } else if (arg == "--max-depth" && i + 1 < argc) {
+            opts.maxDepth = std::atoi(argv[++i]);
+        } else if (arg == "--min-pairs" && i + 1 < argc) {
+            opts.minPairs = std::atoi(argv[++i]);
+        } else if (arg == "--max-pairs" && i + 1 < argc) {
+            opts.maxPairs = std::atoi(argv[++i]);
+        } else if (arg == "--time-limit-ms" && i + 1 < argc) {
+            opts.timeLimitMs = std::atoi(argv[++i]);
+        } else if (arg == "--output" && i + 1 < argc) {
+            opts.outputPath = argv[++i];
+        }
+    }
+    return true;
+}
+
 } // namespace
 
 int main(int argc, char** argv) {
     try {
-        int games = 1000;            // default number of games (can be overridden by argv)
-        int minDepth = 10;
-        int maxDepth = 20;
-        int minPairs = 2;             // starting random stone pairs per player (curriculum control)
-        int maxPairs = 6;
-        int timeLimitMs = 10000;       // per-move time cap to keep self-play fast
+        CliOptions opts;
+        const bool useFlags = hasFlagStyleArgs(argc, argv);
+        if (useFlags) {
+            parseFlagOptions(argc, argv, opts);
+        } else {
+            if (argc > 1) opts.games = std::atoi(argv[1]);
+            if (argc > 2) opts.minDepth = std::atoi(argv[2]);
+            if (argc > 3) opts.maxDepth = std::atoi(argv[3]);
+            if (argc > 4) opts.outputPath = argv[4];
+            if (argc > 5) opts.minPairs = std::atoi(argv[5]);
+            if (argc > 6) opts.maxPairs = std::atoi(argv[6]);
+            if (argc > 7) opts.timeLimitMs = std::atoi(argv[7]);
+        }
+
+        if (opts.minDepth < 1) opts.minDepth = 1;
+        if (opts.maxDepth < opts.minDepth) opts.maxDepth = opts.minDepth;
+        if (opts.minPairs < 1) opts.minPairs = 1;
+        if (opts.maxPairs < opts.minPairs) opts.maxPairs = opts.minPairs;
+
+        if (opts.selfplayTrain) {
+            RLConfig cfg;
+            cfg.boardSize = 7;
+            cfg.minDepth = opts.minDepth;
+            cfg.maxDepth = opts.maxDepth;
+            cfg.timeLimitMs = opts.timeLimitMs;
+            cfg.trainGames = opts.trainGames;
+            cfg.bufferSize = opts.bufferSize;
+            cfg.batchSize = opts.batchSize;
+            cfg.updatesPerGame = opts.updatesPerGame;
+            cfg.alpha = opts.alpha;
+            cfg.device = opts.device;
+            cfg.exportTs = opts.exportTs;
+            cfg.reportEvery = opts.reportEvery;
+            cfg.checkpointEvery = opts.checkpointEvery;
+            cfg.snapshotEvery = opts.snapshotEvery;
+            cfg.probFrozen = opts.probFrozen;
+            cfg.probHeuristic = opts.probHeuristic;
+            cfg.maxFrozen = opts.maxFrozen;
+            cfg.selfplayThreads = opts.selfplayThreads;
+            cfg.randomFirstMove = opts.randomFirstMove;
+            RLTrainer trainer(cfg);
+            return trainer.run();
+        }
+
         const int flushEveryGames = 20; // write to disk in small batches to avoid high RAM use
-        std::string outputPath = "selfplay_data.jsonl";
-
-        if (argc > 1) games = std::atoi(argv[1]);
-        if (argc > 2) minDepth = std::atoi(argv[2]);
-        if (argc > 3) maxDepth = std::atoi(argv[3]);
-        if (argc > 4) outputPath = argv[4];
-        if (argc > 5) minPairs = std::atoi(argv[5]);
-        if (argc > 6) maxPairs = std::atoi(argv[6]);
-        if (argc > 7) timeLimitMs = std::atoi(argv[7]);
-
-        if (minDepth < 1) minDepth = 1;
-        if (maxDepth < minDepth) maxDepth = minDepth;
-        if (minPairs < 1) minPairs = 1;
-        if (maxPairs < minPairs) maxPairs = minPairs;
 
         // Seed both rand() (used inside strategies) and a dedicated RNG for depth selection.
         unsigned seed = static_cast<unsigned>(
@@ -125,15 +241,15 @@ int main(int argc, char** argv) {
         for (int boardSize : sizes) {
             DataCollector collector;
             auto start = std::chrono::steady_clock::now();
-            std::uniform_int_distribution<int> depthDist(minDepth, maxDepth);
+            std::uniform_int_distribution<int> depthDist(opts.minDepth, opts.maxDepth);
 
             // Build per-board-size output path once, then append batches.
-            std::string outPath = outputPath;
-            if (outputPath.find(".jsonl") != std::string::npos) {
-                auto pos = outputPath.find(".jsonl");
-                outPath = outputPath.substr(0, pos) + "_N" + std::to_string(boardSize) + ".jsonl";
+            std::string outPath = opts.outputPath;
+            if (opts.outputPath.find(".jsonl") != std::string::npos) {
+                auto pos = opts.outputPath.find(".jsonl");
+                outPath = opts.outputPath.substr(0, pos) + "_N" + std::to_string(boardSize) + ".jsonl";
             } else {
-                outPath = outputPath + "_N" + std::to_string(boardSize);
+                outPath = opts.outputPath + "_N" + std::to_string(boardSize);
             }
 
             bool firstChunk = true;
@@ -156,14 +272,14 @@ int main(int argc, char** argv) {
                 return true;
             };
 
-            for (int i = 0; i < games; ++i) {
+            for (int i = 0; i < opts.games; ++i) {
                 int depthP1 = depthDist(rng);
                 int depthP2 = depthDist(rng);
 
-                NegamaxHeuristicStrategy p1(depthP1, timeLimitMs);
-                NegamaxHeuristicStrategy p2(depthP2, timeLimitMs);
+                NegamaxHeuristicStrategy p1(depthP1, opts.timeLimitMs);
+                NegamaxHeuristicStrategy p2(depthP2, opts.timeLimitMs);
                 int initPairs = 0;
-                Board startBoard = randomStartingBoard(boardSize, minPairs, maxPairs, rng, initPairs);
+                Board startBoard = randomStartingBoard(boardSize, opts.minPairs, opts.maxPairs, rng, initPairs);
 
                 GameRunner runner(boardSize, p1, p2);
 
@@ -171,13 +287,13 @@ int main(int argc, char** argv) {
                 auto now = std::chrono::steady_clock::now();
                 auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start).count();
                 double avgPerGame = (i + 1) > 0 ? static_cast<double>(elapsed) / static_cast<double>(i + 1) : 0.0;
-                double remaining = avgPerGame * static_cast<double>(games - i - 1);
+                double remaining = avgPerGame * static_cast<double>(opts.games - i - 1);
 
-                std::cout << "[N=" << boardSize << "] Game " << (i + 1) << "/" << games
+                std::cout << "[N=" << boardSize << "] Game " << (i + 1) << "/" << opts.games
                           << " winner: " << winner
                           << " | depths: P1=" << depthP1 << " P2=" << depthP2
                           << " | init stones/player: " << initPairs
-                          << " | time cap: " << timeLimitMs << "ms"
+                          << " | time cap: " << opts.timeLimitMs << "ms"
                           << " | elapsed: " << elapsed << "s"
                           << " | est. remaining: " << static_cast<long long>(remaining) << "s"
                           << "\n";
@@ -188,9 +304,9 @@ int main(int argc, char** argv) {
             }
 
             if (!flushSamples("final batch")) return 1;
-            std::cout << "[N=" << boardSize << "] Completed " << games << " games, wrote "
+            std::cout << "[N=" << boardSize << "] Completed " << opts.games << " games, wrote "
                       << totalSamplesWritten << " samples to " << outPath
-                      << " with depths randomized in [" << minDepth << "," << maxDepth << "]\n";
+                      << " with depths randomized in [" << opts.minDepth << "," << opts.maxDepth << "]\n";
         }
 
         return 0;

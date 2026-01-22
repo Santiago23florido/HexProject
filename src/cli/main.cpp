@@ -7,6 +7,7 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <thread>
 
 int main() {
     try {
@@ -35,6 +36,11 @@ int main() {
         AIPlayer heuristicAI(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000));
         
         AIPlayer gnnAI(2, std::make_unique<NegamaxGnnStrategy>(4, 4000, modelPath, useCPU));
+        if (auto* strat = dynamic_cast<NegamaxStrategy*>(gnnAI.Strategy())) {
+            const unsigned int hc = std::thread::hardware_concurrency();
+            const int threads = (hc > 1u ? static_cast<int>(hc) : 1);
+            strat->setParallelThreads(threads);
+        }
 
         Player* playerX = &humanPlayer;
         Player* playerO = useGnnAi ? static_cast<Player*>(&gnnAI)
