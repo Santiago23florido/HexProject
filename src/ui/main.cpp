@@ -10,7 +10,7 @@
 
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-    const std::string modelPath = "../scripts/models/hex_value_ts.pt";
+    const std::string modelPath = "../scripts/models/hex_value_ts_mp.pt";
 
     bool useGnnAi = true;
     bool preferCuda = true;

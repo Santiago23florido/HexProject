@@ -1237,3 +1237,304 @@ events:
         12.8
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_658c9/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_658c9.dir/build.make CMakeFiles/cmTC_658c9.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_658c9.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_658c9.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_658c9
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_658c9.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_658c9.dir/detect_cuda_version.cc.o -o cmTC_658c9  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ff609/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ff609.dir/build.make CMakeFiles/cmTC_ff609.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ff609.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_ff609.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_ff609
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff609.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_ff609.dir/detect_cuda_version.cc.o -o cmTC_ff609  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_db6bb/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_db6bb.dir/build.make CMakeFiles/cmTC_db6bb.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_db6bb.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_db6bb.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_db6bb
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_db6bb.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_db6bb.dir/detect_cuda_version.cc.o -o cmTC_db6bb  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_43239/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_43239.dir/build.make CMakeFiles/cmTC_43239.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_43239.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_43239.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_43239
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43239.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_43239.dir/detect_cuda_version.cc.o -o cmTC_43239  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_88115/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_88115.dir/build.make CMakeFiles/cmTC_88115.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_88115.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_88115.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_88115
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_88115.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_88115.dir/detect_cuda_version.cc.o -o cmTC_88115  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b50a8/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_b50a8.dir/build.make CMakeFiles/cmTC_b50a8.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_b50a8.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_b50a8.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_b50a8
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b50a8.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_b50a8.dir/detect_cuda_version.cc.o -o cmTC_b50a8  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_run-v1"
+    backtrace:
+      - "/home/santiago/libtorch/share/cmake/Caffe2/public/cuda.cmake:99 (try_run)"
+      - "/home/santiago/libtorch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)"
+      - "/home/santiago/libtorch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)"
+      - "CMakeLists.txt:30 (find_package)"
+    directories:
+      source: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+      binary: "/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CUDA_ARCHITECTURES: "52"
+      CMAKE_CXX_FLAGS: ""
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/home/santiago/libtorch/share/cmake/Caffe2;/home/santiago/libtorch/share/cmake/Caffe2/public/../Modules_CUDA_fix"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ebd13/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ebd13.dir/build.make CMakeFiles/cmTC_ebd13.dir/build
+        gmake[1]: Entering directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        Building CXX object CMakeFiles/cmTC_ebd13.dir/detect_cuda_version.cc.o
+        /usr/bin/c++  -I/usr/local/cuda/include -std=gnu++17 -o CMakeFiles/cmTC_ebd13.dir/detect_cuda_version.cc.o -c /home/santiago/IN204/HexProject/selfplay/build/detect_cuda_version.cc
+        Linking CXX executable cmTC_ebd13
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ebd13.dir/link.txt --verbose=1
+        /usr/bin/c++ CMakeFiles/cmTC_ebd13.dir/detect_cuda_version.cc.o -o cmTC_ebd13  -Wl,-rpath,/usr/local/cuda/lib64 /usr/local/cuda/lib64/libcudart.so 
+        gmake[1]: Leaving directory '/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles/CMakeTmp'
+        
+      exitCode: 0
+    runResult:
+      variable: "run_result"
+      cached: true
+      stdout: |
+        12.8
+      exitCode: 0
+...

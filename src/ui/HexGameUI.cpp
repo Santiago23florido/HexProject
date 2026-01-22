@@ -4,10 +4,13 @@
 #include "core/MoveStrategy.hpp"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <random>
+#include <thread>
 #include <torch/torch.h>
 #include <cuda_runtime.h>
 
@@ -88,9 +91,10 @@ HexGameUI::HexGameUI(
       boardSize_(boardSize),
       tileScale_(tileScale),
       useGnnAi_(useGnnAi),
+      preferCuda_(preferCuda),
       board_(boardSize),
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000)),
-      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
+      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(4, 4000, modelPath, preferCuda)) {
     tileScale_ *= scaleFactor_;
     if (!loadTexture()) {
         return;
@@ -113,6 +117,19 @@ HexGameUI::HexGameUI(
 
     buildLayout();
     updateTileColors();
+    aiRng_.seed(static_cast<unsigned int>(
+        std::chrono::steady_clock::now().time_since_epoch().count() ^
+        static_cast<unsigned int>(std::random_device{}())));
+    const int baseDifficulty = std::min(5, std::max(1, aiDifficulty_));
+    int initialIndex = 0;
+    if (player2IsHuman_) {
+        initialIndex = 10;
+    } else if (useGnnAi_) {
+        initialIndex = baseDifficulty - 1;
+    } else {
+        initialIndex = 5 + (baseDifficulty - 1);
+    }
+    setPlayer2ModeIndex(initialIndex);
 }
 
 bool HexGameUI::loadTexture() {
@@ -243,14 +260,18 @@ bool HexGameUI::loadStartScreenTextures() {
     aiConfigText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     aiConfigText_.setFillColor(sf::Color::White);
     
-    aiConfigText_.setString(useGnnAi_ ? "Mode AI: GNN (Neuronal)" : "Mode AI: Heuristic");
+    aiConfigText_.setString(useGnnAi_ ? "AI Mode: GNN (Neural)" : "AI Mode: Heuristic");
+
+    difficultyText_.setFont(startFont_);
+    difficultyText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
+    difficultyText_.setFillColor(sf::Color::White);
 
     
     hardwareInfoText_.setFont(startFont_);
     hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
 
-    std::string gpuName = "No detected GPU";
+    std::string gpuName = "No GPU detected";
     bool cudaAvailable = false;
 
     if (torch::cuda::is_available()) {
@@ -260,7 +281,7 @@ bool HexGameUI::loadStartScreenTextures() {
         if (cudaGetDeviceProperties(&prop, 0) == cudaSuccess) {
             gpuName = prop.name;
         } else {
-            gpuName = "Error al obtener nombre";
+            gpuName = "Failed to get device name";
         }
     }
 
@@ -268,7 +289,7 @@ bool HexGameUI::loadStartScreenTextures() {
     if (cudaAvailable) {
         hardwareInfoText_.setString("Hardware: \n" + gpuName);
     } else {
-        hardwareInfoText_.setString("Hardware: \nCPU (Modo Heuristico)");
+        hardwareInfoText_.setString("Hardware: \nCPU (Heuristic mode)");
     }
 
     return true;
@@ -625,8 +646,91 @@ void HexGameUI::resetGame() {
     winnerId_ = 0;
     victoryAnimationActive_ = false;
     victoryOverlay_.setFillColor(sf::Color(0, 0, 0, 0));
+    aiMoveCount_ = 0;
     updateTileColors();
     printBoardStatus();
+}
+
+void HexGameUI::setPlayer2ModeIndex(int index) {
+    if (index < 0) index = 0;
+    if (index > 10) index = 10;
+    player2ModeIndex_ = index;
+
+    if (player2ModeIndex_ == 10) {
+        player2IsHuman_ = true;
+        useGnnAi_ = true;
+        aiDifficulty_ = 1;
+    } else if (player2ModeIndex_ < 5) {
+        player2IsHuman_ = false;
+        useGnnAi_ = true;
+        aiDifficulty_ = player2ModeIndex_ + 1;
+    } else {
+        player2IsHuman_ = false;
+        useGnnAi_ = false;
+        aiDifficulty_ = player2ModeIndex_ - 4;
+    }
+
+    applyAiDifficulty();
+}
+
+void HexGameUI::advancePlayer2Mode() {
+    int next = player2ModeIndex_ + 1;
+    if (next > 10) {
+        next = 0;
+    }
+    setPlayer2ModeIndex(next);
+}
+
+void HexGameUI::applyAiDifficulty() {
+    switch (aiDifficulty_) {
+        case 1:
+            aiMaxDepth_ = 1;
+            aiRandomEvery_ = 2;
+            break;
+        case 2:
+            aiMaxDepth_ = 1;
+            aiRandomEvery_ = 3;
+            break;
+        case 3:
+            aiMaxDepth_ = 2;
+            aiRandomEvery_ = 3;
+            break;
+        case 4:
+            aiMaxDepth_ = 4;
+            aiRandomEvery_ = 4;
+            break;
+        case 5:
+        default:
+            aiDifficulty_ = 5;
+            aiMaxDepth_ = 5;
+            aiRandomEvery_ = 0;
+            break;
+    }
+
+    heuristicAI_ = AIPlayer(2, std::make_unique<NegamaxHeuristicStrategy>(aiMaxDepth_, 4000));
+    gnnAI_ = AIPlayer(2, std::make_unique<NegamaxGnnStrategy>(aiMaxDepth_, 4000, modelPath_, preferCuda_));
+    if (auto* strat = dynamic_cast<NegamaxStrategy*>(gnnAI_.Strategy())) {
+        const unsigned int hc = std::thread::hardware_concurrency();
+        const int threads = (hc > 1u ? static_cast<int>(hc) : 1);
+        strat->setParallelThreads(threads);
+    }
+    aiMoveCount_ = 0;
+    updateDifficultyText();
+}
+
+void HexGameUI::updateDifficultyText() {
+    if (!startFontLoaded_) return;
+    if (player2IsHuman_) {
+        aiConfigText_.setString("Player 2: Human");
+        difficultyText_.setString("Human");
+        difficultyText_.setFillColor(sf::Color(140, 140, 140));
+    } else {
+        const std::string modeLabel = useGnnAi_ ? "GNN" : "Heuristic";
+        aiConfigText_.setString("Player 2: " + modeLabel + " (Level " +
+                                std::to_string(aiDifficulty_) + ")");
+        difficultyText_.setString("Level: " + std::to_string(aiDifficulty_));
+        difficultyText_.setFillColor(sf::Color::White);
+    }
 }
 
 int HexGameUI::run() {
@@ -646,7 +750,7 @@ int HexGameUI::run() {
     window.setFramerateLimit(60);           
     window.setVerticalSyncEnabled(false);
     if (!initAudio()) {
-            std::cerr << "Error load music" << std::endl;
+            std::cerr << "Failed to load music" << std::endl;
     }
     else menuMusic_.play();
     
@@ -885,6 +989,20 @@ int HexGameUI::run() {
                     player2LabelSprite->setPosition(labelX, labelY);
                 }
             }
+
+            if (startFontLoaded_) {
+                sf::FloatRect anchor(static_cast<float>(windowSize_.x) * 0.75f,
+                                     static_cast<float>(windowSize_.y) * 0.5f,
+                                     0.0f,
+                                     0.0f);
+                if (player2LabelSprite) {
+                    anchor = player2LabelSprite->getGlobalBounds();
+                }
+                const sf::FloatRect textBounds = difficultyText_.getLocalBounds();
+                difficultyText_.setPosition(
+                    anchor.left + (anchor.width - textBounds.width) / 2.0f - textBounds.left,
+                    anchor.top + anchor.height + 6.0f * scaleFactor_ - textBounds.top);
+            }
         }
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
@@ -918,10 +1036,8 @@ int HexGameUI::run() {
                         
                         
                         if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
-                            useGnnAi_ = !useGnnAi_;
-                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
-                            std::cout << "Modo IA actual: " << (useGnnAi_ ? "GNN" : "Heuristico")
-                                      << "\n";
+                            advancePlayer2Mode();
+                            std::cout << aiConfigText_.getString().toAnsiString() << "\n";
                         }
 
                         
@@ -942,26 +1058,13 @@ int HexGameUI::run() {
                     if (nextTypeButtonTexture_.getSize().x != 0 &&
                         nextTypeButtonTexture_.getSize().y != 0 &&
                         nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
-                        if (player2IsHuman_) {
-                            player2IsHuman_ = false;
-                            useGnnAi_ = true;
-                        } else if (useGnnAi_) {
-                            useGnnAi_ = false;
-                        } else {
-                            player2IsHuman_ = true;
-                        }
-                        if (player2IsHuman_) {
-                            aiConfigText_.setString("Jugador 2: Humano");
-                            std::cout << "Jugador 2: Humano\n";
-                        } else {
-                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
-                            std::cout << "Jugador 2: IA (" << (useGnnAi_ ? "GNN" : "Heuristico")
-                                      << ")\n";
-                        }
+                        advancePlayer2Mode();
+                        std::cout << aiConfigText_.getString().toAnsiString() << "\n";
                     } else if (playerStartButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         screen_ = UIScreen::Game;
                         updateWindowTitle(window);
                         printBoardStatus();
+                        aiMoveCount_ = 0;
 
                         
                         menuMusic_.stop();
@@ -1065,6 +1168,10 @@ int HexGameUI::run() {
                 window.draw(nextTypeButtonSprite_);
             }
 
+            if (startFontLoaded_) {
+                window.draw(difficultyText_);
+            }
+
             if (playerStartButtonTexture_.getSize().x != 0) {
                 window.draw(playerStartButtonSprite_);
             }
@@ -1079,8 +1186,21 @@ int HexGameUI::run() {
 
         if (!gameOver_ && currentPlayerId_ == 2 && !humanMovedThisFrame && !player2IsHuman_) {
             GameState state(board_, currentPlayerId_);
-            int moveIdx = useGnnAi_ ? gnnAI_.ChooseMove(state)
+            int moveIdx = -1;
+            const bool useRandom =
+                (aiRandomEvery_ > 0) && (((aiMoveCount_ + 1) % aiRandomEvery_) == 0);
+            if (useRandom) {
+                const auto moves = state.GetAvailableMoves();
+                if (!moves.empty()) {
+                    std::uniform_int_distribution<std::size_t> dist(0, moves.size() - 1);
+                    moveIdx = moves[dist(aiRng_)];
+                }
+            }
+            if (moveIdx < 0) {
+                moveIdx = useGnnAi_ ? gnnAI_.ChooseMove(state)
                                     : heuristicAI_.ChooseMove(state);
+            }
+            aiMoveCount_++;
             if (!applyMove(moveIdx)) {
                 const auto fallback = state.GetAvailableMoves();
                 for (int idx : fallback) {

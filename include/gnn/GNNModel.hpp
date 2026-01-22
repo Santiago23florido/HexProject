@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <string>
 
@@ -13,9 +14,11 @@ public:
 
     bool isLoaded() const;
     bool usesCuda() const;
+    bool expectsEdgeIndex() const;
 
     // Value for the current player in [-1,1] with no sign flip.
     float evaluate(const FeatureBatch& batch, int toMove) const;
+    float evaluateFeatures(const std::array<float, 7>& features) const;
 
 private:
     bool loaded{false};
