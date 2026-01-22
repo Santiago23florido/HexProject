@@ -24,6 +24,8 @@ public:
         const std::string& playerSelectPagePath,
         const std::string& playerStartButtonPath,
         const std::string& nextTypeButtonPath,
+        const std::string& plusNButtonPath,
+        const std::string& minusNButtonPath,
         const std::string& humanLabelPath,
         const std::string& player2HumanLabelPath,
         const std::string& player2GnnLabelPath,
@@ -68,6 +70,8 @@ private:
     void advancePlayer2Mode();
     void applyAiDifficulty();
     void updateDifficultyText();
+    void applyBoardSize(int newSize);
+    void updateBoardSizeText();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -79,6 +83,8 @@ private:
     std::string playerSelectPagePath_;
     std::string playerStartButtonPath_;
     std::string nextTypeButtonPath_;
+    std::string plusNButtonPath_;
+    std::string minusNButtonPath_;
     std::string humanLabelPath_;
     std::string player2HumanLabelPath_;
     std::string player2GnnLabelPath_;
@@ -126,6 +132,10 @@ private:
     sf::Sprite playerStartButtonSprite_;
     sf::Texture nextTypeButtonTexture_;
     sf::Sprite nextTypeButtonSprite_;
+    sf::Texture plusNButtonTexture_;
+    sf::Texture minusNButtonTexture_;
+    sf::Sprite plusNButtonSprite_;
+    sf::Sprite minusNButtonSprite_;
     sf::Texture humanLabelTexture_;
     sf::Sprite humanLabelSprite_;
     sf::Texture player2HumanLabelTexture_;
@@ -148,6 +158,7 @@ private:
     sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
     sf::Text aiConfigText_;             // El texto del botón de IA
     sf::Text difficultyText_;
+    sf::Text boardSizeText_;
     
     // Options in the settings menu
     sf::Text menuTitleText_;            
@@ -168,6 +179,8 @@ private:
     float tileWidth_ = 0.0f;
     float tileHeight_ = 0.0f;
     sf::Vector2u windowSize_{0, 0};
+    sf::Vector2u baseWindowSize_{0, 0};
+    float baseTileScale_ = 1.0f;
 
     std::vector<Tile> tiles_;
     std::string error_;

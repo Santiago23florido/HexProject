@@ -23,6 +23,8 @@ constexpr float kPlayerStartButtonWidthRatio = 0.35f;
 constexpr float kPlayerNextButtonWidthRatio = 0.20f;
 constexpr float kPlayerHumanLabelWidthRatio = 0.25f;
 constexpr float kPlayerSelectButtonGap = 18.0f;
+constexpr float kBoardSizeButtonWidthRatio = 0.10f;
+constexpr float kBoardSizeButtonGap = 10.0f;
 constexpr float kStartTitleWidthRatio = 0.60f;
 constexpr float kStartTitleGap = 16.0f;
 constexpr float kStartHintBoxWidthRatio = 0.60f;
@@ -60,6 +62,8 @@ HexGameUI::HexGameUI(
     const std::string& playerSelectPagePath,
     const std::string& playerStartButtonPath,
     const std::string& nextTypeButtonPath,
+    const std::string& plusNButtonPath,
+    const std::string& minusNButtonPath,
     const std::string& humanLabelPath,
     const std::string& player2HumanLabelPath,
     const std::string& player2GnnLabelPath,
@@ -81,6 +85,8 @@ HexGameUI::HexGameUI(
       playerSelectPagePath_(playerSelectPagePath),
       playerStartButtonPath_(playerStartButtonPath),
       nextTypeButtonPath_(nextTypeButtonPath),
+      plusNButtonPath_(plusNButtonPath),
+      minusNButtonPath_(minusNButtonPath),
       humanLabelPath_(humanLabelPath),
       player2HumanLabelPath_(player2HumanLabelPath),
       player2GnnLabelPath_(player2GnnLabelPath),
@@ -96,6 +102,8 @@ HexGameUI::HexGameUI(
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000)),
       gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(4, 4000, modelPath, preferCuda)) {
     tileScale_ *= scaleFactor_;
+    tileScale_ *= 0.95f;
+    baseTileScale_ = tileScale_;
     if (!loadTexture()) {
         return;
     }
@@ -117,6 +125,9 @@ HexGameUI::HexGameUI(
 
     buildLayout();
     updateTileColors();
+    if (baseWindowSize_.x == 0 || baseWindowSize_.y == 0) {
+        baseWindowSize_ = windowSize_;
+    }
     aiRng_.seed(static_cast<unsigned int>(
         std::chrono::steady_clock::now().time_since_epoch().count() ^
         static_cast<unsigned int>(std::random_device{}())));
@@ -266,6 +277,11 @@ bool HexGameUI::loadStartScreenTextures() {
     difficultyText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     difficultyText_.setFillColor(sf::Color::White);
 
+    boardSizeText_.setFont(startFont_);
+    boardSizeText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
+    boardSizeText_.setFillColor(sf::Color::White);
+    updateBoardSizeText();
+
     
     hardwareInfoText_.setFont(startFont_);
     hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
@@ -319,6 +335,30 @@ bool HexGameUI::loadPlayerSelectTextures() {
             return false;
         }
         nextTypeButtonSprite_.setTexture(nextTypeButtonTexture_);
+    }
+    if (!plusNButtonPath_.empty()) {
+        if (!plusNButtonTexture_.loadFromFile(plusNButtonPath_)) {
+            error_ = "Failed to load plus N texture: " + plusNButtonPath_;
+            return false;
+        }
+        const sf::Vector2u plusSize = plusNButtonTexture_.getSize();
+        if (plusSize.x == 0 || plusSize.y == 0) {
+            error_ = "Invalid plus N texture size.";
+            return false;
+        }
+        plusNButtonSprite_.setTexture(plusNButtonTexture_);
+    }
+    if (!minusNButtonPath_.empty()) {
+        if (!minusNButtonTexture_.loadFromFile(minusNButtonPath_)) {
+            error_ = "Failed to load minus N texture: " + minusNButtonPath_;
+            return false;
+        }
+        const sf::Vector2u minusSize = minusNButtonTexture_.getSize();
+        if (minusSize.x == 0 || minusSize.y == 0) {
+            error_ = "Invalid minus N texture size.";
+            return false;
+        }
+        minusNButtonSprite_.setTexture(minusNButtonTexture_);
     }
     if (!humanLabelPath_.empty()) {
         if (!humanLabelTexture_.loadFromFile(humanLabelPath_)) {
@@ -733,6 +773,99 @@ void HexGameUI::updateDifficultyText() {
     }
 }
 
+void HexGameUI::updateBoardSizeText() {
+    if (!startFontLoaded_) return;
+    boardSizeText_.setString("N: " + std::to_string(boardSize_));
+}
+
+void HexGameUI::applyBoardSize(int newSize) {
+    if (newSize <= 0 || newSize == boardSize_) {
+        return;
+    }
+    boardSize_ = newSize;
+
+    const float baseScale = (baseTileScale_ > 0.0f) ? baseTileScale_ : tileScale_;
+    float nextScale = baseScale;
+    if (textureSize_.x > 0 && textureSize_.y > 0 &&
+        baseWindowSize_.x > 0 && baseWindowSize_.y > 0) {
+        const float tileW = static_cast<float>(textureSize_.x);
+        const float tileH = static_cast<float>(textureSize_.y);
+        float minX = std::numeric_limits<float>::max();
+        float maxX = std::numeric_limits<float>::lowest();
+        float minY = std::numeric_limits<float>::max();
+        float maxY = std::numeric_limits<float>::lowest();
+
+        const float halfW = tileW * 0.5f;
+        const float halfH = tileH * 0.5f;
+
+        const float dxCol = 2.0f * halfW * 0.498269896f;
+        const float dyCol = -2.0f * halfH * 0.532818532f;
+
+        const float dxRowOdd = 2.0f * halfW * 1.0f;
+        const float dyRowOdd = 2.0f * halfH * 0.0f;
+
+        const float dxRowEven = 2.0f * halfW * 0.498269896f;
+        const float dyRowEven = 2.0f * halfH * 0.525096525f;
+
+        sf::Vector2f rowStart(0.0f, 0.0f);
+        for (int row = 0; row < boardSize_; ++row) {
+            sf::Vector2f c = rowStart;
+            for (int col = 0; col < boardSize_; ++col) {
+                minX = std::min(minX, c.x);
+                maxX = std::max(maxX, c.x);
+                minY = std::min(minY, c.y);
+                maxY = std::max(maxY, c.y);
+                c.x += dxCol;
+                c.y += dyCol;
+            }
+
+            if (row + 1 >= boardSize_) {
+                break;
+            }
+            if ((row + 1) % 2 == 1) {
+                rowStart.x += dxRowOdd;
+                rowStart.y += dyRowOdd;
+            } else {
+                rowStart.x += dxRowEven;
+                rowStart.y += dyRowEven;
+            }
+        }
+
+        float boardWidth = (maxX - minX) + tileW;
+        float boardHeight = (maxY - minY) + tileH;
+        if (boardWidth > 0.0f && boardHeight > 0.0f) {
+            const float availW = std::max(
+                1.0f, static_cast<float>(baseWindowSize_.x) - 2.0f * kWindowMargin);
+            const float availH = std::max(
+                1.0f, static_cast<float>(baseWindowSize_.y) - 2.0f * kWindowMargin);
+            const float fitScale = std::min(availW / boardWidth, availH / boardHeight);
+            nextScale = std::min(baseScale, fitScale);
+        }
+    }
+
+    if (nextScale <= 0.0f) {
+        nextScale = baseScale;
+    }
+    tileScale_ = std::max(0.01f, nextScale);
+    tileWidth_ = static_cast<float>(textureSize_.x) * tileScale_;
+    tileHeight_ = static_cast<float>(textureSize_.y) * tileScale_;
+
+    board_ = Board(boardSize_);
+    currentPlayerId_ = 1;
+    gameOver_ = false;
+    winnerId_ = 0;
+    victoryAnimationActive_ = false;
+    hoveredIndex_ = -1;
+    aiMoveCount_ = 0;
+
+    buildLayout();
+    if (baseWindowSize_.x > 0 && baseWindowSize_.y > 0) {
+        windowSize_ = baseWindowSize_;
+    }
+    updateTileColors();
+    updateBoardSizeText();
+}
+
 int HexGameUI::run() {
     if (!error_.empty()) {
         std::cerr << error_ << "\n";
@@ -1003,6 +1136,43 @@ int HexGameUI::run() {
                     anchor.left + (anchor.width - textBounds.width) / 2.0f - textBounds.left,
                     anchor.top + anchor.height + 6.0f * scaleFactor_ - textBounds.top);
             }
+
+            const float centerX = static_cast<float>(windowSize_.x) * 0.5f;
+            const float centerY = static_cast<float>(windowSize_.y) * 0.5f;
+            const float gap = kBoardSizeButtonGap * scaleFactor_;
+            float textHalf = 0.0f;
+            if (startFontLoaded_) {
+                const sf::FloatRect textBounds = boardSizeText_.getLocalBounds();
+                textHalf = textBounds.height * 0.5f;
+                boardSizeText_.setPosition(
+                    centerX - textBounds.width * 0.5f - textBounds.left,
+                    centerY - textBounds.height * 0.5f - textBounds.top);
+            }
+            if (plusNButtonTexture_.getSize().x != 0 && plusNButtonTexture_.getSize().y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kBoardSizeButtonWidthRatio;
+                const float scale =
+                    desiredWidth / static_cast<float>(plusNButtonTexture_.getSize().x);
+                const float buttonScale = scale * 0.6f;
+                const float gapScaled = gap * 0.35f;
+                plusNButtonSprite_.setScale(buttonScale, buttonScale);
+                const float scaledWidth = plusNButtonTexture_.getSize().x * buttonScale;
+                const float scaledHeight = plusNButtonTexture_.getSize().y * buttonScale;
+                const float plusY = centerY - textHalf - gapScaled - scaledHeight;
+                plusNButtonSprite_.setPosition(centerX - scaledWidth * 0.5f, plusY);
+            }
+            if (minusNButtonTexture_.getSize().x != 0 && minusNButtonTexture_.getSize().y != 0) {
+                const float desiredWidth =
+                    static_cast<float>(windowSize_.x) * kBoardSizeButtonWidthRatio;
+                const float scale =
+                    desiredWidth / static_cast<float>(minusNButtonTexture_.getSize().x);
+                const float buttonScale = scale * 0.6f;
+                const float gapScaled = gap * 0.35f;
+                minusNButtonSprite_.setScale(buttonScale, buttonScale);
+                const float scaledWidth = minusNButtonTexture_.getSize().x * buttonScale;
+                const float minusY = centerY + textHalf + gapScaled;
+                minusNButtonSprite_.setPosition(centerX - scaledWidth * 0.5f, minusY);
+            }
         }
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
@@ -1055,7 +1225,21 @@ int HexGameUI::run() {
                     sf::Vector2f mousePos = window.mapPixelToCoords(
                         sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 
-                    if (nextTypeButtonTexture_.getSize().x != 0 &&
+                    if (plusNButtonTexture_.getSize().x != 0 &&
+                        plusNButtonTexture_.getSize().y != 0 &&
+                        plusNButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        applyBoardSize(boardSize_ + 1);
+                        if (startFontLoaded_) {
+                            std::cout << boardSizeText_.getString().toAnsiString() << "\n";
+                        }
+                    } else if (minusNButtonTexture_.getSize().x != 0 &&
+                        minusNButtonTexture_.getSize().y != 0 &&
+                        minusNButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        applyBoardSize(boardSize_ - 1);
+                        if (startFontLoaded_) {
+                            std::cout << boardSizeText_.getString().toAnsiString() << "\n";
+                        }
+                    } else if (nextTypeButtonTexture_.getSize().x != 0 &&
                         nextTypeButtonTexture_.getSize().y != 0 &&
                         nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         advancePlayer2Mode();
@@ -1162,6 +1346,16 @@ int HexGameUI::run() {
             }
             if (player2LabelSprite) {
                 window.draw(*player2LabelSprite);
+            }
+
+            if (plusNButtonTexture_.getSize().x != 0 && plusNButtonTexture_.getSize().y != 0) {
+                window.draw(plusNButtonSprite_);
+            }
+            if (startFontLoaded_) {
+                window.draw(boardSizeText_);
+            }
+            if (minusNButtonTexture_.getSize().x != 0 && minusNButtonTexture_.getSize().y != 0) {
+                window.draw(minusNButtonSprite_);
             }
 
             if (nextTypeButtonTexture_.getSize().x != 0 && nextTypeButtonTexture_.getSize().y != 0) {
