@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -63,6 +64,10 @@ private:
     void updateHover(const sf::RenderWindow& window);
     void printBoardStatus() const;
     void resetGame();
+    void setPlayer2ModeIndex(int index);
+    void advancePlayer2Mode();
+    void applyAiDifficulty();
+    void updateDifficultyText();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -86,6 +91,13 @@ private:
     float scaleFactor_ = 2.0f;
     bool useGnnAi_ = false;
     bool player2IsHuman_ = false;
+    bool preferCuda_ = false;
+    int player2ModeIndex_ = 2;
+    int aiDifficulty_ = 3;
+    int aiMaxDepth_ = 3;
+    int aiRandomEvery_ = 0;
+    int aiMoveCount_ = 0;
+    std::mt19937 aiRng_;
 
     Board board_;
     AIPlayer heuristicAI_;
@@ -135,6 +147,7 @@ private:
 
     sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
     sf::Text aiConfigText_;             // El texto del botón de IA
+    sf::Text difficultyText_;
     
     // Options in the settings menu
     sf::Text menuTitleText_;            

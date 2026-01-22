@@ -27,6 +27,8 @@ public:
     AIPlayer(int id, std::unique_ptr<IMoveStrategy> s);
     int ChooseMove(const GameState& state) override;
     int Id() const override;
+    IMoveStrategy* Strategy();
+    const IMoveStrategy* Strategy() const;
 };
 
 

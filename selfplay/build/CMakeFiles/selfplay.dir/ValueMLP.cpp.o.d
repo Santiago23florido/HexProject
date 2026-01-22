@@ -1,9 +1,8 @@
-CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
- /home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp \
+CMakeFiles/selfplay.dir/ValueMLP.cpp.o: \
+ /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp \
  /usr/include/stdc-predef.h \
- /home/santiago/IN204/HexProject/selfplay/../include/gnn/GNNModel.hpp \
- /usr/include/c++/13/array /usr/include/c++/13/compare \
- /usr/include/c++/13/initializer_list \
+ /home/santiago/IN204/HexProject/selfplay/ValueMLP.hpp \
+ /usr/include/c++/13/string /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -14,59 +13,18 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/cpu_defines.h \
- /usr/include/c++/13/pstl/pstl_config.h /usr/include/c++/13/type_traits \
- /usr/include/c++/13/bits/functexcept.h \
- /usr/include/c++/13/bits/exception_defines.h \
- /usr/include/c++/13/bits/stl_algobase.h \
- /usr/include/c++/13/bits/cpp_type_traits.h \
- /usr/include/c++/13/ext/type_traits.h \
- /usr/include/c++/13/ext/numeric_traits.h \
- /usr/include/c++/13/bits/stl_pair.h /usr/include/c++/13/bits/move.h \
- /usr/include/c++/13/bits/utility.h \
- /usr/include/c++/13/bits/stl_iterator_base_types.h \
- /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/13/bits/concept_check.h \
- /usr/include/c++/13/debug/assertions.h \
- /usr/include/c++/13/bits/stl_iterator.h \
- /usr/include/c++/13/bits/ptr_traits.h /usr/include/c++/13/debug/debug.h \
- /usr/include/c++/13/bits/predefined_ops.h /usr/include/c++/13/bit \
- /usr/include/c++/13/bits/range_access.h /usr/include/c++/13/memory \
+ /usr/include/c++/13/pstl/pstl_config.h \
+ /usr/include/c++/13/bits/stringfwd.h \
  /usr/include/c++/13/bits/memoryfwd.h \
- /usr/include/c++/13/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
- /usr/include/c++/13/bits/new_allocator.h /usr/include/c++/13/new \
- /usr/include/c++/13/bits/exception.h \
- /usr/include/c++/13/bits/stl_tempbuf.h \
- /usr/include/c++/13/bits/stl_construct.h \
- /usr/include/c++/13/bits/stl_uninitialized.h \
- /usr/include/c++/13/ext/alloc_traits.h \
- /usr/include/c++/13/bits/alloc_traits.h \
- /usr/include/c++/13/bits/stl_raw_storage_iter.h \
- /usr/include/c++/13/bits/align.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
+ /usr/include/c++/13/bits/char_traits.h \
+ /usr/include/c++/13/bits/postypes.h /usr/include/c++/13/cwchar \
+ /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
- /usr/include/x86_64-linux-gnu/bits/types.h \
- /usr/include/x86_64-linux-gnu/bits/typesizes.h \
- /usr/include/x86_64-linux-gnu/bits/time64.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /usr/include/c++/13/bits/uses_allocator.h \
- /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/tuple \
- /usr/include/c++/13/bits/invoke.h \
- /usr/include/c++/13/bits/stl_function.h \
- /usr/include/c++/13/backward/binders.h \
- /usr/include/c++/13/bits/functional_hash.h \
- /usr/include/c++/13/bits/hash_bytes.h \
- /usr/include/c++/13/bits/shared_ptr.h /usr/include/c++/13/iosfwd \
- /usr/include/c++/13/bits/requires_hosted.h \
- /usr/include/c++/13/bits/stringfwd.h /usr/include/c++/13/bits/postypes.h \
- /usr/include/c++/13/cwchar /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
@@ -74,70 +32,74 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/c++/13/bits/shared_ptr_base.h /usr/include/c++/13/typeinfo \
- /usr/include/c++/13/bits/allocated_ptr.h \
- /usr/include/c++/13/bits/refwrap.h \
- /usr/include/c++/13/ext/aligned_buffer.h \
- /usr/include/c++/13/ext/atomicity.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
- /usr/include/pthread.h /usr/include/sched.h \
- /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
- /usr/include/x86_64-linux-gnu/bits/endian.h \
- /usr/include/x86_64-linux-gnu/bits/endianness.h \
- /usr/include/x86_64-linux-gnu/bits/sched.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
- /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
- /usr/include/x86_64-linux-gnu/bits/time.h \
- /usr/include/x86_64-linux-gnu/bits/timex.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
- /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
- /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
- /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
- /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
- /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
- /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
- /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
- /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
- /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
- /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
- /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/exception \
- /usr/include/c++/13/bits/exception_ptr.h \
- /usr/include/c++/13/bits/cxxabi_init_exception.h \
- /usr/include/c++/13/bits/nested_exception.h \
- /usr/include/c++/13/bits/shared_ptr_atomic.h \
- /usr/include/c++/13/bits/atomic_base.h \
- /usr/include/c++/13/bits/atomic_lockfree_defines.h \
- /usr/include/c++/13/backward/auto_ptr.h \
- /usr/include/c++/13/pstl/glue_memory_defs.h \
- /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/string \
- /usr/include/c++/13/bits/char_traits.h \
+ /usr/include/c++/13/type_traits /usr/include/c++/13/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++allocator.h \
+ /usr/include/c++/13/bits/new_allocator.h /usr/include/c++/13/new \
+ /usr/include/c++/13/bits/exception.h \
+ /usr/include/c++/13/bits/functexcept.h \
+ /usr/include/c++/13/bits/exception_defines.h \
+ /usr/include/c++/13/bits/move.h \
+ /usr/include/c++/13/bits/cpp_type_traits.h \
  /usr/include/c++/13/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
  /usr/include/c++/13/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/13/cctype \
- /usr/include/ctype.h /usr/include/c++/13/bits/ostream_insert.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/13/iosfwd \
+ /usr/include/c++/13/cctype /usr/include/ctype.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/time64.h \
+ /usr/include/x86_64-linux-gnu/bits/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/endianness.h \
+ /usr/include/c++/13/bits/ostream_insert.h \
  /usr/include/c++/13/bits/cxxabi_forced.h \
- /usr/include/c++/13/bits/basic_string.h /usr/include/c++/13/string_view \
+ /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/13/bits/concept_check.h \
+ /usr/include/c++/13/debug/assertions.h \
+ /usr/include/c++/13/bits/stl_iterator_base_types.h \
+ /usr/include/c++/13/bits/stl_iterator.h \
+ /usr/include/c++/13/ext/type_traits.h \
+ /usr/include/c++/13/bits/ptr_traits.h \
+ /usr/include/c++/13/bits/stl_function.h \
+ /usr/include/c++/13/backward/binders.h \
+ /usr/include/c++/13/ext/numeric_traits.h \
+ /usr/include/c++/13/bits/stl_algobase.h \
+ /usr/include/c++/13/bits/stl_pair.h /usr/include/c++/13/bits/utility.h \
+ /usr/include/c++/13/debug/debug.h \
+ /usr/include/c++/13/bits/predefined_ops.h /usr/include/c++/13/bit \
+ /usr/include/c++/13/bits/refwrap.h /usr/include/c++/13/bits/invoke.h \
+ /usr/include/c++/13/bits/range_access.h \
+ /usr/include/c++/13/initializer_list \
+ /usr/include/c++/13/bits/basic_string.h \
+ /usr/include/c++/13/ext/alloc_traits.h \
+ /usr/include/c++/13/bits/alloc_traits.h \
+ /usr/include/c++/13/bits/stl_construct.h /usr/include/c++/13/string_view \
+ /usr/include/c++/13/bits/functional_hash.h \
+ /usr/include/c++/13/bits/hash_bytes.h \
  /usr/include/c++/13/bits/string_view.tcc \
  /usr/include/c++/13/ext/string_conversions.h /usr/include/c++/13/cstdlib \
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
- /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/sys/types.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
- /usr/include/alloca.h /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+ /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+ /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+ /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/c++/13/bits/std_abs.h /usr/include/c++/13/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
@@ -152,21 +114,67 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc \
  /usr/include/c++/13/bits/memory_resource.h /usr/include/c++/13/cstddef \
- /usr/include/c++/13/bits/uses_allocator_args.h \
- /home/santiago/IN204/HexProject/selfplay/../include/gnn/FeatureExtractor.hpp \
- /usr/include/c++/13/unordered_map \
+ /usr/include/c++/13/bits/uses_allocator.h \
+ /usr/include/c++/13/bits/uses_allocator_args.h /usr/include/c++/13/tuple \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/torch.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/all.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/autograd.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/autograd.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/variable.h \
+ /home/santiago/libtorch/include/torch/csrc/utils/python_stub.h \
+ /home/santiago/libtorch/include/torch/csrc/Export.h \
+ /home/santiago/libtorch/include/c10/macros/Export.h \
+ /home/santiago/libtorch/include/torch/headeronly/macros/Export.h \
+ /home/santiago/libtorch/include/torch/headeronly/macros/cmake_macros.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/cpp_hook.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/function_hook.h \
+ /home/santiago/libtorch/include/ATen/Tensor.h \
+ /home/santiago/libtorch/include/ATen/core/Tensor.h \
+ /home/santiago/libtorch/include/ATen/core/TensorBody.h \
+ /home/santiago/libtorch/include/c10/core/Device.h \
+ /home/santiago/libtorch/include/c10/core/DeviceType.h \
+ /usr/include/c++/13/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+ /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/typeinfo /usr/include/c++/13/unordered_map \
  /usr/include/c++/13/bits/unordered_map.h \
  /usr/include/c++/13/bits/hashtable.h \
  /usr/include/c++/13/bits/hashtable_policy.h \
+ /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/enable_special_members.h \
  /usr/include/c++/13/bits/node_handle.h \
  /usr/include/c++/13/bits/erase_if.h /usr/include/c++/13/vector \
+ /usr/include/c++/13/bits/stl_uninitialized.h \
  /usr/include/c++/13/bits/stl_vector.h \
  /usr/include/c++/13/bits/stl_bvector.h \
- /usr/include/c++/13/bits/vector.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
- /usr/include/c++/13/iostream /usr/include/c++/13/ostream \
- /usr/include/c++/13/ios /usr/include/c++/13/bits/ios_base.h \
+ /usr/include/c++/13/bits/vector.tcc /usr/include/c++/13/array \
+ /usr/include/c++/13/compare /usr/include/c++/13/bits/stl_algo.h \
+ /usr/include/c++/13/bits/algorithmfwd.h \
+ /usr/include/c++/13/bits/stl_heap.h \
+ /usr/include/c++/13/bits/uniform_int_dist.h \
+ /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/ostream \
+ /usr/include/c++/13/ios /usr/include/c++/13/exception \
+ /usr/include/c++/13/bits/exception_ptr.h \
+ /usr/include/c++/13/bits/cxxabi_init_exception.h \
+ /usr/include/c++/13/bits/nested_exception.h \
+ /usr/include/c++/13/bits/ios_base.h /usr/include/c++/13/ext/atomicity.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/gthr.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/gthr-default.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+ /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/timex.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/atomic_word.h \
+ /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
  /usr/include/c++/13/bits/locale_classes.h \
  /usr/include/c++/13/bits/locale_classes.tcc \
  /usr/include/c++/13/system_error \
@@ -181,70 +189,39 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/13/bits/ctype_inline.h \
  /usr/include/c++/13/bits/locale_facets.tcc \
  /usr/include/c++/13/bits/basic_ios.tcc \
- /usr/include/c++/13/bits/ostream.tcc /usr/include/c++/13/istream \
- /usr/include/c++/13/bits/istream.tcc \
- /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/core/Cube.hpp \
- /home/santiago/IN204/HexProject/selfplay/../include/gnn/Graph.hpp \
- /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
- /usr/include/c++/13/cstdint /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/limits \
- /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
- /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/locale \
- /usr/include/c++/13/bits/locale_facets_nonio.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
- /usr/include/c++/13/bits/locale_facets_nonio.tcc \
- /usr/include/c++/13/bits/locale_conv.h /usr/include/c++/13/iomanip \
- /usr/include/c++/13/bits/quoted_string.h /usr/include/c++/13/sstream \
- /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/codecvt \
- /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
- /usr/include/c++/13/mutex /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/cassert \
- /usr/include/assert.h /home/santiago/libtorch/include/torch/script.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/types.h \
- /home/santiago/libtorch/include/ATen/ATen.h \
- /home/santiago/libtorch/include/ATen/Context.h \
- /home/santiago/libtorch/include/ATen/BlasBackend.h \
+ /usr/include/c++/13/bits/ostream.tcc \
  /home/santiago/libtorch/include/c10/util/Exception.h \
- /home/santiago/libtorch/include/c10/macros/Export.h \
- /home/santiago/libtorch/include/torch/headeronly/macros/Export.h \
- /home/santiago/libtorch/include/torch/headeronly/macros/cmake_macros.h \
  /home/santiago/libtorch/include/c10/macros/Macros.h \
  /home/santiago/libtorch/include/torch/headeronly/macros/Macros.h \
+ /usr/include/c++/13/cassert /usr/include/assert.h \
  /home/santiago/libtorch/include/c10/util/Backtrace.h \
+ /usr/include/c++/13/memory \
+ /usr/include/c++/13/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/13/bits/align.h /usr/include/c++/13/bits/unique_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/ext/concurrence.h \
+ /usr/include/c++/13/bits/shared_ptr_atomic.h \
+ /usr/include/c++/13/bits/atomic_base.h \
+ /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/13/backward/auto_ptr.h \
+ /usr/include/c++/13/pstl/glue_memory_defs.h \
+ /usr/include/c++/13/pstl/execution_defs.h \
  /home/santiago/libtorch/include/c10/util/Lazy.h \
  /usr/include/c++/13/atomic /usr/include/c++/13/utility \
  /usr/include/c++/13/bits/stl_relops.h \
  /home/santiago/libtorch/include/c10/util/StringUtil.h \
  /home/santiago/libtorch/include/c10/util/string_utils.h \
- /usr/include/c++/13/optional /usr/include/c++/13/variant \
+ /usr/include/c++/13/optional /usr/include/c++/13/sstream \
+ /usr/include/c++/13/istream /usr/include/c++/13/bits/istream.tcc \
+ /usr/include/c++/13/bits/sstream.tcc /usr/include/c++/13/variant \
+ /usr/include/c++/13/bits/parse_numbers.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Exception.h \
- /home/santiago/libtorch/include/ATen/CPUGeneratorImpl.h \
- /home/santiago/libtorch/include/ATen/core/Generator.h \
- /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
- /usr/include/c++/13/bits/deque.tcc \
- /home/santiago/libtorch/include/c10/util/intrusive_ptr.h \
- /home/santiago/libtorch/include/c10/util/MaybeOwned.h \
- /usr/include/c++/13/climits \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
- /home/santiago/libtorch/include/c10/core/Device.h \
- /home/santiago/libtorch/include/c10/core/DeviceType.h \
- /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
- /usr/include/c++/13/bits/stl_algo.h \
- /usr/include/c++/13/bits/algorithmfwd.h \
- /usr/include/c++/13/bits/stl_heap.h \
- /usr/include/c++/13/bits/uniform_int_dist.h \
- /home/santiago/libtorch/include/c10/core/DispatchKeySet.h \
+ /home/santiago/libtorch/include/c10/core/Layout.h \
+ /home/santiago/libtorch/include/c10/core/Backend.h \
  /home/santiago/libtorch/include/c10/core/DispatchKey.h \
+ /home/santiago/libtorch/include/c10/core/DispatchKeySet.h \
  /home/santiago/libtorch/include/c10/util/Metaprogramming.h \
  /home/santiago/libtorch/include/c10/util/TypeList.h \
  /home/santiago/libtorch/include/c10/util/TypeTraits.h \
@@ -254,8 +231,16 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/c10/util/bit_cast.h \
  /home/santiago/libtorch/include/torch/headeronly/util/bit_cast.h \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
- /usr/include/c++/13/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/c++/13/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/c++/13/cmath \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
@@ -264,7 +249,8 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/13/bits/specfun.h /usr/include/c++/13/tr1/gamma.tcc \
+ /usr/include/c++/13/bits/specfun.h /usr/include/c++/13/limits \
+ /usr/include/c++/13/tr1/gamma.tcc \
  /usr/include/c++/13/tr1/special_function_util.h \
  /usr/include/c++/13/tr1/bessel_function.tcc \
  /usr/include/c++/13/tr1/beta_function.tcc \
@@ -277,23 +263,14 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
  /usr/include/c++/13/tr1/riemann_zeta.tcc /usr/include/c++/13/iterator \
  /usr/include/c++/13/bits/stream_iterator.h \
- /home/santiago/libtorch/include/c10/core/GeneratorImpl.h \
- /home/santiago/libtorch/include/c10/core/TensorImpl.h \
- /home/santiago/libtorch/include/c10/core/Allocator.h \
- /home/santiago/libtorch/include/c10/util/ThreadLocalDebugInfo.h \
- /home/santiago/libtorch/include/c10/util/UniqueVoidPtr.h \
- /home/santiago/libtorch/include/c10/util/irange.h \
- /home/santiago/libtorch/include/c10/util/TypeSafeSignMath.h \
- /home/santiago/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h \
- /home/santiago/libtorch/include/c10/core/InferenceMode.h \
- /home/santiago/libtorch/include/c10/core/AutogradState.h \
- /home/santiago/libtorch/include/c10/core/impl/LocalDispatchKeySet.h \
- /home/santiago/libtorch/include/c10/core/Layout.h \
- /home/santiago/libtorch/include/c10/core/Backend.h \
  /home/santiago/libtorch/include/c10/core/MemoryFormat.h \
  /home/santiago/libtorch/include/c10/util/ArrayRef.h \
  /home/santiago/libtorch/include/c10/util/SmallVector.h \
  /home/santiago/libtorch/include/c10/util/AlignOf.h \
+ /home/santiago/libtorch/include/c10/core/QScheme.h \
+ /home/santiago/libtorch/include/c10/core/Stream.h \
+ /home/santiago/libtorch/include/c10/core/Scalar.h \
+ /home/santiago/libtorch/include/c10/core/OptionalRef.h \
  /home/santiago/libtorch/include/c10/core/ScalarType.h \
  /home/santiago/libtorch/include/c10/util/BFloat16.h \
  /home/santiago/libtorch/include/torch/headeronly/util/BFloat16.h \
@@ -302,6 +279,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/c10/util/Float8_e4m3fn.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Float8_e4m3fn.h \
  /home/santiago/libtorch/include/torch/headeronly/util/floating_point_utils.h \
+ /usr/include/c++/13/iostream \
  /home/santiago/libtorch/include/c10/util/Float8_e4m3fnuz.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Float8_e4m3fnuz.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Float8_fnuz_cvt.h \
@@ -310,6 +288,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/torch/headeronly/util/Half.h \
  /home/santiago/libtorch/include/c10/util/Float8_e5m2fnuz.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Float8_e5m2fnuz.h \
+ /home/santiago/libtorch/include/torch/headeronly/util/TypeSafeSignMath.h \
  /home/santiago/libtorch/include/c10/util/Float8_e8m0fnu.h \
  /home/santiago/libtorch/include/torch/headeronly/util/Float8_e8m0fnu.h \
  /home/santiago/libtorch/include/c10/util/Half.h \
@@ -331,20 +310,34 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/c10/util/quint8.h \
  /home/santiago/libtorch/include/torch/headeronly/util/quint8.h \
  /home/santiago/libtorch/include/torch/headeronly/core/ScalarType.h \
- /home/santiago/libtorch/include/c10/core/ScalarTypeToTypeMeta.h \
+ /home/santiago/libtorch/include/c10/core/SymBool.h \
+ /home/santiago/libtorch/include/c10/core/SymNodeImpl.h \
+ /home/santiago/libtorch/include/c10/util/intrusive_ptr.h \
+ /home/santiago/libtorch/include/c10/util/MaybeOwned.h \
+ /home/santiago/libtorch/include/c10/core/SymFloat.h \
+ /home/santiago/libtorch/include/c10/core/SymInt.h \
  /home/santiago/libtorch/include/c10/util/Optional.h \
+ /usr/include/c++/13/numeric /usr/include/c++/13/bits/stl_numeric.h \
+ /usr/include/c++/13/pstl/glue_numeric_defs.h \
+ /home/santiago/libtorch/include/c10/util/TypeCast.h \
+ /home/santiago/libtorch/include/c10/util/overflows.h \
+ /home/santiago/libtorch/include/c10/util/TypeSafeSignMath.h \
+ /home/santiago/libtorch/include/c10/core/ScalarTypeToTypeMeta.h \
  /home/santiago/libtorch/include/c10/util/typeid.h \
+ /usr/include/c++/13/mutex /usr/include/c++/13/bits/chrono.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h \
  /home/santiago/libtorch/include/c10/util/IdWrapper.h \
  /home/santiago/libtorch/include/c10/util/TypeIndex.h \
  /home/santiago/libtorch/include/c10/util/ConstexprCrc.h \
  /home/santiago/libtorch/include/c10/util/string_view.h \
+ /home/santiago/libtorch/include/c10/util/irange.h \
  /home/santiago/libtorch/include/c10/core/Storage.h \
+ /home/santiago/libtorch/include/c10/core/Allocator.h \
+ /home/santiago/libtorch/include/c10/util/ThreadLocalDebugInfo.h \
+ /home/santiago/libtorch/include/c10/util/UniqueVoidPtr.h \
  /home/santiago/libtorch/include/c10/core/StorageImpl.h \
- /home/santiago/libtorch/include/c10/core/SymInt.h \
- /home/santiago/libtorch/include/c10/core/SymBool.h \
- /home/santiago/libtorch/include/c10/core/SymNodeImpl.h \
- /usr/include/c++/13/numeric /usr/include/c++/13/bits/stl_numeric.h \
- /usr/include/c++/13/pstl/glue_numeric_defs.h \
  /home/santiago/libtorch/include/c10/core/impl/COW.h \
  /home/santiago/libtorch/include/c10/core/impl/COWDeleter.h \
  /usr/include/c++/13/shared_mutex \
@@ -354,76 +347,38 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/c10/core/SymIntArrayRef.h \
  /home/santiago/libtorch/include/c10/util/DimVector.h \
  /home/santiago/libtorch/include/c10/core/impl/SizesAndStrides.h \
- /home/santiago/libtorch/include/c10/util/python_stub.h \
  /home/santiago/libtorch/include/c10/core/impl/PyInterpreterHooks.h \
  /home/santiago/libtorch/include/c10/util/Registry.h \
  /home/santiago/libtorch/include/c10/util/Type.h \
  /home/santiago/libtorch/include/c10/util/ExclusivelyOwned.h \
+ /home/santiago/libtorch/include/c10/core/TensorImpl.h \
+ /home/santiago/libtorch/include/c10/core/InferenceMode.h \
+ /home/santiago/libtorch/include/c10/core/AutogradState.h \
+ /home/santiago/libtorch/include/c10/core/impl/LocalDispatchKeySet.h \
  /home/santiago/libtorch/include/c10/core/SymbolicShapeMeta.h \
  /home/santiago/libtorch/include/c10/core/WrapDimMinimal.h \
  /home/santiago/libtorch/include/c10/util/Flags.h \
  /home/santiago/libtorch/include/c10/util/accumulate.h \
  /home/santiago/libtorch/include/c10/util/safe_numerics.h \
- /home/santiago/libtorch/include/ATen/core/MT19937RNGEngine.h \
- /home/santiago/libtorch/include/ATen/DeviceAccelerator.h \
- /home/santiago/libtorch/include/c10/core/CachingDeviceAllocator.h \
- /home/santiago/libtorch/include/c10/core/Stream.h \
- /home/santiago/libtorch/include/ATen/detail/MTIAHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/AcceleratorHooksInterface.h \
- /home/santiago/libtorch/include/ATen/LinalgBackend.h \
- /home/santiago/libtorch/include/ATen/ROCmFABackend.h \
- /home/santiago/libtorch/include/ATen/SDPBackend.h \
- /home/santiago/libtorch/include/ATen/core/ATenGeneral.h \
- /home/santiago/libtorch/include/ATen/core/DeprecatedTypeProperties.h \
- /home/santiago/libtorch/include/c10/core/TensorOptions.h \
- /home/santiago/libtorch/include/c10/core/DefaultDtype.h \
- /home/santiago/libtorch/include/ATen/core/DeprecatedTypePropertiesRegistry.h \
- /home/santiago/libtorch/include/ATen/core/LegacyTypeDispatch.h \
- /home/santiago/libtorch/include/ATen/detail/CUDAHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/HIPHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/HPUHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/IPUHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/MAIAHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/MPSHooksInterface.h \
- /home/santiago/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h \
- /home/santiago/libtorch/include/ATen/core/GeneratorForPrivateuseone.h \
- /home/santiago/libtorch/include/ATen/detail/XPUHooksInterface.h \
- /home/santiago/libtorch/include/c10/core/QEngine.h \
- /home/santiago/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h \
- /home/santiago/libtorch/include/c10/util/CallOnce.h \
- /home/santiago/libtorch/include/c10/util/C++17.h \
- /home/santiago/libtorch/include/c10/util/env.h /usr/include/c++/13/map \
- /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
- /usr/include/c++/13/bits/stl_multimap.h \
- /home/santiago/libtorch/include/ATen/Device.h \
- /home/santiago/libtorch/include/ATen/DeviceGuard.h \
- /home/santiago/libtorch/include/ATen/core/IListRef.h \
- /home/santiago/libtorch/include/ATen/core/ivalue_to.h \
- /home/santiago/libtorch/include/ATen/core/IListRef_inl.h \
- /home/santiago/libtorch/include/ATen/core/List.h \
- /home/santiago/libtorch/include/ATen/core/jit_type_base.h \
- /home/santiago/libtorch/include/ATen/core/qualified_name.h \
- /home/santiago/libtorch/include/ATen/core/type_ptr.h \
- /home/santiago/libtorch/include/c10/core/SymFloat.h \
- /home/santiago/libtorch/include/ATen/core/List_inl.h \
- /home/santiago/libtorch/include/ATen/core/ivalue.h \
- /home/santiago/libtorch/include/ATen/core/DimVector.h \
- /home/santiago/libtorch/include/ATen/core/TensorBody.h \
- /home/santiago/libtorch/include/c10/core/QScheme.h \
- /home/santiago/libtorch/include/c10/core/Scalar.h \
- /home/santiago/libtorch/include/c10/core/OptionalRef.h \
- /home/santiago/libtorch/include/c10/util/TypeCast.h \
- /home/santiago/libtorch/include/c10/util/overflows.h \
  /home/santiago/libtorch/include/c10/core/UndefinedTensorImpl.h \
  /home/santiago/libtorch/include/c10/util/Deprecated.h \
  /home/santiago/libtorch/include/c10/util/OptionalArrayRef.h \
  /home/santiago/libtorch/include/ATen/core/CheckMemoryFormat.h \
+ /home/santiago/libtorch/include/c10/core/TensorOptions.h \
+ /home/santiago/libtorch/include/c10/core/DefaultDtype.h \
+ /home/santiago/libtorch/include/ATen/core/DeprecatedTypePropertiesRegistry.h \
+ /home/santiago/libtorch/include/ATen/core/DeprecatedTypeProperties.h \
+ /home/santiago/libtorch/include/ATen/core/Generator.h \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc \
+ /home/santiago/libtorch/include/c10/core/GeneratorImpl.h \
  /home/santiago/libtorch/include/ATen/core/NamedTensor.h \
  /home/santiago/libtorch/include/ATen/core/Dimname.h \
  /home/santiago/libtorch/include/ATen/core/symbol.h \
  /home/santiago/libtorch/include/ATen/core/QuantizerBase.h \
  /home/santiago/libtorch/include/ATen/core/TensorAccessor.h \
  /home/santiago/libtorch/include/ATen/core/TensorBase.h \
+ /home/santiago/libtorch/include/c10/util/C++17.h \
  /home/santiago/libtorch/include/c10/util/ExclusivelyOwnedTensorTraits.h \
  /home/santiago/libtorch/include/ATen/StorageUtils.h \
  /home/santiago/libtorch/include/ATen/MethodOperators.h \
@@ -849,23 +804,48 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/ATen/ops/xlogy_ops.h \
  /home/santiago/libtorch/include/ATen/ops/xor_ops.h \
  /home/santiago/libtorch/include/ATen/ops/zero_ops.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/edge.h \
+ /home/santiago/libtorch/include/c10/util/hash.h \
+ /usr/include/c++/13/iomanip /usr/include/c++/13/locale \
+ /usr/include/c++/13/bits/locale_facets_nonio.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/time_members.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/13/bits/codecvt.h \
+ /usr/include/c++/13/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/13/bits/locale_conv.h \
+ /usr/include/c++/13/bits/quoted_string.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/forward_grad.h \
+ /usr/include/c++/13/unordered_set \
+ /usr/include/c++/13/bits/unordered_set.h \
+ /home/santiago/libtorch/include/ATen/NamedTensorUtils.h \
+ /home/santiago/libtorch/include/ATen/NamedTensor.h \
+ /home/santiago/libtorch/include/ATen/TensorNames.h \
+ /home/santiago/libtorch/include/ATen/WrapDimUtils.h \
+ /home/santiago/libtorch/include/ATen/core/IListRef.h \
+ /home/santiago/libtorch/include/ATen/core/ivalue_to.h \
+ /home/santiago/libtorch/include/ATen/core/IListRef_inl.h \
+ /home/santiago/libtorch/include/ATen/core/List.h \
+ /home/santiago/libtorch/include/ATen/core/jit_type_base.h \
+ /home/santiago/libtorch/include/ATen/core/qualified_name.h \
+ /home/santiago/libtorch/include/ATen/core/type_ptr.h \
+ /home/santiago/libtorch/include/ATen/core/List_inl.h \
+ /home/santiago/libtorch/include/ATen/core/ivalue.h \
+ /home/santiago/libtorch/include/ATen/core/DimVector.h \
  /home/santiago/libtorch/include/ATen/core/blob.h \
  /home/santiago/libtorch/include/ATen/core/custom_class.h \
  /usr/include/c++/13/typeindex \
  /home/santiago/libtorch/include/ATen/core/type_factory.h \
  /home/santiago/libtorch/include/ATen/core/dynamic_type.h \
- /usr/include/c++/13/unordered_set \
- /usr/include/c++/13/bits/unordered_set.h \
  /home/santiago/libtorch/include/ATen/core/ivalue_inl.h \
  /usr/include/c++/13/condition_variable \
  /home/santiago/libtorch/include/ATen/core/Dict.h \
  /home/santiago/libtorch/include/c10/util/order_preserving_flat_hash_map.h \
  /home/santiago/libtorch/include/ATen/core/Dict_inl.h \
- /home/santiago/libtorch/include/c10/util/hash.h \
  /home/santiago/libtorch/include/ATen/core/functional.h \
  /home/santiago/libtorch/include/ATen/core/jit_type.h \
  /home/santiago/libtorch/include/ATen/core/rref_interface.h \
  /home/santiago/libtorch/include/c10/core/DeviceGuard.h \
+ /home/santiago/libtorch/include/c10/core/impl/DeviceGuardImplInterface.h \
  /home/santiago/libtorch/include/c10/core/impl/InlineDeviceGuard.h \
  /home/santiago/libtorch/include/c10/core/impl/VirtualGuardImpl.h \
  /home/santiago/libtorch/include/c10/core/Event.h \
@@ -875,20 +855,115 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/c10/util/FunctionRef.h \
  /home/santiago/libtorch/include/c10/util/Logging.h \
  /home/santiago/libtorch/include/c10/util/logging_is_not_google_glog.h \
- /usr/include/c++/13/chrono /usr/include/c++/13/set \
+ /usr/include/c++/13/chrono /usr/include/c++/13/map \
+ /usr/include/c++/13/bits/stl_tree.h /usr/include/c++/13/bits/stl_map.h \
+ /usr/include/c++/13/bits/stl_multimap.h /usr/include/c++/13/set \
  /usr/include/c++/13/bits/stl_set.h \
  /usr/include/c++/13/bits/stl_multiset.h \
- /home/santiago/libtorch/include/ATen/core/Tensor.h \
- /home/santiago/libtorch/include/ATen/DimVector.h \
- /home/santiago/libtorch/include/ATen/Dispatch.h \
- /home/santiago/libtorch/include/ATen/Formatting.h \
- /home/santiago/libtorch/include/ATen/core/Formatting.h \
+ /home/santiago/libtorch/include/ATen/WrapDimUtilsMulti.h \
+ /usr/include/c++/13/bitset \
+ /home/santiago/libtorch/include/ATen/core/VariableHooksInterface.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/autograd_not_implemented_fallback.h \
+ /home/santiago/libtorch/include/torch/library.h \
+ /home/santiago/libtorch/include/ATen/core/op_registration/infer_schema.h \
+ /home/santiago/libtorch/include/ATen/core/function_schema.h \
+ /home/santiago/libtorch/include/ATen/core/alias_info.h \
+ /home/santiago/libtorch/include/ATen/core/operator_name.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/OperatorOptions.h \
+ /home/santiago/libtorch/include/ATen/core/function_schema_inl.h \
+ /home/santiago/libtorch/include/ATen/core/op_registration/op_allowlist.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/Dispatcher.h \
+ /home/santiago/libtorch/include/ATen/SequenceNumber.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/KernelFunction.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/BoxedKernel.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/OperatorKernel.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/BoxedKernel_impl.h \
+ /home/santiago/libtorch/include/ATen/core/stack.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/KernelFunction_impl.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/impl/WrapFunctionIntoFunctor.h \
+ /home/santiago/libtorch/include/c10/core/CompileTimeFunctionPointer.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/impl/WrapFunctionIntoRuntimeFunctor.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/impl/boxing.h \
+ /home/santiago/libtorch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/CppSignature.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/OperatorEntry.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/DispatchKeyExtractor.h \
+ /home/santiago/libtorch/include/ATen/core/Variadic.h \
+ /home/santiago/libtorch/include/c10/util/Bitset.h \
+ /home/santiago/libtorch/include/c10/core/PyHandleCache.h \
+ /home/santiago/libtorch/include/c10/core/SafePyObject.h \
+ /home/santiago/libtorch/include/c10/util/flat_hash_map.h \
+ /home/santiago/libtorch/include/ATen/core/dispatch/RegistrationHandleRAII.h \
+ /home/santiago/libtorch/include/ATen/core/enum_tag.h \
+ /usr/include/c++/13/list /usr/include/c++/13/bits/stl_list.h \
+ /usr/include/c++/13/bits/list.tcc \
+ /home/santiago/libtorch/include/ATen/record_function.h \
+ /home/santiago/libtorch/include/c10/util/LeftRight.h \
+ /home/santiago/libtorch/include/c10/util/Synchronized.h \
+ /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h \
+ /home/santiago/libtorch/include/ATen/core/grad_mode.h \
+ /home/santiago/libtorch/include/c10/core/GradMode.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/function_schema_parser.h \
+ /home/santiago/libtorch/include/ATen/core/op_registration/op_registration.h \
+ /home/santiago/libtorch/include/ATen/core/ATenOpList.h \
+ /home/santiago/libtorch/include/torch/custom_class.h \
+ /home/santiago/libtorch/include/ATen/core/builtin_function.h \
+ /home/santiago/libtorch/include/ATen/core/function.h \
+ /home/santiago/libtorch/include/ATen/core/class_type.h \
+ /home/santiago/libtorch/include/torch/custom_class_detail.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/custom_function.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/function.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/anomaly_mode.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/grad_mode.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/graph_task.h \
+ /home/santiago/libtorch/include/ATen/ThreadLocalState.h \
+ /home/santiago/libtorch/include/ATen/FuncTorchTLS.h \
+ /home/santiago/libtorch/include/ATen/PythonTorchFunctionTLS.h \
+ /home/santiago/libtorch/include/ATen/SavedTensorHooks.h \
+ /usr/include/c++/13/stack /usr/include/c++/13/bits/stl_stack.h \
+ /home/santiago/libtorch/include/ATen/ThreadLocalPythonObjects.h \
+ /home/santiago/libtorch/include/c10/core/impl/PythonDispatcherTLS.h \
+ /home/santiago/libtorch/include/c10/core/impl/TorchDispatchModeTLS.h \
+ /home/santiago/libtorch/include/c10/util/ThreadLocal.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/input_buffer.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/utils/warnings.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/input_metadata.h \
+ /home/santiago/libtorch/include/ATen/ExpandUtils.h \
  /home/santiago/libtorch/include/ATen/Functions.h \
+ /home/santiago/libtorch/include/ATen/Context.h \
+ /home/santiago/libtorch/include/ATen/BlasBackend.h \
+ /home/santiago/libtorch/include/ATen/CPUGeneratorImpl.h \
+ /home/santiago/libtorch/include/ATen/core/MT19937RNGEngine.h \
+ /home/santiago/libtorch/include/ATen/DeviceAccelerator.h \
+ /home/santiago/libtorch/include/c10/core/CachingDeviceAllocator.h \
+ /home/santiago/libtorch/include/ATen/detail/MTIAHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/AcceleratorHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/LinalgBackend.h \
+ /home/santiago/libtorch/include/ATen/ROCmFABackend.h \
+ /home/santiago/libtorch/include/ATen/SDPBackend.h \
+ /home/santiago/libtorch/include/ATen/core/ATenGeneral.h \
+ /home/santiago/libtorch/include/ATen/core/LegacyTypeDispatch.h \
+ /home/santiago/libtorch/include/ATen/detail/CUDAHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/HIPHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/HPUHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/IPUHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/MAIAHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/MPSHooksInterface.h \
+ /home/santiago/libtorch/include/ATen/detail/PrivateUse1HooksInterface.h \
+ /home/santiago/libtorch/include/ATen/core/GeneratorForPrivateuseone.h \
+ /home/santiago/libtorch/include/ATen/detail/XPUHooksInterface.h \
+ /home/santiago/libtorch/include/c10/core/QEngine.h \
+ /home/santiago/libtorch/include/c10/util/CallOnce.h \
+ /home/santiago/libtorch/include/c10/util/env.h \
+ /home/santiago/libtorch/include/ATen/DeviceGuard.h \
  /home/santiago/libtorch/include/ATen/TensorUtils.h \
+ /home/santiago/libtorch/include/ATen/DimVector.h \
  /home/santiago/libtorch/include/ATen/EmptyTensor.h \
- /home/santiago/libtorch/include/ATen/Tensor.h \
  /home/santiago/libtorch/include/ATen/TensorGeometry.h \
  /home/santiago/libtorch/include/ATen/Utils.h \
+ /home/santiago/libtorch/include/ATen/Formatting.h \
+ /home/santiago/libtorch/include/ATen/core/Formatting.h \
  /home/santiago/libtorch/include/ATen/TracerMode.h \
  /home/santiago/libtorch/include/ATen/core/Reduction.h \
  /home/santiago/libtorch/include/ATen/ops/from_blob.h \
@@ -3126,10 +3201,27 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/ATen/ops/zeros_ops.h \
  /home/santiago/libtorch/include/ATen/ops/zeros_like.h \
  /home/santiago/libtorch/include/ATen/ops/zeros_like_ops.h \
- /home/santiago/libtorch/include/ATen/NamedTensor.h \
+ /home/santiago/libtorch/include/ATen/NestedTensorImpl.h \
+ /home/santiago/libtorch/include/ATen/MemoryOverlap.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/saved_variable.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/saved_variable_hooks.h \
+ /home/santiago/libtorch/include/torch/csrc/utils/variadic.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/variable_info.h \
+ /home/santiago/libtorch/include/torch/csrc/dynamo/compiled_autograd.h \
+ /home/santiago/libtorch/include/torch/csrc/utils/torch_dispatch_mode.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/cuda.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/data.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader/stateful.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader/base.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader_options.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/arg.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/types.h \
+ /home/santiago/libtorch/include/ATen/ATen.h \
+ /home/santiago/libtorch/include/ATen/Device.h \
+ /home/santiago/libtorch/include/ATen/Dispatch.h \
  /home/santiago/libtorch/include/ATen/ScalarOps.h \
  /home/santiago/libtorch/include/ATen/TensorIndexing.h \
- /home/santiago/libtorch/include/ATen/ExpandUtils.h \
  /home/santiago/libtorch/include/ATen/NativeFunctions.h \
  /home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_native.h \
  /home/santiago/libtorch/include/ATen/ops/_adaptive_avg_pool2d_backward_native.h \
@@ -3145,7 +3237,6 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/ATen/core/Range.h \
  /home/santiago/libtorch/include/c10/core/DynamicCast.h \
  /home/santiago/libtorch/include/c10/util/Load.h \
- /usr/include/c++/13/bitset \
  /home/santiago/libtorch/include/ATen/ops/_aminmax_native.h \
  /home/santiago/libtorch/include/ATen/ops/_amp_foreach_non_finite_check_and_unscale_native.h \
  /home/santiago/libtorch/include/ATen/ops/_amp_update_scale_native.h \
@@ -4710,157 +4801,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/ATen/core/Scalar.h \
  /home/santiago/libtorch/include/ATen/core/UnsafeFromTH.h \
  /home/santiago/libtorch/include/torch/csrc/autograd/generated/variable_factories.h \
- /home/santiago/libtorch/include/ATen/core/grad_mode.h \
- /home/santiago/libtorch/include/c10/core/GradMode.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/detail/TensorDataContainer.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/variable.h \
- /home/santiago/libtorch/include/torch/csrc/Export.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/cpp_hook.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/function_hook.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/edge.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/forward_grad.h \
- /home/santiago/libtorch/include/ATen/NamedTensorUtils.h \
- /home/santiago/libtorch/include/ATen/TensorNames.h \
- /home/santiago/libtorch/include/ATen/WrapDimUtils.h \
- /home/santiago/libtorch/include/ATen/WrapDimUtilsMulti.h \
- /home/santiago/libtorch/include/ATen/core/VariableHooksInterface.h \
- /home/santiago/libtorch/include/torch/library.h \
- /home/santiago/libtorch/include/ATen/core/op_registration/infer_schema.h \
- /home/santiago/libtorch/include/ATen/core/function_schema.h \
- /home/santiago/libtorch/include/ATen/core/alias_info.h \
- /home/santiago/libtorch/include/ATen/core/operator_name.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/OperatorOptions.h \
- /home/santiago/libtorch/include/ATen/core/function_schema_inl.h \
- /home/santiago/libtorch/include/ATen/core/op_registration/op_allowlist.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/Dispatcher.h \
- /home/santiago/libtorch/include/ATen/SequenceNumber.h \
- /home/santiago/libtorch/include/ATen/core/boxing/KernelFunction.h \
- /home/santiago/libtorch/include/ATen/core/boxing/BoxedKernel.h \
- /home/santiago/libtorch/include/ATen/core/boxing/OperatorKernel.h \
- /home/santiago/libtorch/include/ATen/core/boxing/BoxedKernel_impl.h \
- /home/santiago/libtorch/include/ATen/core/stack.h \
- /home/santiago/libtorch/include/ATen/core/boxing/KernelFunction_impl.h \
- /home/santiago/libtorch/include/ATen/core/boxing/impl/WrapFunctionIntoFunctor.h \
- /home/santiago/libtorch/include/c10/core/CompileTimeFunctionPointer.h \
- /home/santiago/libtorch/include/ATen/core/boxing/impl/WrapFunctionIntoRuntimeFunctor.h \
- /home/santiago/libtorch/include/ATen/core/boxing/impl/boxing.h \
- /home/santiago/libtorch/include/ATen/core/boxing/impl/make_boxed_from_unboxed_functor.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/CppSignature.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/OperatorEntry.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/DispatchKeyExtractor.h \
- /home/santiago/libtorch/include/ATen/core/Variadic.h \
- /home/santiago/libtorch/include/c10/util/Bitset.h \
- /home/santiago/libtorch/include/c10/core/PyHandleCache.h \
- /home/santiago/libtorch/include/c10/core/SafePyObject.h \
- /home/santiago/libtorch/include/c10/util/flat_hash_map.h \
- /home/santiago/libtorch/include/ATen/core/dispatch/RegistrationHandleRAII.h \
- /home/santiago/libtorch/include/ATen/core/enum_tag.h \
- /usr/include/c++/13/list /usr/include/c++/13/bits/stl_list.h \
- /usr/include/c++/13/bits/list.tcc \
- /home/santiago/libtorch/include/ATen/record_function.h \
- /home/santiago/libtorch/include/c10/util/LeftRight.h \
- /home/santiago/libtorch/include/c10/util/Synchronized.h \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/function_schema_parser.h \
- /home/santiago/libtorch/include/ATen/core/op_registration/op_registration.h \
- /home/santiago/libtorch/include/ATen/core/ATenOpList.h \
- /home/santiago/libtorch/include/torch/custom_class.h \
- /home/santiago/libtorch/include/ATen/core/builtin_function.h \
- /home/santiago/libtorch/include/ATen/core/function.h \
- /home/santiago/libtorch/include/ATen/core/class_type.h \
- /home/santiago/libtorch/include/torch/custom_class_detail.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/InferenceMode.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/custom_function.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/function.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/anomaly_mode.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/grad_mode.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/graph_task.h \
- /home/santiago/libtorch/include/ATen/ThreadLocalState.h \
- /home/santiago/libtorch/include/ATen/FuncTorchTLS.h \
- /home/santiago/libtorch/include/ATen/PythonTorchFunctionTLS.h \
- /home/santiago/libtorch/include/ATen/SavedTensorHooks.h \
- /usr/include/c++/13/stack /usr/include/c++/13/bits/stl_stack.h \
- /home/santiago/libtorch/include/ATen/ThreadLocalPythonObjects.h \
- /home/santiago/libtorch/include/c10/core/impl/PythonDispatcherTLS.h \
- /home/santiago/libtorch/include/c10/core/impl/TorchDispatchModeTLS.h \
- /home/santiago/libtorch/include/c10/util/ThreadLocal.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/input_buffer.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/utils/warnings.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/input_metadata.h \
- /home/santiago/libtorch/include/ATen/NestedTensorImpl.h \
- /home/santiago/libtorch/include/ATen/MemoryOverlap.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/saved_variable.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/saved_variable_hooks.h \
- /home/santiago/libtorch/include/torch/csrc/utils/variadic.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/variable_info.h \
- /home/santiago/libtorch/include/torch/csrc/dynamo/compiled_autograd.h \
- /home/santiago/libtorch/include/torch/csrc/utils/torch_dispatch_mode.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/custom_operator.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/operator.h \
- /home/santiago/libtorch/include/c10/util/overloaded.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/operator_options.h \
- /home/santiago/libtorch/include/torch/csrc/jit/serialization/import.h \
- /home/santiago/libtorch/include/caffe2/serialize/inline_container.h \
- /usr/include/c++/13/fstream \
- /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
- /usr/include/c++/13/bits/fstream.tcc \
- /home/santiago/libtorch/include/caffe2/serialize/istream_adapter.h \
- /home/santiago/libtorch/include/caffe2/serialize/read_adapter_interface.h \
- /home/santiago/libtorch/include/caffe2/serialize/versions.h \
- /home/santiago/libtorch/include/torch/csrc/jit/api/module.h \
- /home/santiago/libtorch/include/torch/csrc/jit/api/object.h \
- /home/santiago/libtorch/include/torch/csrc/jit/api/method.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/imethod.h \
- /home/santiago/libtorch/include/torch/csrc/jit/api/function_impl.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/ir.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/attributes.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/graph_node_list.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/named_value.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/source_range.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/constants.h \
- /home/santiago/libtorch/include/torch/csrc/jit/ir/scope.h \
- /home/santiago/libtorch/include/torch/csrc/utils/schema_info.h \
- /home/santiago/libtorch/include/ATen/core/enum_type.h \
- /home/santiago/libtorch/include/ATen/core/interned_strings.h \
- /home/santiago/libtorch/include/ATen/core/aten_interned_strings.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/graph_executor.h \
- /home/santiago/libtorch/include/torch/csrc/jit/python/update_graph_executor_opt.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/argument_spec.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/interpreter.h \
- /home/santiago/libtorch/include/torch/csrc/jit/runtime/variable_tensor_list.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/ordered_dict.h \
- /home/santiago/libtorch/include/torch/csrc/jit/api/compilation_unit.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/name_mangler.h \
- /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickle.h \
- /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickler.h \
- /home/santiago/libtorch/include/c10/util/FbcodeMaps.h \
- /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h \
- /home/santiago/libtorch/include/torch/csrc/jit/serialization/unpickler.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/script_type_parser.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/resolver.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/sugared_value.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/error_report.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/tree.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/lexer.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/parser_constants.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/strtod.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/schema_matching.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/versioned_symbols.h \
- /home/santiago/libtorch/include/torch/csrc/jit/frontend/tree_views.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/torch.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/all.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/autograd.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/autograd.h \
- /home/santiago/libtorch/include/torch/csrc/autograd/autograd_not_implemented_fallback.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/cuda.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/data.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader/stateful.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader/base.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/dataloader_options.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/arg.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/detail/data_shuttle.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/detail/queue.h \
  /usr/include/c++/13/queue /usr/include/c++/13/bits/stl_queue.h \
@@ -4882,6 +4823,33 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/samplers/serialize.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/serialize/archive.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/serialize/input-archive.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/api/module.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/api/object.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/api/method.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/imethod.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/api/function_impl.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/ir.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/attributes.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/graph_node_list.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/named_value.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/source_range.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/constants.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/ir/scope.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/operator.h \
+ /home/santiago/libtorch/include/c10/util/overloaded.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/operator_options.h \
+ /home/santiago/libtorch/include/torch/csrc/utils/schema_info.h \
+ /home/santiago/libtorch/include/ATen/core/enum_type.h \
+ /home/santiago/libtorch/include/ATen/core/interned_strings.h \
+ /home/santiago/libtorch/include/ATen/core/aten_interned_strings.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/graph_executor.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/python/update_graph_executor_opt.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/argument_spec.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/interpreter.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/variable_tensor_list.h \
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/ordered_dict.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/api/compilation_unit.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/name_mangler.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/serialize/output-archive.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/data/samplers/stream.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/serialize.h \
@@ -5017,4 +4985,32 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/sparse.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/special.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/version.h \
- /home/santiago/libtorch/include/torch/csrc/api/include/torch/xpu.h
+ /home/santiago/libtorch/include/torch/csrc/api/include/torch/xpu.h \
+ /home/santiago/libtorch/include/torch/script.h \
+ /home/santiago/libtorch/include/torch/csrc/autograd/InferenceMode.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/runtime/custom_operator.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/serialization/import.h \
+ /home/santiago/libtorch/include/caffe2/serialize/inline_container.h \
+ /usr/include/c++/13/fstream \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
+ /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
+ /usr/include/c++/13/bits/fstream.tcc \
+ /home/santiago/libtorch/include/caffe2/serialize/istream_adapter.h \
+ /home/santiago/libtorch/include/caffe2/serialize/read_adapter_interface.h \
+ /home/santiago/libtorch/include/caffe2/serialize/versions.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickle.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickler.h \
+ /home/santiago/libtorch/include/c10/util/FbcodeMaps.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/serialization/pickler_helper.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/serialization/unpickler.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/script_type_parser.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/resolver.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/sugared_value.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/error_report.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/tree.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/lexer.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/parser_constants.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/strtod.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/schema_matching.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/versioned_symbols.h \
+ /home/santiago/libtorch/include/torch/csrc/jit/frontend/tree_views.h

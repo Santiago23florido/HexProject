@@ -16,6 +16,7 @@ struct GNNModel::Impl {
     torch::jit::script::Module module;
     torch::Device device{torch::kCPU};
     bool useCuda{false};
+    int forwardInputCount{0};
     std::unordered_map<int, torch::Tensor> edgeIndexCache;
 };
 
@@ -87,6 +88,12 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
         impl->module = torch::jit::load(path.string());
         impl->module.to(impl->device);
         impl->module.eval();
+        {
+            auto method = impl->module.get_method("forward");
+            const auto& schema = method.function().getSchema();
+            const int argCount = static_cast<int>(schema.arguments().size());
+            impl->forwardInputCount = (argCount > 0 ? argCount - 1 : 0);
+        }
 
         {
             std::lock_guard<std::mutex> lock(g_cacheMutex);
@@ -111,6 +118,10 @@ bool GNNModel::isLoaded() const {
 
 bool GNNModel::usesCuda() const {
     return loaded && impl != nullptr && impl->useCuda;
+}
+
+bool GNNModel::expectsEdgeIndex() const {
+    return loaded && impl != nullptr && impl->forwardInputCount >= 2;
 }
 
 float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
@@ -164,6 +175,48 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
                   << " edges=" << batch.edgeSrc.size()
                   << " output=" << output.item<float>() << "\n";
     }
+    float val = output.item<float>();
+    return val;
+}
+
+float GNNModel::evaluateFeatures(const std::array<float, 7>& features) const {
+    if (!loaded || impl == nullptr) return 0.0f;
+    if (impl->forwardInputCount < 1) return 0.0f;
+
+    torch::NoGradGuard no_grad;
+    const int inputDim = static_cast<int>(features.size());
+    struct ThreadLocalBuffers {
+        torch::Tensor cpu;
+        torch::Tensor dev;
+        int dim{0};
+        bool useCuda{false};
+        int deviceIndex{-1};
+    };
+    thread_local ThreadLocalBuffers tls;
+    const int deviceIndex = impl->useCuda ? impl->device.index() : -1;
+    if (!tls.cpu.defined() || tls.dim != inputDim || tls.useCuda != impl->useCuda || tls.deviceIndex != deviceIndex) {
+        tls.cpu = torch::zeros({1, inputDim}, torch::TensorOptions().dtype(torch::kFloat32));
+        tls.dim = inputDim;
+        tls.useCuda = impl->useCuda;
+        tls.deviceIndex = deviceIndex;
+        if (impl->useCuda) {
+            tls.dev = torch::zeros({1, inputDim}, torch::TensorOptions().dtype(torch::kFloat32).device(impl->device));
+        } else {
+            tls.dev = torch::Tensor();
+        }
+    }
+
+    auto* data = tls.cpu.data_ptr<float>();
+    for (int i = 0; i < inputDim; ++i) {
+        data[i] = features[static_cast<std::size_t>(i)];
+    }
+
+    torch::Tensor x = tls.cpu;
+    if (impl->useCuda) {
+        tls.dev.copy_(tls.cpu);
+        x = tls.dev;
+    }
+    auto output = impl->module.forward({x}).toTensor();
     float val = output.item<float>();
     return val;
 }

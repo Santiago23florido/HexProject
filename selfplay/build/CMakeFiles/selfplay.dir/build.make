@@ -125,10 +125,52 @@ CMakeFiles/selfplay.dir/Serializer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/Serializer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/Serializer.cpp -o CMakeFiles/selfplay.dir/Serializer.cpp.s
 
+CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp
+CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o -MF CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o.d -o CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp
+
+CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp > CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i
+
+CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp -o CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s
+
+CMakeFiles/selfplay.dir/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/ValueMLP.cpp.o: /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp
+CMakeFiles/selfplay.dir/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/selfplay.dir/ValueMLP.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/ValueMLP.cpp.o -MF CMakeFiles/selfplay.dir/ValueMLP.cpp.o.d -o CMakeFiles/selfplay.dir/ValueMLP.cpp.o -c /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp
+
+CMakeFiles/selfplay.dir/ValueMLP.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/ValueMLP.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp > CMakeFiles/selfplay.dir/ValueMLP.cpp.i
+
+CMakeFiles/selfplay.dir/ValueMLP.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/ValueMLP.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp -o CMakeFiles/selfplay.dir/ValueMLP.cpp.s
+
+CMakeFiles/selfplay.dir/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/RLTrainer.cpp.o: /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp
+CMakeFiles/selfplay.dir/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/selfplay.dir/RLTrainer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/RLTrainer.cpp.o -MF CMakeFiles/selfplay.dir/RLTrainer.cpp.o.d -o CMakeFiles/selfplay.dir/RLTrainer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp
+
+CMakeFiles/selfplay.dir/RLTrainer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/RLTrainer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp > CMakeFiles/selfplay.dir/RLTrainer.cpp.i
+
+CMakeFiles/selfplay.dir/RLTrainer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/RLTrainer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp -o CMakeFiles/selfplay.dir/RLTrainer.cpp.s
+
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o: /home/santiago/IN204/HexProject/src/core/Board.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o -c /home/santiago/IN204/HexProject/src/core/Board.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.i: cmake_force
@@ -142,7 +184,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.s: cma
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o: /home/santiago/IN204/HexProject/src/core/GameState.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o -c /home/santiago/IN204/HexProject/src/core/GameState.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.i: cmake_force
@@ -156,7 +198,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.s:
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o: /home/santiago/IN204/HexProject/src/core/Cube.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o -c /home/santiago/IN204/HexProject/src/core/Cube.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.i: cmake_force
@@ -170,7 +212,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.s: cmak
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o: /home/santiago/IN204/HexProject/src/core/Player.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.o -c /home/santiago/IN204/HexProject/src/core/Player.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.i: cmake_force
@@ -184,7 +226,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Player.cpp.s: cm
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o: /home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.o -c /home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp.i: cmake_force
@@ -198,7 +240,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/MoveStrategy.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o: /home/santiago/IN204/HexProject/src/gnn/Graph.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o -c /home/santiago/IN204/HexProject/src/gnn/Graph.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.i: cmake_force
@@ -212,7 +254,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.s: cmak
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o: /home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.o -c /home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.cpp.i: cmake_force
@@ -226,7 +268,7 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/FeatureExtractor.
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: /home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o -MF CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o.d -o CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o -c /home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.i: cmake_force
@@ -243,6 +285,9 @@ selfplay_OBJECTS = \
 "CMakeFiles/selfplay.dir/GameRunner.cpp.o" \
 "CMakeFiles/selfplay.dir/DataCollector.cpp.o" \
 "CMakeFiles/selfplay.dir/Serializer.cpp.o" \
+"CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o" \
+"CMakeFiles/selfplay.dir/ValueMLP.cpp.o" \
+"CMakeFiles/selfplay.dir/RLTrainer.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o" \
@@ -259,6 +304,9 @@ selfplay: CMakeFiles/selfplay.dir/main.cpp.o
 selfplay: CMakeFiles/selfplay.dir/GameRunner.cpp.o
 selfplay: CMakeFiles/selfplay.dir/DataCollector.cpp.o
 selfplay: CMakeFiles/selfplay.dir/Serializer.cpp.o
+selfplay: CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o
+selfplay: CMakeFiles/selfplay.dir/ValueMLP.cpp.o
+selfplay: CMakeFiles/selfplay.dir/RLTrainer.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o
@@ -277,7 +325,7 @@ selfplay: /home/santiago/libtorch/lib/libc10_cuda.so
 selfplay: /home/santiago/libtorch/lib/libc10.so
 selfplay: /usr/local/cuda/lib64/libcudart.so
 selfplay: CMakeFiles/selfplay.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable selfplay"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable selfplay"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/selfplay.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
