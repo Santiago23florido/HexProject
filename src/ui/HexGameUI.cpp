@@ -110,6 +110,9 @@ HexGameUI::HexGameUI(
     if (!loadVictoryTextures()) {
         return;
     }
+    if (!loadPauseTextures()) {
+        return;
+    }
 
     buildLayout();
     updateTileColors();
@@ -181,6 +184,7 @@ bool HexGameUI::loadPlayerTextures() {
 bool HexGameUI::loadStartScreenTextures() {
     if (startPagePath_.empty() || startButtonPath_.empty() || startTitlePath_.empty()) {
         screen_ = UIScreen::Game;
+        menuMusic_.play();
         return true;
     }
     if (!startPageTexture_.loadFromFile(startPagePath_)) {
@@ -383,24 +387,48 @@ bool HexGameUI::loadVictoryTextures() {
     return true;
 }
 
+bool HexGameUI::loadPauseTextures() {
+    if (!pauseButtonTexture_.loadFromFile("../assets/pause_button.png")) {
+        error_ = "Failed to load pause button texture.";
+        return false;
+    }
+    if (!pauseMenuTexture_.loadFromFile("../assets/pause_menu.png")) {
+        error_ = "Failed to load pause menu texture.";
+        return false;
+    }
+    pauseButtonSprite_.setTexture(pauseButtonTexture_);
+    pauseMenuSprite_.setTexture(pauseMenuTexture_);
+    return true;
+}
+
 bool HexGameUI::initAudio() {
-    if (!menuMusic_.openFromFile("../assets/audio/hexMenu.wav")) {
+    if (!menuMusic_.openFromFile("../assets/audio/hexMenu.ogg")) {
         error_ = "Failed to load menu music.";
         return false;
     }
-    if (!gameMusic_.openFromFile("../assets/audio/hexGame.wav")) {
+    if (!gameMusic_.openFromFile("../assets/audio/hexGame.ogg")) {
         error_ = "Failed to load game music.";
         return false;
     }
-    
-    
-    
+    if (!gameOverBuffer_.loadFromFile("../assets/audio/gameOver.wav")) {
+        error_ = "Failed to load game over sound.";
+        return false;
+    }
+    gameOverSound_.setBuffer(gameOverBuffer_);
 
+    if (!clickBuffer_.loadFromFile("../assets/audio/Click.wav")) {
+        error_ = "Failed to load game click sound.";
+        return false;
+    }
+    gameClickSound_.setBuffer(clickBuffer_);
+    
     
     menuMusic_.setLoop(true); 
     gameMusic_.setLoop(true);
     menuMusic_.setVolume(kMusicVolume); 
     gameMusic_.setVolume(kMusicVolume);
+    gameOverSound_.setVolume(kMusicVolume);
+    gameClickSound_.setVolume(kSfxVolume);
     return true;
 }
 
@@ -479,6 +507,25 @@ void HexGameUI::buildLayout() {
         }
         return a.center.y < b.center.y;
     });
+
+    // Setup pause button in top-right corner
+    float buttonSize = std::min(windowSize_.x, windowSize_.y) * 0.24f;
+    pauseButtonSprite_.setScale(buttonSize / 1024.0f, buttonSize / 1024.0f);
+    pauseButtonSprite_.setPosition(
+        windowSize_.x - buttonSize - 15.0f,
+        10.0f);
+
+    // Setup pause menu overlay
+    pauseMenuOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
+    pauseMenuOverlay_.setPosition(0.0f, 0.0f);
+    pauseMenuOverlay_.setFillColor(sf::Color(0, 0, 0, 150));
+
+    // Setup pause menu sprite centered
+    float menuScale = std::min(windowSize_.x * 0.8f / 1024.0f, windowSize_.y * 0.8f / 1024.0f);
+    pauseMenuSprite_.setScale(menuScale, menuScale);
+    pauseMenuSprite_.setPosition(
+        (windowSize_.x - pauseMenuSprite_.getLocalBounds().width * menuScale) * 0.5f,
+        (windowSize_.y - pauseMenuSprite_.getLocalBounds().height * menuScale) * 0.5f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -517,6 +564,11 @@ bool HexGameUI::applyMove(int moveIdx) {
         winnerId_ = winner;
         victoryAnimationActive_ = true;
         victoryClock_.restart();
+        // Reproduce game over sound if player 2 wins and it's not a local game
+        if (winnerId_ == 2 && !player2IsHuman_) {
+            gameMusic_.stop();
+            gameOverSound_.play();
+        }
     } else {
         currentPlayerId_ = (currentPlayerId_ == 1) ? 2 : 1;
     }
@@ -624,6 +676,7 @@ void HexGameUI::resetGame() {
     gameOver_ = false;
     winnerId_ = 0;
     victoryAnimationActive_ = false;
+    gamePaused_ = false;
     victoryOverlay_.setFillColor(sf::Color(0, 0, 0, 0));
     updateTileColors();
     printBoardStatus();
@@ -900,6 +953,7 @@ int HexGameUI::run() {
 
                     if (!showSettingsMenu_) {
                         if (startButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                            gameClickSound_.play();
                             showSettingsMenu_ = false;
                             if (playerSelectEnabled_) {
                                 screen_ = UIScreen::PlayerSelect;
@@ -908,6 +962,8 @@ int HexGameUI::run() {
                                 screen_ = UIScreen::Game;
                                 updateWindowTitle(window);
                                 printBoardStatus();
+                                menuMusic_.stop();
+                                gameMusic_.play();
                             }
                         }
 
@@ -942,6 +998,7 @@ int HexGameUI::run() {
                     if (nextTypeButtonTexture_.getSize().x != 0 &&
                         nextTypeButtonTexture_.getSize().y != 0 &&
                         nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        gameClickSound_.play();
                         if (player2IsHuman_) {
                             player2IsHuman_ = false;
                             useGnnAi_ = true;
@@ -959,6 +1016,7 @@ int HexGameUI::run() {
                                       << ")\n";
                         }
                     } else if (playerStartButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        gameClickSound_.play();
                         screen_ = UIScreen::Game;
                         updateWindowTitle(window);
                         printBoardStatus();
@@ -977,13 +1035,26 @@ int HexGameUI::run() {
                 updateWindowTitle(window);
             }
 
-            if (!gameOver_ &&
+            // Handle pause button click
+            if (screen_ == UIScreen::Game &&
+                event.type == sf::Event::MouseButtonPressed &&
+                event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
+                    gameClickSound_.play();
+                    gamePaused_ = !gamePaused_;
+                }
+            }
+
+            if (!gameOver_ && !gamePaused_ &&
                 event.type == sf::Event::MouseButtonPressed &&
                 event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f pos = window.mapPixelToCoords(
                     sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                 int moveIdx = pickTileIndex(pos);
                 if (applyMove(moveIdx)) {
+                    gameClickSound_.play();
                     updateWindowTitle(window);
                     humanMovedThisFrame = true;
                 }
@@ -1147,6 +1218,20 @@ int HexGameUI::run() {
             winSprite.setColor(sf::Color(255, 255, 255, winAlpha));
             window.draw(winSprite);
         }
+
+        // Draw pause button
+        if (pauseButtonTexture_.getSize().x != 0) {
+            window.draw(pauseButtonSprite_);
+        }
+
+        // Draw pause menu if paused
+        if (gamePaused_) {
+            window.draw(pauseMenuOverlay_);
+            if (pauseMenuTexture_.getSize().x != 0) {
+                window.draw(pauseMenuSprite_);
+            }
+        }
+
         window.display();
     }
     return 0;
