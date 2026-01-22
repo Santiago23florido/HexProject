@@ -16,6 +16,7 @@ struct GNNModel::Impl {
     torch::jit::script::Module module;
     torch::Device device{torch::kCPU};
     bool useCuda{false};
+    int forwardInputCount{0};
     std::unordered_map<int, torch::Tensor> edgeIndexCache;
 };
 
@@ -87,6 +88,12 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
         impl->module = torch::jit::load(path.string());
         impl->module.to(impl->device);
         impl->module.eval();
+        {
+            auto method = impl->module.get_method("forward");
+            const auto& schema = method.function().getSchema();
+            const int argCount = static_cast<int>(schema.arguments().size());
+            impl->forwardInputCount = (argCount > 0 ? argCount - 1 : 0);
+        }
 
         {
             std::lock_guard<std::mutex> lock(g_cacheMutex);
@@ -111,6 +118,10 @@ bool GNNModel::isLoaded() const {
 
 bool GNNModel::usesCuda() const {
     return loaded && impl != nullptr && impl->useCuda;
+}
+
+bool GNNModel::expectsEdgeIndex() const {
+    return loaded && impl != nullptr && impl->forwardInputCount >= 2;
 }
 
 float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
@@ -164,6 +175,21 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
                   << " edges=" << batch.edgeSrc.size()
                   << " output=" << output.item<float>() << "\n";
     }
+    float val = output.item<float>();
+    return val;
+}
+
+float GNNModel::evaluateFeatures(const std::array<float, 7>& features) const {
+    if (!loaded || impl == nullptr) return 0.0f;
+    if (impl->forwardInputCount < 1) return 0.0f;
+
+    torch::NoGradGuard no_grad;
+    torch::Tensor x = torch::from_blob(const_cast<float*>(features.data()),
+                                       {1, static_cast<long>(features.size())},
+                                       torch::TensorOptions().dtype(torch::kFloat32))
+                          .clone()
+                          .to(impl->device);
+    auto output = impl->module.forward({x}).toTensor();
     float val = output.item<float>();
     return val;
 }
