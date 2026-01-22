@@ -90,7 +90,7 @@ HexGameUI::HexGameUI(
       useGnnAi_(useGnnAi),
       board_(boardSize),
       heuristicAI_(2, std::make_unique<NegamaxHeuristicStrategy>(4, 4000)),
-      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(20, 10000, modelPath, preferCuda)) {
+      gnnAI_(2, std::make_unique<NegamaxGnnStrategy>(4, 4000, modelPath, preferCuda)) {
     tileScale_ *= scaleFactor_;
     if (!loadTexture()) {
         return;

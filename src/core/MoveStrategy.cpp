@@ -213,18 +213,27 @@ static int centerScore(const std::vector<int>& linear, int player) {
     return self;
 }
 
-static int heuristicEval(const GameState& state, int playerId) {
+struct HeuristicFeatures {
+    int N{0};
+    int distSelf{0};
+    int distOpp{0};
+    int libsSelf{0};
+    int libsOpp{0};
+    int bridgesSelf{0};
+    int bridgesOpp{0};
+    int center{0};
+};
+
+static HeuristicFeatures computeHeuristicFeatures(const GameState& state, int playerId) {
     const auto linear = state.LinearBoard();
     const int N = static_cast<int>(std::sqrt(linear.size()));
-    int opp = (playerId == 1 ? 2 : 1);
+    const int opp = (playerId == 1 ? 2 : 1);
 
     int distSelf = boundaryDistance(linear, playerId);
     int distOpp = boundaryDistance(linear, opp);
     const int maxDist = std::max(1, N * N);
     distSelf = std::min(distSelf, maxDist);
     distOpp = std::min(distOpp, maxDist);
-    if (distSelf == 0) return 90000;
-    if (distOpp == 0) return -90000;
 
     int libsSelf = libertiesScore(linear, playerId);
     int libsOpp = libertiesScore(linear, opp);
@@ -233,19 +242,37 @@ static int heuristicEval(const GameState& state, int playerId) {
     int bridgesOpp = bridgeScore(linear, opp);
 
     int center = centerScore(linear, playerId);
-    const int pathWeight = 600 + N * 10;
-    const int threatWeight = 12000 + N * 300;
-    const int bridgeWeight = 6 + N;
+
+    return {
+        N,
+        distSelf,
+        distOpp,
+        libsSelf,
+        libsOpp,
+        bridgesSelf,
+        bridgesOpp,
+        center,
+    };
+}
+
+static int heuristicEval(const GameState& state, int playerId) {
+    const HeuristicFeatures feat = computeHeuristicFeatures(state, playerId);
+    if (feat.distSelf == 0) return 90000;
+    if (feat.distOpp == 0) return -90000;
+
+    const int pathWeight = 600 + feat.N * 10;
+    const int threatWeight = 12000 + feat.N * 300;
+    const int bridgeWeight = 6 + feat.N;
     const int libertyWeight = 2;
     const int centerWeight = 1;
 
     int score = 0;
-    score += (distOpp - distSelf) * pathWeight;
-    if (distSelf == 1) score += threatWeight;
-    if (distOpp == 1) score -= threatWeight;
-    score += (bridgesSelf - bridgesOpp) * bridgeWeight;
-    score += (libsSelf - libsOpp) * libertyWeight;
-    score += center * centerWeight;
+    score += (feat.distOpp - feat.distSelf) * pathWeight;
+    if (feat.distSelf == 1) score += threatWeight;
+    if (feat.distOpp == 1) score -= threatWeight;
+    score += (feat.bridgesSelf - feat.bridgesOpp) * bridgeWeight;
+    score += (feat.libsSelf - feat.libsOpp) * libertyWeight;
+    score += feat.center * centerWeight;
     return score;
 }
 
@@ -399,7 +426,8 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
             std::cout << "[Negamax] Using heuristic evaluation\n";
         } else if (model.isLoaded()) {
             const bool cuda = model.usesCuda();
-            std::cout << "[Negamax] Using GNN evaluation (" << (cuda ? "CUDA" : "CPU") << ")\n";
+            const char* label = model.expectsEdgeIndex() ? "GNN" : "MLP";
+            std::cout << "[Negamax] Using " << label << " evaluation (" << (cuda ? "CUDA" : "CPU") << ")\n";
         } else {
             std::cout << "[Negamax] GNN not loaded, falling back to heuristic evaluation\n";
         }
@@ -455,19 +483,22 @@ SearchResult NegamaxStrategy::iterativeDeepening(const GameState& state, int pla
         std::cout << "[Negamax] Depth " << depth << " done | bestMove=" << best.bestMove
                   << " score=" << best.score << " failLow=" << best.failLow << " failHigh=" << best.failHigh << "\n";
         if (lastEvalPlayer != 0) {
-            std::cout << "[GNN] Depth " << depth << " last eval | nodePlayer=" << lastEvalPlayer
+            const char* label = model.expectsEdgeIndex() ? "[GNN]" : "[MLP]";
+            std::cout << label << " Depth " << depth << " last eval | nodePlayer=" << lastEvalPlayer
                       << " val=" << lastEvalVal << " scaled=" << lastEvalScaled << "\n";
         }
     }
 
-    
-    const bool usingGnn = (!useHeuristic && model.isLoaded());
+    const bool usingModel = (!useHeuristic && model.isLoaded());
     if (best.bestMove >= 0) {
         const auto linear = state.LinearBoard();
         const int n = static_cast<int>(std::sqrt(linear.size()));
         const int row = (n > 0 ? best.bestMove / n : -1);
         const int col = (n > 0 ? best.bestMove % n : -1);
-        const char* prefix = usingGnn ? "[GNN]" : "[Heuristic]";
+        const char* prefix = "[Heuristic]";
+        if (usingModel) {
+            prefix = model.expectsEdgeIndex() ? "[GNN]" : "[MLP]";
+        }
         std::cout << prefix << " Final choice | depth=" << depthReached
                   << " move=" << best.bestMove << " (" << row << "," << col << ")"
                   << " score=" << best.score
@@ -491,12 +522,38 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
     if (depth == 0) {
         int evalScore = 0;
         if (!useHeuristic && model.isLoaded()) {
-            extractor.toBatch(state, gnnBatch);
-            float val = model.evaluate(gnnBatch, playerId);
-            evalScore = static_cast<int>(val * valueScale);
-            lastEvalPlayer = playerId;
-            lastEvalVal = val;
-            lastEvalScaled = evalScore;
+            if (model.expectsEdgeIndex()) {
+                extractor.toBatch(state, gnnBatch);
+                float val = model.evaluate(gnnBatch, playerId);
+                evalScore = static_cast<int>(val * valueScale);
+                lastEvalPlayer = playerId;
+                lastEvalVal = val;
+                lastEvalScaled = evalScore;
+            } else {
+                HeuristicFeatures feat = computeHeuristicFeatures(state, playerId);
+                if (feat.distSelf == 0) {
+                    evalScore = 90000;
+                    lastEvalVal = static_cast<float>(evalScore);
+                } else if (feat.distOpp == 0) {
+                    evalScore = -90000;
+                    lastEvalVal = static_cast<float>(evalScore);
+                } else {
+                    std::array<float, 7> inputs = {
+                        static_cast<float>(feat.distSelf),
+                        static_cast<float>(feat.distOpp),
+                        static_cast<float>(feat.libsSelf),
+                        static_cast<float>(feat.libsOpp),
+                        static_cast<float>(feat.bridgesSelf),
+                        static_cast<float>(feat.bridgesOpp),
+                        static_cast<float>(feat.center),
+                    };
+                    float val = model.evaluateFeatures(inputs);
+                    evalScore = static_cast<int>(std::lround(val));
+                    lastEvalVal = val;
+                }
+                lastEvalPlayer = playerId;
+                lastEvalScaled = evalScore;
+            }
         } else {
             evalScore = heuristicEval(state, playerId);
             lastEvalPlayer = 0;
