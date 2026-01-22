@@ -35,6 +35,9 @@ add_executable(selfplay
     GameRunner.cpp
     DataCollector.cpp
     Serializer.cpp
+    ReplayBuffer.cpp
+    ValueMLP.cpp
+    RLTrainer.cpp
     ${ROOT_DIR}/src/core/Board.cpp
     ${ROOT_DIR}/src/core/GameState.cpp
     ${ROOT_DIR}/src/core/Cube.cpp

@@ -13,7 +13,7 @@ Hex game engine and AI stack in C++ with a TorchScript GNN value network. The re
 
 ## Agents
 - **Heuristic Negamax**: evaluation mixes shortest-path heuristics, liberties, bridges, center control, stone count, and immediate-win checks. Hashing via Zobrist plus a transposition table.
-- **GNN Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts.pt`). Current defaults: depth 5, 3000 ms per move for GNN; depth 3, 2000 ms for heuristic.
+- **GNN Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts_mp.pt`). Current defaults: depth 5, 3000 ms per move for GNN; depth 3, 2000 ms for heuristic.
 - **Interactive play**: `./build/hex` asks if you want heuristic (`h`, default) or GNN (`g`).
 
 ## Build and Run
@@ -60,7 +60,7 @@ python3 scripts/train_gnn.py \
   --epochs 20 --lr 1e-3 \
   --aux-weight 0.1 --endgame-weight 1.0
 ```
-The TorchScript model is saved to `scripts/models/hex_value_ts.pt` and loaded automatically by `./build/hex` and the self-play generator.
+The TorchScript model is saved to `scripts/models/hex_value_ts_mp.pt` and loaded automatically by `./build/hex` and the self-play generator.
 
 ## Code Map (high level)
 - `src/`: game loop (`main.cpp`), strategies, hashing, GNN wrapper.
