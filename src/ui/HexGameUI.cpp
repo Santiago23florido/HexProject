@@ -146,6 +146,23 @@ HexGameUI::HexGameUI(
     setPlayer2ModeIndex(initialIndex);
 }
 
+HexGameUI::~HexGameUI() {
+    menuMusic_.stop();
+    gameMusic_.stop();
+    gameOverSound_.stop();
+    gameClickSound_.stop();
+}
+
+void HexGameUI::switchMusic(bool playGameMusic) {
+    if (playGameMusic) {
+        menuMusic_.stop();
+        gameMusic_.play();
+    } else {
+        gameMusic_.stop();
+        menuMusic_.play();
+    }
+}
+
 bool HexGameUI::loadTexture() {
     if (boardSize_ <= 0) {
         error_ = "Board size must be positive.";
@@ -212,7 +229,7 @@ bool HexGameUI::loadPlayerTextures() {
 bool HexGameUI::loadStartScreenTextures() {
     if (startPagePath_.empty() || startButtonPath_.empty() || startTitlePath_.empty()) {
         screen_ = UIScreen::Game;
-        menuMusic_.play();
+        switchMusic(false);
         return true;
     }
     if (!startPageTexture_.loadFromFile(startPagePath_)) {
@@ -240,6 +257,13 @@ bool HexGameUI::loadStartScreenTextures() {
     startButtonSprite_.setTexture(startButtonTexture_);
     startTitleSprite_.setTexture(startTitleTexture_);
 
+    // Load settings button texture
+    if (!settingsButtonTexture_.loadFromFile("../assets/settings_button.png")) {
+        error_ = "Failed to load settings button texture.";
+        return false;
+    }
+    settingsButtonSprite_.setTexture(settingsButtonTexture_);
+
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
         startFontLoaded_ =
@@ -252,16 +276,6 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setFont(startFont_);
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
-
-    
-    settingsButton_.setSize(sf::Vector2f(150.0f, 40.0f));
-    settingsButton_.setFillColor(sf::Color(100, 100, 100, 200));
-    settingsButtonText_.setFont(startFont_);
-    settingsButtonText_.setString("Settings");
-
-    unsigned int fontSize = static_cast<unsigned int>(10 * scaleFactor_); 
-    settingsButtonText_.setCharacterSize(fontSize);
-    settingsButtonText_.setFillColor(sf::Color::White);
 
     menuBackground_.setSize(sf::Vector2f(400.0f, 500.0f)); 
     menuBackground_.setFillColor(sf::Color(45, 45, 48)); 
@@ -445,6 +459,17 @@ bool HexGameUI::loadVictoryTextures() {
     }
     player1WinSprite_.setTexture(player1WinTexture_);
     player2WinSprite_.setTexture(player2WinTexture_);
+
+    // Load restart/quit buttons (optional)
+    if (restartButtonTexture_.getSize().x == 0) {
+        // attempt to load -- non-fatal
+        restartButtonTexture_.loadFromFile("../assets/restart_button.png");
+        restartButtonSprite_.setTexture(restartButtonTexture_);
+    }
+    if (quitButtonTexture_.getSize().x == 0) {
+        quitButtonTexture_.loadFromFile("../assets/quit_button.png");
+        quitButtonSprite_.setTexture(quitButtonTexture_);
+    }
     return true;
 }
 
@@ -459,10 +484,49 @@ bool HexGameUI::loadPauseTextures() {
     }
     pauseButtonSprite_.setTexture(pauseButtonTexture_);
     pauseMenuSprite_.setTexture(pauseMenuTexture_);
+    
+    // Load pause menu buttons
+    if (!resumeButtonTexture_.loadFromFile("../assets/resume_button.png")) {
+        error_ = "Failed to load resume button texture.";
+        return false;
+    }
+    resumeButtonSprite_.setTexture(resumeButtonTexture_);
+    
+    if (!restartButtonTexture_.loadFromFile("../assets/restart_button.png")) {
+        error_ = "Failed to load restart button texture.";
+        return false;
+    }
+    restartButtonSprite_.setTexture(restartButtonTexture_);
+    
+    if (!helpButtonTexture_.loadFromFile("../assets/help_button.png")) {
+        error_ = "Failed to load help button texture.";
+        return false;
+    }
+    helpButtonSprite_.setTexture(helpButtonTexture_);
+    
+    if (!pauseSettingsButtonTexture_.loadFromFile("../assets/settings_button.png")) {
+        error_ = "Failed to load pause settings button texture.";
+        return false;
+    }
+    pauseSettingsButtonSprite_.setTexture(pauseSettingsButtonTexture_);
+    
+    if (!quitButtonTexture_.loadFromFile("../assets/quit_button.png")) {
+        error_ = "Failed to load quit button texture.";
+        return false;
+    }
+    quitButtonSprite_.setTexture(quitButtonTexture_);
+    
     return true;
 }
 
 bool HexGameUI::initAudio() {
+    //clean up any previously loaded audio
+    menuMusic_.stop();
+    gameMusic_.stop();
+    gameOverSound_.stop();
+    gameClickSound_.stop();
+
+    //charge new audio files
     if (!menuMusic_.openFromFile("../assets/audio/hexMenu.ogg")) {
         error_ = "Failed to load menu music.";
         return false;
@@ -587,6 +651,53 @@ void HexGameUI::buildLayout() {
     pauseMenuSprite_.setPosition(
         (windowSize_.x - pauseMenuSprite_.getLocalBounds().width * menuScale) * 0.5f,
         (windowSize_.y - pauseMenuSprite_.getLocalBounds().height * menuScale) * 0.5f);
+    
+    // Setup pause menu buttons (5 buttons arranged vertically)
+    // Button dimensions: 1792x576 (except settings which is 1024x329)
+    float pauseMenuCenterX = windowSize_.x / 2.0f;
+    float pauseMenuCenterY = windowSize_.y / 2.0f;
+    float buttonHeight = std::min(windowSize_.x, windowSize_.y) * 0.12f;  // Adjusted button height
+    float gap = buttonHeight * 0.3f;  // Gap between buttons
+    
+    // Resume button (1792x576)
+    float resumeScale = buttonHeight / 576.0f;
+    resumeButtonSprite_.setScale(resumeScale, resumeScale);
+    float resumeWidth = 1792.0f * resumeScale;
+    resumeButtonSprite_.setPosition(
+        pauseMenuCenterX - resumeWidth / 2.0f,
+        pauseMenuCenterY - buttonHeight * 2.0f - gap * 1.5f);
+    
+    // Restart button (1792x576)
+    float restartScale = buttonHeight / 576.0f;
+    restartButtonSprite_.setScale(restartScale, restartScale);
+    float restartWidth = 1792.0f * restartScale;
+    restartButtonSprite_.setPosition(
+        pauseMenuCenterX - restartWidth / 2.0f,
+        pauseMenuCenterY - buttonHeight - gap * 0.5f);
+    
+    // Help button (1792x576)
+    float helpScale = buttonHeight / 576.0f;
+    helpButtonSprite_.setScale(helpScale, helpScale);
+    float helpWidth = 1792.0f * helpScale;
+    helpButtonSprite_.setPosition(
+        pauseMenuCenterX - helpWidth / 2.0f,
+        pauseMenuCenterY + gap * 0.5f);
+    
+    // Settings button (1024x329)
+    float settingsScale = buttonHeight / 329.0f;
+    pauseSettingsButtonSprite_.setScale(settingsScale, settingsScale);
+    float settingsWidth = 1024.0f * settingsScale;
+    pauseSettingsButtonSprite_.setPosition(
+        pauseMenuCenterX - settingsWidth / 2.0f,
+        pauseMenuCenterY + buttonHeight + gap * 1.5f);
+    
+    // Quit button (1792x576)
+    float quitScale = buttonHeight / 576.0f;
+    quitButtonSprite_.setScale(quitScale, quitScale);
+    float quitWidth = 1792.0f * quitScale;
+    quitButtonSprite_.setPosition(
+        pauseMenuCenterX - quitWidth / 2.0f,
+        pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -938,7 +1049,7 @@ int HexGameUI::run() {
     if (!initAudio()) {
             std::cerr << "Failed to load music" << std::endl;
     }
-    else menuMusic_.play();
+    else switchMusic(false);
     
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
@@ -1023,15 +1134,13 @@ int HexGameUI::run() {
         
         hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
 
-        settingsButton_.setSize(sf::Vector2f(settingsBtnW, settingsBtnH));
-        settingsButton_.setPosition(settingsBtnX, settingsBtnY);
-
-        
-        sf::FloatRect sTextBounds = settingsButtonText_.getLocalBounds();
-        settingsButtonText_.setPosition(
-            settingsBtnX + (settingsBtnW - sTextBounds.width) / 2.0f,
-            settingsBtnY + (settingsBtnH - sTextBounds.height) / 2.0f - sTextBounds.top
-        );
+        // Settings button is positioned at top-right corner
+        float settingsBtnSize = std::min(windowSize_.x, windowSize_.y) * 0.10f;  // 20% smaller
+        float settingsBtnScale = settingsBtnSize / 329.0f;  // Use height (329px) for scaling
+        settingsButtonSprite_.setScale(settingsBtnScale, settingsBtnScale);
+        settingsButtonSprite_.setPosition(
+            windowSize_.x - (1024.0f * settingsBtnScale) - 15.0f,
+            15.0f);  // Top-right corner
         if (startFontLoaded_) {
             const float hintBoxWidth =
                 static_cast<float>(windowSize_.x) * kStartHintBoxWidthRatio;
@@ -1250,12 +1359,11 @@ int HexGameUI::run() {
                                 screen_ = UIScreen::Game;
                                 updateWindowTitle(window);
                                 printBoardStatus();
-                                menuMusic_.stop();
-                                gameMusic_.play();
+                                switchMusic(true);
                             }
                         }
 
-                        if (settingsButton_.getGlobalBounds().contains(mousePos)) {
+                        if (settingsButtonSprite_.getGlobalBounds().contains(mousePos)) {
                             showSettingsMenu_ = true;
                         }
                     } else {
@@ -1300,23 +1408,8 @@ int HexGameUI::run() {
                         nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         advancePlayer2Mode();
                         std::cout << aiConfigText_.getString().toAnsiString() << "\n";
+                        gameClickSound_.stop();
                         gameClickSound_.play();
-                        if (player2IsHuman_) {
-                            player2IsHuman_ = false;
-                            useGnnAi_ = true;
-                        } else if (useGnnAi_) {
-                            useGnnAi_ = false;
-                        } else {
-                            player2IsHuman_ = true;
-                        }
-                        if (player2IsHuman_) {
-                            aiConfigText_.setString("Jugador 2: Humano");
-                            std::cout << "Jugador 2: Humano\n";
-                        } else {
-                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
-                            std::cout << "Jugador 2: IA (" << (useGnnAi_ ? "GNN" : "Heuristico")
-                                      << ")\n";
-                        }
                     } else if (playerStartButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         gameClickSound_.play();
                         screen_ = UIScreen::Game;
@@ -1325,8 +1418,7 @@ int HexGameUI::run() {
                         aiMoveCount_ = 0;
 
                         
-                        menuMusic_.stop();
-                        gameMusic_.play();
+                        switchMusic(true);
                     }
                 }
                 continue;
@@ -1347,6 +1439,63 @@ int HexGameUI::run() {
                 if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
+                    continue; // Prevent further processing
+                }
+                
+                // Handle pause menu button clicks
+                if (gamePaused_) {
+                    if (resumeButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        continue; // Prevent further processing
+                    } else if (restartButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        resetGame();
+                        updateWindowTitle(window);
+                        continue; // Prevent further processing
+                    } else if (helpButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        // TODO: Open help menu (placeholder)
+                        continue; // Prevent further processing
+                    } else if (pauseSettingsButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        // TODO: Open settings menu (placeholder)
+                        continue; // Prevent further processing
+                    } else if (quitButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        screen_ = UIScreen::Start;
+                        switchMusic(false);
+                        resetGame();
+                        continue; // Prevent further processing
+                    }
+                }
+            }
+
+            // Handle victory buttons clicks (restart / quit)
+            if (screen_ == UIScreen::Game && gameOver_ &&
+                event.type == sf::Event::MouseButtonPressed &&
+                event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                if (restartButtonTexture_.getSize().x != 0 &&
+                    restartButtonSprite_.getGlobalBounds().contains(pos)) {
+                    gameClickSound_.play();
+                    // Restart keeping player/AI settings
+                    resetGame();
+                    updateWindowTitle(window);
+                    switchMusic(true); // start game music
+                    continue; // Prevent further processing
+                } else if (quitButtonTexture_.getSize().x != 0 &&
+                           quitButtonSprite_.getGlobalBounds().contains(pos)) {
+                    gameClickSound_.play();
+                    // Go back to start screen
+                    resetGame();
+                    screen_ = UIScreen::Start;
+                    showSettingsMenu_ = false;
+                    switchMusic(false); // play menu music
+                    continue; // Prevent further processing
                 }
             }
 
@@ -1380,8 +1529,9 @@ int HexGameUI::run() {
                 window.draw(startButtonSprite_);
             }
 
-            window.draw(settingsButton_);
-            window.draw(settingsButtonText_);
+            if (settingsButtonTexture_.getSize().x != 0) {
+                window.draw(settingsButtonSprite_);
+            }
 
             if (showSettingsMenu_) {
                 window.draw(menuOverlay_);    
@@ -1547,6 +1697,30 @@ int HexGameUI::run() {
             const sf::Uint8 winAlpha = static_cast<sf::Uint8>(255.0f * progress);
             winSprite.setColor(sf::Color(255, 255, 255, winAlpha));
             window.draw(winSprite);
+            // Draw restart and quit buttons at bottom-left and bottom-right of the win sprite
+            if (restartButtonTexture_.getSize().x != 0 && quitButtonTexture_.getSize().x != 0) {
+                const sf::Vector2u btnOrigSize = restartButtonTexture_.getSize();
+                // desired width relative to win sprite (25% of win width)
+                const float desiredBtnWidth = scaledWidth * 0.25f;
+                const float btnScale = desiredBtnWidth / static_cast<float>(btnOrigSize.x);
+                const float btnW = btnOrigSize.x * btnScale;
+                const float btnH = btnOrigSize.y * btnScale;
+                const float padding = 16.0f;
+                const float winX = (static_cast<float>(windowSize_.x) - scaledWidth) / 2.0f;
+                const float winY = (static_cast<float>(windowSize_.y) - scaledHeight) / 2.0f;
+
+                // Left (restart)
+                restartButtonSprite_.setScale(btnScale, btnScale);
+                restartButtonSprite_.setPosition(winX + padding, winY + scaledHeight - btnH - padding);
+                restartButtonSprite_.setColor(sf::Color(255, 255, 255, winAlpha));
+                window.draw(restartButtonSprite_);
+
+                // Right (quit)
+                quitButtonSprite_.setScale(btnScale, btnScale);
+                quitButtonSprite_.setPosition(winX + scaledWidth - btnW - padding, winY + scaledHeight - btnH - padding);
+                quitButtonSprite_.setColor(sf::Color(255, 255, 255, winAlpha));
+                window.draw(quitButtonSprite_);
+            }
         }
 
         // Draw pause button
@@ -1559,6 +1733,22 @@ int HexGameUI::run() {
             window.draw(pauseMenuOverlay_);
             if (pauseMenuTexture_.getSize().x != 0) {
                 window.draw(pauseMenuSprite_);
+            }
+            // Draw pause menu buttons
+            if (resumeButtonTexture_.getSize().x != 0) {
+                window.draw(resumeButtonSprite_);
+            }
+            if (restartButtonTexture_.getSize().x != 0) {
+                window.draw(restartButtonSprite_);
+            }
+            if (helpButtonTexture_.getSize().x != 0) {
+                window.draw(helpButtonSprite_);
+            }
+            if (pauseSettingsButtonTexture_.getSize().x != 0) {
+                window.draw(pauseSettingsButtonSprite_);
+            }
+            if (quitButtonTexture_.getSize().x != 0) {
+                window.draw(quitButtonSprite_);
             }
         }
 

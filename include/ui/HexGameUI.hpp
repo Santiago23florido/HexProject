@@ -38,6 +38,8 @@ public:
         const std::string& modelPath,
         bool preferCuda);
 
+    ~HexGameUI();
+
     int run();
 
 private:
@@ -63,6 +65,7 @@ private:
     bool applyMove(int moveIdx);
     int pickTileIndex(const sf::Vector2f& pos) const;
     bool pointInHex(const sf::Vector2f& pos, const sf::Vector2f& center) const;
+    void switchMusic(bool playGameMusic);
     void updateWindowTitle(sf::RenderWindow& window) const;
     void updateHover(const sf::RenderWindow& window);
     void printBoardStatus() const;
@@ -149,8 +152,8 @@ private:
     sf::Text startHintText_;
     sf::RectangleShape startHintBox_;
 
-    sf::RectangleShape settingsButton_; // Button Settings
-    sf::Text settingsButtonText_;
+    sf::Texture settingsButtonTexture_;
+    sf::Sprite settingsButtonSprite_; // Button Settings
 
     bool showSettingsMenu_ = false;   //Menu visibility
     sf::RectangleShape menuBackground_; 
@@ -173,7 +176,16 @@ private:
     sf::Sprite pauseButtonSprite_;
     sf::Texture pauseMenuTexture_;
     sf::Sprite pauseMenuSprite_;
-    sf::RectangleShape pauseMenuOverlay_;           
+    sf::RectangleShape pauseMenuOverlay_;
+    
+    // Pause menu buttons
+    sf::Texture resumeButtonTexture_;
+    sf::Sprite resumeButtonSprite_;
+    sf::Texture helpButtonTexture_;
+    sf::Sprite helpButtonSprite_;
+    sf::Texture pauseSettingsButtonTexture_;
+    sf::Sprite pauseSettingsButtonSprite_;
+
 
     sf::Clock startScreenClock_;
     sf::Vector2f startHintBoxBasePos_{0.0f, 0.0f};
@@ -182,6 +194,11 @@ private:
     sf::Texture player2WinTexture_;
     sf::Sprite player1WinSprite_;
     sf::Sprite player2WinSprite_;
+    // Victory screen buttons
+    sf::Texture restartButtonTexture_;
+    sf::Texture quitButtonTexture_;
+    sf::Sprite restartButtonSprite_;
+    sf::Sprite quitButtonSprite_;
     sf::RectangleShape victoryOverlay_;
     sf::Clock victoryClock_;
     sf::Vector2u textureSize_{0, 0};

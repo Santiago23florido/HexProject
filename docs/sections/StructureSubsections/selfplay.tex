@@ -1,0 +1,27 @@
+\subsection{Self-play}
+On inclut dans cette section ce qui concerne l’entraînement avec reinforcement learning du modèle pour l’estimation du score qui est employé dans le Negamax du modèle heuristique en utilisant la MLP. RLTrainer, dont le rôle (du point de vue de la POO) est d’encapsuler tout le cycle d’entraînement par auto-jeu : configurer le modèle, générer des parties, transformer les parties en données, entraîner le réseau et sauvegarder/exporter les résultats. Dans le constructeur il applique la validation des invariants de configuration (cfg\_), initialise les dépendances (modèle ValueMLP, optimizer, replay buffer) et sélectionne le dispositif (CPU/CUDA). Il maintient aussi deux instances du modèle : model\_ (entraînement) et evalModel\_ (évaluation), séparées pour la stabilité.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{p{0.55\columnwidth}}
+\hline
+Classe / structure \\
+\hline
+RLTrainer \\
+RLConfig \\
+ReplayBuffer \\
+ReplaySample \\
+ValueMLP \\
+ValueMLPImpl \\
+DataCollector \\
+Sample \\
+GameRunner \\
+Serializer \\
+\hline
+\end{tabular}
+\caption{Panorama des classes et structures du module selfplay.}
+\end{table}
+La partie d’auto-jeu utilise le polymorphisme via l’interface IMoveStrategy : l’entraîneur n’a pas besoin de savoir s’il joue un NegamaxStrategy ou un NegamaxHeuristicStrategy ; il appelle seulement select(...). Dans playOneGame on joue une partie complète, et à chaque tour on sauvegarde un EpisodeState (features + joueur au tour) dans un episode. Ensuite addEpisodeToBuffer parcourt l’épisode et le convertit en échantillons d’entraînement (ReplaySample) avec une cible basée sur le gagnant final, et les insère dans un replay buffer, en séparant clairement la responsabilité de “générer l’expérience” et de “la stocker”.
+Finalement, trainUpdates réalise les étapes d’apprentissage : il échantillonne des batches du replay buffer, construit des tenseurs x (features) et y (targets), fait le forward, calcule la perte, rétro-propage et met à jour les poids avec AdamW, en appliquant du clipping pour la stabilité. Après l’entraînement, il synchronise evalModel\_ en copiant les paramètres et les buffers (avec NoGradGuard) pour que l’évaluation soit cohérente, et optionnellement crée des snapshots “frozen” pour la diversité des adversaires. Le fichier inclut aussi des responsabilités de persistance (checkpoints) et de sérialisation (export TorchScript + smoke test), complétant le pipeline dans une seule classe cohésive.
+
+On implémente aussi une structure qui permet de stocker des données d’entraînement et d’extraire des échantillons aléatoires avec la classe replay buffer, on inclut aussi une fonction pour définir le réseau neuronal de valeur et l’exporter en TorchScript. Dans cette conception, mean, std et valueScale sont stockés comme buffers parce qu’ils font partie de l’état du modèle nécessaire pour faire l’inférence correctement (normaliser les entrées et mettre à l’échelle la sortie), mais ils ne doivent pas être optimisés comme s’ils étaient des poids ; en les enregistrant comme buffers, LibTorch garantit automatiquement que ces tenseurs se déplacent vers le même dispositif que le modèle quand on fait to(cpu/cuda), qu’ils soient inclus dans les checkpoints lors de la sauvegarde/chargement, qu’ils soient copiés quand on synchronise model\_ avec evalModel\_, et qu’ils soient exportés vers TorchScript, en évitant des erreurs typiques comme une normalisation perdue après chargement ou des échecs dus à des tenseurs sur des dispositifs différents.
