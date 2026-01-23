@@ -146,6 +146,23 @@ HexGameUI::HexGameUI(
     setPlayer2ModeIndex(initialIndex);
 }
 
+HexGameUI::~HexGameUI() {
+    menuMusic_.stop();
+    gameMusic_.stop();
+    gameOverSound_.stop();
+    gameClickSound_.stop();
+}
+
+void HexGameUI::switchMusic(bool playGameMusic) {
+    if (playGameMusic) {
+        menuMusic_.stop();
+        gameMusic_.play();
+    } else {
+        gameMusic_.stop();
+        menuMusic_.play();
+    }
+}
+
 bool HexGameUI::loadTexture() {
     if (boardSize_ <= 0) {
         error_ = "Board size must be positive.";
@@ -212,7 +229,7 @@ bool HexGameUI::loadPlayerTextures() {
 bool HexGameUI::loadStartScreenTextures() {
     if (startPagePath_.empty() || startButtonPath_.empty() || startTitlePath_.empty()) {
         screen_ = UIScreen::Game;
-        menuMusic_.play();
+        switchMusic(false);
         return true;
     }
     if (!startPageTexture_.loadFromFile(startPagePath_)) {
@@ -445,6 +462,17 @@ bool HexGameUI::loadVictoryTextures() {
     }
     player1WinSprite_.setTexture(player1WinTexture_);
     player2WinSprite_.setTexture(player2WinTexture_);
+
+    // Load restart/quit buttons (optional)
+    if (restartButtonTexture_.getSize().x == 0) {
+        // attempt to load -- non-fatal
+        restartButtonTexture_.loadFromFile("../assets/restart_button.png");
+        restartButtonSprite_.setTexture(restartButtonTexture_);
+    }
+    if (quitButtonTexture_.getSize().x == 0) {
+        quitButtonTexture_.loadFromFile("../assets/quit_button.png");
+        quitButtonSprite_.setTexture(quitButtonTexture_);
+    }
     return true;
 }
 
@@ -463,6 +491,13 @@ bool HexGameUI::loadPauseTextures() {
 }
 
 bool HexGameUI::initAudio() {
+    //clean up any previously loaded audio
+    menuMusic_.stop();
+    gameMusic_.stop();
+    gameOverSound_.stop();
+    gameClickSound_.stop();
+
+    //charge new audio files
     if (!menuMusic_.openFromFile("../assets/audio/hexMenu.ogg")) {
         error_ = "Failed to load menu music.";
         return false;
@@ -938,7 +973,7 @@ int HexGameUI::run() {
     if (!initAudio()) {
             std::cerr << "Failed to load music" << std::endl;
     }
-    else menuMusic_.play();
+    else switchMusic(false);
     
     window.setFramerateLimit(60);
     victoryOverlay_.setSize(sf::Vector2f(windowSize_.x, windowSize_.y));
@@ -1250,8 +1285,7 @@ int HexGameUI::run() {
                                 screen_ = UIScreen::Game;
                                 updateWindowTitle(window);
                                 printBoardStatus();
-                                menuMusic_.stop();
-                                gameMusic_.play();
+                                switchMusic(true);
                             }
                         }
 
@@ -1300,6 +1334,7 @@ int HexGameUI::run() {
                         nextTypeButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         advancePlayer2Mode();
                         std::cout << aiConfigText_.getString().toAnsiString() << "\n";
+                        gameClickSound_.stop();
                         gameClickSound_.play();
                         if (player2IsHuman_) {
                             player2IsHuman_ = false;
@@ -1325,8 +1360,7 @@ int HexGameUI::run() {
                         aiMoveCount_ = 0;
 
                         
-                        menuMusic_.stop();
-                        gameMusic_.play();
+                        switchMusic(true);
                     }
                 }
                 continue;
@@ -1347,6 +1381,30 @@ int HexGameUI::run() {
                 if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
+                }
+            }
+
+            // Handle victory buttons clicks (restart / quit)
+            if (screen_ == UIScreen::Game && gameOver_ &&
+                event.type == sf::Event::MouseButtonPressed &&
+                event.mouseButton.button == sf::Mouse::Left) {
+                sf::Vector2f pos = window.mapPixelToCoords(
+                    sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                if (restartButtonTexture_.getSize().x != 0 &&
+                    restartButtonSprite_.getGlobalBounds().contains(pos)) {
+                    gameClickSound_.play();
+                    // Restart keeping player/AI settings
+                    resetGame();
+                    updateWindowTitle(window);
+                    switchMusic(true); // start game music
+                } else if (quitButtonTexture_.getSize().x != 0 &&
+                           quitButtonSprite_.getGlobalBounds().contains(pos)) {
+                    gameClickSound_.play();
+                    // Go back to start screen
+                    resetGame();
+                    screen_ = UIScreen::Start;
+                    showSettingsMenu_ = false;
+                    switchMusic(false); // play menu music
                 }
             }
 
@@ -1547,6 +1605,30 @@ int HexGameUI::run() {
             const sf::Uint8 winAlpha = static_cast<sf::Uint8>(255.0f * progress);
             winSprite.setColor(sf::Color(255, 255, 255, winAlpha));
             window.draw(winSprite);
+            // Draw restart and quit buttons at bottom-left and bottom-right of the win sprite
+            if (restartButtonTexture_.getSize().x != 0 && quitButtonTexture_.getSize().x != 0) {
+                const sf::Vector2u btnOrigSize = restartButtonTexture_.getSize();
+                // desired width relative to win sprite (25% of win width)
+                const float desiredBtnWidth = scaledWidth * 0.25f;
+                const float btnScale = desiredBtnWidth / static_cast<float>(btnOrigSize.x);
+                const float btnW = btnOrigSize.x * btnScale;
+                const float btnH = btnOrigSize.y * btnScale;
+                const float padding = 16.0f;
+                const float winX = (static_cast<float>(windowSize_.x) - scaledWidth) / 2.0f;
+                const float winY = (static_cast<float>(windowSize_.y) - scaledHeight) / 2.0f;
+
+                // Left (restart)
+                restartButtonSprite_.setScale(btnScale, btnScale);
+                restartButtonSprite_.setPosition(winX + padding, winY + scaledHeight - btnH - padding);
+                restartButtonSprite_.setColor(sf::Color(255, 255, 255, winAlpha));
+                window.draw(restartButtonSprite_);
+
+                // Right (quit)
+                quitButtonSprite_.setScale(btnScale, btnScale);
+                quitButtonSprite_.setPosition(winX + scaledWidth - btnW - padding, winY + scaledHeight - btnH - padding);
+                quitButtonSprite_.setColor(sf::Color(255, 255, 255, winAlpha));
+                window.draw(quitButtonSprite_);
+            }
         }
 
         // Draw pause button
