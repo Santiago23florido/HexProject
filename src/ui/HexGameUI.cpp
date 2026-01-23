@@ -484,6 +484,38 @@ bool HexGameUI::loadPauseTextures() {
     }
     pauseButtonSprite_.setTexture(pauseButtonTexture_);
     pauseMenuSprite_.setTexture(pauseMenuTexture_);
+    
+    // Load pause menu buttons
+    if (!resumeButtonTexture_.loadFromFile("../assets/resume_button.png")) {
+        error_ = "Failed to load resume button texture.";
+        return false;
+    }
+    resumeButtonSprite_.setTexture(resumeButtonTexture_);
+    
+    if (!restartButtonTexture_.loadFromFile("../assets/restart_button.png")) {
+        error_ = "Failed to load restart button texture.";
+        return false;
+    }
+    restartButtonSprite_.setTexture(restartButtonTexture_);
+    
+    if (!helpButtonTexture_.loadFromFile("../assets/help_button.png")) {
+        error_ = "Failed to load help button texture.";
+        return false;
+    }
+    helpButtonSprite_.setTexture(helpButtonTexture_);
+    
+    if (!pauseSettingsButtonTexture_.loadFromFile("../assets/settings_button.png")) {
+        error_ = "Failed to load pause settings button texture.";
+        return false;
+    }
+    pauseSettingsButtonSprite_.setTexture(pauseSettingsButtonTexture_);
+    
+    if (!quitButtonTexture_.loadFromFile("../assets/quit_button.png")) {
+        error_ = "Failed to load quit button texture.";
+        return false;
+    }
+    quitButtonSprite_.setTexture(quitButtonTexture_);
+    
     return true;
 }
 
@@ -619,6 +651,53 @@ void HexGameUI::buildLayout() {
     pauseMenuSprite_.setPosition(
         (windowSize_.x - pauseMenuSprite_.getLocalBounds().width * menuScale) * 0.5f,
         (windowSize_.y - pauseMenuSprite_.getLocalBounds().height * menuScale) * 0.5f);
+    
+    // Setup pause menu buttons (5 buttons arranged vertically)
+    // Button dimensions: 1792x576 (except settings which is 1024x329)
+    float pauseMenuCenterX = windowSize_.x / 2.0f;
+    float pauseMenuCenterY = windowSize_.y / 2.0f;
+    float buttonHeight = std::min(windowSize_.x, windowSize_.y) * 0.12f;  // Adjusted button height
+    float gap = buttonHeight * 0.3f;  // Gap between buttons
+    
+    // Resume button (1792x576)
+    float resumeScale = buttonHeight / 576.0f;
+    resumeButtonSprite_.setScale(resumeScale, resumeScale);
+    float resumeWidth = 1792.0f * resumeScale;
+    resumeButtonSprite_.setPosition(
+        pauseMenuCenterX - resumeWidth / 2.0f,
+        pauseMenuCenterY - buttonHeight * 2.0f - gap * 1.5f);
+    
+    // Restart button (1792x576)
+    float restartScale = buttonHeight / 576.0f;
+    restartButtonSprite_.setScale(restartScale, restartScale);
+    float restartWidth = 1792.0f * restartScale;
+    restartButtonSprite_.setPosition(
+        pauseMenuCenterX - restartWidth / 2.0f,
+        pauseMenuCenterY - buttonHeight - gap * 0.5f);
+    
+    // Help button (1792x576)
+    float helpScale = buttonHeight / 576.0f;
+    helpButtonSprite_.setScale(helpScale, helpScale);
+    float helpWidth = 1792.0f * helpScale;
+    helpButtonSprite_.setPosition(
+        pauseMenuCenterX - helpWidth / 2.0f,
+        pauseMenuCenterY + gap * 0.5f);
+    
+    // Settings button (1024x329)
+    float settingsScale = buttonHeight / 329.0f;
+    pauseSettingsButtonSprite_.setScale(settingsScale, settingsScale);
+    float settingsWidth = 1024.0f * settingsScale;
+    pauseSettingsButtonSprite_.setPosition(
+        pauseMenuCenterX - settingsWidth / 2.0f,
+        pauseMenuCenterY + buttonHeight + gap * 1.5f);
+    
+    // Quit button (1792x576)
+    float quitScale = buttonHeight / 576.0f;
+    quitButtonSprite_.setScale(quitScale, quitScale);
+    float quitWidth = 1792.0f * quitScale;
+    quitButtonSprite_.setPosition(
+        pauseMenuCenterX - quitWidth / 2.0f,
+        pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -1360,6 +1439,37 @@ int HexGameUI::run() {
                 if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
+                    continue; // Prevent further processing
+                }
+                
+                // Handle pause menu button clicks
+                if (gamePaused_) {
+                    if (resumeButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        continue; // Prevent further processing
+                    } else if (restartButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        resetGame();
+                        updateWindowTitle(window);
+                        continue; // Prevent further processing
+                    } else if (helpButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        // TODO: Open help menu (placeholder)
+                        continue; // Prevent further processing
+                    } else if (pauseSettingsButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        // TODO: Open settings menu (placeholder)
+                        continue; // Prevent further processing
+                    } else if (quitButtonSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        gamePaused_ = false;
+                        screen_ = UIScreen::Start;
+                        switchMusic(false);
+                        resetGame();
+                        continue; // Prevent further processing
+                    }
                 }
             }
 
@@ -1376,6 +1486,7 @@ int HexGameUI::run() {
                     resetGame();
                     updateWindowTitle(window);
                     switchMusic(true); // start game music
+                    continue; // Prevent further processing
                 } else if (quitButtonTexture_.getSize().x != 0 &&
                            quitButtonSprite_.getGlobalBounds().contains(pos)) {
                     gameClickSound_.play();
@@ -1384,6 +1495,7 @@ int HexGameUI::run() {
                     screen_ = UIScreen::Start;
                     showSettingsMenu_ = false;
                     switchMusic(false); // play menu music
+                    continue; // Prevent further processing
                 }
             }
 
@@ -1621,6 +1733,22 @@ int HexGameUI::run() {
             window.draw(pauseMenuOverlay_);
             if (pauseMenuTexture_.getSize().x != 0) {
                 window.draw(pauseMenuSprite_);
+            }
+            // Draw pause menu buttons
+            if (resumeButtonTexture_.getSize().x != 0) {
+                window.draw(resumeButtonSprite_);
+            }
+            if (restartButtonTexture_.getSize().x != 0) {
+                window.draw(restartButtonSprite_);
+            }
+            if (helpButtonTexture_.getSize().x != 0) {
+                window.draw(helpButtonSprite_);
+            }
+            if (pauseSettingsButtonTexture_.getSize().x != 0) {
+                window.draw(pauseSettingsButtonSprite_);
+            }
+            if (quitButtonTexture_.getSize().x != 0) {
+                window.draw(quitButtonSprite_);
             }
         }
 
