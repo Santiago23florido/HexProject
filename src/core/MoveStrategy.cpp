@@ -55,6 +55,28 @@ std::string resolveModelPath(const std::string& hint) {
     return hinted.lexically_normal().string();
 }
 
+template <typename T>
+struct ModelInputTraits;
+
+template <>
+struct ModelInputTraits<FeatureBatch> {
+    static float eval(const GNNModel& model, const FeatureBatch& batch, int toMove) {
+        return model.evaluate(batch, toMove);
+    }
+};
+
+template <>
+struct ModelInputTraits<std::array<float, 7>> {
+    static float eval(const GNNModel& model, const std::array<float, 7>& features, int /*toMove*/) {
+        return model.evaluateFeatures(features);
+    }
+};
+
+template <typename T>
+float evalValueModel(const GNNModel& model, const T& input, int toMove) {
+    return ModelInputTraits<T>::eval(model, input, toMove);
+}
+
 } 
 
 
@@ -444,7 +466,7 @@ float NegamaxStrategy::mlEvalFromFeatures(const GameState& state, int playerId) 
     if (mlpEvaluator) {
         return mlpEvaluator(inputs);
     }
-    return model.evaluateFeatures(inputs);
+    return evalValueModel(model, inputs, playerId);
 }
 
 NegamaxHeuristicStrategy::NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs)
@@ -653,7 +675,7 @@ SearchResult NegamaxStrategy::negamaxParallelRoot(const GameState& state,
         return negamax(state, depth, alpha, beta, playerId, startTime);
     }
 
-    auto mlpEvalFn = [this](const std::array<float, 7>& f) { return model.evaluateFeatures(f); };
+    auto mlpEvalFn = [this](const std::array<float, 7>& f) { return evalValueModel(model, f, 0); };
 
     auto makeWorker = [&]() {
         NegamaxStrategy worker(maxDepth, timeLimitMs, std::string(), useHeuristic, false, evalMixAlpha, false);
@@ -769,7 +791,7 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
                     evalScore = heuristicEval(state, playerId);
                 } else {
                     extractor.toBatch(state, gnnBatch);
-                    float val = model.evaluate(gnnBatch, playerId);
+                    float val = evalValueModel(model, gnnBatch, playerId);
                     mlVal = val * static_cast<float>(valueScale);
                     if (evalMixAlpha >= 1.0f) {
                         evalScore = static_cast<int>(std::lround(mlVal));
@@ -800,7 +822,7 @@ SearchResult NegamaxStrategy::negamax(const GameState& state, int depth, int alp
                             static_cast<float>(feat.bridgesOpp),
                             static_cast<float>(feat.center),
                         };
-                        mlVal = mlpEvaluator ? mlpEvaluator(inputs) : model.evaluateFeatures(inputs);
+                        mlVal = mlpEvaluator ? mlpEvaluator(inputs) : evalValueModel(model, inputs, playerId);
                     }
                     if (evalMixAlpha >= 1.0f) {
                         evalScore = static_cast<int>(std::lround(mlVal));
