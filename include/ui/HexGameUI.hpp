@@ -57,6 +57,7 @@ private:
     bool loadStartScreenTextures();
     bool loadPlayerSelectTextures();
     bool loadVictoryTextures();
+    bool loadPauseTextures();
     void buildLayout();
     void updateTileColors();
     bool applyMove(int moveIdx);
@@ -164,7 +165,15 @@ private:
     sf::Text menuTitleText_;            
     sf::Text aiOptionText_;             
     sf::Text hardwareInfoText_;         
-    sf::Text resolutionText_;           
+    sf::Text resolutionText_;
+
+    // Pause button and menu
+    bool gamePaused_ = false;
+    sf::Texture pauseButtonTexture_;
+    sf::Sprite pauseButtonSprite_;
+    sf::Texture pauseMenuTexture_;
+    sf::Sprite pauseMenuSprite_;
+    sf::RectangleShape pauseMenuOverlay_;           
 
     sf::Clock startScreenClock_;
     sf::Vector2f startHintBoxBasePos_{0.0f, 0.0f};
@@ -195,10 +204,10 @@ private:
     sf::Music menuMusic_;
     sf::Music gameMusic_;
     //Sound Effects
-    sf::SoundBuffer victoryBufffer_;
-    sf::Sound victorySound_;
+    sf::SoundBuffer gameOverBuffer_;
+    sf::Sound gameOverSound_;
     sf::SoundBuffer clickBuffer_;
-    sf::Sound clickSound_;
+    sf::Sound gameClickSound_;
     static constexpr float MUSIC_VOLUME = 50.0f;
     static constexpr float SFX_VOLUME = 80.0f;
 };
