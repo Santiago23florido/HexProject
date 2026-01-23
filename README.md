@@ -1,9 +1,9 @@
 # Hex Project
 
-Hex game engine and AI stack in C++ with a TorchScript GNN value network. The repository contains:
+Hex game engine and AI stack in C++ with a TorchScript value network (MLP by default, optional GNN). The repository contains:
 - A full Hex rules implementation (board, game state, winner detection).
-- Two search-based agents: a handcrafted heuristic Negamax and a GNN-guided Negamax.
-- A self-play generator to create training data for the GNN.
+- Two search-based agents: a handcrafted heuristic Negamax and a TorchScript-guided Negamax.
+- A self-play generator and trainer to build value data or export a TorchScript value model.
 - A Python training script to produce the TorchScript model consumed by C++.
 
 ## Engine and Rules
@@ -13,8 +13,8 @@ Hex game engine and AI stack in C++ with a TorchScript GNN value network. The re
 
 ## Agents
 - **Heuristic Negamax**: evaluation mixes shortest-path heuristics, liberties, bridges, center control, stone count, and immediate-win checks. Hashing via Zobrist plus a transposition table.
-- **GNN Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts_mp.pt`). Current defaults: depth 5, 3000 ms per move for GNN; depth 3, 2000 ms for heuristic.
-- **Interactive play**: `./build/hex` asks if you want heuristic (`h`, default) or GNN (`g`).
+- **TorchScript Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts_mp.pt`). The loader auto-detects whether the model expects graph inputs (GNN) or flat features (MLP). Current defaults: depth 5, 3000 ms per move for TorchScript; depth 3, 2000 ms for heuristic.
+- **Interactive play**: `./build/hex` asks if you want heuristic (`h`, default) or TorchScript (`g`).
 
 ## Build and Run
 ```bash
@@ -23,8 +23,8 @@ cmake --build build
 ./build/hex
 ```
 
-## Self-Play Generator
-Binary under `selfplay/` to produce JSONL training data.
+## Self-Play Generator and Trainer
+Binary under `selfplay/` can either produce JSONL training data or train a value MLP and export TorchScript.
 
 Build:
 ```bash
@@ -32,7 +32,7 @@ cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 ```
 
-Run:
+Run (JSONL data):
 ```bash
 ./selfplay/build/selfplay <games> <minDepth> <maxDepth> <outputPath> <minPairs> <maxPairs> <timeLimitMs>
 ```
@@ -42,30 +42,34 @@ Run:
 - Files: writes one JSONL per board size, e.g. `selfplay_data_N7.jsonl`. Flushes every 20 games to avoid high RAM use.
 - Sample fields: `N`, `board` (flattened), `to_move`, `result` (+1/-1/0 from `to_move` perspective), `moves_to_end` (plies remaining).
 
-## GNN Features and Training (Python)
-Script: `scripts/train_gnn.py`.
-- Input features per node (10): `p1, p2, empty, sideA, sideB, degree, distToA, distToB, toMoveP1, toMoveP2` — identical ordering in Python and C++ extractors. Distances are BFS hops to the target borders, normalized by board area, computed without supernodes.
-- Model: 3 message-passing blocks (hidden 128) with mean aggregation, layer-norm residuals, global mean+max pooling, and two heads.
-- Outputs:
-  - Value head: scalar in `[-1, 1]` meaning advantage for the *current player* (TorchScript and C++ wrapper use the same sign; no flips).
-  - Auxiliary head: predicts normalized `moves_to_end` (training only).
-- Loss: SmoothL1 on value targets (`result` clamped to [-1,1]) scaled by a confidence weight `w = 0.2 + 0.8*(1 - moves_norm)`, optionally amplified by `endgame_weight`. Aux MSE is added with `--aux-weight`.
-- Data shuffle each epoch; dataset stats (mean/std, +/- counts, examples) printed once for sanity. `--self-test` runs a tiny 2-sample overfit check to verify the pipeline.
-- Arguments: `--epochs`, `--lr`, `--aux-weight`, `--endgame-weight`, `--data`, `--limit`, `--output`, `--self-test`.
-
-Example training:
+Run (self-play training):
 ```bash
-python3 scripts/train_gnn.py \
-  --data selfplay/build/selfplay_data_N7.jsonl \
-  --epochs 20 --lr 1e-3 \
-  --aux-weight 0.1 --endgame-weight 1.0
+./selfplay/build/selfplay --selfplay-train --export-ts \
+  --train-games 200 --min-depth 10 --max-depth 20 \
+  --batch-size 256 --updates-per-game 1 --device cuda
 ```
-The TorchScript model is saved to `scripts/models/hex_value_ts_mp.pt` and loaded automatically by `./build/hex` and the self-play generator.
+
+## Value Model (TorchScript)
+### Default MLP (heuristic emulator, Python)
+Script: `scripts/train_value_mlp_emulate_heuristic.py`.
+- Input features (7): `distSelf, distOpp, libsSelf, libsOpp, bridgesSelf, bridgesOpp, center` (same ordering as `computeValueFeatures` in C++).
+- Targets: synthetic feature sampling; the target score mirrors the linear combination inside the heuristic (without the early `dist==0` return).
+- Model: MLP with feature normalization, configurable depth/hidden, ReLU activations, and `target_scale` to keep outputs in heuristic score scale.
+- Output: TorchScript saved to `scripts/models/hex_value_ts_mp.pt`. The C++ runtime treats this as an MLP (single-input `forward`).
+
+### Self-play ValueMLP (C++)
+Trainer: `selfplay/RLTrainer.cpp` and `selfplay/RLTrainer.hpp`.
+- Data: self-play games; each position stores the same 7 features; target is win/loss for the side to move scaled by `valueScale`.
+- Loss: SmoothL1; normalization estimated from the replay buffer; optional frozen snapshots for opponents.
+- Export: use `--export-ts` in the self-play binary to write `scripts/models/hex_value_ts_mp.pt`.
+
+### Optional GNN path
+If you provide a TorchScript model with `forward(x, edge_index)`, the engine uses `FeatureExtractor` to build a graph and 10 node features: `p1, p2, empty, sideA, sideB, degree, distToA, distToB, toMoveP1, toMoveP2`. This repo does not currently include a Python GNN training script.
 
 ## Code Map (high level)
 - `src/`: game loop (`main.cpp`), strategies, hashing, GNN wrapper.
 - `include/`: headers for board/state/strategies/gnn.
-- `selfplay/`: standalone generator and serializer for JSONL data.
+- `selfplay/`: JSONL generator plus self-play trainer/exporter for the value MLP.
 - `scripts/`: training script and model artifacts.
 
 ## Notes and Next Steps
