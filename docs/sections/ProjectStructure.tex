@@ -1,0 +1,55 @@
+\section{Structure du projet}
+\label{sec:project-structure}
+
+Le d\'ep\^ot est organis\'e en dossiers principaux afin de s\'eparer clairement
+les ressources, le code C++, les scripts et les livrables. Le sch\'ema
+suivant r\'esume l'arborescence \`a haut niveau.
+
+\begin{center}
+\begin{verbatim}
+HexProject/
+|-- assets/
+|-- docs/
+|   `-- sections/
+|-- include/
+|   |-- core/
+|   |-- gnn/
+|   `-- ui/
+|-- src/
+|   |-- core/
+|   |-- gnn/
+|   |-- ui/
+|   `-- cli/
+|-- selfplay/
+|   `-- build/ (g\'en\'er\'e)
+|-- scripts/
+|   `-- models/
+|-- rapport_hex/
+|-- CMakeLists.txt
+|-- README.md
+|-- pyproject.toml
+`-- poetry.lock
+\end{verbatim}
+\end{center}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\hline
+Dossier & Contenu et r\^ole g\'en\'eral \\
+\hline
+assets/ & images, sons et textures pour l'interface \\
+docs/ & sources LaTeX du rapport final et sections \\
+include/ & en-t\^etes C++ (API publique par module) \\
+src/ & impl\'ementation C++ (logique, GNN, UI, CLI) \\
+selfplay/ & g\'en\'eration de parties et entra\^inement auto-jeu \\
+scripts/ & scripts Python et artefacts de mod\`eles \\
+rapport\_hex/ & version IEEE du premier rapport \\
+\hline
+\end{tabular}
+\caption{R\'epartition des dossiers principaux.}
+\end{table}
+
+Les fichiers racine (\texttt{CMakeLists.txt}, \texttt{README.md},
+\texttt{pyproject.toml}, \texttt{poetry.lock}) rassemblent la configuration
+de build, la documentation et les d\'ependances Python.
