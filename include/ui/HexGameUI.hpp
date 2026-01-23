@@ -152,8 +152,8 @@ private:
     sf::Text startHintText_;
     sf::RectangleShape startHintBox_;
 
-    sf::RectangleShape settingsButton_; // Button Settings
-    sf::Text settingsButtonText_;
+    sf::Texture settingsButtonTexture_;
+    sf::Sprite settingsButtonSprite_; // Button Settings
 
     bool showSettingsMenu_ = false;   //Menu visibility
     sf::RectangleShape menuBackground_; 
