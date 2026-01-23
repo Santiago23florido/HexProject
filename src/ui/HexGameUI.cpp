@@ -257,6 +257,13 @@ bool HexGameUI::loadStartScreenTextures() {
     startButtonSprite_.setTexture(startButtonTexture_);
     startTitleSprite_.setTexture(startTitleTexture_);
 
+    // Load settings button texture
+    if (!settingsButtonTexture_.loadFromFile("../assets/settings_button.png")) {
+        error_ = "Failed to load settings button texture.";
+        return false;
+    }
+    settingsButtonSprite_.setTexture(settingsButtonTexture_);
+
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
         startFontLoaded_ =
@@ -269,16 +276,6 @@ bool HexGameUI::loadStartScreenTextures() {
     startHintText_.setFont(startFont_);
     startHintText_.setString("Press Start to Play");
     startHintText_.setFillColor(sf::Color::White);
-
-    
-    settingsButton_.setSize(sf::Vector2f(150.0f, 40.0f));
-    settingsButton_.setFillColor(sf::Color(100, 100, 100, 200));
-    settingsButtonText_.setFont(startFont_);
-    settingsButtonText_.setString("Settings");
-
-    unsigned int fontSize = static_cast<unsigned int>(10 * scaleFactor_); 
-    settingsButtonText_.setCharacterSize(fontSize);
-    settingsButtonText_.setFillColor(sf::Color::White);
 
     menuBackground_.setSize(sf::Vector2f(400.0f, 500.0f)); 
     menuBackground_.setFillColor(sf::Color(45, 45, 48)); 
@@ -1058,15 +1055,13 @@ int HexGameUI::run() {
         
         hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
 
-        settingsButton_.setSize(sf::Vector2f(settingsBtnW, settingsBtnH));
-        settingsButton_.setPosition(settingsBtnX, settingsBtnY);
-
-        
-        sf::FloatRect sTextBounds = settingsButtonText_.getLocalBounds();
-        settingsButtonText_.setPosition(
-            settingsBtnX + (settingsBtnW - sTextBounds.width) / 2.0f,
-            settingsBtnY + (settingsBtnH - sTextBounds.height) / 2.0f - sTextBounds.top
-        );
+        // Settings button is positioned at top-right corner
+        float settingsBtnSize = std::min(windowSize_.x, windowSize_.y) * 0.10f;  // 20% smaller
+        float settingsBtnScale = settingsBtnSize / 329.0f;  // Use height (329px) for scaling
+        settingsButtonSprite_.setScale(settingsBtnScale, settingsBtnScale);
+        settingsButtonSprite_.setPosition(
+            windowSize_.x - (1024.0f * settingsBtnScale) - 15.0f,
+            15.0f);  // Top-right corner
         if (startFontLoaded_) {
             const float hintBoxWidth =
                 static_cast<float>(windowSize_.x) * kStartHintBoxWidthRatio;
@@ -1289,7 +1284,7 @@ int HexGameUI::run() {
                             }
                         }
 
-                        if (settingsButton_.getGlobalBounds().contains(mousePos)) {
+                        if (settingsButtonSprite_.getGlobalBounds().contains(mousePos)) {
                             showSettingsMenu_ = true;
                         }
                     } else {
@@ -1438,8 +1433,9 @@ int HexGameUI::run() {
                 window.draw(startButtonSprite_);
             }
 
-            window.draw(settingsButton_);
-            window.draw(settingsButtonText_);
+            if (settingsButtonTexture_.getSize().x != 0) {
+                window.draw(settingsButtonSprite_);
+            }
 
             if (showSettingsMenu_) {
                 window.draw(menuOverlay_);    
