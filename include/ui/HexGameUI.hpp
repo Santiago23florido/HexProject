@@ -38,6 +38,8 @@ public:
         const std::string& modelPath,
         bool preferCuda);
 
+    ~HexGameUI();
+
     int run();
 
 private:
@@ -63,6 +65,7 @@ private:
     bool applyMove(int moveIdx);
     int pickTileIndex(const sf::Vector2f& pos) const;
     bool pointInHex(const sf::Vector2f& pos, const sf::Vector2f& center) const;
+    void switchMusic(bool playGameMusic);
     void updateWindowTitle(sf::RenderWindow& window) const;
     void updateHover(const sf::RenderWindow& window);
     void printBoardStatus() const;
@@ -182,6 +185,11 @@ private:
     sf::Texture player2WinTexture_;
     sf::Sprite player1WinSprite_;
     sf::Sprite player2WinSprite_;
+    // Victory screen buttons
+    sf::Texture restartButtonTexture_;
+    sf::Texture quitButtonTexture_;
+    sf::Sprite restartButtonSprite_;
+    sf::Sprite quitButtonSprite_;
     sf::RectangleShape victoryOverlay_;
     sf::Clock victoryClock_;
     sf::Vector2u textureSize_{0, 0};
