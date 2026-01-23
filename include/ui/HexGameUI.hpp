@@ -176,7 +176,16 @@ private:
     sf::Sprite pauseButtonSprite_;
     sf::Texture pauseMenuTexture_;
     sf::Sprite pauseMenuSprite_;
-    sf::RectangleShape pauseMenuOverlay_;           
+    sf::RectangleShape pauseMenuOverlay_;
+    
+    // Pause menu buttons
+    sf::Texture resumeButtonTexture_;
+    sf::Sprite resumeButtonSprite_;
+    sf::Texture helpButtonTexture_;
+    sf::Sprite helpButtonSprite_;
+    sf::Texture pauseSettingsButtonTexture_;
+    sf::Sprite pauseSettingsButtonSprite_;
+
 
     sf::Clock startScreenClock_;
     sf::Vector2f startHintBoxBasePos_{0.0f, 0.0f};
