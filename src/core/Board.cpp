@@ -12,26 +12,9 @@ int ValidateBoardSize(int n) {
     return n;
 }
 
-template <typename T, typename Enable = void>
-struct RangeTraits;
-
-template <typename T>
-struct RangeTraits<T, std::enable_if_t<std::is_signed<T>::value>> {
-    static bool InRange(T value, T minValue, T maxValue) {
-        return value >= minValue && value < maxValue;
-    }
-};
-
-template <typename T>
-struct RangeTraits<T, std::enable_if_t<std::is_unsigned<T>::value>> {
-    static bool InRange(T value, T minValue, T maxValue) {
-        return value >= minValue && value < maxValue;
-    }
-};
-
 template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
 bool InRange(T value, T minValue, T maxValue) {
-    return RangeTraits<T>::InRange(value, minValue, maxValue);
+    return value >= minValue && value < maxValue;
 }
 } // namespace
 
