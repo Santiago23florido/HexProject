@@ -1331,22 +1331,6 @@ int HexGameUI::run() {
                         std::cout << aiConfigText_.getString().toAnsiString() << "\n";
                         gameClickSound_.stop();
                         gameClickSound_.play();
-                        if (player2IsHuman_) {
-                            player2IsHuman_ = false;
-                            useGnnAi_ = true;
-                        } else if (useGnnAi_) {
-                            useGnnAi_ = false;
-                        } else {
-                            player2IsHuman_ = true;
-                        }
-                        if (player2IsHuman_) {
-                            aiConfigText_.setString("Jugador 2: Humano");
-                            std::cout << "Jugador 2: Humano\n";
-                        } else {
-                            aiConfigText_.setString(useGnnAi_ ? "Modo IA: GNN" : "Modo IA: Heuristico");
-                            std::cout << "Jugador 2: IA (" << (useGnnAi_ ? "GNN" : "Heuristico")
-                                      << ")\n";
-                        }
                     } else if (playerStartButtonSprite_.getGlobalBounds().contains(mousePos)) {
                         gameClickSound_.play();
                         screen_ = UIScreen::Game;
