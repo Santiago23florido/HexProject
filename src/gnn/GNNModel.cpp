@@ -94,6 +94,11 @@ GNNModel::GNNModel(const std::string& modelPath, bool preferCuda) {
             const int argCount = static_cast<int>(schema.arguments().size());
             impl->forwardInputCount = (argCount > 0 ? argCount - 1 : 0);
         }
+        if (impl->forwardInputCount < 1 || impl->forwardInputCount > 2) {
+            throw std::runtime_error(
+                "Unsupported TorchScript forward signature: expected 1 or 2 inputs, got " +
+                std::to_string(impl->forwardInputCount));
+        }
 
         {
             std::lock_guard<std::mutex> lock(g_cacheMutex);
@@ -126,18 +131,24 @@ bool GNNModel::expectsEdgeIndex() const {
 
 float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
     if (!loaded || impl == nullptr) return 0.0f;
+    if (impl->forwardInputCount < 2) {
+        throw std::runtime_error("Model forward expects 1 input; edge_index required for GNN evaluate");
+    }
+    if (batch.edgeSrc.size() != batch.edgeDst.size()) {
+        throw std::runtime_error("Edge index size mismatch: edgeSrc and edgeDst differ");
+    }
+    if (batch.featureDim <= 0) {
+        throw std::runtime_error("GNN featureDim must be > 0");
+    }
 
     torch::NoGradGuard no_grad;
     const int64_t expectedSize = static_cast<int64_t>(batch.numNodes) * static_cast<int64_t>(batch.featureDim);
     if (expectedSize > 0 && static_cast<int64_t>(batch.nodeFeatures.size()) != expectedSize) {
-        std::cerr << "[GNN] Feature size mismatch | featureDim=" << batch.featureDim
-                  << " numNodes=" << batch.numNodes
-                  << " got=" << batch.nodeFeatures.size()
-                  << " expected=" << expectedSize << "\n";
-    }
-    assert(batch.featureDim > 0);
-    if (batch.numNodes > 0) {
-        assert(static_cast<int64_t>(batch.nodeFeatures.size()) >= expectedSize);
+        throw std::runtime_error("GNN feature size mismatch: featureDim=" +
+                                 std::to_string(batch.featureDim) +
+                                 " numNodes=" + std::to_string(batch.numNodes) +
+                                 " got=" + std::to_string(batch.nodeFeatures.size()) +
+                                 " expected=" + std::to_string(expectedSize));
     }
 
     torch::Tensor x = torch::from_blob(const_cast<float*>(batch.nodeFeatures.data()),
@@ -181,7 +192,9 @@ float GNNModel::evaluate(const FeatureBatch& batch, int toMove) const {
 
 float GNNModel::evaluateFeatures(const std::array<float, 7>& features) const {
     if (!loaded || impl == nullptr) return 0.0f;
-    if (impl->forwardInputCount < 1) return 0.0f;
+    if (impl->forwardInputCount != 1) {
+        throw std::runtime_error("Model forward expects edge_index; use evaluate(batch) instead");
+    }
 
     torch::NoGradGuard no_grad;
     const int inputDim = static_cast<int>(features.size());
