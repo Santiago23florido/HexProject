@@ -1,0 +1,111 @@
+\section{Programmation Orient\'ee Objet (POO)}
+\label{sec:poo}
+
+\subsection{Classes principales}
+Le projet organise ses classes par modules. Dans le noyau, on utilise
+Board, GameState, Cube, Player (HumanPlayer, AIPlayer, HybridPlayer),
+IMoveStrategy (con RandomStrategy, MonteCarloStrategy, NegamaxStrategy y
+sus variantes) y Zobrist. Dans le module gnn apparaissent Graph,
+NodeFeatures, FeatureBatch, FeatureExtractor y GNNModel. Dans le module
+selfplay on utilise RLTrainer, RLConfig, ReplayBuffer, ValueMLP,
+DataCollector, GameRunner y Serializer.
+
+\subsection{H\'eritage}
+L'h\'eritage sert \`a abstraire des comportements communs. Des exemples
+directs sont HumanPlayer : public Player, AIPlayer : public Player et
+HybridPlayer : public Player dans le module core. De m\^eme,
+RandomStrategy : public IMoveStrategy, MonteCarloStrategy : public
+IMoveStrategy et NegamaxStrategy : public IMoveStrategy encapsulent
+diff\'erentes strat\'egies de d\'ecision, tandis que
+NegamaxHeuristicStrategy et NegamaxGnnStrategy h\'eritent de
+NegamaxStrategy. Dans selfplay, ValueMLPImpl h\'erite de
+torch::nn::Module pour int\'egrer le mod\`ele avec LibTorch.
+
+\subsection{Constructeurs}
+Par d\'efaut: Board board; utilise le constructeur par d\'efaut
+Board(int n = 7) dans src/cli/main.cpp. Avec param\`etres:
+NegamaxStrategy p1(depthP1, cfg\_.timeLimitMs, "", false, false,
+cfg\_.alpha, false); dans selfplay/RLTrainer.cpp. Par copie:
+Board childBoard(base); dans src/core/MoveStrategy.cpp, qui invoque
+Board(const Board\& other).
+
+\subsection{Templates}
+Le code emploie quelques templates utilitaires pour generaliser des
+operations selon le type d'entree. Les traits de specialisation seront
+detaillees plus tard; ici on liste seulement les templates.
+FixedArray\textless T, Size\textgreater sert de conteneur statique pour
+un nombre fixe d'elements (ex. directions). InRange\textless T\textgreater
+valide des bornes pour des indices entiers. evalValueModel\textless
+T\textgreater fournit un point d'entree unique pour evaluer le modele
+avec une entree MLP (features) ou GNN (batch).
+
+\subsection{Contraintes}
+Le seul usage explicite de contraintes sur templates est dans InRange,
+qui utilise std::enable\_if pour n'accepter que des types entiers. Cette
+restriction evite des conversions implicites et garde l'intention claire
+pour la validation d'indices. Le reste repose plutot sur des
+specialisations (par exemple ModelInputTraits) plutot que sur des
+contraintes formelles.
+
+\subsection{It\'erateurs}
+Le code utilise des it\'erateurs explicites principalement dans
+GameState: LinearBoard et ToCubeCoordinates parcourent la matrice du
+plateau, tandis que GetAvailableMoves it\`ere sur la version lin\'eaire.
+Dans Winner, des it\'erateurs servent \`a initialiser les files de BFS
+depuis les bords. Un autre usage apparait dans Graph, o\`u l'on parcourt
+un unordered\_map avec l'it\'erateur retourne par find pour relier les
+voisins. Cette approche garde un parcours s\'equentiel clair sans
+modifier la logique du jeu.
+
+\subsection{Op\'erateurs}
+Les op\'erateurs surcharg\'es apparaissent dans plusieurs modules. Dans
+Cube, l'op\'erateur + sert \`a combiner des coordonn\'ees et il est utilis\'e
+dans GameState et Graph pour explorer les voisins. Dans GameState, le
+type FixedArray d\'efinit operator[] pour acc\'eder \`a la table de
+directions. Dans Player, HybridPlayer d\'efinit operator= pour gerer
+l'affectation en conservant l'identit\'e et le mode (humain/IA). Dans
+GNNModel, CacheKey d\'efinit operator== et un functor operator() pour
+permettre la mise en cache des modules TorchScript dans un unordered\_map.
+
+\subsection{Exceptions}
+Les exceptions presentes sont principalement des controles d'entree et
+d'environnement. Board et GameState jettent invalid\_argument si la taille
+du plateau est non valide, et Board jette out\_of\_range pour un indice
+hors limites. Player et la CLI jettent runtime\_error si la lecture
+d'entree utilisateur echoue. GNNModel jette runtime\_error si le fichier
+du modele est absent, si le chargement TorchScript echoue, si la signature
+forward n'est pas supportee (1 ou 2 entrees), ou si l'evaluation est
+incoherente (modele MLP utilise avec edge\_index, modele GNN sans
+edge\_index, taille des features ou des aretes invalide). RLTrainer leve
+runtime\_error quand CUDA est demande mais indisponible. Serializer jette
+runtime\_error en cas d'echec d'ouverture ou d'ecriture JSONL.
+
+Exceptions utiles a envisager: signaler explicitement un modele
+inexistant lorsque l'IA GNN est requise (au lieu d'un retour silencieux),
+lever une erreur si la taille lineaire du plateau n'est pas un carre
+parfait lors des conversions, et valider l'identifiant du joueur (1/2)
+dans Board::place. Pour le chargement de modeles, on peut aussi lever des
+erreurs plus precises: device CUDA demande mais indisponible a
+l'execution (dans l'interface), fichier corrompu ou incomplet, et
+incompatibilite de version LibTorch entre l'export et l'inference.
+
+\subsection{Gestion de memoire et pointeurs intelligents}
+La gestion de memoire s'appuie sur des pointeurs intelligents pour
+eviter les fuites et clarifier l'ownership. unique\_ptr est utilise pour
+injecter les strategies dans AIPlayer et HybridPlayer, et pour gerer des
+strategies temporaires dans l'entrainement selfplay (p2Model/p2Heur).
+RLTrainer stocke aussi l'optimiseur avec un unique\_ptr. shared\_ptr est
+employe dans GNNModel pour le PIMPL et le cache de modules TorchScript,
+avec weak\_ptr pour eviter des cycles et reutiliser un modele charge.
+Ces choix permettent une liberation automatique des ressources et un
+partage controle des objets lourds (modeles, strategies).
+
+\subsection{Parall\'elisme}
+Le parallele est utilise a deux endroits. Dans NegamaxStrategy, la
+recherche parallele au niveau racine divise l'evaluation des coups
+entre plusieurs threads, avec un alpha partage et un mutex pour proteger
+le meilleur score (src/core/MoveStrategy.cpp). Dans l'entrainement
+selfplay, RLTrainer lance plusieurs threads pour generer des parties en
+parallele, tandis que les mises a jour d'apprentissage restent sur le
+thread principal; les files et etats partages sont proteges par mutex et
+atomics (selfplay/RLTrainer.cpp).

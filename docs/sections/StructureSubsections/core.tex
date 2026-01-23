@@ -1,0 +1,44 @@
+\subsection{Core}
+Cette section regroupe les classes du noyau  qui encapsulent l'etat du jeu, les joueurs et les
+strategies de decision.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{p{0.30\columnwidth} p{0.62\columnwidth}}
+\hline
+Classe & Derivees directes / specialisations \\
+\hline
+Board & Aucune \\
+GameState & Aucune \\
+Cube & Aucune \\
+Player & HumanPlayer, AIPlayer, HybridPlayer \\
+IMoveStrategy & RandomStrategy, MonteCarloStrategy, NegamaxStrategy \\
+NegamaxStrategy & NegamaxHeuristicStrategy, NegamaxGnnStrategy \\
+Zobrist & Aucune \\
+\hline
+
+\end{tabular}
+\caption{Panorama des classes module core.}
+\end{table}
+
+Définition et implémentation de la classe board , qui est chargée de la manipulation et de la représentation du plateau dans le jeu Hex, encapsulant les conditions de taille du plateau, l’état d’occupation interne dans une matrice N*N , ainsi que également elle encapsule les opérations de base d’impression de l’état du plateau dans le terminal et le placement de pièces à l’intérieur du plateau dans l’état dans lequel il est stocké , elle se trouve dans Board.hpp-Board.cpp.
+
+On implémente aussi la classe cube qui encapsule une coordonnée d’un espace tridimensionnel discret qui est utilisé pour modéliser les positions d’un espace tridimensionnel discret x, y , z, parce que malgré le fait que l’espace du plateau et sa représentation graphique soient bidimensionnels le fait que les cellules soient de forme hexagonale , permet l’usage d’une troisième coordonnée qui rend compte de la relation d’intercalation de lignes qui est déterminante quand on analyse le voisinage entre cellules , on incorpore aussi la surcharge de l’opérateur de somme pour des objets de cette classe et on intègre une méthode pour obtenir un identifiant unique en une valeur long pour chaque position à l’intérieur du plateau., dans Cube.hpp-Cube.cpp
+
+Les trois types de joueurs que peut avoir le jeu son implémentes, la conception est construite de manière que le joueur soit constitué d’une identité du joueur et de sa capacité de construction de mouvements , on définit la logique de sélection pour trois types de joueurs human player, qui demande à l’utilisateur l’entrée , ai player qui délègue la décision à une stratégie de mouvement spécifique et enfin le hybrid player qui peut se comporter comme un humain ou comme un ai player ceci dans Player.hpp-Player.cpp
+
+On incorpore le noyau d’intelligence artificielle du projet, on implémente les stratégies de mouvement , random, Monte Carlo, et Negamax, et les deux manières de déterminer la fonction d’évaluation quand l’algorithme est Negamax, au moyen de la MLP ou au moyen de l’heuristique. On construit une unique représentation du plateau comme graphe , et on utilise un cache statique par taille n pour que le graphe ne soit construit qu’une seule fois par taille. On implémente la méthode pour construire la structure de plateau à partir de sa représentation linéaire, qui est utilisée pour construire des copies d’un plateau et pouvoir tester des coups., on incorpore la fonction pour vérifier la victoire instantanée , en créant un nœud un gamestate fils pour chaque coup légal et en vérifiant que dans aucun de ces cas le joueur ne soit gagnant.
+
+On définit en traitant le plateau comme un graphe la fonction boundary distance pour identifier la distance minimale dont un joueur dans HEX a besoin pour connecter ses deux bords en utilisant la définition actuelle du plateau. L’algorithme boundaryDistance estime à quel point un joueur est proche de gagner à Hex en calculant le coût minimal pour connecter ses deux bords objectif. Il modélise le plateau comme un graphe d’adjacences et réalise une recherche de type 0–1 BFS depuis toutes les cellules du bord initial du joueur : traverser une cellule propre a un coût 0 (elle contribue déjà à la connexion), traverser une cellule vide coûte 1 (équivaut à une fiche qu’il faudrait encore placer) et les cellules de l’adversaire sont considérées comme bloquées. En s’étendant par voisins, il maintient le moindre coût accumulé jusqu’à chaque cellule et s’arrête lorsqu’il atteint n’importe quelle cellule du bord opposé, en renvoyant ce coût comme une approximation du nombre minimal de coups nécessaires pour compléter la connexion.
+
+On implémente aussi des fonctions pour mesurer la quantité de mouvements libres par voisinage de chaque joueur, on utilise le bridge score pour augmenter l’importance de la cellule en fonction du nombre de voisins qu’elle a du même joueur, on définit un centre numérique et on donne des points à chaque cellule en fonction de la distance qu’elle a vers ce centre finalement on empaquette toute cette information sous forme de structure pour pouvoir l’utiliser dans l’évaluation de l’heuristique du Negamax. On incorpore aussi le hashing du plateau au moyen d’une table de transposition d’un objet de la classe Zobrist en initialisant deux clés aléatoires, par cellule une paire pour le joueur 1 et une autre pour le joueur 2 , on fait le hash par cellule avec le compute hash et on incorpore la mise à jour du hash en appliquant ou en défaisant des mouvements,
+
+On implémente la classe Negamax, on définit aussi des classes dérivées de stratégies Negamax spécialisées qui sont NegamaxHeuristicStrategy qui force à utiliser seulement l’heuristique et NegamaxGNNStrategy qui configure l’usage du modèle et mélange avec cache, Negamax en général ce qu’il fait est de tester une victoire immédiate si ce n’est pas le cas ce qu’il fait est d’exécuter iterative deepening et il renvoie le meilleur mouvement, Negamax va de profondeur 1 jusqu’à la profondeur maximale par paramètre tant que la limite de temps n’a pas été dépassée Les résultats de profondeurs petites aident aux profondeurs grandes parce que : le meilleur mouvement trouvé avant sert comme “candidat principal”,
+et cela améliore l’ordre d’exploration (spécialement avec table de transposition / killers / history), ce qui fait que alpha–beta élague plus. On utilise aussi une fenêtre limitée pour la recherche de alpha et beta, tant que le temps le permet avec l’usage de flags on obtient l’exploration de fenêtre complète en cas de fail high ou fail low par la sélection de la beta
+Dans ce Negamax, les killer moves sont gardés en mémoire à l’intérieur de l’objet NegamaxStrategy dans la structure killers, qui stocke deux mouvements par profondeur (killers[d][0] et killers[d][1]). Chaque fois que, durant la recherche, un mouvement m provoque une coupe alpha–beta (quand on vérifie alpha >= beta), ce mouvement est enregistré comme “killer” à la profondeur correspondante, parce qu’il a été assez fort pour écarter le reste des alternatives dans ce nœud. Dans des évaluations ultérieures à la même profondeur, l’algorithme consulte ces valeurs et leur donne une priorité élevée dans l’ordonnancement des coups, en les essayant d’abord pour augmenter la probabilité de nouvelles coupes et accélérer la recherche, sans altérer le résultat final de Negamax. On utilise le parallélisme pour répartir entre plusieurs threads l’évaluation des mouvements du tour actuel, il partage un alpha global pour élaguer plus, il synchronise le meilleur mouvement avec un mutex, et à la fin il sauvegarde le résultat dans la table de transposition pour le réutiliser dans des recherches futures. On parallélise uniquement le niveau racine de la recherche : plusieurs threads évaluent en parallèle différents coups initiaux (moves), en partageant un alpha global pour augmenter les coupes et en synchronisant le meilleur bestMove/bestScore avec un mutex. Ceci se trouve dans les fichiers MoveStrategy.hpp et MoveStrategy.cpp
+
+<<<<<<< HEAD
+On implémente la logique de l’état de jeu ou GameState, qui est la classe pour définir la manière dont on représente, stocke et manipule l’état du jeu , incluant sa représentation linéale plane , en coordonnées cubiques, on incorpore les méthodes pour identifier s’il y a un gagnant et qui est le gagnant au moyen de techniques d’exploration par voisins  dans les fichiers GameState.hpp et GameState.cpp
+=======
+On implémente la logique de l’état de jeu ou GameState, qui est la classe pour définir la manière dont on représente, stocke et manipule l’état du jeu , incluant sa représentation linéale plane , en coordonnées cubiques, on incorpore les méthodes pour identifier s’il y a un gagnant et qui est le gagnant au moyen de techniques d’exploration par voisins  dans les fichiers GameState.hpp et GameState.cpp
+>>>>>>> main
