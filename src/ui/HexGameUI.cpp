@@ -147,19 +147,39 @@ HexGameUI::HexGameUI(
 }
 
 HexGameUI::~HexGameUI() {
-    menuMusic_.stop();
-    gameMusic_.stop();
-    gameOverSound_.stop();
-    gameClickSound_.stop();
+    if (menuMusic_.getStatus() == sf::Music::Playing) {
+        menuMusic_.stop();
+    }
+    if (gameMusic_.getStatus() == sf::Music::Playing) {
+        gameMusic_.stop();
+    }
+    if (gameOverSound_.getStatus() == sf::Sound::Playing) {
+        gameOverSound_.stop();
+    }
+    gameOverSound_.setBuffer(sf::SoundBuffer());
+    if (gameClickSound_.getStatus() == sf::Sound::Playing) {
+        gameClickSound_.stop();
+    }
+    gameClickSound_.setBuffer(sf::SoundBuffer());
 }
 
 void HexGameUI::switchMusic(bool playGameMusic) {
     if (playGameMusic) {
-        menuMusic_.stop();
-        gameMusic_.play();
+        if (menuMusic_.getStatus() == sf::Music::Playing) {
+            menuMusic_.stop();
+        }
+        sf::sleep(sf::milliseconds(10));  // Small delay before playing
+        if (gameMusic_.getStatus() != sf::Music::Playing) {
+            gameMusic_.play();
+        }
     } else {
-        gameMusic_.stop();
-        menuMusic_.play();
+        if (gameMusic_.getStatus() == sf::Music::Playing) {
+            gameMusic_.stop();
+        }
+        sf::sleep(sf::milliseconds(10));  // Small delay before playing
+        if (menuMusic_.getStatus() != sf::Music::Playing) {
+            menuMusic_.play();
+        }
     }
 }
 
@@ -520,33 +540,54 @@ bool HexGameUI::loadPauseTextures() {
 }
 
 bool HexGameUI::initAudio() {
-    //clean up any previously loaded audio
-    menuMusic_.stop();
-    gameMusic_.stop();
-    gameOverSound_.stop();
-    gameClickSound_.stop();
+    //clean up any previously loaded audio with state checks
+    if (menuMusic_.getStatus() == sf::Music::Playing) {
+        menuMusic_.stop();
+    }
+    if (gameMusic_.getStatus() == sf::Music::Playing) {
+        gameMusic_.stop();
+    }
+    if (gameOverSound_.getStatus() == sf::Sound::Playing) {
+        gameOverSound_.stop();
+    }
+    if (gameClickSound_.getStatus() == sf::Sound::Playing) {
+        gameClickSound_.stop();
+    }
+
+    // Add a small delay to let OpenAL settle
+    sf::sleep(sf::milliseconds(50));
 
     //charge new audio files
     if (!menuMusic_.openFromFile("../assets/audio/hexMenu.ogg")) {
         error_ = "Failed to load menu music.";
+        std::cerr << "Audio error: " << error_ << std::endl;
         return false;
     }
     if (!gameMusic_.openFromFile("../assets/audio/hexGame.ogg")) {
         error_ = "Failed to load game music.";
+        std::cerr << "Audio error: " << error_ << std::endl;
         return false;
     }
     if (!gameOverBuffer_.loadFromFile("../assets/audio/gameOver.wav")) {
         error_ = "Failed to load game over sound.";
+        std::cerr << "Audio error: " << error_ << std::endl;
         return false;
     }
     gameOverSound_.setBuffer(gameOverBuffer_);
 
     if (!clickBuffer_.loadFromFile("../assets/audio/Click.wav")) {
         error_ = "Failed to load game click sound.";
+        std::cerr << "Audio error: " << error_ << std::endl;
         return false;
     }
     gameClickSound_.setBuffer(clickBuffer_);
     
+    // Verify buffers are valid
+    if (gameOverBuffer_.getSampleCount() == 0 || clickBuffer_.getSampleCount() == 0) {
+        error_ = "Audio buffers are empty or invalid.";
+        std::cerr << "Audio error: " << error_ << std::endl;
+        return false;
+    }
     
     menuMusic_.setLoop(true); 
     gameMusic_.setLoop(true);
@@ -554,6 +595,10 @@ bool HexGameUI::initAudio() {
     gameMusic_.setVolume(kMusicVolume);
     gameOverSound_.setVolume(kMusicVolume);
     gameClickSound_.setVolume(kSfxVolume);
+    
+    // Add another small delay
+    sf::sleep(sf::milliseconds(50));
+    
     return true;
 }
 
@@ -657,7 +702,7 @@ void HexGameUI::buildLayout() {
     float pauseMenuCenterX = windowSize_.x / 2.0f;
     float pauseMenuCenterY = windowSize_.y / 2.0f;
     float buttonHeight = std::min(windowSize_.x, windowSize_.y) * 0.12f;  // Adjusted button height
-    float gap = buttonHeight * 0.3f;  // Gap between buttons
+    float gap = buttonHeight * 0.05f;  // Reduced gap between buttons for tighter spacing
     
     // Resume button (1792x576)
     float resumeScale = buttonHeight / 576.0f;
@@ -665,7 +710,7 @@ void HexGameUI::buildLayout() {
     float resumeWidth = 1792.0f * resumeScale;
     resumeButtonSprite_.setPosition(
         pauseMenuCenterX - resumeWidth / 2.0f,
-        pauseMenuCenterY - buttonHeight * 2.0f - gap * 1.5f);
+        pauseMenuCenterY - buttonHeight * 2.0f - gap * 1.5f - 12.0f);
     
     // Restart button (1792x576)
     float restartScale = buttonHeight / 576.0f;
@@ -673,7 +718,7 @@ void HexGameUI::buildLayout() {
     float restartWidth = 1792.0f * restartScale;
     restartButtonSprite_.setPosition(
         pauseMenuCenterX - restartWidth / 2.0f,
-        pauseMenuCenterY - buttonHeight - gap * 0.5f);
+        pauseMenuCenterY - buttonHeight - gap * 0.5f - 12.0f);
     
     // Help button (1792x576)
     float helpScale = buttonHeight / 576.0f;
@@ -681,7 +726,7 @@ void HexGameUI::buildLayout() {
     float helpWidth = 1792.0f * helpScale;
     helpButtonSprite_.setPosition(
         pauseMenuCenterX - helpWidth / 2.0f,
-        pauseMenuCenterY + gap * 0.5f);
+        pauseMenuCenterY + gap * 0.5f - 12.0f);
     
     // Settings button (1024x329)
     float settingsScale = buttonHeight / 329.0f;
@@ -689,7 +734,7 @@ void HexGameUI::buildLayout() {
     float settingsWidth = 1024.0f * settingsScale;
     pauseSettingsButtonSprite_.setPosition(
         pauseMenuCenterX - settingsWidth / 2.0f,
-        pauseMenuCenterY + buttonHeight + gap * 1.5f);
+        pauseMenuCenterY + buttonHeight + gap * 1.5f - 12.0f);
     
     // Quit button (1792x576)
     float quitScale = buttonHeight / 576.0f;
@@ -697,7 +742,7 @@ void HexGameUI::buildLayout() {
     float quitWidth = 1792.0f * quitScale;
     quitButtonSprite_.setPosition(
         pauseMenuCenterX - quitWidth / 2.0f,
-        pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f);
+        pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -738,7 +783,9 @@ bool HexGameUI::applyMove(int moveIdx) {
         victoryClock_.restart();
         // Reproduce game over sound if player 2 wins and it's not a local game
         if (winnerId_ == 2 && !player2IsHuman_) {
-            gameMusic_.stop();
+            if (gameMusic_.getStatus() == sf::Music::Playing) {
+                gameMusic_.stop();
+            }
             gameOverSound_.play();
         }
     } else {
@@ -1339,7 +1386,9 @@ int HexGameUI::run() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed ||
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-                window.close();
+                    menuMusic_.stop();
+                    gameMusic_.stop();
+                    window.close();
             }
 
             if (screen_ == UIScreen::Start) {
@@ -1484,6 +1533,7 @@ int HexGameUI::run() {
                     gameClickSound_.play();
                     // Restart keeping player/AI settings
                     resetGame();
+                    buildLayout();
                     updateWindowTitle(window);
                     switchMusic(true); // start game music
                     continue; // Prevent further processing
@@ -1492,6 +1542,7 @@ int HexGameUI::run() {
                     gameClickSound_.play();
                     // Go back to start screen
                     resetGame();
+                    buildLayout();
                     screen_ = UIScreen::Start;
                     showSettingsMenu_ = false;
                     switchMusic(false); // play menu music
