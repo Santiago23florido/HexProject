@@ -635,7 +635,7 @@ bool HexGameUI::loadPauseTextures() {
     }
     pauseSettingsButtonSprite_.setTexture(pauseSettingsButtonTexture_);
 
-    if (!backToMenuTexture_.loadFromFile("../assets/howtoplay/backtomenu.png")) {
+    if (!backToMenuTexture_.loadFromFile("../assets/back_button.png")) {
         error_ = "Failed to load back to menu texture.";
         return false;
     }
@@ -856,7 +856,7 @@ void HexGameUI::buildLayout() {
         pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
     
     // Setup settings menu (925x1520)
-    float settingsMenuScale = windowSize_.y * 0.8f / 1520.0f;
+    float settingsMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
     settingsMenuSprite_.setScale(settingsMenuScale, settingsMenuScale);
     float settingsMenuWidth = 925.0f * settingsMenuScale;
     float settingsMenuHeight = 1520.0f * settingsMenuScale;
@@ -865,30 +865,59 @@ void HexGameUI::buildLayout() {
         (windowSize_.y - settingsMenuHeight) / 2.0f);
     
     // Settings menu buttons (all 1792x576)
-    float settingsButtonHeight = windowSize_.y * 0.10f;
+    float settingsButtonHeight = windowSize_.y * 0.12f;
     float settingsButtonScale = settingsButtonHeight / 576.0f;
     float settingsButtonWidth = 1792.0f * settingsButtonScale;
     float settingsMenuCenterX = windowSize_.x / 2.0f;
     float settingsMenuCenterY = windowSize_.y / 2.0f;
-    float settingsGap = settingsButtonHeight * 0.05f;
+    float settingsGap = 12.0f;
+    
+    // Calcular altura total de los 3 botones con gaps entre ellos
+    float totalHeight = (3.0f * settingsButtonHeight) + (2.0f * settingsGap);
+    float startY = settingsMenuCenterY - (totalHeight / 2.0f)+10.0f;
     
     // Video button
     videoButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
     videoButtonSprite_.setPosition(
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY - settingsButtonHeight - settingsGap);
+        startY);
     
     // Audio button
     audioButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
     audioButtonSprite_.setPosition(
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY + settingsGap);
+        startY + settingsButtonHeight + settingsGap);
     
     // Back button
     settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
     settingsBackButtonSprite_.setPosition(
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY + settingsButtonHeight + settingsGap);
+        startY + 2.0f * settingsButtonHeight + 2.0f * settingsGap);
+    
+    // Setup help frame sprite
+    if (!helpFrameTextures_.empty()) {
+        float helpFrameMaxWidth = windowSize_.x * 0.8f;
+        float helpFrameMaxHeight = windowSize_.y * 0.8f;
+        sf::Vector2u frameSize = helpFrameTextures_.front()->getSize();
+        float helpFrameScale = std::min(helpFrameMaxWidth / frameSize.x, helpFrameMaxHeight / frameSize.y);
+        helpFrameSprite_.setScale(helpFrameScale, helpFrameScale);
+        float helpFrameWidth = frameSize.x * helpFrameScale;
+        float helpFrameHeight = frameSize.y * helpFrameScale;
+        helpFrameSprite_.setPosition(
+            (windowSize_.x - helpFrameWidth) / 2.0f,
+            (windowSize_.y - helpFrameHeight) / 2.0f);
+    }
+    
+    // Setup back to menu button
+    if (backToMenuTexture_.getSize().x != 0 && backToMenuTexture_.getSize().y != 0) {
+        float backButtonHeight = windowSize_.y * 0.08f;
+        float backButtonScale = backButtonHeight / backToMenuTexture_.getSize().y;
+        backToMenuSprite_.setScale(backButtonScale, backButtonScale);
+        float backButtonWidth = backToMenuTexture_.getSize().x * backButtonScale;
+        backToMenuSprite_.setPosition(
+            windowSize_.x - backButtonWidth - 15.0f,
+            15.0f);
+    }
 }
 
 void HexGameUI::updateTileColors() {
@@ -1148,6 +1177,12 @@ void HexGameUI::updateDifficultyText() {
 void HexGameUI::updateBoardSizeText() {
     if (!startFontLoaded_) return;
     boardSizeText_.setString(std::to_string(boardSize_));
+}
+
+void HexGameUI::updateHelpFrameSprite() {
+    if (!helpFrameTextures_.empty() && helpFrameIndex_ < helpFrameTextures_.size()) {
+        helpFrameSprite_.setTexture(*helpFrameTextures_[helpFrameIndex_]);
+    }
 }
 
 void HexGameUI::applyBoardSize(int newSize) {
