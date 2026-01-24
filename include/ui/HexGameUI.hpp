@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <memory>
 #include <random>
 #include <string>
 #include <vector>
@@ -62,6 +63,7 @@ private:
     bool loadPauseTextures();
     void buildLayout();
     void updateTileColors();
+    void updateHelpFrameSprite();
     bool applyMove(int moveIdx);
     int pickTileIndex(const sf::Vector2f& pos) const;
     bool pointInHex(const sf::Vector2f& pos, const sf::Vector2f& center) const;
@@ -163,6 +165,8 @@ private:
     sf::Text aiConfigText_;             // El texto del botón de IA
     sf::Text difficultyText_;
     sf::Text boardSizeText_;
+    sf::Texture boardSizeLabelTexture_;
+    sf::Sprite boardSizeLabelSprite_;
     
     // Options in the settings menu
     sf::Text menuTitleText_;            
@@ -172,6 +176,7 @@ private:
 
     // Pause button and menu
     bool gamePaused_ = false;
+    bool showHelp_ = false;
     sf::Texture pauseButtonTexture_;
     sf::Sprite pauseButtonSprite_;
     sf::Texture pauseMenuTexture_;
@@ -183,8 +188,15 @@ private:
     sf::Sprite resumeButtonSprite_;
     sf::Texture helpButtonTexture_;
     sf::Sprite helpButtonSprite_;
+    sf::Sprite helpSelectButtonSprite_;
     sf::Texture pauseSettingsButtonTexture_;
     sf::Sprite pauseSettingsButtonSprite_;
+    std::vector<std::unique_ptr<sf::Texture>> helpFrameTextures_;
+    std::size_t helpFrameIndex_ = 0;
+    sf::Clock helpFrameClock_;
+    sf::Sprite helpFrameSprite_;
+    sf::Texture backToMenuTexture_;
+    sf::Sprite backToMenuSprite_;
 
 
     sf::Clock startScreenClock_;
