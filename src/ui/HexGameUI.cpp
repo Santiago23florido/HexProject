@@ -5,7 +5,9 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cctype>
 #include <cmath>
+#include <filesystem>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -38,6 +40,8 @@ constexpr float kVictoryOverlayMaxAlpha = 190.0f;
 constexpr float kVictoryImageWidthRatio = 0.55f;
 constexpr float kVictoryImageScaleStart = 0.92f;
 constexpr float kVictoryImageScaleEnd = 1.0f;
+constexpr float kHelpFrameDelaySeconds = 1.0f;
+constexpr float kHelpFrameDelayLastSeconds = 2.0f;
 constexpr float kMusicVolume = 50.0f;
 constexpr float kSfxVolume = 80.0f;
 
@@ -425,6 +429,16 @@ bool HexGameUI::loadPlayerSelectTextures() {
         }
         minusNButtonSprite_.setTexture(minusNButtonTexture_);
     }
+    if (!boardSizeLabelTexture_.loadFromFile("../assets/N.png")) {
+        error_ = "Failed to load board size label texture.";
+        return false;
+    }
+    const sf::Vector2u labelSize = boardSizeLabelTexture_.getSize();
+    if (labelSize.x == 0 || labelSize.y == 0) {
+        error_ = "Invalid board size label texture size.";
+        return false;
+    }
+    boardSizeLabelSprite_.setTexture(boardSizeLabelTexture_);
     if (!humanLabelPath_.empty()) {
         if (!humanLabelTexture_.loadFromFile(humanLabelPath_)) {
             error_ = "Failed to load human label texture: " + humanLabelPath_;
@@ -550,12 +564,82 @@ bool HexGameUI::loadPauseTextures() {
         return false;
     }
     helpButtonSprite_.setTexture(helpButtonTexture_);
+    helpSelectButtonSprite_.setTexture(helpButtonTexture_);
+
+    struct HelpFrameEntry {
+        int index;
+        std::filesystem::path path;
+    };
+
+    std::vector<HelpFrameEntry> helpFrames;
+    const std::filesystem::path helpDir("../assets/howtoplay");
+    if (std::filesystem::exists(helpDir) && std::filesystem::is_directory(helpDir)) {
+        for (const auto& entry : std::filesystem::directory_iterator(helpDir)) {
+            if (!entry.is_regular_file()) {
+                continue;
+            }
+            const std::filesystem::path path = entry.path();
+            if (path.extension() != ".png") {
+                continue;
+            }
+            const std::string filename = path.filename().string();
+            if (filename.rfind("frame", 0) != 0) {
+                continue;
+            }
+            const std::size_t dotPos = filename.find('.');
+            if (dotPos == std::string::npos || dotPos <= 5) {
+                continue;
+            }
+            const std::string indexText = filename.substr(5, dotPos - 5);
+            const bool allDigits = std::all_of(
+                indexText.begin(),
+                indexText.end(),
+                [](unsigned char c) { return std::isdigit(c) != 0; });
+            if (!allDigits) {
+                continue;
+            }
+            helpFrames.push_back({std::stoi(indexText), path});
+        }
+    }
+
+    if (helpFrames.empty()) {
+        error_ = "No help frames found in ../assets/howtoplay";
+        return false;
+    }
+
+    std::sort(helpFrames.begin(), helpFrames.end(), [](const HelpFrameEntry& a, const HelpFrameEntry& b) {
+        return a.index < b.index;
+    });
+
+    helpFrameTextures_.clear();
+    helpFrameTextures_.reserve(helpFrames.size());
+    for (const auto& frame : helpFrames) {
+        auto texture = std::make_unique<sf::Texture>();
+        if (!texture->loadFromFile(frame.path.string())) {
+            error_ = "Failed to load help frame texture: " + frame.path.string();
+            return false;
+        }
+        const sf::Vector2u size = texture->getSize();
+        if (size.x == 0 || size.y == 0) {
+            error_ = "Invalid help frame texture size.";
+            return false;
+        }
+        helpFrameTextures_.push_back(std::move(texture));
+    }
+    helpFrameIndex_ = 0;
+    helpFrameSprite_.setTexture(*helpFrameTextures_.front());
     
     if (!pauseSettingsButtonTexture_.loadFromFile("../assets/settings_button.png")) {
         error_ = "Failed to load pause settings button texture.";
         return false;
     }
     pauseSettingsButtonSprite_.setTexture(pauseSettingsButtonTexture_);
+
+    if (!backToMenuTexture_.loadFromFile("../assets/howtoplay/backtomenu.png")) {
+        error_ = "Failed to load back to menu texture.";
+        return false;
+    }
+    backToMenuSprite_.setTexture(backToMenuTexture_);
     
     if (!quitButtonTexture_.loadFromFile("../assets/quit_button.png")) {
         error_ = "Failed to load quit button texture.";
@@ -770,41 +854,38 @@ void HexGameUI::buildLayout() {
     quitButtonSprite_.setPosition(
         pauseMenuCenterX - quitWidth / 2.0f,
         pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
-    
-    // Setup settings menu (925x1520)
-    float settingsMenuScale = std::min(windowSize_.x * 0.7f / 925.0f, windowSize_.y * 0.8f / 1520.0f);
-    settingsMenuSprite_.setScale(settingsMenuScale, settingsMenuScale);
-    float settingsMenuWidth = 925.0f * settingsMenuScale;
-    float settingsMenuHeight = 1520.0f * settingsMenuScale;
-    settingsMenuSprite_.setPosition(
-        (windowSize_.x - settingsMenuWidth) / 2.0f,
-        (windowSize_.y - settingsMenuHeight) / 2.0f);
-    
-    // Settings menu buttons (all 1792x576)
-    float settingsButtonHeight = std::min(windowSize_.x, windowSize_.y) * 0.10f;
-    float settingsButtonScale = settingsButtonHeight / 576.0f;
-    float settingsButtonWidth = 1792.0f * settingsButtonScale;
-    float settingsMenuCenterX = windowSize_.x / 2.0f;
-    float settingsMenuCenterY = windowSize_.y / 2.0f;
-    float settingsGap = settingsButtonHeight * 0.05f;
-    
-    // Video button
-    videoButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
-    videoButtonSprite_.setPosition(
-        settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY - settingsButtonHeight - settingsGap);
-    
-    // Audio button
-    audioButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
-    audioButtonSprite_.setPosition(
-        settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY + settingsGap);
-    
-    // Back button
-    settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
-    settingsBackButtonSprite_.setPosition(
-        settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        settingsMenuCenterY + settingsButtonHeight + settingsGap);
+
+    // Setup back-to-menu sprite in top-right corner for help overlay
+    if (backToMenuTexture_.getSize().x != 0 && backToMenuTexture_.getSize().y != 0) {
+        const sf::Vector2u backSize = backToMenuTexture_.getSize();
+        const float desiredHeight = std::max(32.0f, windowSize_.y * 0.12f);
+        const float backScale = desiredHeight / static_cast<float>(backSize.y);
+        backToMenuSprite_.setScale(backScale, backScale);
+        const float margin = 12.0f;
+        backToMenuSprite_.setPosition(
+            margin,
+            margin);
+    }
+    updateHelpFrameSprite();
+}
+
+void HexGameUI::updateHelpFrameSprite() {
+    if (helpFrameTextures_.empty() || windowSize_.x == 0 || windowSize_.y == 0) {
+        return;
+    }
+    if (helpFrameIndex_ >= helpFrameTextures_.size()) {
+        helpFrameIndex_ = 0;
+    }
+    const sf::Texture& texture = *helpFrameTextures_[helpFrameIndex_];
+    const sf::Vector2u helpSize = texture.getSize();
+    if (helpSize.x == 0 || helpSize.y == 0) {
+        return;
+    }
+    helpFrameSprite_.setTexture(texture, true);
+    const float scaleX = static_cast<float>(windowSize_.x) / helpSize.x;
+    const float scaleY = static_cast<float>(windowSize_.y) / helpSize.y;
+    helpFrameSprite_.setScale(scaleX, scaleY);
+    helpFrameSprite_.setPosition(0.0f, 0.0f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -971,6 +1052,8 @@ void HexGameUI::resetGame() {
     winnerId_ = 0;
     victoryAnimationActive_ = false;
     gamePaused_ = false;
+    showHelp_ = false;
+    helpFrameIndex_ = 0;
     victoryOverlay_.setFillColor(sf::Color(0, 0, 0, 0));
     aiMoveCount_ = 0;
     updateTileColors();
@@ -1061,7 +1144,7 @@ void HexGameUI::updateDifficultyText() {
 
 void HexGameUI::updateBoardSizeText() {
     if (!startFontLoaded_) return;
-    boardSizeText_.setString("N: " + std::to_string(boardSize_));
+    boardSizeText_.setString(std::to_string(boardSize_));
 }
 
 void HexGameUI::applyBoardSize(int newSize) {
@@ -1424,12 +1507,41 @@ int HexGameUI::run() {
             const float centerY = static_cast<float>(windowSize_.y) * 0.5f;
             const float gap = kBoardSizeButtonGap * scaleFactor_;
             float textHalf = 0.0f;
+            sf::FloatRect labelBounds(0.0f, 0.0f, 0.0f, 0.0f);
+            if (boardSizeLabelTexture_.getSize().x != 0 &&
+                boardSizeLabelTexture_.getSize().y != 0) {
+                const float baseSize = std::min(windowSize_.x, windowSize_.y);
+                const float desiredHeight = std::max(32.0f, baseSize * 0.08f);
+                const float labelScale =
+                    desiredHeight / static_cast<float>(boardSizeLabelTexture_.getSize().y);
+                boardSizeLabelSprite_.setScale(labelScale, labelScale);
+                const float labelWidth =
+                    boardSizeLabelTexture_.getSize().x * labelScale;
+                const float labelHeight =
+                    boardSizeLabelTexture_.getSize().y * labelScale;
+                boardSizeLabelSprite_.setPosition(
+                    centerX - labelWidth * 0.5f,
+                    centerY - labelHeight * 0.5f);
+                labelBounds = boardSizeLabelSprite_.getGlobalBounds();
+                textHalf = labelBounds.height * 0.5f;
+            }
             if (startFontLoaded_) {
+                if (labelBounds.height > 0.0f) {
+                    const float targetHeight = labelBounds.height;
+                    boardSizeText_.setCharacterSize(
+                        static_cast<unsigned int>(std::max(14.0f, targetHeight * 0.6f)));
+                }
                 const sf::FloatRect textBounds = boardSizeText_.getLocalBounds();
-                textHalf = textBounds.height * 0.5f;
-                boardSizeText_.setPosition(
-                    centerX - textBounds.width * 0.5f - textBounds.left,
-                    centerY - textBounds.height * 0.5f - textBounds.top);
+                const float textX = (labelBounds.width > 0.0f)
+                    ? labelBounds.left + (labelBounds.width - textBounds.width) / 2.0f - textBounds.left
+                    : centerX - textBounds.width * 0.5f - textBounds.left;
+                const float textY = (labelBounds.height > 0.0f)
+                    ? labelBounds.top + (labelBounds.height - textBounds.height) / 2.0f - textBounds.top
+                    : centerY - textBounds.height * 0.5f - textBounds.top;
+                boardSizeText_.setPosition(textX, textY);
+                if (textHalf == 0.0f) {
+                    textHalf = textBounds.height * 0.5f;
+                }
             }
             if (plusNButtonTexture_.getSize().x != 0 && plusNButtonTexture_.getSize().y != 0) {
                 const float desiredWidth =
@@ -1455,6 +1567,18 @@ int HexGameUI::run() {
                 const float scaledWidth = minusNButtonTexture_.getSize().x * buttonScale;
                 const float minusY = centerY + textHalf + gapScaled;
                 minusNButtonSprite_.setPosition(centerX - scaledWidth * 0.5f, minusY);
+            }
+
+            if (helpButtonTexture_.getSize().x != 0 && helpButtonTexture_.getSize().y != 0) {
+                const float desiredHeight = std::min(windowSize_.x, windowSize_.y) * 0.10f;
+                const float helpScale =
+                    desiredHeight / static_cast<float>(helpButtonTexture_.getSize().y);
+                helpSelectButtonSprite_.setScale(helpScale, helpScale);
+                const float helpWidth = helpButtonTexture_.getSize().x * helpScale;
+                const float margin = 12.0f;
+                helpSelectButtonSprite_.setPosition(
+                    static_cast<float>(windowSize_.x) - helpWidth - margin,
+                    margin);
             }
         }
         while (window.pollEvent(event)) {
@@ -1517,6 +1641,25 @@ int HexGameUI::run() {
                     sf::Vector2f mousePos = window.mapPixelToCoords(
                         sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
 
+                    if (showHelp_) {
+                        if (backToMenuTexture_.getSize().x != 0 &&
+                            backToMenuSprite_.getGlobalBounds().contains(mousePos)) {
+                            gameClickSound_.play();
+                            showHelp_ = false;
+                        }
+                        continue;
+                    }
+
+                    if (helpButtonTexture_.getSize().x != 0 &&
+                        helpSelectButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                        gameClickSound_.play();
+                        showHelp_ = true;
+                        helpFrameIndex_ = 0;
+                        helpFrameClock_.restart();
+                        updateHelpFrameSprite();
+                        continue;
+                    }
+
                     if (plusNButtonTexture_.getSize().x != 0 &&
                         plusNButtonTexture_.getSize().y != 0 &&
                         plusNButtonSprite_.getGlobalBounds().contains(mousePos)) {
@@ -1564,9 +1707,20 @@ int HexGameUI::run() {
                 event.mouseButton.button == sf::Mouse::Left) {
                 sf::Vector2f pos = window.mapPixelToCoords(
                     sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                if (gamePaused_ && showHelp_) {
+                    if (backToMenuTexture_.getSize().x != 0 &&
+                        backToMenuSprite_.getGlobalBounds().contains(pos)) {
+                        gameClickSound_.play();
+                        showHelp_ = false;
+                    }
+                    continue; // Prevent further processing
+                }
                 if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
+                    if (!gamePaused_) {
+                        showHelp_ = false;
+                    }
                     continue; // Prevent further processing
                 }
                 
@@ -1575,16 +1729,21 @@ int HexGameUI::run() {
                     if (resumeButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
                         gamePaused_ = false;
+                        showHelp_ = false;
                         continue; // Prevent further processing
                     } else if (restartButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
                         gamePaused_ = false;
+                        showHelp_ = false;
                         resetGame();
                         updateWindowTitle(window);
                         continue; // Prevent further processing
                     } else if (helpButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
-                        // TODO: Open help menu (placeholder)
+                        showHelp_ = true;
+                        helpFrameIndex_ = 0;
+                        helpFrameClock_.restart();
+                        updateHelpFrameSprite();
                         continue; // Prevent further processing
                     } else if (pauseSettingsButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
@@ -1593,6 +1752,7 @@ int HexGameUI::run() {
                     } else if (quitButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
                         gamePaused_ = false;
+                        showHelp_ = false;
                         screen_ = UIScreen::Start;
                         switchMusic(false);
                         resetGame();
@@ -1643,6 +1803,19 @@ int HexGameUI::run() {
             }
         }
         sf::sleep(sf::milliseconds(1));
+
+        if (showHelp_ && !helpFrameTextures_.empty()) {
+            float frameDelay = kHelpFrameDelaySeconds;
+            if (helpFrameTextures_.size() >= 2 &&
+                helpFrameIndex_ >= helpFrameTextures_.size() - 2) {
+                frameDelay = kHelpFrameDelayLastSeconds;
+            }
+            if (helpFrameClock_.getElapsedTime().asSeconds() >= frameDelay) {
+                helpFrameClock_.restart();
+                helpFrameIndex_ = (helpFrameIndex_ + 1) % helpFrameTextures_.size();
+                updateHelpFrameSprite();
+            }
+        }
 
         if (screen_ == UIScreen::Start) {
             window.clear(sf::Color(30, 30, 40));
@@ -1725,6 +1898,10 @@ int HexGameUI::run() {
             if (plusNButtonTexture_.getSize().x != 0 && plusNButtonTexture_.getSize().y != 0) {
                 window.draw(plusNButtonSprite_);
             }
+            if (boardSizeLabelTexture_.getSize().x != 0 &&
+                boardSizeLabelTexture_.getSize().y != 0) {
+                window.draw(boardSizeLabelSprite_);
+            }
             if (startFontLoaded_) {
                 window.draw(boardSizeText_);
             }
@@ -1742,6 +1919,17 @@ int HexGameUI::run() {
 
             if (playerStartButtonTexture_.getSize().x != 0) {
                 window.draw(playerStartButtonSprite_);
+            }
+
+            if (showHelp_) {
+                if (!helpFrameTextures_.empty()) {
+                    window.draw(helpFrameSprite_);
+                }
+                if (backToMenuTexture_.getSize().x != 0) {
+                    window.draw(backToMenuSprite_);
+                }
+            } else if (helpButtonTexture_.getSize().x != 0) {
+                window.draw(helpSelectButtonSprite_);
             }
 
             window.display();
@@ -1868,24 +2056,33 @@ int HexGameUI::run() {
         // Draw pause menu if paused
         if (gamePaused_) {
             window.draw(pauseMenuOverlay_);
-            if (pauseMenuTexture_.getSize().x != 0) {
-                window.draw(pauseMenuSprite_);
-            }
-            // Draw pause menu buttons
-            if (resumeButtonTexture_.getSize().x != 0) {
-                window.draw(resumeButtonSprite_);
-            }
-            if (restartButtonTexture_.getSize().x != 0) {
-                window.draw(restartButtonSprite_);
-            }
-            if (helpButtonTexture_.getSize().x != 0) {
-                window.draw(helpButtonSprite_);
-            }
-            if (pauseSettingsButtonTexture_.getSize().x != 0) {
-                window.draw(pauseSettingsButtonSprite_);
-            }
-            if (quitButtonTexture_.getSize().x != 0) {
-                window.draw(quitButtonSprite_);
+            if (showHelp_) {
+                if (!helpFrameTextures_.empty()) {
+                    window.draw(helpFrameSprite_);
+                }
+                if (backToMenuTexture_.getSize().x != 0) {
+                    window.draw(backToMenuSprite_);
+                }
+            } else {
+                if (pauseMenuTexture_.getSize().x != 0) {
+                    window.draw(pauseMenuSprite_);
+                }
+                // Draw pause menu buttons
+                if (resumeButtonTexture_.getSize().x != 0) {
+                    window.draw(resumeButtonSprite_);
+                }
+                if (restartButtonTexture_.getSize().x != 0) {
+                    window.draw(restartButtonSprite_);
+                }
+                if (helpButtonTexture_.getSize().x != 0) {
+                    window.draw(helpButtonSprite_);
+                }
+                if (pauseSettingsButtonTexture_.getSize().x != 0) {
+                    window.draw(pauseSettingsButtonSprite_);
+                }
+                if (quitButtonTexture_.getSize().x != 0) {
+                    window.draw(quitButtonSprite_);
+                }
             }
         }
 
