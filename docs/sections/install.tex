@@ -1,0 +1,66 @@
+\section{Installation}
+\label{sec:installation}
+
+\subsection{Pr\'erequis}
+\paragraph{CMake}
+\begin{verbatim}
+cmake --version
+\end{verbatim}
+
+\paragraph{Compilateur C++17}
+\begin{verbatim}
+g++ --version
+# ou: clang++ --version
+\end{verbatim}
+
+\paragraph{LibTorch (TorchScript)}
+\begin{verbatim}
+ls $HOME/libtorch/share/cmake/Torch
+# ou definir Torch_DIR/CMAKE_PREFIX_PATH
+\end{verbatim}
+
+\paragraph{SFML 2.5}
+\begin{verbatim}
+pkg-config --modversion sfml-all
+# ou: sudo apt-get install libsfml-dev
+\end{verbatim}
+
+\paragraph{CUDA Toolkit (optionnel)}
+\begin{verbatim}
+nvcc --version
+\end{verbatim}
+
+\paragraph{Python 3 + poetry (optionnel)}
+\begin{verbatim}
+python3 --version
+poetry --version
+\end{verbatim}
+
+\subsection{Compilation et execution du jeu}
+\begin{verbatim}
+cmake -S . -B build
+cmake --build build
+cd build
+./hex_ui
+\end{verbatim}
+
+\subsection{Compilation et execution du selfplay}
+\begin{verbatim}
+cmake -S selfplay -B selfplay/build
+cmake --build selfplay/build
+./selfplay/build/selfplay \
+  <games> <minDepth> \
+  <maxDepth> <outputPath> \
+  <minPairs> <maxPairs> \
+  <timeLimitMs>
+# ou entrainement/export:
+./selfplay/build/selfplay \
+  --selfplay-train \
+  --export-ts \
+  --train-games 200 \
+  --min-depth 10 \
+  --max-depth 20 \
+  --batch-size 256 \
+  --updates-per-game 1 \
+  --device cuda
+\end{verbatim}

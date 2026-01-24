@@ -162,6 +162,9 @@ INPUT sections/StructureSubsections/selfplay.tex
 INPUT ./sections/poo.tex
 INPUT ./sections/poo.tex
 INPUT sections/poo.tex
+INPUT ./sections/install.tex
+INPUT ./sections/install.tex
+INPUT sections/install.tex
 INPUT hex.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
