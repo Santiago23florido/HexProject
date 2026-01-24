@@ -158,6 +158,17 @@ private:
     bool showSettingsMenu_ = false;   //Menu visibility
     sf::RectangleShape menuBackground_; 
     sf::RectangleShape menuOverlay_;  
+    
+    // Settings menu texture and sprite
+    sf::Texture settingsMenuTexture_;
+    sf::Sprite settingsMenuSprite_;
+    // Settings menu buttons
+    sf::Texture videoButtonTexture_;
+    sf::Sprite videoButtonSprite_;
+    sf::Texture audioButtonTexture_;
+    sf::Sprite audioButtonSprite_;
+    sf::Texture settingsBackButtonTexture_;
+    sf::Sprite settingsBackButtonSprite_;
 
     sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
     sf::Text aiConfigText_;             // El texto del botón de IA
