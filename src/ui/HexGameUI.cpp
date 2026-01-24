@@ -312,6 +312,27 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     settingsBackButtonSprite_.setTexture(settingsBackButtonTexture_);
+    
+    // Load video menu texture
+    if (!videoMenuTexture_.loadFromFile("../assets/video_menu_hd.png")) {
+        error_ = "Failed to load video menu texture.";
+        return false;
+    }
+    videoMenuSprite_.setTexture(videoMenuTexture_);
+    
+    // Load audio menu texture
+    if (!audioMenuTexture_.loadFromFile("../assets/audio_menu_hd.png")) {
+        error_ = "Failed to load audio menu texture.";
+        return false;
+    }
+    audioMenuSprite_.setTexture(audioMenuTexture_);
+    
+    // Load submenu back button texture (same as main back button)
+    if (!submenuBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
+        error_ = "Failed to load submenu back button texture.";
+        return false;
+    }
+    submenuBackButtonSprite_.setTexture(submenuBackButtonTexture_);
 
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
@@ -894,6 +915,33 @@ void HexGameUI::buildLayout() {
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
         startY + 2.0f * settingsButtonHeight + 2.0f * settingsGap);
     
+    // Setup video menu (925x1520)
+    float videoMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    videoMenuSprite_.setScale(videoMenuScale, videoMenuScale);
+    float videoMenuWidth = 925.0f * videoMenuScale;
+    float videoMenuHeight = 1520.0f * videoMenuScale;
+    videoMenuSprite_.setPosition(
+        (windowSize_.x - videoMenuWidth) / 2.0f,
+        (windowSize_.y - videoMenuHeight) / 2.0f);
+    
+    // Setup audio menu (925x1520)
+    float audioMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    audioMenuSprite_.setScale(audioMenuScale, audioMenuScale);
+    float audioMenuWidth = 925.0f * audioMenuScale;
+    float audioMenuHeight = 1520.0f * audioMenuScale;
+    audioMenuSprite_.setPosition(
+        (windowSize_.x - audioMenuWidth) / 2.0f,
+        (windowSize_.y - audioMenuHeight) / 2.0f);
+    
+    // Setup submenu back button at the bottom
+    float submenuBackButtonHeight = windowSize_.y * 0.12f;
+    float submenuBackButtonScale = submenuBackButtonHeight / 576.0f;
+    submenuBackButtonSprite_.setScale(submenuBackButtonScale, submenuBackButtonScale);
+    float submenuBackButtonWidth = 1792.0f * submenuBackButtonScale;
+    submenuBackButtonSprite_.setPosition(
+        settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
+        windowSize_.y - submenuBackButtonHeight - 20.0f);
+    
     // Setup help frame sprite
     if (!helpFrameTextures_.empty()) {
         float helpFrameMaxWidth = windowSize_.x * 0.8f;
@@ -1186,7 +1234,7 @@ void HexGameUI::updateHelpFrameSprite() {
 }
 
 void HexGameUI::applyBoardSize(int newSize) {
-    if (newSize <= 0 || newSize == boardSize_) {
+    if (newSize < 7 || newSize > 20 || newSize == boardSize_) {
         return;
     }
     boardSize_ = newSize;
@@ -1654,18 +1702,34 @@ int HexGameUI::run() {
                     } else {
                         // Handle settings menu button clicks
                         if (showSettingsMenu_) {
-                            if (videoButtonSprite_.getGlobalBounds().contains(mousePos)) {
-                                gameClickSound_.play();
-                                // TODO: Open video settings
-                            } else if (audioButtonSprite_.getGlobalBounds().contains(mousePos)) {
-                                gameClickSound_.play();
-                                // TODO: Open audio settings
-                            } else if (settingsBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
-                                gameClickSound_.play();
-                                showSettingsMenu_ = false;
-                            } else if (!settingsMenuSprite_.getGlobalBounds().contains(mousePos)) {
-                                // Close menu if clicking outside
-                                showSettingsMenu_ = false;
+                            // Handle submenu clicks
+                            if (settingsMenuState_ == SettingsMenuState::Video) {
+                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            } else {
+                                // Main settings menu
+                                if (videoButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Video;
+                                } else if (audioButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Audio;
+                                } else if (settingsBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    showSettingsMenu_ = false;
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                } else if (!settingsMenuSprite_.getGlobalBounds().contains(mousePos)) {
+                                    // Close menu if clicking outside
+                                    showSettingsMenu_ = false;
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
                             }
                         }
                     }
@@ -1753,7 +1817,7 @@ int HexGameUI::run() {
                     }
                     continue; // Prevent further processing
                 }
-                if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
+                if (pauseButtonSprite_.getGlobalBounds().contains(pos) && winnerId_ == 0) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
                     if (!gamePaused_) {
@@ -1764,6 +1828,39 @@ int HexGameUI::run() {
                 
                 // Handle pause menu button clicks
                 if (gamePaused_) {
+                    // Handle settings menu if open
+                    if (showSettingsMenu_) {
+                        if (settingsMenuState_ == SettingsMenuState::Video) {
+                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        } else {
+                            // Main settings menu
+                            if (videoButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Video;
+                            } else if (audioButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Audio;
+                            } else if (settingsBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                showSettingsMenu_ = false;
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            } else if (!settingsMenuSprite_.getGlobalBounds().contains(pos)) {
+                                // Close menu if clicking outside
+                                showSettingsMenu_ = false;
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        }
+                        continue; // Prevent further processing
+                    }
+                    
                     if (resumeButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
                         gamePaused_ = false;
@@ -1785,7 +1882,8 @@ int HexGameUI::run() {
                         continue; // Prevent further processing
                     } else if (pauseSettingsButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
-                        // TODO: Open settings menu (placeholder)
+                        showSettingsMenu_ = true;
+                        settingsMenuState_ = SettingsMenuState::Main;
                         continue; // Prevent further processing
                     } else if (quitButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
@@ -1875,20 +1973,42 @@ int HexGameUI::run() {
             }
 
             if (showSettingsMenu_) {
-                window.draw(menuOverlay_);    
-                if (settingsMenuTexture_.getSize().x != 0) {
-                    window.draw(settingsMenuSprite_);
-                }
+                window.draw(menuOverlay_);
                 
-                // Draw settings menu buttons
-                if (videoButtonTexture_.getSize().x != 0) {
-                    window.draw(videoButtonSprite_);
-                }
-                if (audioButtonTexture_.getSize().x != 0) {
-                    window.draw(audioButtonSprite_);
-                }
-                if (settingsBackButtonTexture_.getSize().x != 0) {
-                    window.draw(settingsBackButtonSprite_);
+                if (settingsMenuState_ == SettingsMenuState::Main) {
+                    // Draw main settings menu
+                    if (settingsMenuTexture_.getSize().x != 0) {
+                        window.draw(settingsMenuSprite_);
+                    }
+                    
+                    // Draw settings menu buttons
+                    if (videoButtonTexture_.getSize().x != 0) {
+                        window.draw(videoButtonSprite_);
+                    }
+                    if (audioButtonTexture_.getSize().x != 0) {
+                        window.draw(audioButtonSprite_);
+                    }
+                    if (settingsBackButtonTexture_.getSize().x != 0) {
+                        window.draw(settingsBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Video) {
+                    // Draw video menu
+                    if (videoMenuTexture_.getSize().x != 0) {
+                        window.draw(videoMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                    // Draw audio menu
+                    if (audioMenuTexture_.getSize().x != 0) {
+                        window.draw(audioMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
                 }
             }
 
@@ -2090,11 +2210,67 @@ int HexGameUI::run() {
         if (pauseButtonTexture_.getSize().x != 0) {
             window.draw(pauseButtonSprite_);
         }
+        
+        // Draw victory overlay on top of pause button if game is over
+        if (gameOver_ && (winnerId_ == 1 || winnerId_ == 2)) {
+            float progress = 1.0f;
+            if (victoryAnimationActive_) {
+                const float t = victoryClock_.getElapsedTime().asSeconds();
+                progress = std::min(t / kVictoryFadeDuration, 1.0f);
+            }
+            const sf::Uint8 overlayAlpha = static_cast<sf::Uint8>(
+                std::min(kVictoryOverlayMaxAlpha, kVictoryOverlayMaxAlpha * progress));
+            sf::RectangleShape pauseButtonOverlay;
+            pauseButtonOverlay.setSize(sf::Vector2f(pauseButtonSprite_.getLocalBounds().width * pauseButtonSprite_.getScale().x,
+                                                     pauseButtonSprite_.getLocalBounds().height * pauseButtonSprite_.getScale().y));
+            pauseButtonOverlay.setPosition(pauseButtonSprite_.getPosition());
+            pauseButtonOverlay.setFillColor(sf::Color(0, 0, 0, overlayAlpha));
+            window.draw(pauseButtonOverlay);
+        }
 
         // Draw pause menu if paused
         if (gamePaused_) {
             window.draw(pauseMenuOverlay_);
-            if (showHelp_) {
+            if (showSettingsMenu_) {
+                // Draw settings menu when open from pause
+                window.draw(menuOverlay_);
+                
+                if (settingsMenuState_ == SettingsMenuState::Main) {
+                    // Draw main settings menu
+                    if (settingsMenuTexture_.getSize().x != 0) {
+                        window.draw(settingsMenuSprite_);
+                    }
+                    
+                    // Draw settings menu buttons
+                    if (videoButtonTexture_.getSize().x != 0) {
+                        window.draw(videoButtonSprite_);
+                    }
+                    if (audioButtonTexture_.getSize().x != 0) {
+                        window.draw(audioButtonSprite_);
+                    }
+                    if (settingsBackButtonTexture_.getSize().x != 0) {
+                        window.draw(settingsBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Video) {
+                    // Draw video menu
+                    if (videoMenuTexture_.getSize().x != 0) {
+                        window.draw(videoMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                    // Draw audio menu
+                    if (audioMenuTexture_.getSize().x != 0) {
+                        window.draw(audioMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                }
+            } else if (showHelp_) {
                 if (!helpFrameTextures_.empty()) {
                     window.draw(helpFrameSprite_);
                 }
