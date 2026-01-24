@@ -790,7 +790,7 @@ void HexGameUI::buildLayout() {
     });
 
     // Setup pause button in top-right corner
-    float buttonSize = std::min(windowSize_.x, windowSize_.y) * 0.24f;
+    float buttonSize = windowSize_.y * 0.24f;
     pauseButtonSprite_.setScale(buttonSize / 1024.0f, buttonSize / 1024.0f);
     pauseButtonSprite_.setPosition(
         windowSize_.x - buttonSize - 15.0f,
@@ -802,7 +802,7 @@ void HexGameUI::buildLayout() {
     pauseMenuOverlay_.setFillColor(sf::Color(0, 0, 0, 150));
 
     // Setup pause menu sprite centered
-    float menuScale = std::min(windowSize_.x * 0.8f / 1024.0f, windowSize_.y * 0.8f / 1024.0f);
+    float menuScale = windowSize_.y * 0.8f / 1024.0f;
     pauseMenuSprite_.setScale(menuScale, menuScale);
     pauseMenuSprite_.setPosition(
         (windowSize_.x - pauseMenuSprite_.getLocalBounds().width * menuScale) * 0.5f,
@@ -854,38 +854,41 @@ void HexGameUI::buildLayout() {
     quitButtonSprite_.setPosition(
         pauseMenuCenterX - quitWidth / 2.0f,
         pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
-
-    // Setup back-to-menu sprite in top-right corner for help overlay
-    if (backToMenuTexture_.getSize().x != 0 && backToMenuTexture_.getSize().y != 0) {
-        const sf::Vector2u backSize = backToMenuTexture_.getSize();
-        const float desiredHeight = std::max(32.0f, windowSize_.y * 0.12f);
-        const float backScale = desiredHeight / static_cast<float>(backSize.y);
-        backToMenuSprite_.setScale(backScale, backScale);
-        const float margin = 12.0f;
-        backToMenuSprite_.setPosition(
-            margin,
-            margin);
-    }
-    updateHelpFrameSprite();
-}
-
-void HexGameUI::updateHelpFrameSprite() {
-    if (helpFrameTextures_.empty() || windowSize_.x == 0 || windowSize_.y == 0) {
-        return;
-    }
-    if (helpFrameIndex_ >= helpFrameTextures_.size()) {
-        helpFrameIndex_ = 0;
-    }
-    const sf::Texture& texture = *helpFrameTextures_[helpFrameIndex_];
-    const sf::Vector2u helpSize = texture.getSize();
-    if (helpSize.x == 0 || helpSize.y == 0) {
-        return;
-    }
-    helpFrameSprite_.setTexture(texture, true);
-    const float scaleX = static_cast<float>(windowSize_.x) / helpSize.x;
-    const float scaleY = static_cast<float>(windowSize_.y) / helpSize.y;
-    helpFrameSprite_.setScale(scaleX, scaleY);
-    helpFrameSprite_.setPosition(0.0f, 0.0f);
+    
+    // Setup settings menu (925x1520)
+    float settingsMenuScale = windowSize_.y * 0.8f / 1520.0f;
+    settingsMenuSprite_.setScale(settingsMenuScale, settingsMenuScale);
+    float settingsMenuWidth = 925.0f * settingsMenuScale;
+    float settingsMenuHeight = 1520.0f * settingsMenuScale;
+    settingsMenuSprite_.setPosition(
+        (windowSize_.x - settingsMenuWidth) / 2.0f,
+        (windowSize_.y - settingsMenuHeight) / 2.0f);
+    
+    // Settings menu buttons (all 1792x576)
+    float settingsButtonHeight = windowSize_.y * 0.10f;
+    float settingsButtonScale = settingsButtonHeight / 576.0f;
+    float settingsButtonWidth = 1792.0f * settingsButtonScale;
+    float settingsMenuCenterX = windowSize_.x / 2.0f;
+    float settingsMenuCenterY = windowSize_.y / 2.0f;
+    float settingsGap = settingsButtonHeight * 0.05f;
+    
+    // Video button
+    videoButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    videoButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY - settingsButtonHeight - settingsGap);
+    
+    // Audio button
+    audioButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    audioButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY + settingsGap);
+    
+    // Back button
+    settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    settingsBackButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY + settingsButtonHeight + settingsGap);
 }
 
 void HexGameUI::updateTileColors() {
