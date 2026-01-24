@@ -747,6 +747,9 @@ void HexGameUI::buildLayout() {
 
 void HexGameUI::updateTileColors() {
     const sf::Color emptyColor(210, 210, 220);
+    const sf::Color borderRed(235, 175, 175);
+    const sf::Color borderBlue(175, 195, 235);
+    const sf::Color borderMix(220, 185, 220);
     const sf::Color playerXColor(210, 70, 70);
     const sf::Color playerOColor(70, 120, 210);
 
@@ -759,6 +762,16 @@ void HexGameUI::updateTileColors() {
             color = playerXColor;
         } else if (value == 2) {
             color = playerOColor;
+        } else {
+            const bool onRedSide = (col == 0) || (col == boardSize_ - 1);
+            const bool onBlueSide = (row == 0) || (row == boardSize_ - 1);
+            if (onRedSide && onBlueSide) {
+                color = borderMix;
+            } else if (onRedSide) {
+                color = borderRed;
+            } else if (onBlueSide) {
+                color = borderBlue;
+            }
         }
         color.a = (tile.index == hoveredIndex_) ? kHoverAlpha : 255;
         tile.sprite.setColor(color);
