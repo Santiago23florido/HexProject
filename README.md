@@ -16,25 +16,81 @@ Hex game engine and AI stack in C++ with a TorchScript value network (MLP by def
 - **TorchScript Negamax**: same search scaffold, but leaf evaluation comes from a TorchScript model (`scripts/models/hex_value_ts_mp.pt`). The loader auto-detects whether the model expects graph inputs (GNN) or flat features (MLP). Current defaults: depth 5, 3000 ms per move for TorchScript; depth 3, 2000 ms for heuristic.
 - **Interactive play**: `./build/hex` asks if you want heuristic (`h`, default) or TorchScript (`g`).
 
-## Build and Run
+## Installation
+### Prerequisites
+CMake:
+```bash
+cmake --version
+```
+
+C++17 compiler:
+```bash
+g++ --version
+# or: clang++ --version
+```
+
+LibTorch (TorchScript):
+```bash
+ls $HOME/libtorch/share/cmake/Torch
+# or set Torch_DIR/CMAKE_PREFIX_PATH
+```
+
+SFML 2.5:
+```bash
+pkg-config --modversion sfml-all
+# or: sudo apt-get install libsfml-dev
+```
+
+CUDA Toolkit (optional):
+```bash
+nvcc --version
+```
+
+Python 3 + poetry (optional):
+```bash
+python3 --version
+poetry --version
+```
+
+### Build and run (game)
 ```bash
 cmake -S . -B build
 cmake --build build
-./build/hex
+cd build
+./hex_ui
+```
+
+### Build and run (selfplay)
+```bash
+cmake -S selfplay -B selfplay/build
+cmake --build selfplay/build
+./selfplay/build/selfplay \
+  <games> <minDepth> \
+  <maxDepth> <outputPath> \
+  <minPairs> <maxPairs> \
+  <timeLimitMs>
+# or training/export:
+./selfplay/build/selfplay \
+  --selfplay-train \
+  --export-ts \
+  --train-games 200 \
+  --min-depth 10 \
+  --max-depth 20 \
+  --batch-size 256 \
+  --updates-per-game 1 \
+  --device cuda
 ```
 
 ## Self-Play Generator and Trainer
 Binary under `selfplay/` can either produce JSONL training data or train a value MLP and export TorchScript.
 
-Build:
-```bash
-cmake -S selfplay -B selfplay/build
-cmake --build selfplay/build
-```
-
 Run (JSONL data):
 ```bash
-./selfplay/build/selfplay <games> <minDepth> <maxDepth> <outputPath> <minPairs> <maxPairs> <timeLimitMs>
+./selfplay/build/selfplay \
+  <games> <minDepth> \
+  <maxDepth> <outputPath> \
+  <minPairs> <maxPairs> \
+  <timeLimitMs>
 ```
 - Players: two heuristic Negamax agents with depth randomized in `[minDepth, maxDepth]`.
 - Time per move: `timeLimitMs` ms.
@@ -44,9 +100,15 @@ Run (JSONL data):
 
 Run (self-play training):
 ```bash
-./selfplay/build/selfplay --selfplay-train --export-ts \
-  --train-games 200 --min-depth 10 --max-depth 20 \
-  --batch-size 256 --updates-per-game 1 --device cuda
+./selfplay/build/selfplay \
+  --selfplay-train \
+  --export-ts \
+  --train-games 200 \
+  --min-depth 10 \
+  --max-depth 20 \
+  --batch-size 256 \
+  --updates-per-game 1 \
+  --device cuda
 ```
 
 ## Value Model (TorchScript)
