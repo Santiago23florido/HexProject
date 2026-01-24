@@ -157,6 +157,8 @@ private:
     sf::Texture settingsButtonTexture_;
     sf::Sprite settingsButtonSprite_; // Button Settings
 
+    enum class SettingsMenuState { Main, Video, Audio };
+    SettingsMenuState settingsMenuState_ = SettingsMenuState::Main;
     bool showSettingsMenu_ = false;   //Menu visibility
     sf::RectangleShape menuBackground_; 
     sf::RectangleShape menuOverlay_;  
@@ -171,6 +173,15 @@ private:
     sf::Sprite audioButtonSprite_;
     sf::Texture settingsBackButtonTexture_;
     sf::Sprite settingsBackButtonSprite_;
+    
+    // Video and Audio submenu textures and sprites
+    sf::Texture videoMenuTexture_;
+    sf::Sprite videoMenuSprite_;
+    sf::Texture audioMenuTexture_;
+    sf::Sprite audioMenuSprite_;
+    // Back button for submenus
+    sf::Texture submenuBackButtonTexture_;
+    sf::Sprite submenuBackButtonSprite_;
 
     sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
     sf::Text aiConfigText_;             // El texto del botón de IA
