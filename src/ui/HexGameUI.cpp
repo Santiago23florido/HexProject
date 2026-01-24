@@ -283,6 +283,31 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     settingsButtonSprite_.setTexture(settingsButtonTexture_);
+    
+    // Load settings menu texture and buttons
+    if (!settingsMenuTexture_.loadFromFile("../assets/settings_menu_short_hd.png")) {
+        error_ = "Failed to load settings menu texture.";
+        return false;
+    }
+    settingsMenuSprite_.setTexture(settingsMenuTexture_);
+    
+    if (!videoButtonTexture_.loadFromFile("../assets/video_button.png")) {
+        error_ = "Failed to load video button texture.";
+        return false;
+    }
+    videoButtonSprite_.setTexture(videoButtonTexture_);
+    
+    if (!audioButtonTexture_.loadFromFile("../assets/audio_button.png")) {
+        error_ = "Failed to load audio button texture.";
+        return false;
+    }
+    audioButtonSprite_.setTexture(audioButtonTexture_);
+    
+    if (!settingsBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
+        error_ = "Failed to load settings back button texture.";
+        return false;
+    }
+    settingsBackButtonSprite_.setTexture(settingsBackButtonTexture_);
 
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
@@ -320,7 +345,8 @@ bool HexGameUI::loadStartScreenTextures() {
     boardSizeText_.setFillColor(sf::Color::White);
     updateBoardSizeText();
 
-    
+    /*
+    // Hardware info (commented for future use)
     hardwareInfoText_.setFont(startFont_);
     hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
@@ -345,6 +371,7 @@ bool HexGameUI::loadStartScreenTextures() {
     } else {
         hardwareInfoText_.setString("Hardware: \nCPU (Heuristic mode)");
     }
+    */
 
     return true;
 }
@@ -743,6 +770,41 @@ void HexGameUI::buildLayout() {
     quitButtonSprite_.setPosition(
         pauseMenuCenterX - quitWidth / 2.0f,
         pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
+    
+    // Setup settings menu (925x1520)
+    float settingsMenuScale = std::min(windowSize_.x * 0.7f / 925.0f, windowSize_.y * 0.8f / 1520.0f);
+    settingsMenuSprite_.setScale(settingsMenuScale, settingsMenuScale);
+    float settingsMenuWidth = 925.0f * settingsMenuScale;
+    float settingsMenuHeight = 1520.0f * settingsMenuScale;
+    settingsMenuSprite_.setPosition(
+        (windowSize_.x - settingsMenuWidth) / 2.0f,
+        (windowSize_.y - settingsMenuHeight) / 2.0f);
+    
+    // Settings menu buttons (all 1792x576)
+    float settingsButtonHeight = std::min(windowSize_.x, windowSize_.y) * 0.10f;
+    float settingsButtonScale = settingsButtonHeight / 576.0f;
+    float settingsButtonWidth = 1792.0f * settingsButtonScale;
+    float settingsMenuCenterX = windowSize_.x / 2.0f;
+    float settingsMenuCenterY = windowSize_.y / 2.0f;
+    float settingsGap = settingsButtonHeight * 0.05f;
+    
+    // Video button
+    videoButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    videoButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY - settingsButtonHeight - settingsGap);
+    
+    // Audio button
+    audioButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    audioButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY + settingsGap);
+    
+    // Back button
+    settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    settingsBackButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        settingsMenuCenterY + settingsButtonHeight + settingsGap);
 }
 
 void HexGameUI::updateTileColors() {
@@ -1191,8 +1253,7 @@ int HexGameUI::run() {
         
         aiConfigText_.setPosition(menuX + margin, menuY + margin);
 
-        
-        hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
+        // hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );  // Commented for future use
 
         // Settings button is positioned at top-right corner
         float settingsBtnSize = std::min(windowSize_.x, windowSize_.y) * 0.10f;  // 20% smaller
@@ -1429,16 +1490,21 @@ int HexGameUI::run() {
                             showSettingsMenu_ = true;
                         }
                     } else {
-                        
-                        
-                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
-                            advancePlayer2Mode();
-                            std::cout << aiConfigText_.getString().toAnsiString() << "\n";
-                        }
-
-                        
-                        if (!menuBackground_.getGlobalBounds().contains(mousePos)) {
-                            showSettingsMenu_ = false;
+                        // Handle settings menu button clicks
+                        if (showSettingsMenu_) {
+                            if (videoButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                gameClickSound_.play();
+                                // TODO: Open video settings
+                            } else if (audioButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                gameClickSound_.play();
+                                // TODO: Open audio settings
+                            } else if (settingsBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                gameClickSound_.play();
+                                showSettingsMenu_ = false;
+                            } else if (!settingsMenuSprite_.getGlobalBounds().contains(mousePos)) {
+                                // Close menu if clicking outside
+                                showSettingsMenu_ = false;
+                            }
                         }
                     }
                 }
@@ -1599,12 +1665,19 @@ int HexGameUI::run() {
 
             if (showSettingsMenu_) {
                 window.draw(menuOverlay_);    
-                window.draw(menuBackground_); 
+                if (settingsMenuTexture_.getSize().x != 0) {
+                    window.draw(settingsMenuSprite_);
+                }
                 
-                if (startFontLoaded_) {
-                    window.draw(aiConfigBox_);
-                    window.draw(aiConfigText_);
-                    window.draw(hardwareInfoText_);
+                // Draw settings menu buttons
+                if (videoButtonTexture_.getSize().x != 0) {
+                    window.draw(videoButtonSprite_);
+                }
+                if (audioButtonTexture_.getSize().x != 0) {
+                    window.draw(audioButtonSprite_);
+                }
+                if (settingsBackButtonTexture_.getSize().x != 0) {
+                    window.draw(settingsBackButtonSprite_);
                 }
             }
 
