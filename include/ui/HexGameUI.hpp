@@ -78,6 +78,10 @@ private:
     void updateDifficultyText();
     void applyBoardSize(int newSize);
     void updateBoardSizeText();
+    void updateVolumeIcon(int sliderIndex, float value);
+    void applyVolumeChanges();
+    void saveVolumeConfig();
+    void loadVolumeConfig();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -186,6 +190,35 @@ private:
     // Back button for submenus
     sf::Texture submenuBackButtonTexture_;
     sf::Sprite submenuBackButtonSprite_;
+    
+    // Audio menu sliders and volume control
+    struct VolumeSlider {
+        sf::RectangleShape background;
+        sf::Sprite handle;
+        float value = 50.0f;  // 0-100
+        bool isDragging = false;
+        float minX = 0.0f;
+        float maxX = 0.0f;
+    };
+    
+    VolumeSlider masterVolumeSlider_;
+    VolumeSlider musicVolumeSlider_;
+    VolumeSlider sfxVolumeSlider_;
+    bool clickSoundEnabled_ = true;
+    
+    // Slider drag tracking
+    VolumeSlider* draggingSlider_ = nullptr;
+    float sliderHandleRadius_ = 0.0f;
+    
+    // Slider handle texture
+    sf::Texture sliderHandleTexture_;
+    
+    // Volume icon textures and sprites
+    std::vector<sf::Texture> volumeIconTextures_;  // vol0.png to vol3.png
+    std::vector<sf::Sprite> volumeIconSprites_;    // sprites for master, music, sfx
+    int masterVolumeIcon_ = 3;  // index to current icon
+    int musicVolumeIcon_ = 3;
+    int sfxVolumeIcon_ = 3;
 
     sf::RectangleShape aiConfigBox_;    
     sf::Text aiConfigText_;             
@@ -263,6 +296,7 @@ private:
     sf::Sound gameOverSound_;
     sf::SoundBuffer clickBuffer_;
     sf::Sound gameClickSound_;
-    static constexpr float MUSIC_VOLUME = 50.0f;
-    static constexpr float SFX_VOLUME = 80.0f;
+    float masterVolume_ = 100.0f;  // 0-100
+    float musicVolume_ = 50.0f;    // 0-100
+    float sfxVolume_ = 80.0f;      // 0-100
 };

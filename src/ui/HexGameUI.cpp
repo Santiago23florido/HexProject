@@ -8,10 +8,12 @@
 #include <cctype>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <memory>
 #include <random>
+#include <sys/stat.h>
 #include <thread>
 #include <torch/torch.h>
 #include <cuda_runtime.h>
@@ -42,8 +44,7 @@ constexpr float kVictoryImageScaleStart = 0.92f;
 constexpr float kVictoryImageScaleEnd = 1.0f;
 constexpr float kHelpFrameDelaySeconds = 1.0f;
 constexpr float kHelpFrameDelayLastSeconds = 2.0f;
-constexpr float kMusicVolume = 50.0f;
-constexpr float kSfxVolume = 80.0f;
+const std::string kConfigFilePath = "../config/volume_config.txt";
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -131,6 +132,7 @@ HexGameUI::HexGameUI(
     }
 
     buildLayout();
+    loadVolumeConfig();  // Load saved volume settings
     updateTileColors();
     if (baseWindowSize_.x == 0 || baseWindowSize_.y == 0) {
         baseWindowSize_ = windowSize_;
@@ -339,6 +341,27 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     creditsMenuSprite_.setTexture(creditsMenuTexture_);
+    
+    // Load volume icon textures (vol0.png to vol3.png)
+    volumeIconTextures_.resize(4);
+    for (int i = 0; i < 4; ++i) {
+        std::string volumePath = "../assets/vol" + std::to_string(i) + ".png";
+        if (!volumeIconTextures_[i].loadFromFile(volumePath)) {
+            error_ = "Failed to load volume icon " + std::to_string(i) + " texture.";
+            return false;
+        }
+    }
+    // Initialize volume icon sprites
+    volumeIconSprites_.resize(3);
+    for (int i = 0; i < 3; ++i) {
+        volumeIconSprites_[i].setTexture(volumeIconTextures_[3]);  // Start with vol3
+    }
+    
+    // Load slider handle texture
+    if (!sliderHandleTexture_.loadFromFile("../assets/circle_white.png")) {
+        error_ = "Failed to load slider handle texture.";
+        return false;
+    }
     
     // Load submenu back button texture (same as main back button)
     if (!submenuBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
@@ -736,10 +759,10 @@ bool HexGameUI::initAudio() {
     
     menuMusic_.setLoop(true); 
     gameMusic_.setLoop(true);
-    menuMusic_.setVolume(kMusicVolume); 
-    gameMusic_.setVolume(kMusicVolume);
-    gameOverSound_.setVolume(kMusicVolume);
-    gameClickSound_.setVolume(kSfxVolume);
+    menuMusic_.setVolume(musicVolume_ * (masterVolume_ / 100.0f)); 
+    gameMusic_.setVolume(musicVolume_ * (masterVolume_ / 100.0f));
+    gameOverSound_.setVolume(musicVolume_ * (masterVolume_ / 100.0f));
+    gameClickSound_.setVolume(sfxVolume_ * (masterVolume_ / 100.0f));
     
     // Add another small delay
     sf::sleep(sf::milliseconds(50));
@@ -969,6 +992,65 @@ void HexGameUI::buildLayout() {
     submenuBackButtonSprite_.setPosition(
         settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
         windowSize_.y - submenuBackButtonHeight - 20.0f);
+    
+    // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
+    float sliderStartY = windowSize_.y * 0.25f;
+    float sliderGap = windowSize_.y * 0.15f;
+    float sliderWidth = windowSize_.x * 0.16f;  // Reducido de 0.4f a 0.16f (60% más corto)
+    float sliderHeight = windowSize_.y * 0.04f;
+    float handleSize = windowSize_.y * 0.06f;
+    sliderHandleRadius_ = handleSize / 2.0f;
+    float sliderCenterX = windowSize_.x / 2.0f;
+    
+    // Master Volume Slider
+    masterVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    masterVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    masterVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY);
+    masterVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    masterVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                         handleSize / sliderHandleTexture_.getSize().y);
+    masterVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
+    masterVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
+    masterVolumeSlider_.value = 70.0f;
+    float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    masterVolumeSlider_.handle.setPosition(masterHandleX, sliderStartY - (handleSize - sliderHeight) / 2.0f);
+    
+    // Music Volume Slider
+    musicVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    musicVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    musicVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY + sliderGap);
+    musicVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    musicVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                        handleSize / sliderHandleTexture_.getSize().y);
+    musicVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
+    musicVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
+    musicVolumeSlider_.value = 50.0f;
+    float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    musicVolumeSlider_.handle.setPosition(musicHandleX, sliderStartY + sliderGap - (handleSize - sliderHeight) / 2.0f);
+    
+    // SFX Volume Slider
+    sfxVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    sfxVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    sfxVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY + 2.0f * sliderGap);
+    sfxVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    sfxVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                      handleSize / sliderHandleTexture_.getSize().y);
+    sfxVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
+    sfxVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
+    sfxVolumeSlider_.value = 80.0f;
+    float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    sfxVolumeSlider_.handle.setPosition(sfxHandleX, sliderStartY + 2.0f * sliderGap - (handleSize - sliderHeight) / 2.0f);
+    
+    // Setup volume icon sprites
+    float iconSize = windowSize_.y * 0.05f;
+    for (int i = 0; i < 3; ++i) {
+        volumeIconSprites_[i].setScale(iconSize / volumeIconTextures_[3].getSize().y, 
+                                       iconSize / volumeIconTextures_[3].getSize().y);
+    }
+    // Position icons to the left of sliders
+    volumeIconSprites_[0].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY);
+    volumeIconSprites_[1].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY + sliderGap);
+    volumeIconSprites_[2].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY + 2.0f * sliderGap);
     
     // Setup help frame sprite
     if (!helpFrameTextures_.empty()) {
@@ -1737,7 +1819,15 @@ int HexGameUI::run() {
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
                             } else if (settingsMenuState_ == SettingsMenuState::Audio) {
-                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                // Check if clicking on slider handles
+                                float handleRadius = sliderHandleRadius_;
+                                if (masterVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &masterVolumeSlider_;
+                                } else if (musicVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &musicVolumeSlider_;
+                                } else if (sfxVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &sfxVolumeSlider_;
+                                } else if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
                                     gameClickSound_.play();
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
@@ -1768,6 +1858,44 @@ int HexGameUI::run() {
                                 }
                             }
                         }
+                    }
+                } else if (event.type == sf::Event::MouseButtonReleased) {
+                    // Stop dragging slider and save configuration
+                    if (draggingSlider_ != nullptr) {
+                        saveVolumeConfig();
+                    }
+                    draggingSlider_ = nullptr;
+                } else if (event.type == sf::Event::MouseMoved) {
+                    // Handle slider dragging
+                    if (draggingSlider_ != nullptr && showSettingsMenu_ && settingsMenuState_ == SettingsMenuState::Audio) {
+                        sf::Vector2f mousePos = window.mapPixelToCoords(
+                            sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                        
+                        // Calculate new slider value based on mouse X position
+                        float sliderWidth = draggingSlider_->maxX - draggingSlider_->minX;
+                        float relativeX = mousePos.x - draggingSlider_->minX;
+                        relativeX = std::max(0.0f, std::min(relativeX, sliderWidth));
+                        draggingSlider_->value = (relativeX / sliderWidth) * 100.0f;
+                        
+                        // Update handle position
+                        float handleSize = sliderHandleRadius_ * 2.0f;
+                        float newHandleX = draggingSlider_->minX + (draggingSlider_->value / 100.0f) * sliderWidth - handleSize / 2.0f;
+                        draggingSlider_->handle.setPosition(newHandleX, draggingSlider_->handle.getPosition().y);
+                        
+                        // Update volume variables and audio based on which slider is being dragged
+                        if (draggingSlider_ == &masterVolumeSlider_) {
+                            masterVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(0, draggingSlider_->value);
+                        } else if (draggingSlider_ == &musicVolumeSlider_) {
+                            musicVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(1, draggingSlider_->value);
+                        } else if (draggingSlider_ == &sfxVolumeSlider_) {
+                            sfxVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(2, draggingSlider_->value);
+                        }
+                        
+                        // Apply volume changes immediately
+                        applyVolumeChanges();
                     }
                 }
                 continue; 
@@ -2052,6 +2180,17 @@ int HexGameUI::run() {
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
                     }
+                    // Draw volume sliders
+                    window.draw(masterVolumeSlider_.background);
+                    window.draw(masterVolumeSlider_.handle);
+                    window.draw(musicVolumeSlider_.background);
+                    window.draw(musicVolumeSlider_.handle);
+                    window.draw(sfxVolumeSlider_.background);
+                    window.draw(sfxVolumeSlider_.handle);
+                    // Draw volume icons
+                    for (int i = 0; i < 3; ++i) {
+                        window.draw(volumeIconSprites_[i]);
+                    }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
                         window.draw(submenuBackButtonSprite_);
@@ -2324,6 +2463,17 @@ int HexGameUI::run() {
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
                     }
+                    // Draw volume sliders
+                    window.draw(masterVolumeSlider_.background);
+                    window.draw(masterVolumeSlider_.handle);
+                    window.draw(musicVolumeSlider_.background);
+                    window.draw(musicVolumeSlider_.handle);
+                    window.draw(sfxVolumeSlider_.background);
+                    window.draw(sfxVolumeSlider_.handle);
+                    // Draw volume icons
+                    for (int i = 0; i < 3; ++i) {
+                        window.draw(volumeIconSprites_[i]);
+                    }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
                         window.draw(submenuBackButtonSprite_);
@@ -2372,3 +2522,88 @@ int HexGameUI::run() {
     }
     return 0;
 }
+
+void HexGameUI::updateVolumeIcon(int sliderIndex, float value) {
+    // Determine which icon to show based on volume value
+    // vol0.png: 0-25%, vol1.png: 26-50%, vol2.png: 51-75%, vol3.png: 76-100%
+    int iconIndex = 3;  // Default to vol3
+    
+    if (value <= 25.0f) {
+        iconIndex = 0;
+    } else if (value <= 50.0f) {
+        iconIndex = 1;
+    } else if (value <= 75.0f) {
+        iconIndex = 2;
+    } else {
+        iconIndex = 3;
+    }
+    
+    if (sliderIndex >= 0 && sliderIndex < 3) {
+        volumeIconSprites_[sliderIndex].setTexture(volumeIconTextures_[iconIndex]);
+        
+        // Update stored icon indices for reference
+        if (sliderIndex == 0) {
+            masterVolumeIcon_ = iconIndex;
+        } else if (sliderIndex == 1) {
+            musicVolumeIcon_ = iconIndex;
+        } else if (sliderIndex == 2) {
+            sfxVolumeIcon_ = iconIndex;
+        }
+    }
+}
+
+void HexGameUI::applyVolumeChanges() {
+    // Apply volume changes with master volume as multiplier
+    float masterMultiplier = masterVolume_ / 100.0f;
+    
+    menuMusic_.setVolume(musicVolume_ * masterMultiplier);
+    gameMusic_.setVolume(musicVolume_ * masterMultiplier);
+    gameOverSound_.setVolume(musicVolume_ * masterMultiplier);
+    gameClickSound_.setVolume(sfxVolume_ * masterMultiplier);
+}
+
+void HexGameUI::saveVolumeConfig() {
+    try {
+        // Create config directory if it doesn't exist
+        const char* configDir = "../config";
+        struct stat st = {};
+        if (stat(configDir, &st) == -1) {
+            mkdir(configDir, 0755);
+        }
+        
+        std::ofstream configFile(kConfigFilePath);
+        if (configFile.is_open()) {
+            configFile << masterVolume_ << "\n";
+            configFile << musicVolume_ << "\n";
+            configFile << sfxVolume_ << "\n";
+            configFile.close();
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error saving volume config: " << e.what() << std::endl;
+    }
+}
+
+void HexGameUI::loadVolumeConfig() {
+    try {
+        std::ifstream configFile(kConfigFilePath);
+        if (configFile.is_open()) {
+            configFile >> masterVolume_;
+            configFile >> musicVolume_;
+            configFile >> sfxVolume_;
+            configFile.close();
+            
+            // Clamp values to valid range
+            masterVolume_ = std::max(0.0f, std::min(100.0f, masterVolume_));
+            musicVolume_ = std::max(0.0f, std::min(100.0f, musicVolume_));
+            sfxVolume_ = std::max(0.0f, std::min(100.0f, sfxVolume_));
+            
+            // Update slider values
+            masterVolumeSlider_.value = masterVolume_;
+            musicVolumeSlider_.value = musicVolume_;
+            sfxVolumeSlider_.value = sfxVolume_;
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error loading volume config: " << e.what() << std::endl;
+    }
+}
+
