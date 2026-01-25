@@ -1014,8 +1014,8 @@ void HexGameUI::buildLayout() {
     
     // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
     float sliderWidth = windowSize_.x * 0.16f; 
-    float sliderHeight = windowSize_.y * 0.04f;
-    float handleSize = windowSize_.y * 0.06f;
+    float sliderHeight = windowSize_.y * 0.02f;  
+    float handleSize = windowSize_.y * 0.04f;   
     sliderHandleRadius_ = handleSize / 2.0f;
     float sliderCenterX = windowSize_.x / 2.0f;
     
@@ -1027,7 +1027,7 @@ void HexGameUI::buildLayout() {
     }
     
     // Setup volume label sprites (900x100 images)
-    float labelWidth = windowSize_.x * 0.25f; 
+    float labelWidth = windowSize_.x * 0.22f; 
     float labelHeight = labelWidth / 9.0f; 
     masterVolumeLabelSprite_.setScale(labelWidth / masterVolumeLabelTexture_.getSize().x, 
                                       labelHeight / masterVolumeLabelTexture_.getSize().y);
@@ -1037,7 +1037,7 @@ void HexGameUI::buildLayout() {
                                        labelHeight / effectsVolumeLabelTexture_.getSize().y);
     
     // Calculate total height needed for all volume controls
-    float volumeItemGap = windowSize_.y * 0.08f;  // Gap between label+slider items
+    float volumeItemGap = windowSize_.y * 0.04f;  // Gap between label+slider items (50% reduction)
     float totalVolumeHeight = 3.0f * (labelHeight + sliderHeight + volumeItemGap) + submenuBackButtonHeight;
     
     // Calculate audio menu center
@@ -1052,11 +1052,12 @@ void HexGameUI::buildLayout() {
     float totalCenterX = sliderCenterX - totalWidth / 2.0f;
     
     // Master Volume Slider
+    float labelToSliderGap = 4.0f;
     float masterLabelY = volumeStartY;
-    float masterSliderY = masterLabelY + labelHeight;
+    float masterSliderY = masterLabelY + labelHeight + labelToSliderGap;
     masterVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, masterLabelY);
     masterVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    masterVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    masterVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
     masterVolumeSlider_.handle.setTexture(sliderHandleTexture_);
     masterVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
                                          handleSize / sliderHandleTexture_.getSize().y);
@@ -1070,10 +1071,10 @@ void HexGameUI::buildLayout() {
     
     // Music Volume Slider
     float musicLabelY = masterSliderY + sliderHeight + volumeItemGap;
-    float musicSliderY = musicLabelY + labelHeight;
+    float musicSliderY = musicLabelY + labelHeight + labelToSliderGap;
     musicVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, musicLabelY);
     musicVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    musicVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    musicVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
     musicVolumeSlider_.handle.setTexture(sliderHandleTexture_);
     musicVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
                                         handleSize / sliderHandleTexture_.getSize().y);
@@ -1087,10 +1088,10 @@ void HexGameUI::buildLayout() {
     
     // SFX Volume Slider
     float effectsLabelY = musicSliderY + sliderHeight + volumeItemGap;
-    float effectsSliderY = effectsLabelY + labelHeight;
+    float effectsSliderY = effectsLabelY + labelHeight + labelToSliderGap;
     effectsVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, effectsLabelY);
     sfxVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    sfxVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    sfxVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
     sfxVolumeSlider_.handle.setTexture(sliderHandleTexture_);
     sfxVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
                                       handleSize / sliderHandleTexture_.getSize().y);
