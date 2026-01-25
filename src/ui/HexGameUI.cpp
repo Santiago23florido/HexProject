@@ -307,6 +307,12 @@ bool HexGameUI::loadStartScreenTextures() {
     }
     audioButtonSprite_.setTexture(audioButtonTexture_);
     
+    if (!creditsButtonTexture_.loadFromFile("../assets/credits_button.png")) {
+        error_ = "Failed to load credits button texture.";
+        return false;
+    }
+    creditsButtonSprite_.setTexture(creditsButtonTexture_); 
+    
     if (!settingsBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
         error_ = "Failed to load settings back button texture.";
         return false;
@@ -326,6 +332,13 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     audioMenuSprite_.setTexture(audioMenuTexture_);
+    
+    // Load credits menu texture
+    if (!creditsMenuTexture_.loadFromFile("../assets/credits_menu.png")) {
+        error_ = "Failed to load credits menu texture.";
+        return false;
+    }
+    creditsMenuSprite_.setTexture(creditsMenuTexture_);
     
     // Load submenu back button texture (same as main back button)
     if (!submenuBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
@@ -891,10 +904,10 @@ void HexGameUI::buildLayout() {
     float settingsButtonWidth = 1792.0f * settingsButtonScale;
     float settingsMenuCenterX = windowSize_.x / 2.0f;
     float settingsMenuCenterY = windowSize_.y / 2.0f;
-    float settingsGap = 12.0f;
+    float settingsGap = 8.0f;  // Reducido de 12.0f a 8.0f (4 píxeles menos)
     
-    // Calcular altura total de los 3 botones con gaps entre ellos
-    float totalHeight = (3.0f * settingsButtonHeight) + (2.0f * settingsGap);
+    // Calcular altura total de los 4 botones con gaps entre ellos
+    float totalHeight = (4.0f * settingsButtonHeight) + (3.0f * settingsGap);
     float startY = settingsMenuCenterY - (totalHeight / 2.0f)+10.0f;
     
     // Video button
@@ -909,11 +922,17 @@ void HexGameUI::buildLayout() {
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
         startY + settingsButtonHeight + settingsGap);
     
+    // Credits button
+    creditsButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    creditsButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        startY + 2.0f * settingsButtonHeight + 2.0f * settingsGap);
+    
     // Back button
     settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
     settingsBackButtonSprite_.setPosition(
         settingsMenuCenterX - settingsButtonWidth / 2.0f,
-        startY + 2.0f * settingsButtonHeight + 2.0f * settingsGap);
+        startY + 3.0f * settingsButtonHeight + 3.0f * settingsGap);
     
     // Setup video menu (925x1520)
     float videoMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
@@ -932,6 +951,15 @@ void HexGameUI::buildLayout() {
     audioMenuSprite_.setPosition(
         (windowSize_.x - audioMenuWidth) / 2.0f,
         (windowSize_.y - audioMenuHeight) / 2.0f);
+    
+    // Setup credits menu (925x1520)
+    float creditsMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    creditsMenuSprite_.setScale(creditsMenuScale, creditsMenuScale);
+    float creditsMenuWidth = 925.0f * creditsMenuScale;
+    float creditsMenuHeight = 1520.0f * creditsMenuScale;
+    creditsMenuSprite_.setPosition(
+        (windowSize_.x - creditsMenuWidth) / 2.0f,
+        (windowSize_.y - creditsMenuHeight) / 2.0f);
     
     // Setup submenu back button at the bottom
     float submenuBackButtonHeight = windowSize_.y * 0.12f;
@@ -1713,6 +1741,11 @@ int HexGameUI::run() {
                                     gameClickSound_.play();
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
+                            } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
                             } else {
                                 // Main settings menu
                                 if (videoButtonSprite_.getGlobalBounds().contains(mousePos)) {
@@ -1721,6 +1754,9 @@ int HexGameUI::run() {
                                 } else if (audioButtonSprite_.getGlobalBounds().contains(mousePos)) {
                                     gameClickSound_.play();
                                     settingsMenuState_ = SettingsMenuState::Audio;
+                                } else if (creditsButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Credits;
                                 } else if (settingsBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
                                     gameClickSound_.play();
                                     showSettingsMenu_ = false;
@@ -1840,6 +1876,11 @@ int HexGameUI::run() {
                                 gameClickSound_.play();
                                 settingsMenuState_ = SettingsMenuState::Main;
                             }
+                        } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
                         } else {
                             // Main settings menu
                             if (videoButtonSprite_.getGlobalBounds().contains(pos)) {
@@ -1848,6 +1889,9 @@ int HexGameUI::run() {
                             } else if (audioButtonSprite_.getGlobalBounds().contains(pos)) {
                                 gameClickSound_.play();
                                 settingsMenuState_ = SettingsMenuState::Audio;
+                            } else if (creditsButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Credits;
                             } else if (settingsBackButtonSprite_.getGlobalBounds().contains(pos)) {
                                 gameClickSound_.play();
                                 showSettingsMenu_ = false;
@@ -1988,6 +2032,9 @@ int HexGameUI::run() {
                     if (audioButtonTexture_.getSize().x != 0) {
                         window.draw(audioButtonSprite_);
                     }
+                    if (creditsButtonTexture_.getSize().x != 0) {
+                        window.draw(creditsButtonSprite_);
+                    }
                     if (settingsBackButtonTexture_.getSize().x != 0) {
                         window.draw(settingsBackButtonSprite_);
                     }
@@ -2004,6 +2051,15 @@ int HexGameUI::run() {
                     // Draw audio menu
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                    // Draw credits menu
+                    if (creditsMenuTexture_.getSize().x != 0) {
+                        window.draw(creditsMenuSprite_);
                     }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
@@ -2248,6 +2304,9 @@ int HexGameUI::run() {
                     if (audioButtonTexture_.getSize().x != 0) {
                         window.draw(audioButtonSprite_);
                     }
+                    if (creditsButtonTexture_.getSize().x != 0) {
+                        window.draw(creditsButtonSprite_);
+                    }
                     if (settingsBackButtonTexture_.getSize().x != 0) {
                         window.draw(settingsBackButtonSprite_);
                     }
@@ -2264,6 +2323,15 @@ int HexGameUI::run() {
                     // Draw audio menu
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                    // Draw credits menu
+                    if (creditsMenuTexture_.getSize().x != 0) {
+                        window.draw(creditsMenuSprite_);
                     }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {

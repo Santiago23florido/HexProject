@@ -155,11 +155,11 @@ private:
     sf::RectangleShape startHintBox_;
 
     sf::Texture settingsButtonTexture_;
-    sf::Sprite settingsButtonSprite_; // Button Settings
+    sf::Sprite settingsButtonSprite_; 
 
-    enum class SettingsMenuState { Main, Video, Audio };
+    enum class SettingsMenuState { Main, Video, Audio, Credits };
     SettingsMenuState settingsMenuState_ = SettingsMenuState::Main;
-    bool showSettingsMenu_ = false;   //Menu visibility
+    bool showSettingsMenu_ = false;   
     sf::RectangleShape menuBackground_; 
     sf::RectangleShape menuOverlay_;  
     
@@ -171,6 +171,8 @@ private:
     sf::Sprite videoButtonSprite_;
     sf::Texture audioButtonTexture_;
     sf::Sprite audioButtonSprite_;
+    sf::Texture creditsButtonTexture_;
+    sf::Sprite creditsButtonSprite_;
     sf::Texture settingsBackButtonTexture_;
     sf::Sprite settingsBackButtonSprite_;
     
@@ -179,12 +181,14 @@ private:
     sf::Sprite videoMenuSprite_;
     sf::Texture audioMenuTexture_;
     sf::Sprite audioMenuSprite_;
+    sf::Texture creditsMenuTexture_;
+    sf::Sprite creditsMenuSprite_;
     // Back button for submenus
     sf::Texture submenuBackButtonTexture_;
     sf::Sprite submenuBackButtonSprite_;
 
-    sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
-    sf::Text aiConfigText_;             // El texto del botón de IA
+    sf::RectangleShape aiConfigBox_;    
+    sf::Text aiConfigText_;             
     sf::Text difficultyText_;
     sf::Text boardSizeText_;
     sf::Texture boardSizeLabelTexture_;
