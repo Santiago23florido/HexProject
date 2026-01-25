@@ -2000,7 +2000,15 @@ int HexGameUI::run() {
                                 settingsMenuState_ = SettingsMenuState::Main;
                             }
                         } else if (settingsMenuState_ == SettingsMenuState::Audio) {
-                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                            // Check if clicking on slider handles
+                            float handleRadius = sliderHandleRadius_;
+                            if (masterVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &masterVolumeSlider_;
+                            } else if (musicVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &musicVolumeSlider_;
+                            } else if (sfxVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &sfxVolumeSlider_;
+                            } else if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
                                 gameClickSound_.play();
                                 settingsMenuState_ = SettingsMenuState::Main;
                             }
@@ -2066,6 +2074,50 @@ int HexGameUI::run() {
                         resetGame();
                         continue; // Prevent further processing
                     }
+                }
+            }
+
+            // Handle pause menu mouse release
+            if (screen_ == UIScreen::Game && gamePaused_ && event.type == sf::Event::MouseButtonReleased) {
+                // Stop dragging slider and save configuration
+                if (draggingSlider_ != nullptr) {
+                    saveVolumeConfig();
+                }
+                draggingSlider_ = nullptr;
+            }
+            
+            // Handle pause menu mouse movement for slider dragging
+            if (screen_ == UIScreen::Game && gamePaused_ && event.type == sf::Event::MouseMoved) {
+                // Handle slider dragging
+                if (draggingSlider_ != nullptr && showSettingsMenu_ && settingsMenuState_ == SettingsMenuState::Audio) {
+                    sf::Vector2f mousePos = window.mapPixelToCoords(
+                        sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                    
+                    // Calculate new slider value based on mouse X position
+                    float sliderWidth = draggingSlider_->maxX - draggingSlider_->minX;
+                    float relativeX = mousePos.x - draggingSlider_->minX;
+                    relativeX = std::max(0.0f, std::min(relativeX, sliderWidth));
+                    draggingSlider_->value = (relativeX / sliderWidth) * 100.0f;
+                    
+                    // Update handle position
+                    float handleSize = sliderHandleRadius_ * 2.0f;
+                    float newHandleX = draggingSlider_->minX + (draggingSlider_->value / 100.0f) * sliderWidth - handleSize / 2.0f;
+                    draggingSlider_->handle.setPosition(newHandleX, draggingSlider_->handle.getPosition().y);
+                    
+                    // Update volume variables and audio based on which slider is being dragged
+                    if (draggingSlider_ == &masterVolumeSlider_) {
+                        masterVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(0, draggingSlider_->value);
+                    } else if (draggingSlider_ == &musicVolumeSlider_) {
+                        musicVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(1, draggingSlider_->value);
+                    } else if (draggingSlider_ == &sfxVolumeSlider_) {
+                        sfxVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(2, draggingSlider_->value);
+                    }
+                    
+                    // Apply volume changes immediately
+                    applyVolumeChanges();
                 }
             }
 
