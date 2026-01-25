@@ -219,6 +219,14 @@ private:
     int masterVolumeIcon_ = 3;  // index to current icon
     int musicVolumeIcon_ = 3;
     int sfxVolumeIcon_ = 3;
+    
+    // Volume labels (sprites instead of text)
+    sf::Texture masterVolumeLabelTexture_;
+    sf::Sprite masterVolumeLabelSprite_;
+    sf::Texture musicVolumeLabelTexture_;
+    sf::Sprite musicVolumeLabelSprite_;
+    sf::Texture effectsVolumeLabelTexture_;
+    sf::Sprite effectsVolumeLabelSprite_;
 
     sf::RectangleShape aiConfigBox_;    
     sf::Text aiConfigText_;             

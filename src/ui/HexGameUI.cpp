@@ -363,6 +363,25 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     
+    // Load volume label textures
+    if (!masterVolumeLabelTexture_.loadFromFile("../assets/master_volume.png")) {
+        error_ = "Failed to load master volume label texture.";
+        return false;
+    }
+    masterVolumeLabelSprite_.setTexture(masterVolumeLabelTexture_);
+    
+    if (!musicVolumeLabelTexture_.loadFromFile("../assets/music_volume.png")) {
+        error_ = "Failed to load music volume label texture.";
+        return false;
+    }
+    musicVolumeLabelSprite_.setTexture(musicVolumeLabelTexture_);
+    
+    if (!effectsVolumeLabelTexture_.loadFromFile("../assets/effects_volume.png")) {
+        error_ = "Failed to load effects volume label texture.";
+        return false;
+    }
+    effectsVolumeLabelSprite_.setTexture(effectsVolumeLabelTexture_);
+    
     // Load submenu back button texture (same as main back button)
     if (!submenuBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
         error_ = "Failed to load submenu back button texture.";
@@ -991,55 +1010,14 @@ void HexGameUI::buildLayout() {
     float submenuBackButtonWidth = 1792.0f * submenuBackButtonScale;
     submenuBackButtonSprite_.setPosition(
         settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
-        windowSize_.y - submenuBackButtonHeight - 20.0f);
+        windowSize_.y - submenuBackButtonHeight - 5.0f);
     
     // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
-    float sliderStartY = windowSize_.y * 0.25f;
-    float sliderGap = windowSize_.y * 0.15f;
-    float sliderWidth = windowSize_.x * 0.16f;  // Reducido de 0.4f a 0.16f (60% más corto)
+    float sliderWidth = windowSize_.x * 0.16f; 
     float sliderHeight = windowSize_.y * 0.04f;
     float handleSize = windowSize_.y * 0.06f;
     sliderHandleRadius_ = handleSize / 2.0f;
     float sliderCenterX = windowSize_.x / 2.0f;
-    
-    // Master Volume Slider
-    masterVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    masterVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
-    masterVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY);
-    masterVolumeSlider_.handle.setTexture(sliderHandleTexture_);
-    masterVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
-                                         handleSize / sliderHandleTexture_.getSize().y);
-    masterVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
-    masterVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
-    masterVolumeSlider_.value = 70.0f;
-    float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
-    masterVolumeSlider_.handle.setPosition(masterHandleX, sliderStartY - (handleSize - sliderHeight) / 2.0f);
-    
-    // Music Volume Slider
-    musicVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    musicVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
-    musicVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY + sliderGap);
-    musicVolumeSlider_.handle.setTexture(sliderHandleTexture_);
-    musicVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
-                                        handleSize / sliderHandleTexture_.getSize().y);
-    musicVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
-    musicVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
-    musicVolumeSlider_.value = 50.0f;
-    float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
-    musicVolumeSlider_.handle.setPosition(musicHandleX, sliderStartY + sliderGap - (handleSize - sliderHeight) / 2.0f);
-    
-    // SFX Volume Slider
-    sfxVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
-    sfxVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
-    sfxVolumeSlider_.background.setPosition(sliderCenterX - sliderWidth / 2.0f, sliderStartY + 2.0f * sliderGap);
-    sfxVolumeSlider_.handle.setTexture(sliderHandleTexture_);
-    sfxVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
-                                      handleSize / sliderHandleTexture_.getSize().y);
-    sfxVolumeSlider_.minX = sliderCenterX - sliderWidth / 2.0f;
-    sfxVolumeSlider_.maxX = sliderCenterX + sliderWidth / 2.0f;
-    sfxVolumeSlider_.value = 80.0f;
-    float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
-    sfxVolumeSlider_.handle.setPosition(sfxHandleX, sliderStartY + 2.0f * sliderGap - (handleSize - sliderHeight) / 2.0f);
     
     // Setup volume icon sprites
     float iconSize = windowSize_.y * 0.05f;
@@ -1047,10 +1025,87 @@ void HexGameUI::buildLayout() {
         volumeIconSprites_[i].setScale(iconSize / volumeIconTextures_[3].getSize().y, 
                                        iconSize / volumeIconTextures_[3].getSize().y);
     }
-    // Position icons to the left of sliders
-    volumeIconSprites_[0].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY);
-    volumeIconSprites_[1].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY + sliderGap);
-    volumeIconSprites_[2].setPosition(sliderCenterX - sliderWidth / 2.0f - iconSize - 20.0f, sliderStartY + 2.0f * sliderGap);
+    
+    // Setup volume label sprites (900x100 images)
+    float labelWidth = windowSize_.x * 0.25f; 
+    float labelHeight = labelWidth / 9.0f; 
+    masterVolumeLabelSprite_.setScale(labelWidth / masterVolumeLabelTexture_.getSize().x, 
+                                      labelHeight / masterVolumeLabelTexture_.getSize().y);
+    musicVolumeLabelSprite_.setScale(labelWidth / musicVolumeLabelTexture_.getSize().x, 
+                                     labelHeight / musicVolumeLabelTexture_.getSize().y);
+    effectsVolumeLabelSprite_.setScale(labelWidth / effectsVolumeLabelTexture_.getSize().x, 
+                                       labelHeight / effectsVolumeLabelTexture_.getSize().y);
+    
+    // Calculate total height needed for all volume controls
+    float volumeItemGap = windowSize_.y * 0.08f;  // Gap between label+slider items
+    float totalVolumeHeight = 3.0f * (labelHeight + sliderHeight + volumeItemGap) + submenuBackButtonHeight;
+    
+    // Calculate audio menu center
+    float audioMenuCenterY = (windowSize_.y - audioMenuHeight) / 2.0f + audioMenuHeight / 2.0f;
+    
+    // Position all volume controls centered in the audio menu with 10px offset
+    float volumeStartY = audioMenuCenterY - totalVolumeHeight / 2.0f + 10.0f;
+    
+    // Center both icon and slider together as one unit
+    float iconPadding = 6.0f;
+    float totalWidth = iconSize + iconPadding + sliderWidth;
+    float totalCenterX = sliderCenterX - totalWidth / 2.0f;
+    
+    // Master Volume Slider
+    float masterLabelY = volumeStartY;
+    float masterSliderY = masterLabelY + labelHeight;
+    masterVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, masterLabelY);
+    masterVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    masterVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    masterVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    masterVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                         handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[0].setPosition(totalCenterX, masterSliderY + (sliderHeight - iconSize) / 2.0f);
+    masterVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, masterSliderY);
+    masterVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    masterVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    masterVolumeSlider_.value = 100.0f;
+    float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    masterVolumeSlider_.handle.setPosition(masterHandleX, masterSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // Music Volume Slider
+    float musicLabelY = masterSliderY + sliderHeight + volumeItemGap;
+    float musicSliderY = musicLabelY + labelHeight;
+    musicVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, musicLabelY);
+    musicVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    musicVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    musicVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    musicVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                        handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[1].setPosition(totalCenterX, musicSliderY + (sliderHeight - iconSize) / 2.0f);
+    musicVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, musicSliderY);
+    musicVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    musicVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    musicVolumeSlider_.value = 50.0f;
+    float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    musicVolumeSlider_.handle.setPosition(musicHandleX, musicSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // SFX Volume Slider
+    float effectsLabelY = musicSliderY + sliderHeight + volumeItemGap;
+    float effectsSliderY = effectsLabelY + labelHeight;
+    effectsVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, effectsLabelY);
+    sfxVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    sfxVolumeSlider_.background.setFillColor(sf::Color(100, 100, 100));
+    sfxVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    sfxVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                      handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[2].setPosition(totalCenterX, effectsSliderY + (sliderHeight - iconSize) / 2.0f);
+    sfxVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, effectsSliderY);
+    sfxVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    sfxVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    sfxVolumeSlider_.value = 80.0f;
+    float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    sfxVolumeSlider_.handle.setPosition(sfxHandleX, effectsSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // Position back button below all volume controls
+    submenuBackButtonSprite_.setPosition(
+        settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
+        effectsSliderY + sliderHeight + volumeItemGap);
     
     // Setup help frame sprite
     if (!helpFrameTextures_.empty()) {
@@ -2232,6 +2287,10 @@ int HexGameUI::run() {
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
                     }
+                    // Draw volume labels
+                    window.draw(masterVolumeLabelSprite_);
+                    window.draw(musicVolumeLabelSprite_);
+                    window.draw(effectsVolumeLabelSprite_);
                     // Draw volume sliders
                     window.draw(masterVolumeSlider_.background);
                     window.draw(masterVolumeSlider_.handle);
@@ -2515,6 +2574,10 @@ int HexGameUI::run() {
                     if (audioMenuTexture_.getSize().x != 0) {
                         window.draw(audioMenuSprite_);
                     }
+                    // Draw volume labels
+                    window.draw(masterVolumeLabelSprite_);
+                    window.draw(musicVolumeLabelSprite_);
+                    window.draw(effectsVolumeLabelSprite_);
                     // Draw volume sliders
                     window.draw(masterVolumeSlider_.background);
                     window.draw(masterVolumeSlider_.handle);
@@ -2653,6 +2716,27 @@ void HexGameUI::loadVolumeConfig() {
             masterVolumeSlider_.value = masterVolume_;
             musicVolumeSlider_.value = musicVolume_;
             sfxVolumeSlider_.value = sfxVolume_;
+            
+            // Update slider handle positions
+            float sliderWidth = windowSize_.x * 0.16f;
+            float handleSize = windowSize_.y * 0.06f;
+            
+            float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            masterVolumeSlider_.handle.setPosition(masterHandleX, masterVolumeSlider_.handle.getPosition().y);
+            
+            float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            musicVolumeSlider_.handle.setPosition(musicHandleX, musicVolumeSlider_.handle.getPosition().y);
+            
+            float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            sfxVolumeSlider_.handle.setPosition(sfxHandleX, sfxVolumeSlider_.handle.getPosition().y);
+            
+            // Update volume icons
+            updateVolumeIcon(0, masterVolumeSlider_.value);
+            updateVolumeIcon(1, musicVolumeSlider_.value);
+            updateVolumeIcon(2, sfxVolumeSlider_.value);
+            
+            // Apply audio changes
+            applyVolumeChanges();
         }
     } catch (const std::exception& e) {
         std::cerr << "Error loading volume config: " << e.what() << std::endl;
