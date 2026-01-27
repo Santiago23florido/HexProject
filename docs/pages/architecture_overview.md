@@ -1,49 +1,11 @@
-\section{Structure du projet}
-\label{sec:project-structure}
+# Architecture Overview
 
-Le d\'ep\^ot est organis\'e en dossiers principaux afin de s\'eparer clairement
-le code C++, les scripts et les modules d'auto-jeu. Le sch\'ema
-suivant r\'esume l'arborescence (sans les dossiers de build).
+This page mirrors the project structure diagram from the report, with README and docs added. Build folders are intentionally omitted, and only source files (`.cpp`, `.hpp`), Python scripts (`.py`), and trained models are listed.
 
-\begin{center}
-\begin{verbatim}
+```
 HexProject/
-|-- include/
-|   |-- core/
-|   |-- gnn/
-|   `-- ui/
-|-- src/
-|   |-- core/
-|   |-- gnn/
-|   |-- ui/
-|   `-- cli/
-|-- selfplay/
-|   |-- gnn/
-|   `-- mlp/
-`-- scripts/
-    |-- models/
-    `-- __pycache__/
-\end{verbatim}
-\end{center}
-
-\begin{table}[h]
-\centering
-\begin{tabular}{ll}
-\hline
-Dossier & Contenu et r\^ole g\'en\'eral \\
-\hline
-include/ & en-t\^etes C++ (API publique par module) \\
-src/ & impl\'ementation C++ (logique, GNN, UI, CLI) \\
-selfplay/ & auto-jeu (gnn/mlp) et g\'en\'eration de donn\'ees \\
-scripts/ & scripts Python et mod\`eles entra\^{\i}n\'es \\
-\hline
-\end{tabular}
-\caption{R\'epartition des dossiers principaux.}
-\end{table}
-
-\begin{center}
-\begin{verbatim}
-HexProject/
+|-- README.md
+|-- docs/
 |-- scripts/
 |   |-- models/
 |   |   |-- hex_value_ts_mp.pt
@@ -103,5 +65,13 @@ HexProject/
     |   |-- ValueMLP.cpp
     |   `-- ValueMLP.hpp
     `-- main.cpp
-\end{verbatim}
-\end{center}
+```
+
+## Classes and Structures
+| Class/Structure | Module |
+| --- | --- |
+| Board, GameState, Player, IMoveStrategy | core engine (`src/core`, `include/core`) |
+| Graph, FeatureExtractor, GNNModel | GNN utilities (`src/gnn`, `include/gnn`) |
+| RLTrainer, ValueMLP, ReplayBuffer | self‑play MLP training (`selfplay/mlp`) |
+| DataCollector, GameRunner, Serializer | self‑play data generation (`selfplay/gnn`) |
+| HexGameUI, HexTile, ImageViewer | UI (`src/ui`, `include/ui`) |
