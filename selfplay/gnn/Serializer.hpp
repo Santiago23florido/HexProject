@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "DataCollector.hpp"
+#include "gnn/DataCollector.hpp"
 
 /**
  * Serializes collected samples to JSON Lines files.
