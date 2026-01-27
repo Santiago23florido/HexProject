@@ -67,11 +67,3 @@ HexProject/
     `-- main.cpp
 ```
 
-## Classes and Structures
-| Class/Structure | Module |
-| --- | --- |
-| Board, GameState, Player, IMoveStrategy | core engine (`src/core`, `include/core`) |
-| Graph, FeatureExtractor, GNNModel | GNN utilities (`src/gnn`, `include/gnn`) |
-| RLTrainer, ValueMLP, ReplayBuffer | self‑play MLP training (`selfplay/mlp`) |
-| DataCollector, GameRunner, Serializer | self‑play data generation (`selfplay/gnn`) |
-| HexGameUI, HexTile, ImageViewer | UI (`src/ui`, `include/ui`) |
