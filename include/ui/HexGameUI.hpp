@@ -240,9 +240,17 @@ private:
     enum class VideoQuality { Low = 0, Medium = 1, High = 2 };
     VideoQuality currentVideoQuality_ = VideoQuality::High;
     
-    // Quality label
+    // Quality label and display
     sf::Texture qualityLabelTexture_;
     sf::Sprite qualityLabelSprite_;
+    std::array<sf::Texture, 3> qualityDisplayTextures_;  // low, medium, high
+    sf::Sprite qualityDisplaySprite_;
+    
+    // Fullscreen label and display
+    sf::Texture fullscreenLabelTexture_;
+    sf::Sprite fullscreenLabelSprite_;
+    std::array<sf::Texture, 2> fullscreenDisplayTextures_;  // disabled, enabled
+    sf::Sprite fullscreenDisplaySprite_;
     
     // Quality buttons and display
     sf::Texture leftButtonTexture_;
@@ -250,13 +258,16 @@ private:
     sf::Texture rightButtonTexture_;
     sf::Sprite rightButtonSprite_;
     
-    // Quality display (changes based on currentVideoQuality_)
-    std::array<sf::Texture, 3> qualityDisplayTextures_;  // low, medium, high
-    sf::Sprite qualityDisplaySprite_;
-    
     // Quality selector bounding boxes for clicks
     sf::FloatRect leftButtonBounds_;
     sf::FloatRect rightButtonBounds_;
+    sf::FloatRect fullscreenLeftButtonBounds_;
+    sf::FloatRect fullscreenRightButtonBounds_;
+    
+    // Fullscreen button positions for rendering
+    sf::Vector2f fsLeftBtnPos_;
+    sf::Vector2f fsRightBtnPos_;
+    float fsBtnScale_{1.0f};
     
     // Resolution storage for each quality level
     sf::Vector2u lowQualityResolution_{0, 0};

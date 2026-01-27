@@ -396,6 +396,59 @@ bool HexGameUI::loadStartScreenTextures() {
     }
     submenuBackButtonSprite_.setTexture(submenuBackButtonTexture_);
 
+    // Load video menu quality selector textures
+    if (!qualityLabelTexture_.loadFromFile("../assets/quality_289x37.png")) {
+        error_ = "Failed to load quality label texture.";
+        return false;
+    }
+    qualityLabelSprite_.setTexture(qualityLabelTexture_);
+
+    if (!leftButtonTexture_.loadFromFile("../assets/left.png")) {
+        error_ = "Failed to load left button texture.";
+        return false;
+    }
+    leftButtonSprite_.setTexture(leftButtonTexture_);
+    
+    if (!rightButtonTexture_.loadFromFile("../assets/right.png")) {
+        error_ = "Failed to load right button texture.";
+        return false;
+    }
+    rightButtonSprite_.setTexture(rightButtonTexture_);
+    
+    // Load quality display textures: low, medium, high
+    const std::array<std::string, 3> qualityTextures = {
+        "../assets/low_145x37.png",
+        "../assets/medium_278x37.png",
+        "../assets/high_171x37.png"
+    };
+    for (int i = 0; i < 3; ++i) {
+        if (!qualityDisplayTextures_[i].loadFromFile(qualityTextures[i])) {
+            error_ = "Failed to load quality display texture: " + qualityTextures[i];
+            return false;
+        }
+    }
+    qualityDisplaySprite_.setTexture(qualityDisplayTextures_[static_cast<int>(currentVideoQuality_)]);
+
+    // Load fullscreen label
+    if (!fullscreenLabelTexture_.loadFromFile("../assets/fullscreen_413x37.png")) {
+        error_ = "Failed to load fullscreen label texture.";
+        return false;
+    }
+    fullscreenLabelSprite_.setTexture(fullscreenLabelTexture_);
+
+    // Load fullscreen display textures: disabled, enabled
+    const std::array<std::string, 2> fullscreenTextures = {
+        "../assets/disabled_332x37.png",
+        "../assets/enabled_305x37.png"
+    };
+    for (int i = 0; i < 2; ++i) {
+        if (!fullscreenDisplayTextures_[i].loadFromFile(fullscreenTextures[i])) {
+            error_ = "Failed to load fullscreen display texture: " + fullscreenTextures[i];
+            return false;
+        }
+    }
+    fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[fullscreenEnabled_ ? 1 : 0]);
+
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
         startFontLoaded_ =
@@ -992,6 +1045,93 @@ void HexGameUI::buildLayout() {
         (windowSize_.x - videoMenuWidth) / 2.0f,
         (windowSize_.y - videoMenuHeight) / 2.0f);
     
+// --- Setup video menu selectors ---
+    float videoMenuCenterX = windowSize_.x / 2.0f;
+    float videoMenuCenterY = windowSize_.y / 2.0f;
+    float videoContentStartY = videoMenuCenterY - videoMenuHeight / 2.0f + 60.0f;
+    float videoItemGap = windowSize_.y * 0.08f;
+    float spacing = 20.0f; // Un poco más de espacio para que no se vea amontonado
+
+    // 1. Quality label
+    float qualityLabelHeight = windowSize_.y * 0.03f; 
+    float qualityLabelScale = qualityLabelHeight / 45.0f;
+    qualityLabelSprite_.setScale(qualityLabelScale, qualityLabelScale);
+    float qualityLabelWidth = qualityLabelTexture_.getSize().x * qualityLabelScale;
+    float qualityLabelY = videoContentStartY + 10.0f;
+    qualityLabelSprite_.setPosition(videoMenuCenterX - qualityLabelWidth / 2.0f, qualityLabelY);
+
+    // 2. Quality selector row (Dinamismo puro)
+    float qualityDisplayHeight = qualityLabelHeight * 0.6f;
+    int qualityIndex = static_cast<int>(currentVideoQuality_);
+    
+    // Asignamos textura ANTES de calcular el ancho
+    qualityDisplaySprite_.setTexture(qualityDisplayTextures_[qualityIndex]);
+    float qTextScale = qualityDisplayHeight / qualityDisplayTextures_[qualityIndex].getSize().y;
+    qualityDisplaySprite_.setScale(qTextScale, qTextScale);
+    
+    // El ancho cambia según si es "LOW", "MEDIUM" o "HIGH"
+    float qTextWidth = qualityDisplayTextures_[qualityIndex].getSize().x * qTextScale;
+    float qBtnScale = qualityDisplayHeight / 100.0f; 
+    float qBtnSize = 100.0f * qBtnScale;
+
+    // Calculamos el inicio de la fila basándonos en el ancho REAL del texto actual
+    float qRowTotalWidth = qBtnSize + spacing + qTextWidth + spacing + qBtnSize;
+    float qRowStartX = videoMenuCenterX - (qRowTotalWidth / 2.0f);
+    float qRowY = qualityLabelY + qualityLabelHeight + 15.0f;
+
+    // Posicionamos flechas de la primera fila
+    leftButtonSprite_.setScale(qBtnScale, qBtnScale);
+    leftButtonSprite_.setPosition(qRowStartX, qRowY);
+
+    qualityDisplaySprite_.setPosition(qRowStartX + qBtnSize + spacing, qRowY);
+
+    rightButtonSprite_.setScale(qBtnScale, qBtnScale);
+    rightButtonSprite_.setPosition(qRowStartX + qBtnSize + spacing + qTextWidth + spacing, qRowY);
+
+    leftButtonBounds_ = leftButtonSprite_.getGlobalBounds();
+    rightButtonBounds_ = rightButtonSprite_.getGlobalBounds();
+
+    // ---------------------------------------------------------
+
+    // 3. Fullscreen label
+    float fullscreenLabelY = qRowY + qualityDisplayHeight + videoItemGap;
+    // Simplifiqué tu escala para que sea consistente con la de arriba
+    float fsLabelScale = qualityLabelHeight / 45.0f; 
+    fullscreenLabelSprite_.setScale(fsLabelScale, fsLabelScale);
+    float fsLabelWidth = fullscreenLabelTexture_.getSize().x * fsLabelScale;
+    fullscreenLabelSprite_.setPosition(videoMenuCenterX - fsLabelWidth / 2.0f, fullscreenLabelY);
+
+    // 4. Fullscreen selector row (ENABLED / DISABLED)
+    float fsDisplayHeight = qualityDisplayHeight;
+    int fsIndex = fullscreenEnabled_ ? 1 : 0;
+    
+    fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[fsIndex]);
+    float fsTextScale = fsDisplayHeight / fullscreenDisplayTextures_[fsIndex].getSize().y;
+    fullscreenDisplaySprite_.setScale(fsTextScale, fsTextScale);
+    
+    // Ancho dinámico para Enabled/Disabled
+    float fsTextWidth = fullscreenDisplayTextures_[fsIndex].getSize().x * fsTextScale;
+    float fsBtnScale = fsDisplayHeight / 100.0f;
+    float fsBtnSize = 100.0f * fsBtnScale;
+
+    float fsRowTotalWidth = fsBtnSize + spacing + fsTextWidth + spacing + fsBtnSize;
+    float fsRowStartX = videoMenuCenterX - (fsRowTotalWidth / 2.0f);
+    float fsRowY = fullscreenLabelY + qualityLabelHeight + 15.0f;
+
+    // IMPORTANTE: Aquí posicionamos los SPRITES de las flechas de nuevo
+    // Nota: Como SFML usa los mismos sprites para dibujar, si los dibujas en dos sitios distintos 
+    // en el render, debes guardar sus posiciones o usar sprites diferentes. 
+    // Si usas los mismos sprites, la lógica de abajo solo sirve para definir los BOUNDS de clic:
+    
+    fullscreenLeftButtonBounds_ = sf::FloatRect(fsRowStartX, fsRowY, fsBtnSize, fsBtnSize);
+    fullscreenDisplaySprite_.setPosition(fsRowStartX + fsBtnSize + spacing, fsRowY);
+    fullscreenRightButtonBounds_ = sf::FloatRect(fsRowStartX + fsBtnSize + spacing + fsTextWidth + spacing, fsRowY, fsBtnSize, fsBtnSize);
+
+    // Guardar posiciones de las flechas para fullscreen para usarlas al renderizar
+    fsLeftBtnPos_ = sf::Vector2f(fsRowStartX, fsRowY);
+    fsRightBtnPos_ = sf::Vector2f(fsRowStartX + fsBtnSize + spacing + fsTextWidth + spacing, fsRowY);
+    fsBtnScale_ = fsBtnScale;
+
     // Setup audio menu (925x1520)
     float audioMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
     audioMenuSprite_.setScale(audioMenuScale, audioMenuScale);
@@ -1034,8 +1174,8 @@ void HexGameUI::buildLayout() {
     
     // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
     float sliderWidth = windowSize_.x * 0.16f; 
-    float sliderHeight = windowSize_.y * 0.02f;  
-    float handleSize = windowSize_.y * 0.04f;   
+    float sliderHeight = windowSize_.y * 0.016f;  
+    float handleSize = windowSize_.y * 0.05f;   
     sliderHandleRadius_ = handleSize / 2.0f;
     float sliderCenterX = windowSize_.x / 2.0f;
     
@@ -1901,7 +2041,44 @@ int HexGameUI::run() {
                         if (showSettingsMenu_) {
                             // Handle submenu clicks
                             if (settingsMenuState_ == SettingsMenuState::Video) {
-                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                // Check quality selector buttons
+                                if (leftButtonBounds_.contains(mousePos)) {
+                                    // Decrease quality
+                                    if (currentVideoQuality_ == VideoQuality::Low) {
+                                        currentVideoQuality_ = VideoQuality::High;
+                                    } else {
+                                        currentVideoQuality_ = static_cast<VideoQuality>(
+                                            static_cast<int>(currentVideoQuality_) - 1);
+                                    }
+                                    qualityDisplaySprite_.setTexture(
+                                        qualityDisplayTextures_[static_cast<int>(currentVideoQuality_)]);
+                                    gameClickSound_.play();
+                                    buildLayout();  // Refresh layout to center the text dynamically
+                                } else if (rightButtonBounds_.contains(mousePos)) {
+                                    // Increase quality
+                                    if (currentVideoQuality_ == VideoQuality::High) {
+                                        currentVideoQuality_ = VideoQuality::Low;
+                                    } else {
+                                        currentVideoQuality_ = static_cast<VideoQuality>(
+                                            static_cast<int>(currentVideoQuality_) + 1);
+                                    }
+                                    qualityDisplaySprite_.setTexture(
+                                        qualityDisplayTextures_[static_cast<int>(currentVideoQuality_)]);
+                                    gameClickSound_.play();
+                                    buildLayout();  // Refresh layout to center the text dynamically
+                                } else if (fullscreenLeftButtonBounds_.contains(mousePos)) {
+                                    // Toggle fullscreen (left button decreases - windowed)
+                                    fullscreenEnabled_ = false;
+                                    fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[0]);
+                                    gameClickSound_.play();
+                                    buildLayout();  // Refresh layout to center the text dynamically
+                                } else if (fullscreenRightButtonBounds_.contains(mousePos)) {
+                                    // Toggle fullscreen (right button increases - fullscreen)
+                                    fullscreenEnabled_ = true;
+                                    fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[1]);
+                                    gameClickSound_.play();
+                                    buildLayout();  // Refresh layout to center the text dynamically
+                                } else if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
                                     gameClickSound_.play();
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
@@ -2087,7 +2264,44 @@ int HexGameUI::run() {
                     // Handle settings menu if open
                     if (showSettingsMenu_) {
                         if (settingsMenuState_ == SettingsMenuState::Video) {
-                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                            // Check quality selector buttons
+                            if (leftButtonBounds_.contains(pos)) {
+                                // Decrease quality
+                                if (currentVideoQuality_ == VideoQuality::Low) {
+                                    currentVideoQuality_ = VideoQuality::High;
+                                } else {
+                                    currentVideoQuality_ = static_cast<VideoQuality>(
+                                        static_cast<int>(currentVideoQuality_) - 1);
+                                }
+                                qualityDisplaySprite_.setTexture(
+                                    qualityDisplayTextures_[static_cast<int>(currentVideoQuality_)]);
+                                gameClickSound_.play();
+                                buildLayout();  // Refresh layout to center the text dynamically
+                            } else if (rightButtonBounds_.contains(pos)) {
+                                // Increase quality
+                                if (currentVideoQuality_ == VideoQuality::High) {
+                                    currentVideoQuality_ = VideoQuality::Low;
+                                } else {
+                                    currentVideoQuality_ = static_cast<VideoQuality>(
+                                        static_cast<int>(currentVideoQuality_) + 1);
+                                }
+                                qualityDisplaySprite_.setTexture(
+                                    qualityDisplayTextures_[static_cast<int>(currentVideoQuality_)]);
+                                gameClickSound_.play();
+                                buildLayout();  // Refresh layout to center the text dynamically
+                            } else if (fullscreenLeftButtonBounds_.contains(pos)) {
+                                // Toggle fullscreen (left button decreases - windowed)
+                                fullscreenEnabled_ = false;
+                                fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[0]);
+                                gameClickSound_.play();
+                                buildLayout();  // Refresh layout to center the text dynamically
+                            } else if (fullscreenRightButtonBounds_.contains(pos)) {
+                                // Toggle fullscreen (right button increases - fullscreen)
+                                fullscreenEnabled_ = true;
+                                fullscreenDisplaySprite_.setTexture(fullscreenDisplayTextures_[1]);
+                                gameClickSound_.play();
+                                buildLayout();  // Refresh layout to center the text dynamically
+                            } else if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
                                 gameClickSound_.play();
                                 settingsMenuState_ = SettingsMenuState::Main;
                             }
@@ -2338,6 +2552,22 @@ int HexGameUI::run() {
                     if (videoMenuTexture_.getSize().x != 0) {
                         window.draw(videoMenuSprite_);
                     }
+                    // Draw quality label and selector
+                    window.draw(qualityLabelSprite_);
+                    window.draw(leftButtonSprite_);
+                    window.draw(qualityDisplaySprite_);
+                    window.draw(rightButtonSprite_);
+                    // Draw fullscreen label and selector
+                    window.draw(fullscreenLabelSprite_);
+                    // Move left button to fullscreen row position
+                    leftButtonSprite_.setPosition(fsLeftBtnPos_);
+                    leftButtonSprite_.setScale(fsBtnScale_, fsBtnScale_);
+                    window.draw(leftButtonSprite_);
+                    window.draw(fullscreenDisplaySprite_);
+                    // Move right button to fullscreen row position
+                    rightButtonSprite_.setPosition(fsRightBtnPos_);
+                    rightButtonSprite_.setScale(fsBtnScale_, fsBtnScale_);
+                    window.draw(rightButtonSprite_);
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
                         window.draw(submenuBackButtonSprite_);
@@ -2653,6 +2883,22 @@ int HexGameUI::run() {
                     if (videoMenuTexture_.getSize().x != 0) {
                         window.draw(videoMenuSprite_);
                     }
+                    // Draw quality label and selector
+                    window.draw(qualityLabelSprite_);
+                    window.draw(leftButtonSprite_);
+                    window.draw(qualityDisplaySprite_);
+                    window.draw(rightButtonSprite_);
+                    // Draw fullscreen label and selector
+                    window.draw(fullscreenLabelSprite_);
+                    // Move left button to fullscreen row position
+                    leftButtonSprite_.setPosition(fsLeftBtnPos_);
+                    leftButtonSprite_.setScale(fsBtnScale_, fsBtnScale_);
+                    window.draw(leftButtonSprite_);
+                    window.draw(fullscreenDisplaySprite_);
+                    // Move right button to fullscreen row position
+                    rightButtonSprite_.setPosition(fsRightBtnPos_);
+                    rightButtonSprite_.setScale(fsBtnScale_, fsBtnScale_);
+                    window.draw(rightButtonSprite_);
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
                         window.draw(submenuBackButtonSprite_);
