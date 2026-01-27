@@ -19,6 +19,8 @@
 #include <filesystem>
 #include "gnn/Graph.hpp"
 
+// Implements move strategies, heuristics, and Negamax search for Hex.
+
 namespace {
 
 std::string defaultModelPath() {
@@ -31,7 +33,7 @@ std::string resolveModelPath(const std::string& hint) {
     const fs::path hinted = hint.empty() ? fs::path(defaultModelPath()) : fs::path(hint);
     std::vector<fs::path> candidates;
 
-    
+    // Search relative to the hint, then up to a few parent directories.
     candidates.push_back(hinted);
 
     
@@ -132,6 +134,7 @@ static int findImmediateWinningMove(const GameState& state, int player) {
 }
 
 static int boundaryDistance(const std::vector<int>& linear, int player) {
+    // 0-1 BFS estimate of stones needed to connect the player sides.
     const int N = static_cast<int>(std::sqrt(linear.size()));
     if (N <= 0) return 0;
     const Graph& g = getPlainGraph(N);
@@ -500,6 +503,7 @@ int NegamaxStrategy::select(const GameState& state, int playerId) {
             }
         }
     }
+    // Fast path: immediate winning move in one step.
     const int immediateWin = findImmediateWinningMove(state, playerId);
     if (immediateWin >= 0) {
         const auto linear = state.LinearBoard();
