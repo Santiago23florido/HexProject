@@ -82,6 +82,8 @@ private:
     void applyVolumeChanges();
     void saveVolumeConfig();
     void loadVolumeConfig();
+    void saveVideoQualityConfig();
+    void loadVideoQualityConfig();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -187,6 +189,12 @@ private:
     sf::Sprite audioMenuSprite_;
     sf::Texture creditsMenuTexture_;
     sf::Sprite creditsMenuSprite_;
+    // Credits image
+    sf::Texture creditsImageTexture_;
+    sf::Sprite creditsImageSprite_;
+    sf::FloatRect creditsImageBounds_;
+    bool creditsImageClicked_ = false;
+    sf::Clock creditsClickClock_;
     // Back button for submenus
     sf::Texture submenuBackButtonTexture_;
     sf::Sprite submenuBackButtonSprite_;
@@ -227,6 +235,38 @@ private:
     sf::Sprite musicVolumeLabelSprite_;
     sf::Texture effectsVolumeLabelTexture_;
     sf::Sprite effectsVolumeLabelSprite_;
+
+    // Video menu quality selector
+    enum class VideoQuality { Low = 0, Medium = 1, High = 2 };
+    VideoQuality currentVideoQuality_ = VideoQuality::High;
+    
+    // Quality label
+    sf::Texture qualityLabelTexture_;
+    sf::Sprite qualityLabelSprite_;
+    
+    // Quality buttons and display
+    sf::Texture leftButtonTexture_;
+    sf::Sprite leftButtonSprite_;
+    sf::Texture rightButtonTexture_;
+    sf::Sprite rightButtonSprite_;
+    
+    // Quality display (changes based on currentVideoQuality_)
+    std::array<sf::Texture, 3> qualityDisplayTextures_;  // low, medium, high
+    sf::Sprite qualityDisplaySprite_;
+    
+    // Quality selector bounding boxes for clicks
+    sf::FloatRect leftButtonBounds_;
+    sf::FloatRect rightButtonBounds_;
+    
+    // Resolution storage for each quality level
+    sf::Vector2u lowQualityResolution_{0, 0};
+    sf::Vector2u mediumQualityResolution_{0, 0};
+    sf::Vector2u highQualityResolution_{0, 0};
+    
+    // Fullscreen toggle
+    bool fullscreenEnabled_{false};
+    void applyVideoChanges(sf::RenderWindow& window);
+    void setFullscreenEnabledWithWindow(bool enabled, sf::RenderWindow& window);
 
     sf::RectangleShape aiConfigBox_;    
     sf::Text aiConfigText_;             
