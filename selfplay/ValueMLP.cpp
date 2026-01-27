@@ -4,6 +4,8 @@
 
 #include <torch/script.h>
 
+// Implements the ValueMLP module and its TorchScript export helper.
+
 ValueMLPImpl::ValueMLPImpl(int inputDim, int hidden, int depth, float valueScaleIn)
     : inputDim_(inputDim),
       hidden_(hidden) {
@@ -35,6 +37,7 @@ torch::Tensor ValueMLPImpl::forward(torch::Tensor x) {
 }
 
 void ValueMLPImpl::setNormalization(const torch::Tensor& meanIn, const torch::Tensor& stdIn) {
+    // Clamp std to avoid division by zero in normalization.
     const auto meanDev = meanIn.to(mean.device());
     const auto stdDev = stdIn.to(std.device()).clamp_min(1e-6);
     mean.copy_(meanDev);
@@ -60,6 +63,7 @@ static std::string buildForwardSource(int depth) {
 }
 
 bool saveValueMLPTorchScript(const ValueMLP& model, const std::string& path, std::string* error) {
+    // Builds a minimal TorchScript module from extracted parameters and buffers.
     try {
         torch::jit::Module module("ValueMLP");
 

@@ -7,20 +7,16 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ==== Default path for libtorch (Torch_DIR) ====
-# We assume you extracted libtorch into: $HOME/libtorch
 if(NOT Torch_DIR)
     set(Torch_DIR "$ENV{HOME}/libtorch/share/cmake/Torch" CACHE PATH "Path to TorchConfig.cmake")
 endif()
 
-# Optional but useful: let CMake also search using CMAKE_PREFIX_PATH
+
 if(NOT CMAKE_PREFIX_PATH)
     set(CMAKE_PREFIX_PATH "$ENV{HOME}/libtorch")
 endif()
 
 # ==== CUDA configuration for libtorch with GPU (cu128) ====
-# We do NOT set CMAKE_CUDA_ARCHITECTURES to avoid PyTorch warnings.
-# Instead, tell PyTorch explicitly which GPU arch to target.
-# RTX 4070 = Ada, SM 89 → arch "8.9"
 set(ENV{TORCH_CUDA_ARCH_LIST} "8.9")
 
 # Make sure CMake knows where nvcc is
