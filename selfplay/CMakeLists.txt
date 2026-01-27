@@ -17,8 +17,6 @@ if(NOT CMAKE_PREFIX_PATH)
 endif()
 
 # ==== CUDA configuration for libtorch with GPU (cu128) ====
-# We do NOT set CMAKE_CUDA_ARCHITECTURES to avoid PyTorch warnings.
-# Instead, tell PyTorch explicitly which GPU arch to target.
 set(ENV{TORCH_CUDA_ARCH_LIST} "8.9")
 
 # Make sure CMake knows where nvcc is

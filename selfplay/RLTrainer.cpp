@@ -17,15 +17,19 @@
 #include <torch/nn/utils/clip_grad.h>
 #include <torch/script.h>
 
+// Implements the RL trainer that runs self-play, trains the value model, and manages checkpoints/exports.
+
 namespace {
 
 unsigned makeSeed() {
+    // Mix steady-clock ticks and random_device output for a seed.
     return static_cast<unsigned>(
         std::chrono::steady_clock::now().time_since_epoch().count() ^
         static_cast<unsigned>(std::random_device{}()));
 }
 
 void ensureDir(const std::string& path) {
+    // Ensures the parent directory exists for the given path.
     namespace fs = std::filesystem;
     fs::path p(path);
     if (p.has_parent_path()) {
@@ -34,6 +38,7 @@ void ensureDir(const std::string& path) {
 }
 
 void copyModuleState(const ValueMLP& src, ValueMLP& dst, const torch::Device& device) {
+    // Copies parameters and buffers from src to dst on the target device.
     torch::NoGradGuard no_grad;
     auto srcParams = src->named_parameters();
     auto dstParams = dst->named_parameters();
@@ -88,6 +93,7 @@ RLTrainer::RLTrainer(const RLConfig& config)
 }
 
 RLTrainer::EpisodeState RLTrainer::buildEpisodeState(const GameState& state, int playerId) const {
+    // Feature order matches ValueFeatures fields.
     const ValueFeatures feat = computeValueFeatures(state, playerId);
     EpisodeState ep;
     ep.features = {
@@ -125,6 +131,7 @@ int RLTrainer::playOneGame(std::vector<EpisodeState>& episode, IMoveStrategy& p1
         } else {
             move = strat.select(state, currentPlayer);
         }
+        // Treat invalid moves as a draw to terminate the game.
         if (move < 0 || move >= cfg_.boardSize * cfg_.boardSize) return 0;
 
         board.place(move, currentPlayer);
@@ -136,6 +143,7 @@ int RLTrainer::playOneGame(std::vector<EpisodeState>& episode, IMoveStrategy& p1
 void RLTrainer::addEpisodeToBuffer(const std::vector<EpisodeState>& episode, int winner) {
     std::vector<ReplaySample> samples;
     samples.reserve(episode.size());
+    // Scale targets by valueScale to match the network output.
     for (const auto& entry : episode) {
         int z = (winner == entry.toMove) ? 1 : -1;
         ReplaySample sample;
@@ -147,6 +155,7 @@ void RLTrainer::addEpisodeToBuffer(const std::vector<EpisodeState>& episode, int
 }
 
 void RLTrainer::maybeInitNormalization() {
+    // Initialize normalization stats from a capped sample of recent data.
     if (normReady_ || buffer_.size() < cfg_.batchSize) return;
 
     const std::size_t count = std::min<std::size_t>(buffer_.size(), 4096);
@@ -173,6 +182,7 @@ void RLTrainer::maybeInitNormalization() {
 
     auto mean = torch::from_blob(meanVals.data(), {7}, torch::TensorOptions().dtype(torch::kFloat32)).clone();
     auto std = torch::from_blob(stdVals.data(), {7}, torch::TensorOptions().dtype(torch::kFloat32)).clone();
+    // Clone ensures buffers own their data before transfer to device.
     model_->setNormalization(mean.to(device_), std.to(device_));
     normReady_ = true;
     syncEvalModel();
@@ -213,6 +223,7 @@ void RLTrainer::trainUpdates(int updates) {
 
         optimizer_->zero_grad();
         loss.backward();
+        // Clip gradients to stabilize training.
         torch::nn::utils::clip_grad_norm_(model_->parameters(), cfg_.gradClip);
         optimizer_->step();
 
@@ -230,6 +241,7 @@ float RLTrainer::evalFeatures(const std::array<float, 7>& features) {
 }
 
 float RLTrainer::evalFeaturesWithModel(const std::array<float, 7>& features, ValueMLP& model) {
+    // No gradients required for inference.
     torch::NoGradGuard no_grad;
     auto x = torch::from_blob(const_cast<float*>(features.data()),
                               {1, 7},
@@ -239,6 +251,7 @@ float RLTrainer::evalFeaturesWithModel(const std::array<float, 7>& features, Val
 }
 
 void RLTrainer::syncEvalModel() {
+    // Keep eval model in sync with the training model.
     std::lock_guard<std::mutex> lock(evalModelMutex_);
     copyModuleState(model_, evalModel_, evalDevice_);
     evalModel_->eval();
@@ -285,6 +298,7 @@ void RLTrainer::collectSelfPlay(int games) {
     const int threadCount = std::max(1, cfg_.selfplayThreads);
     std::cout << "[RL] Self-play threads=" << threadCount
               << " | training updates run on main thread\n";
+    // Single-thread mode runs self-play and training updates in the same loop.
     if (threadCount <= 1) {
         auto evalFn = [this](const std::array<float, 7>& f) { return evalFeatures(f); };
 
@@ -402,6 +416,7 @@ void RLTrainer::collectSelfPlay(int games) {
         std::uniform_int_distribution<int> localDepth(cfg_.minDepth, cfg_.maxDepth);
         std::uniform_real_distribution<float> localProb(0.0f, 1.0f);
 
+        // Each worker keeps its own eval copies to avoid locking during forward passes.
         ValueMLP currentEval(7, 128, model_->depth(), cfg_.valueScale);
         currentEval->to(evalDevice_);
         ValueMLP frozenEval(7, 128, model_->depth(), cfg_.valueScale);
@@ -565,6 +580,7 @@ void RLTrainer::collectSelfPlay(int games) {
 }
 
 void RLTrainer::saveCheckpoint() const {
+    // Writes the model checkpoint to disk.
     ensureDir(cfg_.checkpointPath);
     torch::serialize::OutputArchive archive;
     model_->save(archive);
@@ -573,6 +589,7 @@ void RLTrainer::saveCheckpoint() const {
 }
 
 void RLTrainer::exportTorchScript() const {
+    // Writes a TorchScript export of the current model.
     ensureDir(cfg_.exportPath);
     std::string error;
     if (!saveValueMLPTorchScript(model_, cfg_.exportPath, &error)) {
@@ -583,6 +600,7 @@ void RLTrainer::exportTorchScript() const {
 }
 
 void RLTrainer::smokeTestTorchScript() const {
+    // Best-effort load-and-run test for the exported TorchScript.
     try {
         torch::jit::Module module = torch::jit::load(cfg_.exportPath);
         module.eval();
@@ -595,6 +613,7 @@ void RLTrainer::smokeTestTorchScript() const {
 }
 
 int RLTrainer::run() {
+    // Runs the configured training loop and handles optional exports.
     std::cout << "[RL] Training on device: " << (device_.is_cuda() ? "CUDA" : "CPU") << "\n";
     collectSelfPlay(cfg_.trainGames);
     saveCheckpoint();

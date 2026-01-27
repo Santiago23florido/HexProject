@@ -16,6 +16,8 @@
 #include "core/MoveStrategy.hpp"
 #include "Serializer.hpp"
 
+// CLI entry point for self-play data generation and RL training.
+
 namespace {
 
 // Build a starting board with an equal number of random stones for both players.

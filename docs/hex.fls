@@ -159,9 +159,12 @@ INPUT sections/StructureSubsections/gnn.tex
 INPUT ./sections/StructureSubsections/selfplay.tex
 INPUT ./sections/StructureSubsections/selfplay.tex
 INPUT sections/StructureSubsections/selfplay.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8t.tfm
 INPUT ./sections/poo.tex
 INPUT ./sections/poo.tex
 INPUT sections/poo.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr8t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT ./sections/install.tex
 INPUT ./sections/install.tex
 INPUT sections/install.tex
