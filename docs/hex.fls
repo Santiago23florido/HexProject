@@ -122,6 +122,10 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8t.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmrc8t.tfm
 OUTPUT hex.pdf
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
@@ -143,10 +147,6 @@ INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmrc8t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr8t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmrc8t.tfm
 INPUT ./sections/StructureSubsections/core.tex
 INPUT ./sections/StructureSubsections/core.tex
 INPUT sections/StructureSubsections/core.tex
@@ -160,11 +160,11 @@ INPUT ./sections/StructureSubsections/selfplay.tex
 INPUT ./sections/StructureSubsections/selfplay.tex
 INPUT sections/StructureSubsections/selfplay.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8t.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr8t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT ./sections/poo.tex
 INPUT ./sections/poo.tex
 INPUT sections/poo.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/courier/pcrr8t.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT ./sections/install.tex
 INPUT ./sections/install.tex
 INPUT sections/install.tex
