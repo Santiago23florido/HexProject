@@ -64,7 +64,3 @@ cmake --build selfplay/build
   --device cuda
 ```
 
-## Classes and Structures
-| Class/Structure | Notes |
-| --- | --- |
-| N/A | This section is about tooling and build steps. |

@@ -4,9 +4,7 @@ Hex is a two-player abstract strategy game with perfect information and no chanc
 
 Installation guide: [docs/pages/installation.md](docs/pages/installation.md)
 
-<details>
-<summary>Documentation map</summary>
-
+Documentation map:
 - Architecture overview: [docs/pages/architecture_overview.md](docs/pages/architecture_overview.md)
 - Introduction: [docs/pages/introduction.md](docs/pages/introduction.md)
 - Project structure: [docs/pages/project_structure.md](docs/pages/project_structure.md)
@@ -15,7 +13,6 @@ Installation guide: [docs/pages/installation.md](docs/pages/installation.md)
 - Self-play module: [docs/pages/selfplay.md](docs/pages/selfplay.md)
 - OOP design notes: [docs/pages/oop.md](docs/pages/oop.md)
 - Installation: [docs/pages/installation.md](docs/pages/installation.md)
-</details>
 
 ## Build and Run
 
