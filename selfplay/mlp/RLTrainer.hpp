@@ -9,8 +9,8 @@
 
 #include <torch/torch.h>
 
-#include "ReplayBuffer.hpp"
-#include "ValueMLP.hpp"
+#include "mlp/ReplayBuffer.hpp"
+#include "mlp/ValueMLP.hpp"
 #include "core/MoveStrategy.hpp"
 
 /**
@@ -39,8 +39,8 @@ struct RLConfig {
     float probHeuristic{0.0f};
     std::size_t maxFrozen{5};
     std::string device{"cuda"};
-    std::string checkpointPath{"scripts/models/value_mlp_state.pt"};
-    std::string exportPath{"scripts/models/hex_value_ts_mp.pt"};
+    std::string checkpointPath{SELFPLAY_ROOT_DIR "/scripts/models/value_mlp_state.pt"};
+    std::string exportPath{SELFPLAY_ROOT_DIR "/scripts/models/hex_value_ts_mp.pt"};
     bool exportTs{false};
     bool randomFirstMove{true};
 };

@@ -120,7 +120,7 @@ Script: `scripts/train_value_mlp_emulate_heuristic.py`.
 - Output: TorchScript saved to `scripts/models/hex_value_ts_mp.pt`. The C++ runtime treats this as an MLP (single-input `forward`).
 
 ### Self-play ValueMLP (C++)
-Trainer: `selfplay/RLTrainer.cpp` and `selfplay/RLTrainer.hpp`.
+Trainer: `selfplay/mlp/RLTrainer.cpp` and `selfplay/mlp/RLTrainer.hpp`.
 - Data: self-play games; each position stores the same 7 features; target is win/loss for the side to move scaled by `valueScale`.
 - Loss: SmoothL1; normalization estimated from the replay buffer; optional frozen snapshots for opponents.
 - Export: use `--export-ts` in the self-play binary to write `scripts/models/hex_value_ts_mp.pt`.

@@ -30,12 +30,12 @@ find_package(Torch REQUIRED)
 # ==== Selfplay executable ====
 add_executable(selfplay
     main.cpp
-    GameRunner.cpp
-    DataCollector.cpp
-    Serializer.cpp
-    ReplayBuffer.cpp
-    ValueMLP.cpp
-    RLTrainer.cpp
+    gnn/GameRunner.cpp
+    gnn/DataCollector.cpp
+    gnn/Serializer.cpp
+    mlp/ReplayBuffer.cpp
+    mlp/ValueMLP.cpp
+    mlp/RLTrainer.cpp
     ${ROOT_DIR}/src/core/Board.cpp
     ${ROOT_DIR}/src/core/GameState.cpp
     ${ROOT_DIR}/src/core/Cube.cpp
@@ -47,6 +47,7 @@ add_executable(selfplay
 )
 
 target_include_directories(selfplay PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}
     ${ROOT_DIR}/include
     ${ROOT_DIR}/include/core
     ${ROOT_DIR}/include/gnn
@@ -54,6 +55,9 @@ target_include_directories(selfplay PUBLIC
 
 # ==== Link with libtorch ====
 target_link_libraries(selfplay PRIVATE "${TORCH_LIBRARIES}")
+
+# Embed repo root so default model paths stay stable after moving files.
+target_compile_definitions(selfplay PRIVATE SELFPLAY_ROOT_DIR="${ROOT_DIR}")
 
 # Define USE_TORCH so #ifdef USE_TORCH code is enabled
 target_compile_definitions(selfplay PRIVATE USE_TORCH)

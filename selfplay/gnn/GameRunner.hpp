@@ -3,7 +3,7 @@
 #include "core/MoveStrategy.hpp"
 #include "core/Board.hpp"
 #include "core/GameState.hpp"
-#include "DataCollector.hpp"
+#include "gnn/DataCollector.hpp"
 
 /**
  * Runs a self-play game between two strategies and records states.
