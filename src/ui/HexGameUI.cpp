@@ -342,6 +342,13 @@ bool HexGameUI::loadStartScreenTextures() {
     }
     creditsMenuSprite_.setTexture(creditsMenuTexture_);
     
+    // Load credits image (530x642)
+    if (!creditsImageTexture_.loadFromFile("../assets/creditos_530x642.png")) {
+        error_ = "Failed to load credits image texture.";
+        return false;
+    }
+    creditsImageSprite_.setTexture(creditsImageTexture_);
+    
     // Load volume icon textures (vol0.png to vol3.png)
     volumeIconTextures_.resize(4);
     for (int i = 0; i < 4; ++i) {
@@ -1003,14 +1010,27 @@ void HexGameUI::buildLayout() {
         (windowSize_.x - creditsMenuWidth) / 2.0f,
         (windowSize_.y - creditsMenuHeight) / 2.0f);
     
-    // Setup submenu back button at the bottom
+    // Setup submenu back button dimensions (needed for positioning credits image)
     float submenuBackButtonHeight = windowSize_.y * 0.12f;
+    
+    // Setup credits image (530x642) - scale to fit nicely in the menu
+    float creditsImageMaxWidth = windowSize_.x * 0.22f;
+    float creditsImageScale = creditsImageMaxWidth / 530.0f;
+    creditsImageSprite_.setScale(creditsImageScale, creditsImageScale);
+    float creditsImageWidth = 530.0f * creditsImageScale;
+    float creditsImageHeight = 642.0f * creditsImageScale;
+    float creditsImageX = (windowSize_.x - creditsImageWidth) / 2.0f;
+    float creditsImageY = (windowSize_.y - creditsImageHeight) / 2.0f - submenuBackButtonHeight * 0.5f+8.0f;
+    creditsImageSprite_.setPosition(creditsImageX, creditsImageY);
+    creditsImageBounds_ = sf::FloatRect(creditsImageX, creditsImageY, creditsImageWidth, creditsImageHeight);
+    
+    // Setup submenu back button at the bottom (below credits image)
     float submenuBackButtonScale = submenuBackButtonHeight / 576.0f;
     submenuBackButtonSprite_.setScale(submenuBackButtonScale, submenuBackButtonScale);
     float submenuBackButtonWidth = 1792.0f * submenuBackButtonScale;
     submenuBackButtonSprite_.setPosition(
         settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
-        windowSize_.y - submenuBackButtonHeight - 5.0f);
+        creditsImageY + creditsImageHeight + 10.0f);
     
     // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
     float sliderWidth = windowSize_.x * 0.16f; 
@@ -1103,10 +1123,21 @@ void HexGameUI::buildLayout() {
     float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
     sfxVolumeSlider_.handle.setPosition(sfxHandleX, effectsSliderY - (handleSize - sliderHeight) / 2.0f);
     
-    // Position back button below all volume controls
-    submenuBackButtonSprite_.setPosition(
-        settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
-        effectsSliderY + sliderHeight + volumeItemGap);
+    // Position back button below all volume controls (or under credits image when Credits menu active)
+    {
+        float backX = settingsMenuCenterX - submenuBackButtonWidth / 2.0f;
+        float backYAudio = effectsSliderY + sliderHeight + volumeItemGap;
+        float backY = backYAudio;
+        // If the credits image was laid out, prefer placing the back button below it
+        if (creditsImageHeight > 0.0f) {
+            float creditsBackY = creditsImageY + creditsImageHeight + 6.0f;
+            // Use credits position when it is lower (so it doesn't overlap the image)
+            if (creditsBackY > backY) {
+                backY = creditsBackY;
+            }
+        }
+        submenuBackButtonSprite_.setPosition(backX, backY);
+    }
     
     // Setup help frame sprite
     if (!helpFrameTextures_.empty()) {
@@ -1888,7 +1919,12 @@ int HexGameUI::run() {
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
                             } else if (settingsMenuState_ == SettingsMenuState::Credits) {
-                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                if (creditsImageBounds_.contains(mousePos)) {
+                                    // Click on credits image - trigger animation
+                                    creditsImageClicked_ = true;
+                                    creditsClickClock_.restart();
+                                    gameClickSound_.play();
+                                } else if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
                                     gameClickSound_.play();
                                     settingsMenuState_ = SettingsMenuState::Main;
                                 }
@@ -2236,6 +2272,29 @@ int HexGameUI::run() {
         if (screen_ == UIScreen::Start) {
             window.clear(sf::Color(30, 30, 40));
 
+            // Update credits image animation
+            if (settingsMenuState_ == SettingsMenuState::Credits && creditsImageClicked_) {
+                const float animationDuration = 0.6f;  // Animation duration in seconds
+                const float t = creditsClickClock_.getElapsedTime().asSeconds();
+                if (t < animationDuration) {
+                    // Rotation animation (360 degrees)
+                    float rotation = (t / animationDuration) * 360.0f;
+                    creditsImageSprite_.setRotation(rotation);
+                    
+                    // Scale animation (1.0 to 1.2 and back to 1.0)
+                    float scale = 1.0f + 0.2f * std::sin(t / animationDuration * 3.14159f);
+                    const sf::Vector2u textureSize = creditsImageTexture_.getSize();
+                    float baseScale = (windowSize_.x * 0.22f) / 530.0f;
+                    creditsImageSprite_.setScale(baseScale * scale, baseScale * scale);
+                } else {
+                    // Reset animation
+                    creditsImageClicked_ = false;
+                    float baseScale = (windowSize_.x * 0.22f) / 530.0f;
+                    creditsImageSprite_.setScale(baseScale, baseScale);
+                    creditsImageSprite_.setRotation(0.0f);
+                }
+            }
+
             if (startPageTexture_.getSize().x != 0) {
                 window.draw(startPageSprite_);
             }
@@ -2311,6 +2370,10 @@ int HexGameUI::run() {
                     // Draw credits menu
                     if (creditsMenuTexture_.getSize().x != 0) {
                         window.draw(creditsMenuSprite_);
+                    }
+                    // Draw credits image
+                    if (creditsImageTexture_.getSize().x != 0) {
+                        window.draw(creditsImageSprite_);
                     }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
@@ -2443,6 +2506,30 @@ int HexGameUI::run() {
         }
 
         window.clear(sf::Color(30, 30, 40));
+
+        // Update credits image animation (same as in Start screen)
+        if (showSettingsMenu_ && settingsMenuState_ == SettingsMenuState::Credits && creditsImageClicked_) {
+            const float animationDuration = 0.6f;  // Animation duration in seconds
+            const float t = creditsClickClock_.getElapsedTime().asSeconds();
+            if (t < animationDuration) {
+                // Rotation animation (360 degrees)
+                float rotation = (t / animationDuration) * 360.0f;
+                creditsImageSprite_.setRotation(rotation);
+                
+                // Scale animation (1.0 to 1.2 and back to 1.0)
+                float scale = 1.0f + 0.2f * std::sin(t / animationDuration * 3.14159f);
+                const sf::Vector2u textureSize = creditsImageTexture_.getSize();
+                float baseScale = (windowSize_.x * 0.22f) / 530.0f;
+                creditsImageSprite_.setScale(baseScale * scale, baseScale * scale);
+            } else {
+                // Reset animation
+                creditsImageClicked_ = false;
+                float baseScale = (windowSize_.x * 0.22f) / 530.0f;
+                creditsImageSprite_.setScale(baseScale, baseScale);
+                creditsImageSprite_.setRotation(0.0f);
+            }
+        }
+
         if (backgroundTexture_.getSize().x != 0 && backgroundTexture_.getSize().y != 0) {
             window.draw(backgroundSprite_);
         }
@@ -2598,6 +2685,10 @@ int HexGameUI::run() {
                     // Draw credits menu
                     if (creditsMenuTexture_.getSize().x != 0) {
                         window.draw(creditsMenuSprite_);
+                    }
+                    // Draw credits image
+                    if (creditsImageTexture_.getSize().x != 0) {
+                        window.draw(creditsImageSprite_);
                     }
                     // Draw back button at the bottom
                     if (submenuBackButtonTexture_.getSize().x != 0) {
