@@ -1,3 +1,7 @@
 /dist/
 /tools/
 tools/
+/docs/*.aux
+/docs/*.log
+/docs/*.fls
+/docs/*.fdb_latexmk
