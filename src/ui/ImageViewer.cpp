@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+// Implements a simple image viewer that lays out and renders hex tiles.
+
 constexpr float kWindowMargin = 24.0f;
 
 ImageViewer::ImageViewer(const std::string& texturePath) {
@@ -250,4 +252,3 @@ int runImageViewer(
 
     return viewer.run(centerX, centerY);
 }
-

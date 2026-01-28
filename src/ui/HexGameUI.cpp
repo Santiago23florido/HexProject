@@ -18,6 +18,8 @@
 #include <torch/torch.h>
 #include <cuda_runtime.h>
 
+// Implements the SFML UI flow, assets, and interactions for Hex gameplay.
+
 constexpr float kWindowMargin = 24.0f;
 constexpr sf::Uint8 kHoverAlpha = 180;
 constexpr float kPlayerIconMargin = 12.0f;
@@ -2743,4 +2745,3 @@ void HexGameUI::loadVolumeConfig() {
         std::cerr << "Error loading volume config: " << e.what() << std::endl;
     }
 }
-
