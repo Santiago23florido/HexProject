@@ -38,7 +38,6 @@ wget https://download.pytorch.org/libtorch/\
 nightly/cpu/libtorch-shared-with-deps-latest.zip \
   -O libtorch-cpu.zip
 unzip libtorch-cpu.zip
-mv libtorch $HOME/libtorch
 ```
 For CUDA, download a build that matches your toolkit version from the PyTorch selector.
 
@@ -106,6 +105,7 @@ source ~/.bashrc
 
 ## Build and run the game
 ```bash
+rm -rf build
 cmake -S . -B build
 cmake --build build
 cd build
@@ -114,6 +114,7 @@ cd build
 
 ## Build and run self-play
 ```bash
+rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 

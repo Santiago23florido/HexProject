@@ -21,7 +21,8 @@ Documentation map:
 ```bash
 cmake -S . -B build
 cmake --build build
-./build/hex_ui
+cd build
+./hex_ui
 ```
 - Builds the main game executable and launches the SFML GUI.
 
