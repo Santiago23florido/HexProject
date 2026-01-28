@@ -16,7 +16,9 @@
 #include <sys/stat.h>
 #include <thread>
 #include <torch/torch.h>
+#if defined(HEX_HAS_CUDA)
 #include <cuda_runtime.h>
+#endif
 
 // Implements the SFML UI flow, assets, and interactions for Hex gameplay.
 
