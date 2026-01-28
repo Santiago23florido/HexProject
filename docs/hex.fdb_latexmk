@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1769598022.89516 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769598023.26976 0
+["pdflatex"] 1769602924.61994 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769602924.99743 0
   "/etc/texmf/web2c/texmf.cnf" 1762418151.39241 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/santiago/IN204/HexProject/docs/hex.tex" 1769598022.69766 2231 b4bf12a7701272dbc8559d2084cd3ccd ""
+  "/home/santiago/IN204/HexProject/docs/hex.tex" 1769598023.28966 2231 b4bf12a7701272dbc8559d2084cd3ccd ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -56,8 +56,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1762418170.6716 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1762418224 8214723 66b18d21e2ef1ecd23d5c483e8c60b4e ""
-  "hex.aux" 1769598023.23366 8326 60b2db79541e5aa2740616e0f72344ec "pdflatex"
-  "hex.tex" 1769598022.69766 2231 b4bf12a7701272dbc8559d2084cd3ccd ""
+  "hex.aux" 1769602924.95612 8568 7fdf3a207087436492b6d465d95c77a7 "pdflatex"
+  "hex.tex" 1769598023.28966 2231 b4bf12a7701272dbc8559d2084cd3ccd ""
   "sections/ProjectStructure.tex" 1769596804.14368 2413 8e0cba68d83ca8f22dae1d515a9a26e3 ""
   "sections/StructureSubsections/Multimedia.tex" 1769597924.31303 2966 345d88255b028b90ced8078f51c0529b ""
   "sections/StructureSubsections/UI-UX.tex" 1769597780.689 3361 de63f0dda8fa20a3a5636982a57025b3 ""
@@ -65,7 +65,7 @@
   "sections/StructureSubsections/core.tex" 1769596804.14368 9253 02d660962e64f9c02562d3fb8590848a ""
   "sections/StructureSubsections/gnn.tex" 1769596804.14368 3388 e962a2345d7de9b337d8b0902281e3b5 ""
   "sections/StructureSubsections/selfplay.tex" 1769596804.14368 4457 be253a6a7f70b5147061e0364d22b323 ""
-  "sections/install.tex" 1769598003.00213 5332 a67b76e8c67bc52ad84ae83c3c550313 ""
+  "sections/install.tex" 1769602923.88502 5807 bfd93c681edc3f25e3fc531669058bce ""
   "sections/introduction.tex" 1769271427.7355 2625 8d88d86af9d459fa9fc9357b8ba6f5e3 ""
   "sections/poo.tex" 1769596804.14368 6206 23418df498fb36bc4e6ae7ff49a84bed ""
   (generated)
