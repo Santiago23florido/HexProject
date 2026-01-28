@@ -24,6 +24,29 @@ ls $HOME/libtorch/share/cmake/Torch
 # or set Torch_DIR/CMAKE_PREFIX_PATH
 ```
 
+## LibTorch installation (details)
+- Download the LibTorch C++ distribution from the official PyTorch site.
+- Pick the correct ABI:
+  - Linux GCC/Clang: use the **cxx11 ABI** build.
+  - Windows: select the MSVC build that matches your compiler.
+- Choose CPU or CUDA based on your environment.
+- Extract to a known location (e.g., `~/libtorch`).
+
+### Configure CMake
+```bash
+export Torch_DIR="$HOME/libtorch/share/cmake/Torch"
+# or
+export CMAKE_PREFIX_PATH="$HOME/libtorch"
+
+cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH="$HOME/libtorch"
+```
+
+### Runtime loader path (if needed)
+```bash
+export LD_LIBRARY_PATH="$HOME/libtorch/lib:$LD_LIBRARY_PATH"
+```
+
 ### SFML 2.5
 ```bash
 pkg-config --modversion sfml-all
