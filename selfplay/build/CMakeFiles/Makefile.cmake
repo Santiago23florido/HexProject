@@ -43,6 +43,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.28/Modules/Compiler/GNU.cmake"
   "/usr/share/cmake-3.28/Modules/Compiler/NVIDIA-CUDA.cmake"
   "/usr/share/cmake-3.28/Modules/Compiler/NVIDIA.cmake"
+  "/usr/share/cmake-3.28/Modules/FindCUDAToolkit.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.28/Modules/FindPackageMessage.cmake"
   "/usr/share/cmake-3.28/Modules/FindPython.cmake"

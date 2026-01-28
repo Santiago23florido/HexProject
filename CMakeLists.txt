@@ -28,6 +28,22 @@ endif()
 find_package(Torch REQUIRED)
 find_package(CUDAToolkit QUIET)
 
+set(HEX_HAS_CUDA OFF)
+if(CUDAToolkit_FOUND)
+    set(TORCH_HAS_CUDA OFF)
+    if(DEFINED TORCH_CUDA_LIBRARIES AND TORCH_CUDA_LIBRARIES)
+        set(TORCH_HAS_CUDA ON)
+    elseif(DEFINED TORCH_LIBRARY)
+        get_filename_component(TORCH_LIB_DIR "${TORCH_LIBRARY}" DIRECTORY)
+        if(EXISTS "${TORCH_LIB_DIR}/libc10_cuda.so" OR EXISTS "${TORCH_LIB_DIR}/libtorch_cuda.so")
+            set(TORCH_HAS_CUDA ON)
+        endif()
+    endif()
+    if(TORCH_HAS_CUDA)
+        set(HEX_HAS_CUDA ON)
+    endif()
+endif()
+
 # ==== Find SFML ====
 find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
 
@@ -76,7 +92,8 @@ target_link_libraries(hex_ui PRIVATE
     sfml-system
     sfml-audio
 )
-if(CUDAToolkit_FOUND)
+if(HEX_HAS_CUDA)
+    target_compile_definitions(hex_ui PRIVATE HEX_HAS_CUDA)
     target_link_libraries(hex_ui PRIVATE CUDA::cudart)
 endif()
 

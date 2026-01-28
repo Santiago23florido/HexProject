@@ -1,7 +1,9 @@
 #include "ui/HexGameUI.hpp"
 
 #include <torch/torch.h>
+#if defined(HEX_HAS_CUDA)
 #include <ATen/cuda/CUDAContext.h>  //info hardware cuda
+#endif
 
 #include <cstdlib>
 #include <ctime>
@@ -21,6 +23,7 @@ int main() {
     const float tileScale = 0.1f;
 
     std::cout << "--- HARDWARE CHECK ---" << std::endl;
+#if defined(HEX_HAS_CUDA)
     if (torch::cuda::is_available()) {
         auto properties = at::cuda::getDeviceProperties(0); 
         std::cout << "CUDA is available!" << std::endl;
@@ -30,6 +33,9 @@ int main() {
     } else {
         std::cout << "CUDA NOT FOUND. Using CPU." << std::endl;
     }
+#else
+    std::cout << "CUDA not enabled in this build. Using CPU." << std::endl;
+#endif
 
     try
     {

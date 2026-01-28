@@ -79,10 +79,15 @@ RLTrainer::RLTrainer(const RLConfig& config)
     if (cfg_.selfplayThreads < 1) cfg_.selfplayThreads = 1;
 
     if (cfg_.device == "cuda") {
+#if defined(SELFPLAY_HAS_CUDA)
         if (!torch::cuda::is_available()) {
-            throw std::runtime_error("CUDA requested but not available.");
+            std::cout << "[RL] CUDA requested but not available. Using CPU.\n";
+        } else {
+            device_ = torch::kCUDA;
         }
-        device_ = torch::kCUDA;
+#else
+        std::cout << "[RL] CUDA not enabled in this build. Using CPU.\n";
+#endif
     }
     model_->to(device_);
     evalModel_->to(evalDevice_);
