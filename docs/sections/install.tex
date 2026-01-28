@@ -159,12 +159,14 @@ V\'erifier avec \texttt{lsb\_release -a}.
 \paragraph{Telechargement}
 \begin{verbatim}
 sudo apt-get update
-sudo apt-get install -y python3 python3-venv python3-pip
+sudo apt-get install -y python3 python3-venv \
+  python3-pip
 python3 -m venv .venv
 source .venv/bin/activate
 pip install gdown
 gdown --fuzzy \
-  "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \
+  "https://drive.google.com/file/d/"\
+"1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \
   -O HexProject-CPU-x86_64.AppImage
 \end{verbatim}
 \paragraph{Verification}

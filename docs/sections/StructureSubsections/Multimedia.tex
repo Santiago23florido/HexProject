@@ -28,13 +28,15 @@ Volume Master & \texttt{float} & Facteur multiplicateur global (0-100). \\ \hlin
 \subsubsection{Logique de Mise à Jour de l'Iconographie Sonore}
 La fonction \texttt{updateVolumeIcon} est un exemple d'interaction dynamique. Elle traduit une valeur scalaire (le volume) en un état visuel discret parmi quatre paliers :
 \begin{equation}
-    Icon_{index} = 
-    \begin{cases} 
-    0 & \text{si } v \le 25 \\
-    1 & \text{si } 25 < v \le 50 \\
-    2 & \text{si } 50 < v \le 75 \\
-    3 & \text{si } v > 75 
-    \end{cases}
+    Icon_{index} =
+    \left\{
+    \begin{array}{ll}
+    0 & \mbox{si } v \le 25 \\
+    1 & \mbox{si } 25 < v \le 50 \\
+    2 & \mbox{si } 50 < v \le 75 \\
+    3 & \mbox{si } v > 75
+    \end{array}
+    \right.
 \end{equation}
 Cette logique permet de changer le \textit{sprite} de l'icône de haut-parleur en temps réel lors de la manipulation des \textit{sliders}, offrant un retour visuel immédiat sur la configuration du système.
 
