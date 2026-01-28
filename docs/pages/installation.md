@@ -18,6 +18,8 @@ g++ --version
 # or: clang++ --version
 ```
 
+## LINUX INSTALLATION
+
 ### LibTorch (TorchScript)
 ```bash
 ls $HOME/libtorch/share/cmake/Torch
@@ -82,7 +84,15 @@ poetry --version
   - Debian/Ubuntu: `sudo apt-get install python3 python3-pip`
   - Poetry: `python3 -m pip install --user poetry`
 
-#### Windows LibTorch (CPU by default)
+## Windows installation
+
+#### Prerequisites
+- CMake 3.18+
+- MSVC (Visual Studio 2019+)
+- SFML 2.5+ (set `SFML_DIR` or `SFML_BIN_DIR`)
+- Inno Setup (`iscc.exe` on PATH) if you want the installer
+
+#### LibTorch (CPU by default)
 ```powershell
 # Use the MSVC build that matches your compiler.
 $libtorchUrl = "https://download.pytorch.org/libtorch/nightly/cpu/libtorch-win-shared-with-deps-latest.zip"
@@ -103,6 +113,7 @@ C:\vcpkg\vcpkg install sfml
 
 
 #### Windows PATH (if needed)
+Nota: ajusta las rutas segun donde hayas instalado LibTorch y SFML.
 ```powershell
 # LibTorch runtime DLLs (for local runs)
 setx PATH "$env:PATH;C:\libtorch\libtorch\lib"
@@ -121,8 +132,8 @@ If a version is incompatible, upgrade/downgrade to the minimums above or pick ma
 
 ## Installation by OS
 
-### Linux installation
-#### Add to PATH (if needed)
+#### Linux Add to PATH (if needed)
+Nota: ajusta las rutas segun donde instalaste CMake, CUDA y LibTorch.
 ```bash
 # ~/.bashrc
 export PATH="$HOME/.local/bin:$PATH"     # poetry
@@ -134,8 +145,9 @@ export LD_LIBRARY_PATH="$HOME/libtorch/lib:\
 $LD_LIBRARY_PATH"
 source ~/.bashrc
 ```
+## Build and run the game
 
-#### Build and run the game
+#### Linux
 ```bash
 rm -rf build
 cmake -S . -B build
@@ -143,8 +155,21 @@ cmake --build build
 cd build
 ./hex_ui
 ```
+## Windows
+```powershell
+# from repo root
+# Ajusta estas rutas segun tu instalacion local.
+$env:SFML_DIR="C:\path\to\SFML\lib\cmake\SFML"
+$env:LIBTORCH_DIR="C:\libtorch\libtorch"
+cmake -S . -B build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
+cmake --build build --config Release
+cd \build\Release
+.\hex_ui.exe
+```
 
-#### Build and run self-play
+## Build and run self-play
+#### Linux
+
 ```bash
 rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
@@ -161,58 +186,17 @@ cmake --build selfplay/build
   --device cuda
 ```
 
-### Windows installation
-#### Prerequisites
-- CMake 3.18+
-- MSVC (Visual Studio 2019+)
-- SFML 2.5+ (set `SFML_DIR` or `SFML_BIN_DIR`)
-- Inno Setup (`iscc.exe` on PATH) if you want the installer
-
-#### Build and run from source (Windows)
-```powershell
-# from repo root
-$env:SFML_DIR="C:\path\to\SFML\lib\cmake\SFML"
-$env:LIBTORCH_DIR="C:\libtorch\libtorch"
-cmake -S . -B build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
-cmake --build build --config Release
-.\build\Release\hex_ui.exe
-```
-
-#### Build and run self-play (Windows)
+#### Windows
 PowerShell:
 ```powershell
 cmake -S selfplay -B selfplay/build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
 cmake --build selfplay/build --config Release
-& .\selfplay\build\Release\selfplay.exe `
-  --selfplay-train `
-  --export-ts `
-  --train-games 200 `
-  --min-depth 10 `
-  --max-depth 20 `
-  --batch-size 256 `
-  --updates-per-game 1 `
-  --device cuda
-```
-
-CMD (one line):
-```bat
-cmake -S selfplay -B selfplay/build -DCMAKE_PREFIX_PATH="C:\libtorch\libtorch"
-cmake --build selfplay/build --config Release
 .\selfplay\build\Release\selfplay.exe --selfplay-train --export-ts --train-games 200 --min-depth 10 --max-depth 20 --batch-size 256 --updates-per-game 1 --device cuda
-```
 
-#### Build + installer (CPU)
-```powershell
-# from repo root
-# optional: set LIBTORCH_DIR to a local LibTorch C++ distribution
-$env:SFML_DIR="C:\path\to\SFML"
-# optional: $env:SFML_BIN_DIR="C:\path\to\SFML\bin"
-.\scripts\package_windows_cpu.ps1
 ```
-The script downloads LibTorch CPU if needed, builds Release,
-stages assets, bundles DLLs, and runs Inno Setup.
 
 ## Fast-installation (Linux, gameplay only)
+
 ### WSL (Ubuntu)
 Requires WSL with Ubuntu 24.04.3 LTS or newer.
 Check with `lsb_release -a`.
