@@ -122,3 +122,75 @@ foreach(target_name IN ITEMS hex hex_ui)
         INSTALL_RPATH "$ENV{HOME}/libtorch/lib"
     )
 endforeach()
+
+# ==== Windows: copy runtime DLLs next to the executable ====
+if(WIN32)
+    if(NOT TORCH_LIB_DIR)
+        if(DEFINED TORCH_LIBRARY)
+            get_filename_component(TORCH_LIB_DIR "${TORCH_LIBRARY}" DIRECTORY)
+        elseif(DEFINED Torch_DIR)
+            get_filename_component(TORCH_PREFIX "${Torch_DIR}/../../.." ABSOLUTE)
+            set(TORCH_LIB_DIR "${TORCH_PREFIX}/lib")
+        endif()
+    endif()
+
+    set(_runtime_dlls "")
+    if(TORCH_LIB_DIR AND EXISTS "${TORCH_LIB_DIR}")
+        file(GLOB _torch_dlls LIST_DIRECTORIES false "${TORCH_LIB_DIR}/*.dll")
+        list(APPEND _runtime_dlls ${_torch_dlls})
+    endif()
+
+    set(_sfml_bin_candidates "")
+    if(SFML_GRAPHICS_LIBRARY)
+        get_filename_component(_sfml_libdir "${SFML_GRAPHICS_LIBRARY}" DIRECTORY)
+        get_filename_component(_sfml_root_from_lib "${_sfml_libdir}/.." ABSOLUTE)
+        list(APPEND _sfml_bin_candidates "${_sfml_root_from_lib}/bin")
+    endif()
+    if(SFML_DIR)
+        get_filename_component(_sfml_dir "${SFML_DIR}" ABSOLUTE)
+        get_filename_component(_sfml_root2 "${_sfml_dir}/../.." ABSOLUTE)
+        get_filename_component(_sfml_root3 "${_sfml_dir}/../../.." ABSOLUTE)
+        list(APPEND _sfml_bin_candidates "${_sfml_root2}/bin" "${_sfml_root3}/bin")
+    endif()
+
+    set(_sfml_bin "")
+    foreach(_candidate IN LISTS _sfml_bin_candidates)
+        if(EXISTS "${_candidate}/sfml-graphics-2.dll")
+            set(_sfml_bin "${_candidate}")
+            break()
+        endif()
+    endforeach()
+
+    if(_sfml_bin)
+        file(GLOB _sfml_dlls LIST_DIRECTORIES false
+            "${_sfml_bin}/sfml-*.dll"
+            "${_sfml_bin}/openal32.dll"
+        )
+        list(APPEND _runtime_dlls ${_sfml_dlls})
+    endif()
+
+    if(_runtime_dlls)
+        add_custom_command(TARGET hex_ui POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${_runtime_dlls}
+            $<TARGET_FILE_DIR:hex_ui>
+        )
+    endif()
+
+    add_custom_command(TARGET hex_ui POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:hex_ui>/../assets
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/config
+        $<TARGET_FILE_DIR:hex_ui>/../config
+    )
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scripts/models")
+        add_custom_command(TARGET hex_ui POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/models
+            $<TARGET_FILE_DIR:hex_ui>/../scripts/models
+        )
+    endif()
+endif()

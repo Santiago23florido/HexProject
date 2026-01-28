@@ -82,19 +82,7 @@ poetry --version
   - Debian/Ubuntu: `sudo apt-get install python3 python3-pip`
   - Poetry: `python3 -m pip install --user poetry`
 
-### Windows equivalents (PowerShell)
-#### CMake (download the MSI first)
-```powershell
-msiexec /i cmake-3.27.9-windows-x86_64.msi /qn
-```
-
-#### C++ compiler (MSVC Build Tools)
-```powershell
-# Run from the folder that contains vs_BuildTools.exe
-.\vs_BuildTools.exe --quiet --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
-```
-
-#### LibTorch (CPU by default)
+#### Windows LibTorch (CPU by default)
 ```powershell
 # Use the MSVC build that matches your compiler.
 $libtorchUrl = "https://download.pytorch.org/libtorch/nightly/cpu/libtorch-win-shared-with-deps-latest.zip"
@@ -106,43 +94,21 @@ CPU builds require no CUDA toolkit. If you want CUDA, pick a LibTorch CUDA build
 that matches your installed CUDA version (from the PyTorch selector) and update
 the URL accordingly.
 
-#### SFML (via vcpkg)
+#### Windows SFML (via vcpkg)
 ```powershell
 git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
 C:\vcpkg\bootstrap-vcpkg.bat
 C:\vcpkg\vcpkg install sfml
 ```
 
-#### CUDA Toolkit (optional)
-```powershell
-# Run the NVIDIA installer you downloaded
-cuda_<version>_windows.exe -s
-```
-
-#### Python 3
-```powershell
-# Run the Python installer you downloaded
-.\python-3.x.x-amd64.exe /passive InstallAllUsers=1 PrependPath=1 Include_launcher=1
-```
-
-#### Poetry
-```powershell
-python -m pip install --user poetry
-```
 
 #### Windows PATH (if needed)
 ```powershell
-# CMake (if installed as a zip or MSI without PATH)
-setx PATH "$env:PATH;C:\Program Files\CMake\bin"
-
 # LibTorch runtime DLLs (for local runs)
 setx PATH "$env:PATH;C:\libtorch\libtorch\lib"
 
 # SFML runtime DLLs (if not bundled)
 setx PATH "$env:PATH;C:\path\to\SFML\bin"
-
-# CUDA (optional)
-setx PATH "$env:PATH;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin"
 ```
 
 ## Version compatibility
@@ -201,6 +167,31 @@ cmake --build selfplay/build
 - MSVC (Visual Studio 2019+)
 - SFML 2.5+ (set `SFML_DIR` or `SFML_BIN_DIR`)
 - Inno Setup (`iscc.exe` on PATH) if you want the installer
+
+#### Build and run from source (Windows)
+```powershell
+# from repo root
+$env:SFML_DIR="C:\path\to\SFML\lib\cmake\SFML"
+$env:LIBTORCH_DIR="C:\libtorch\libtorch"
+cmake -S . -B build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
+cmake --build build --config Release
+.\build\Release\hex_ui.exe
+```
+
+#### Build and run self-play (Windows)
+```powershell
+cmake -S selfplay -B selfplay/build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
+cmake --build selfplay/build --config Release
+.\selfplay\build\Release\selfplay.exe `
+  --selfplay-train `
+  --export-ts `
+  --train-games 200 `
+  --min-depth 10 `
+  --max-depth 20 `
+  --batch-size 256 `
+  --updates-per-game 1 `
+  --device cuda
+```
 
 #### Build + installer (CPU)
 ```powershell
