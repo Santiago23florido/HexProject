@@ -41,8 +41,10 @@ ls $HOME/libtorch/share/cmake/Torch
 \paragraph{T\'el\'echargement (CPU par d\'efaut)}
 \begin{verbatim}
 wget https://download.pytorch.org/libtorch/\
-nightly/cpu/libtorch-shared-with-deps-latest.zip
-unzip libtorch-shared-with-deps-latest.zip
+nightly/cpu/libtorch-shared-with-deps-latest.zip \
+  -O libtorch-cpu.zip
+unzip libtorch-cpu.zip
+mv libtorch $HOME/libtorch
 \end{verbatim}
 Pour CUDA, t\'el\'echarger la version compatible avec votre toolkit depuis
 \texttt{https://pytorch.org/get-started/locally/}.
