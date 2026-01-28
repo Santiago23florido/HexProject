@@ -1,3 +1,32 @@
+# --- Build & Binaries ---
+build/
+bin/
+obj/
+*.exe
+*.out
+*.app
+*.AppImage
+
+# --- IDEs & Editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Python / Virtual Envs ---
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# --- Libraries & Temp Files ---
+LibTorch/
+external/
+*.log
+*.tmp
+
+# --- Project Legacy Content (Optional) ---
 /dist/
 /tools/
 tools/
