@@ -151,3 +151,20 @@ cmake --build selfplay/build
   --updates-per-game 1 \
   --device cuda
 \end{verbatim}
+
+\subsection{Fast-installation (Linux, gameplay only)}
+\paragraph{Telechargement}
+\begin{verbatim}
+gdown --fuzzy \
+  "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \
+  -O HexProject-CPU-x86_64.AppImage
+\end{verbatim}
+\paragraph{Verification}
+\begin{verbatim}
+file HexProject-CPU-x86_64.AppImage
+\end{verbatim}
+\paragraph{Execution}
+\begin{verbatim}
+chmod +x HexProject-CPU-x86_64.AppImage
+./HexProject-CPU-x86_64.AppImage
+\end{verbatim}
