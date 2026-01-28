@@ -3,20 +3,20 @@ On inclut dans cette section ce qui concerne l’entraînement avec reinforcemen
 
 \begin{table}[h]
 \centering
-\begin{tabular}{p{0.55\columnwidth}}
+\begin{tabular}{p{0.28\columnwidth} p{0.64\columnwidth}}
 \hline
-Classe / structure \\
+Classe / structure & Description \\
 \hline
-RLTrainer \\
-RLConfig \\
-ReplayBuffer \\
-ReplaySample \\
-ValueMLP \\
-ValueMLPImpl \\
-DataCollector \\
-Sample \\
-GameRunner \\
-Serializer \\
+RLTrainer (classe) & Orchestration de l’auto-jeu, de l’entraînement et de la persistance (checkpoints/exports). \\
+RLConfig (structure) & Paramètres de configuration de l’entraînement et de l’auto-jeu. \\
+ReplayBuffer (classe) & Buffer circulaire d’échantillons avec échantillonnage aléatoire uniforme. \\
+ReplaySample (structure) & Exemple d’entraînement (features + target). \\
+ValueMLP (classe) & Alias/wrapper du module ValueMLPImpl pour l’usage LibTorch. \\
+ValueMLPImpl (classe) & Réseau MLP de valeur; hérite de \texttt{torch::nn::Module}. \\
+DataCollector (classe) & Collecte et agrège les états de parties auto-jouées. \\
+Sample (structure) & Échantillon de jeu (plateau, joueur, résultat, coups restants). \\
+GameRunner (classe) & Lance une partie entre deux stratégies et enregistre les états. \\
+Serializer (classe) & Sérialise les samples en JSON Lines. \\
 \hline
 \end{tabular}
 \caption{Panorama des classes et structures du module selfplay.}

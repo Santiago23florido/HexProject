@@ -10,11 +10,13 @@
 #include <string>
 #include <stdexcept>
 
-#include "RLTrainer.hpp"
-#include "DataCollector.hpp"
-#include "GameRunner.hpp"
+#include "mlp/RLTrainer.hpp"
+#include "gnn/DataCollector.hpp"
+#include "gnn/GameRunner.hpp"
 #include "core/MoveStrategy.hpp"
-#include "Serializer.hpp"
+#include "gnn/Serializer.hpp"
+
+// CLI entry point for self-play data generation and RL training.
 
 namespace {
 

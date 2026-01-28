@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include "core/Cube.hpp"
 
+// Builds Hex graphs and updates dynamic features for model inference.
+
 Graph buildHexGraph(int N, bool addBorderSuperNodes) {
     Graph g;
     g.N = N;
@@ -146,6 +148,7 @@ Graph buildHexGraph(int N, bool addBorderSuperNodes) {
 }
 
 void fillFeatures(Graph& g, const Board& board) {
+    // Only occupancy fields are updated; static features remain unchanged.
     const int N = board.N;
     const int total = std::min(static_cast<int>(g.features.size()), N * N);
     for (int idx = 0; idx < total; ++idx) {
@@ -162,6 +165,7 @@ void fillFeatures(Graph& g, const Board& board) {
 }
 
 void fillFeatures(Graph& g, const GameState& state) {
+    // Only occupancy fields are updated; static features remain unchanged.
     const auto linear = state.LinearBoard();
     const int N = static_cast<int>(std::sqrt(linear.size()));
     const int total = std::min(static_cast<int>(g.features.size()), N * N);

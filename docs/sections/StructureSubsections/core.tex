@@ -4,20 +4,23 @@ strategies de decision.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{p{0.30\columnwidth} p{0.62\columnwidth}}
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.21\columnwidth} p{0.30\columnwidth} p{0.38\columnwidth}@{}}
 \hline
-Classe & Derivees directes / specialisations \\
+Classe & Derivees directes /\\ specialisations & Description \\
 \hline
-Board & Aucune \\
-GameState & Aucune \\
-Cube & Aucune \\
-Player & HumanPlayer, AIPlayer, HybridPlayer \\
-IMoveStrategy & RandomStrategy, MonteCarloStrategy, NegamaxStrategy \\
-NegamaxStrategy & NegamaxHeuristicStrategy, NegamaxGnnStrategy \\
-Zobrist & Aucune \\
+Board (classe) &  & Représentation et manipulation du plateau de jeu. \\
+GameState (classe) &  & État courant du jeu et détection du gagnant. \\
+Cube (classe) &  & Coordonnées cubiques pour les positions hexagonales. \\
+Player (classe) & HumanPlayer, AIPlayer, HybridPlayer & Joueur de base et identité. \\
+IMoveStrategy (classe) & RandomStrategy, MonteCarloStrategy, NegamaxStrategy & Interface de sélection de coups. \\
+NegamaxStrategy (classe) & NegamaxHeuristicStrategy, NegamaxGnnStrategy & Stratégie Negamax avec évaluation et recherche. \\
+Zobrist (classe) &  & Hashing du plateau pour tables de transposition. \\
 \hline
 
 \end{tabular}
+}
 \caption{Panorama des classes module core.}
 \end{table}
 

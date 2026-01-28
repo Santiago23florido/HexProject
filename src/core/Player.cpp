@@ -5,6 +5,8 @@
 #include <cmath>
 #include <stdexcept>
 
+// Implements human, AI, and hybrid player behaviors.
+
 // Clone to a simple random strategy when a strategy exists
 static std::unique_ptr<IMoveStrategy> CloneStrategy(const std::unique_ptr<IMoveStrategy>& s) {
     return s ? std::make_unique<RandomStrategy>() : nullptr;

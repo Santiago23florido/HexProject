@@ -202,7 +202,7 @@ CMakeFiles/selfplay.dir/main.cpp.o: \
  /usr/include/c++/13/bits/random.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
  /usr/include/c++/13/bits/random.tcc \
- /home/santiago/IN204/HexProject/selfplay/RLTrainer.hpp \
+ /home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.hpp \
  /usr/include/c++/13/array /usr/include/c++/13/compare \
  /usr/include/c++/13/mutex /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h \
@@ -4982,8 +4982,8 @@ CMakeFiles/selfplay.dir/main.cpp.o: \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/special.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/version.h \
  /home/santiago/libtorch/include/torch/csrc/api/include/torch/xpu.h \
- /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.hpp \
- /home/santiago/IN204/HexProject/selfplay/ValueMLP.hpp \
+ /home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.hpp \
+ /home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/core/MoveStrategy.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/core/GameState.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/core/Board.hpp \
@@ -4991,6 +4991,6 @@ CMakeFiles/selfplay.dir/main.cpp.o: \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/FeatureExtractor.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/Graph.hpp \
  /home/santiago/IN204/HexProject/selfplay/../include/gnn/GNNModel.hpp \
- /home/santiago/IN204/HexProject/selfplay/DataCollector.hpp \
- /home/santiago/IN204/HexProject/selfplay/GameRunner.hpp \
- /home/santiago/IN204/HexProject/selfplay/Serializer.hpp
+ /home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.hpp \
+ /home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.hpp \
+ /home/santiago/IN204/HexProject/selfplay/gnn/Serializer.hpp

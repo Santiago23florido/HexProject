@@ -4,17 +4,20 @@ Dans cette section on inclut les éléments liés à la représentation en graph
 
 \begin{table}[h]
 \centering
-\begin{tabular}{p{0.55\columnwidth}}
+{\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.21\columnwidth} p{0.30\columnwidth} p{0.38\columnwidth}@{}}
 \hline
-Classe \\
+Classe & Derivees directes /\\ specialisations & Description \\
 \hline
-Graph \\
-NodeFeatures \\
-FeatureBatch \\
-FeatureExtractor \\
-GNNModel \\
+Graph (structure) &  & Graphe du plateau (adjacences, features, super-nœuds). \\
+NodeFeatures (structure) &  & Vecteur de features par nœud (pions, bords, distances, joueur). \\
+FeatureBatch (structure) &  & Tenseurs aplatis prêts pour l’évaluation GNN/MLP. \\
+FeatureExtractor (classe) &  & Construit le graphe et produit les batches (cache par taille). \\
+GNNModel (classe) &  & Wrapper TorchScript pour évaluer un modèle GNN/MLP. \\
 \hline
 \end{tabular}
+}
 \caption{Panorama des classes du module gnn.}
 \end{table}
 
