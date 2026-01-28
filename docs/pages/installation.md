@@ -113,7 +113,7 @@ C:\vcpkg\vcpkg install sfml
 
 
 #### Windows PATH (if needed)
-Nota: ajusta las rutas segun donde hayas instalado LibTorch y SFML.
+Note: adjust the paths based on where you installed LibTorch and SFML.
 ```powershell
 # LibTorch runtime DLLs (for local runs)
 setx PATH "$env:PATH;C:\libtorch\libtorch\lib"
@@ -133,7 +133,7 @@ If a version is incompatible, upgrade/downgrade to the minimums above or pick ma
 ## Installation by OS
 
 #### Linux Add to PATH (if needed)
-Nota: ajusta las rutas segun donde instalaste CMake, CUDA y LibTorch.
+Note: adjust the paths based on where you installed CMake, CUDA, and LibTorch.
 ```bash
 # ~/.bashrc
 export PATH="$HOME/.local/bin:$PATH"     # poetry
@@ -158,7 +158,7 @@ cd build
 ## Windows
 ```powershell
 # from repo root
-# Ajusta estas rutas segun tu instalacion local.
+# Adjust these paths for your local installation.
 $env:SFML_DIR="C:\path\to\SFML\lib\cmake\SFML"
 $env:LIBTORCH_DIR="C:\libtorch\libtorch"
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
