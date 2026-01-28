@@ -26,6 +26,23 @@ endif()
 
 # ==== Find Torch (libtorch) ====
 find_package(Torch REQUIRED)
+find_package(CUDAToolkit QUIET)
+
+set(SELFPLAY_HAS_CUDA OFF)
+if(CUDAToolkit_FOUND)
+    set(TORCH_HAS_CUDA OFF)
+    if(DEFINED TORCH_CUDA_LIBRARIES AND TORCH_CUDA_LIBRARIES)
+        set(TORCH_HAS_CUDA ON)
+    elseif(DEFINED TORCH_LIBRARY)
+        get_filename_component(TORCH_LIB_DIR "${TORCH_LIBRARY}" DIRECTORY)
+        if(EXISTS "${TORCH_LIB_DIR}/libc10_cuda.so" OR EXISTS "${TORCH_LIB_DIR}/libtorch_cuda.so")
+            set(TORCH_HAS_CUDA ON)
+        endif()
+    endif()
+    if(TORCH_HAS_CUDA)
+        set(SELFPLAY_HAS_CUDA ON)
+    endif()
+endif()
 
 # ==== Selfplay executable ====
 add_executable(selfplay
@@ -61,6 +78,9 @@ target_compile_definitions(selfplay PRIVATE SELFPLAY_ROOT_DIR="${ROOT_DIR}")
 
 # Define USE_TORCH so #ifdef USE_TORCH code is enabled
 target_compile_definitions(selfplay PRIVATE USE_TORCH)
+if(SELFPLAY_HAS_CUDA)
+    target_compile_definitions(selfplay PRIVATE SELFPLAY_HAS_CUDA)
+endif()
 
 # ==== RPATH so the binary can find libtorch .so files at runtime ====
 set_target_properties(selfplay PROPERTIES
