@@ -1,5 +1,6 @@
 # --- Build & Binaries ---
 build/
+selfplay/build/
 bin/
 obj/
 *.exe

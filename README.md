@@ -53,7 +53,6 @@ Documentation map:
 
 ### Game UI
 ```bash
-rm -rf build
 cmake -S . -B build
 cmake --build build
 cd build
@@ -64,7 +63,6 @@ cd build
 
 ### Self-play training (MLP value model)
 ```bash
-rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 

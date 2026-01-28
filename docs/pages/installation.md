@@ -104,13 +104,6 @@ CPU builds require no CUDA toolkit. If you want CUDA, pick a LibTorch CUDA build
 that matches your installed CUDA version (from the PyTorch selector) and update
 the URL accordingly.
 
-#### Windows SFML (via vcpkg)
-```powershell
-git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
-C:\vcpkg\bootstrap-vcpkg.bat
-C:\vcpkg\vcpkg install sfml
-```
-
 
 #### Windows PATH (if needed)
 Note: adjust the paths based on where you installed LibTorch and SFML.
@@ -149,7 +142,6 @@ source ~/.bashrc
 
 #### Linux
 ```bash
-rm -rf build
 cmake -S . -B build
 cmake --build build
 cd build
@@ -163,7 +155,8 @@ $env:SFML_DIR="C:\path\to\SFML\lib\cmake\SFML"
 $env:LIBTORCH_DIR="C:\libtorch\libtorch"
 cmake -S . -B build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
 cmake --build build --config Release
-cd \build\Release
+cd build
+cd Release
 .\hex_ui.exe
 ```
 
@@ -171,7 +164,6 @@ cd \build\Release
 #### Linux
 
 ```bash
-rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 
