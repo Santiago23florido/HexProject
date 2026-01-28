@@ -4,48 +4,38 @@ Hex is a two-player abstract strategy game with perfect information and no chanc
 
 Installation guide: [docs/pages/installation.md](docs/pages/installation.md)
 
-## Windows prerequisites (PowerShell equivalents)
-### CMake (download the MSI first)
-```powershell
-msiexec /i cmake-<version>-windows-x86_64.msi /qn
+## Fast-play (no build)
+### WSL (Ubuntu)
+Requires WSL with Ubuntu 24.04.3 LTS or newer.
+Check with `lsb_release -a`.
+
+#### Download
+```bash
+sudo apt-get update
+sudo apt-get install -y python3 python3-venv python3-pip
+python3 -m venv .venv
+source .venv/bin/activate
+pip install gdown
+gdown --fuzzy \
+  "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \
+  -O HexProject-CPU-x86_64.AppImage
 ```
 
-### C++ compiler (MSVC Build Tools)
-```powershell
-# Run from the folder that contains vs_BuildTools.exe
-.\vs_BuildTools.exe --quiet --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
+#### Verify
+```bash
+file HexProject-CPU-x86_64.AppImage
 ```
 
-### LibTorch (download URL from the PyTorch selector)
-```powershell
-$libtorchUrl = "<URL from PyTorch selector>"
-Invoke-WebRequest $libtorchUrl -OutFile "$env:TEMP\libtorch.zip"
-Expand-Archive "$env:TEMP\libtorch.zip" -DestinationPath "C:\libtorch" -Force
-setx CMAKE_PREFIX_PATH "C:\libtorch\libtorch"
+#### Run
+```bash
+chmod +x HexProject-CPU-x86_64.AppImage
+./HexProject-CPU-x86_64.AppImage
 ```
 
-### SFML (via vcpkg)
-```powershell
-git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
-C:\vcpkg\bootstrap-vcpkg.bat
-C:\vcpkg\vcpkg install sfml
+### Windows (gameplay only)
+Open the link, download, and run the installer:
 ```
-
-### CUDA Toolkit (optional)
-```powershell
-# Run the NVIDIA installer you downloaded
-cuda_<version>_windows.exe -s
-```
-
-### Python 3
-```powershell
-# Run the Python installer you downloaded
-.\python-3.x.x-amd64.exe /passive InstallAllUsers=1 PrependPath=1 Include_launcher=1
-```
-
-### Poetry
-```powershell
-python -m pip install --user poetry
+https://drive.google.com/file/d/1XExLIMiUIn2Q0FxtC6UjaX-f9eCW9wgK/view?usp=drive_link
 ```
 
 Documentation map:

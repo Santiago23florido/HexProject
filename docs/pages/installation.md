@@ -85,7 +85,7 @@ poetry --version
 ### Windows equivalents (PowerShell)
 #### CMake (download the MSI first)
 ```powershell
-msiexec /i cmake-<version>-windows-x86_64.msi /qn
+msiexec /i cmake-3.27.9-windows-x86_64.msi /qn
 ```
 
 #### C++ compiler (MSVC Build Tools)
