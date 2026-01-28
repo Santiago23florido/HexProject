@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1769565040.21427 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769565040.59921 0
+["pdflatex"] 1769594750.23151 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769594750.90536 0
   "/etc/texmf/web2c/texmf.cnf" 1762418151.39241 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/santiago/IN204/HexProject/docs/hex.tex" 1769560691.92254 2085 7140ddfc2aefdd0adae9b364d208344e ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -51,15 +51,15 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1762418170.6716 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1762418224 8214723 66b18d21e2ef1ecd23d5c483e8c60b4e ""
-  "hex.aux" 1769565040.56303 4985 2d91da423028a25a4b406a4d6f6845ff "pdflatex"
+  "hex.aux" 1769594750.84368 5591 234d5d25e3b6334119ebb73da7124caa "pdflatex"
   "hex.tex" 1769560691.92254 2085 7140ddfc2aefdd0adae9b364d208344e ""
-  "sections/ProjectStructure.tex" 1769548384.48862 2413 8e0cba68d83ca8f22dae1d515a9a26e3 ""
-  "sections/StructureSubsections/core.tex" 1769545140.68073 9253 02d660962e64f9c02562d3fb8590848a ""
-  "sections/StructureSubsections/gnn.tex" 1769545266.36194 3388 e962a2345d7de9b337d8b0902281e3b5 ""
-  "sections/StructureSubsections/selfplay.tex" 1769544620.17035 4457 be253a6a7f70b5147061e0364d22b323 ""
-  "sections/install.tex" 1769565039.36314 4586 22db4e4562daa44b025aaff2daed54a2 ""
+  "sections/ProjectStructure.tex" 1769565654.43595 2413 8e0cba68d83ca8f22dae1d515a9a26e3 ""
+  "sections/StructureSubsections/core.tex" 1769565654.43595 9253 02d660962e64f9c02562d3fb8590848a ""
+  "sections/StructureSubsections/gnn.tex" 1769565654.43595 3388 e962a2345d7de9b337d8b0902281e3b5 ""
+  "sections/StructureSubsections/selfplay.tex" 1769565654.43595 4457 be253a6a7f70b5147061e0364d22b323 ""
+  "sections/install.tex" 1769594749.04866 5324 f7e67ed5f6690671c6be5606101ed597 ""
   "sections/introduction.tex" 1769271427.7355 2625 8d88d86af9d459fa9fc9357b8ba6f5e3 ""
-  "sections/poo.tex" 1769546856.58244 6206 23418df498fb36bc4e6ae7ff49a84bed ""
+  "sections/poo.tex" 1769565654.43595 6206 23418df498fb36bc4e6ae7ff49a84bed ""
   (generated)
   "hex.aux"
   "hex.log"
