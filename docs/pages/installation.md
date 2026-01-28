@@ -157,6 +157,18 @@ chmod +x HexProject-CPU-x86_64.AppImage
 ./HexProject-CPU-x86_64.AppImage
 ```
 
+### Audio (WSL)
+If you have audio issues on WSL, run:
+```bash
+sudo apt update && sudo apt install -y \
+  libasound2t64 \
+  libopenal1 \
+  pulseaudio \
+  libvorbisfile3 \
+  libsndfile1
+```
+Then launch the game again.
+
 ### Windows (gameplay only)
 Open the link, download, and run the installer.
 ```

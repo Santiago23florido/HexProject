@@ -178,6 +178,17 @@ file HexProject-CPU-x86_64.AppImage
 chmod +x HexProject-CPU-x86_64.AppImage
 ./HexProject-CPU-x86_64.AppImage
 \end{verbatim}
+\paragraph{Audio (WSL)}
+Si vous avez des probl\`emes de son sous WSL, ex\'ecuter :
+\begin{verbatim}
+sudo apt update && sudo apt install -y \
+  libasound2t64 \
+  libopenal1 \
+  pulseaudio \
+  libvorbisfile3 \
+  libsndfile1
+\end{verbatim}
+Puis relancer le jeu.
 
 \paragraph{Windows (gameplay only)}
 Ouvrir le lien, t\'el\'echarger, puis lancer
