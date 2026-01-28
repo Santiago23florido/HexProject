@@ -19,7 +19,7 @@ function Ensure-LibTorchCpu {
   $toolsDir = Join-Path $Root "tools"
   New-Item -ItemType Directory -Path $toolsDir -Force | Out-Null
   $zipPath = Join-Path $toolsDir "libtorch-cpu.zip"
-  $url = "https://download.pytorch.org/libtorch/nightly/cpu/libtorch-shared-with-deps-latest.zip"
+  $url = "https://download.pytorch.org/libtorch/nightly/cpu/libtorch-win-shared-with-deps-latest.zip"
   Write-Host "Downloading LibTorch CPU..."
   Invoke-WebRequest $url -OutFile $zipPath
   if (Test-Path (Join-Path $toolsDir "libtorch")) {
