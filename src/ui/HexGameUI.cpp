@@ -3018,9 +3018,9 @@ void HexGameUI::saveVolumeConfig() {
     try {
         // Create config directory if it doesn't exist
         const char* configDir = "../config";
-        struct stat st = {};
-        if (stat(configDir, &st) == -1) {
-            mkdir(configDir, 0755);
+        namespace fs = std::filesystem;
+        if (!fs::exists(configDir)) {
+            fs::create_directories(configDir);
         }
         
         std::ofstream configFile(kConfigFilePath);
