@@ -179,10 +179,11 @@ cmake --build build --config Release
 ```
 
 #### Build and run self-play (Windows)
+PowerShell:
 ```powershell
 cmake -S selfplay -B selfplay/build -DCMAKE_PREFIX_PATH="$env:LIBTORCH_DIR"
 cmake --build selfplay/build --config Release
-.\selfplay\build\Release\selfplay.exe `
+& .\selfplay\build\Release\selfplay.exe `
   --selfplay-train `
   --export-ts `
   --train-games 200 `
@@ -191,6 +192,13 @@ cmake --build selfplay/build --config Release
   --batch-size 256 `
   --updates-per-game 1 `
   --device cuda
+```
+
+CMD (one line):
+```bat
+cmake -S selfplay -B selfplay/build -DCMAKE_PREFIX_PATH="C:\libtorch\libtorch"
+cmake --build selfplay/build --config Release
+.\selfplay\build\Release\selfplay.exe --selfplay-train --export-ts --train-games 200 --min-depth 10 --max-depth 20 --batch-size 256 --updates-per-game 1 --device cuda
 ```
 
 #### Build + installer (CPU)
