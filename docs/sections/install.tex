@@ -111,7 +111,10 @@ Poetry : \texttt{python3 -m pip install --user poetry}.
 \end{itemize}
 Si une version n'est pas compatible, mettre a jour vers la version minimale ci-dessus ou choisir un binaire correspondant.
 
-\subsection{Linux : ajout au PATH (si n\'ecessaire)}
+\subsection{Installation par OS}
+
+\subsubsection{Linux}
+\paragraph{Ajout au PATH (si n\'ecessaire)}
 \begin{verbatim}
 # ~/.bashrc
 # poetry
@@ -127,7 +130,7 @@ $LD_LIBRARY_PATH"
 source ~/.bashrc
 \end{verbatim}
 
-\subsection{Compilation et execution du jeu}
+\paragraph{Compilation et execution du jeu}
 \begin{verbatim}
 rm -rf build
 cmake -S . -B build
@@ -136,7 +139,7 @@ cd build
 ./hex_ui
 \end{verbatim}
 
-\subsection{Compilation et execution du selfplay}
+\paragraph{Compilation et execution du selfplay}
 \begin{verbatim}
 rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
@@ -151,6 +154,26 @@ cmake --build selfplay/build
   --updates-per-game 1 \
   --device cuda
 \end{verbatim}
+
+\subsubsection{Windows}
+\paragraph{Pr\'erequis}
+\begin{itemize}
+\item CMake 3.18+.
+\item MSVC (Visual Studio 2019+).
+\item SFML 2.5+ (d\'efinir \texttt{SFML\_DIR} ou \texttt{SFML\_BIN\_DIR}).
+\item Inno Setup (\texttt{iscc.exe} dans le PATH) pour g\'en\'erer l'installateur.
+\end{itemize}
+
+\paragraph{Build + installateur (CPU)}
+\begin{verbatim}
+# PowerShell depuis la racine du repo
+# optionnel : definir LIBTORCH_DIR
+$env:SFML_DIR="C:\path\to\SFML"
+# optionnel : $env:SFML_BIN_DIR="C:\path\to\SFML\bin"
+.\scripts\package_windows_cpu.ps1
+\end{verbatim}
+Le script t\'el\'echarge LibTorch CPU si besoin, compile en Release,
+pr\'epare les assets, copie les DLL et lance Inno Setup.
 
 \subsection{Fast-installation (Linux, gameplay only)}
 \paragraph{WSL (Ubuntu)}

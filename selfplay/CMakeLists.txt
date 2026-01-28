@@ -99,3 +99,29 @@ set_target_properties(selfplay PROPERTIES
     BUILD_RPATH "$ENV{HOME}/libtorch/lib"
     INSTALL_RPATH "$ENV{HOME}/libtorch/lib"
 )
+
+# ==== Windows: copy libtorch runtime DLLs next to the executable ====
+if(WIN32)
+    if(NOT TORCH_LIB_DIR)
+        if(DEFINED TORCH_LIBRARY)
+            get_filename_component(TORCH_LIB_DIR "${TORCH_LIBRARY}" DIRECTORY)
+        elseif(DEFINED Torch_DIR)
+            get_filename_component(TORCH_PREFIX "${Torch_DIR}/../../.." ABSOLUTE)
+            set(TORCH_LIB_DIR "${TORCH_PREFIX}/lib")
+        endif()
+    endif()
+
+    set(_runtime_dlls "")
+    if(TORCH_LIB_DIR AND EXISTS "${TORCH_LIB_DIR}")
+        file(GLOB _torch_dlls LIST_DIRECTORIES false "${TORCH_LIB_DIR}/*.dll")
+        list(APPEND _runtime_dlls ${_torch_dlls})
+    endif()
+
+    if(_runtime_dlls)
+        add_custom_command(TARGET selfplay POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${_runtime_dlls}
+            $<TARGET_FILE_DIR:selfplay>
+        )
+    endif()
+endif()
