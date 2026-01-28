@@ -45,11 +45,7 @@ For CUDA, download a build that matches your toolkit version from the PyTorch se
 ### Configure CMake
 ```bash
 export Torch_DIR="$HOME/libtorch/share/cmake/Torch"
-# or
-export CMAKE_PREFIX_PATH="$HOME/libtorch"
 
-cmake -S . -B build \
-  -DCMAKE_PREFIX_PATH="$HOME/libtorch"
 ```
 
 ### Runtime loader path (if needed)
@@ -120,12 +116,7 @@ cd build
 ```bash
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
-./selfplay/build/selfplay \
-  <games> <minDepth> \
-  <maxDepth> <outputPath> \
-  <minPairs> <maxPairs> \
-  <timeLimitMs>
-# or training/export:
+
 ./selfplay/build/selfplay \
   --selfplay-train \
   --export-ts \
