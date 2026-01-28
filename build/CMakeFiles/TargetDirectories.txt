@@ -1,5 +1,0 @@
-/home/santiago/IN204/HexProject/build/CMakeFiles/hex_core.dir
-/home/santiago/IN204/HexProject/build/CMakeFiles/hex.dir
-/home/santiago/IN204/HexProject/build/CMakeFiles/hex_ui.dir
-/home/santiago/IN204/HexProject/build/CMakeFiles/edit_cache.dir
-/home/santiago/IN204/HexProject/build/CMakeFiles/rebuild_cache.dir
