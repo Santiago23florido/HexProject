@@ -8,13 +8,17 @@
 #include <cctype>
 #include <cmath>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <memory>
 #include <random>
+#include <sys/stat.h>
 #include <thread>
 #include <torch/torch.h>
 #include <cuda_runtime.h>
+
+// Implements the SFML UI flow, assets, and interactions for Hex gameplay.
 
 constexpr float kWindowMargin = 24.0f;
 constexpr sf::Uint8 kHoverAlpha = 180;
@@ -42,8 +46,7 @@ constexpr float kVictoryImageScaleStart = 0.92f;
 constexpr float kVictoryImageScaleEnd = 1.0f;
 constexpr float kHelpFrameDelaySeconds = 1.0f;
 constexpr float kHelpFrameDelayLastSeconds = 2.0f;
-constexpr float kMusicVolume = 50.0f;
-constexpr float kSfxVolume = 80.0f;
+const std::string kConfigFilePath = "../config/volume_config.txt";
 
 HexGameUI::Tile::Tile(
     const sf::Texture& texture,
@@ -131,6 +134,7 @@ HexGameUI::HexGameUI(
     }
 
     buildLayout();
+    loadVolumeConfig();  // Load saved volume settings
     updateTileColors();
     if (baseWindowSize_.x == 0 || baseWindowSize_.y == 0) {
         baseWindowSize_ = windowSize_;
@@ -287,6 +291,105 @@ bool HexGameUI::loadStartScreenTextures() {
         return false;
     }
     settingsButtonSprite_.setTexture(settingsButtonTexture_);
+    
+    // Load settings menu texture and buttons
+    if (!settingsMenuTexture_.loadFromFile("../assets/settings_menu_short_hd.png")) {
+        error_ = "Failed to load settings menu texture.";
+        return false;
+    }
+    settingsMenuSprite_.setTexture(settingsMenuTexture_);
+    
+    if (!videoButtonTexture_.loadFromFile("../assets/video_button.png")) {
+        error_ = "Failed to load video button texture.";
+        return false;
+    }
+    videoButtonSprite_.setTexture(videoButtonTexture_);
+    
+    if (!audioButtonTexture_.loadFromFile("../assets/audio_button.png")) {
+        error_ = "Failed to load audio button texture.";
+        return false;
+    }
+    audioButtonSprite_.setTexture(audioButtonTexture_);
+    
+    if (!creditsButtonTexture_.loadFromFile("../assets/credits_button.png")) {
+        error_ = "Failed to load credits button texture.";
+        return false;
+    }
+    creditsButtonSprite_.setTexture(creditsButtonTexture_); 
+    
+    if (!settingsBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
+        error_ = "Failed to load settings back button texture.";
+        return false;
+    }
+    settingsBackButtonSprite_.setTexture(settingsBackButtonTexture_);
+    
+    // Load video menu texture
+    if (!videoMenuTexture_.loadFromFile("../assets/video_menu_hd.png")) {
+        error_ = "Failed to load video menu texture.";
+        return false;
+    }
+    videoMenuSprite_.setTexture(videoMenuTexture_);
+    
+    // Load audio menu texture
+    if (!audioMenuTexture_.loadFromFile("../assets/audio_menu_hd.png")) {
+        error_ = "Failed to load audio menu texture.";
+        return false;
+    }
+    audioMenuSprite_.setTexture(audioMenuTexture_);
+    
+    // Load credits menu texture
+    if (!creditsMenuTexture_.loadFromFile("../assets/credits_menu.png")) {
+        error_ = "Failed to load credits menu texture.";
+        return false;
+    }
+    creditsMenuSprite_.setTexture(creditsMenuTexture_);
+    
+    // Load volume icon textures (vol0.png to vol3.png)
+    volumeIconTextures_.resize(4);
+    for (int i = 0; i < 4; ++i) {
+        std::string volumePath = "../assets/vol" + std::to_string(i) + ".png";
+        if (!volumeIconTextures_[i].loadFromFile(volumePath)) {
+            error_ = "Failed to load volume icon " + std::to_string(i) + " texture.";
+            return false;
+        }
+    }
+    // Initialize volume icon sprites
+    volumeIconSprites_.resize(3);
+    for (int i = 0; i < 3; ++i) {
+        volumeIconSprites_[i].setTexture(volumeIconTextures_[3]);  // Start with vol3
+    }
+    
+    // Load slider handle texture
+    if (!sliderHandleTexture_.loadFromFile("../assets/circle_white.png")) {
+        error_ = "Failed to load slider handle texture.";
+        return false;
+    }
+    
+    // Load volume label textures
+    if (!masterVolumeLabelTexture_.loadFromFile("../assets/master_volume.png")) {
+        error_ = "Failed to load master volume label texture.";
+        return false;
+    }
+    masterVolumeLabelSprite_.setTexture(masterVolumeLabelTexture_);
+    
+    if (!musicVolumeLabelTexture_.loadFromFile("../assets/music_volume.png")) {
+        error_ = "Failed to load music volume label texture.";
+        return false;
+    }
+    musicVolumeLabelSprite_.setTexture(musicVolumeLabelTexture_);
+    
+    if (!effectsVolumeLabelTexture_.loadFromFile("../assets/effects_volume.png")) {
+        error_ = "Failed to load effects volume label texture.";
+        return false;
+    }
+    effectsVolumeLabelSprite_.setTexture(effectsVolumeLabelTexture_);
+    
+    // Load submenu back button texture (same as main back button)
+    if (!submenuBackButtonTexture_.loadFromFile("../assets/back_button.png")) {
+        error_ = "Failed to load submenu back button texture.";
+        return false;
+    }
+    submenuBackButtonSprite_.setTexture(submenuBackButtonTexture_);
 
     startFontLoaded_ = startFont_.loadFromFile("../assets/DejaVuSans.ttf");
     if (!startFontLoaded_) {
@@ -324,7 +427,8 @@ bool HexGameUI::loadStartScreenTextures() {
     boardSizeText_.setFillColor(sf::Color::White);
     updateBoardSizeText();
 
-    
+    /*
+    // Hardware info (commented for future use)
     hardwareInfoText_.setFont(startFont_);
     hardwareInfoText_.setCharacterSize(static_cast<unsigned int>(10 * scaleFactor_));
     hardwareInfoText_.setFillColor(sf::Color(180, 180, 180));
@@ -349,6 +453,7 @@ bool HexGameUI::loadStartScreenTextures() {
     } else {
         hardwareInfoText_.setString("Hardware: \nCPU (Heuristic mode)");
     }
+    */
 
     return true;
 }
@@ -608,7 +713,7 @@ bool HexGameUI::loadPauseTextures() {
     }
     pauseSettingsButtonSprite_.setTexture(pauseSettingsButtonTexture_);
 
-    if (!backToMenuTexture_.loadFromFile("../assets/howtoplay/backtomenu.png")) {
+    if (!backToMenuTexture_.loadFromFile("../assets/back_button.png")) {
         error_ = "Failed to load back to menu texture.";
         return false;
     }
@@ -675,10 +780,10 @@ bool HexGameUI::initAudio() {
     
     menuMusic_.setLoop(true); 
     gameMusic_.setLoop(true);
-    menuMusic_.setVolume(kMusicVolume); 
-    gameMusic_.setVolume(kMusicVolume);
-    gameOverSound_.setVolume(kMusicVolume);
-    gameClickSound_.setVolume(kSfxVolume);
+    menuMusic_.setVolume(musicVolume_ * (masterVolume_ / 100.0f)); 
+    gameMusic_.setVolume(musicVolume_ * (masterVolume_ / 100.0f));
+    gameOverSound_.setVolume(musicVolume_ * (masterVolume_ / 100.0f));
+    gameClickSound_.setVolume(sfxVolume_ * (masterVolume_ / 100.0f));
     
     // Add another small delay
     sf::sleep(sf::milliseconds(50));
@@ -763,7 +868,7 @@ void HexGameUI::buildLayout() {
     });
 
     // Setup pause button in top-right corner
-    float buttonSize = std::min(windowSize_.x, windowSize_.y) * 0.24f;
+    float buttonSize = windowSize_.y * 0.24f;
     pauseButtonSprite_.setScale(buttonSize / 1024.0f, buttonSize / 1024.0f);
     pauseButtonSprite_.setPosition(
         windowSize_.x - buttonSize - 15.0f,
@@ -775,7 +880,7 @@ void HexGameUI::buildLayout() {
     pauseMenuOverlay_.setFillColor(sf::Color(0, 0, 0, 150));
 
     // Setup pause menu sprite centered
-    float menuScale = std::min(windowSize_.x * 0.8f / 1024.0f, windowSize_.y * 0.8f / 1024.0f);
+    float menuScale = windowSize_.y * 0.8f / 1024.0f;
     pauseMenuSprite_.setScale(menuScale, menuScale);
     pauseMenuSprite_.setPosition(
         (windowSize_.x - pauseMenuSprite_.getLocalBounds().width * menuScale) * 0.5f,
@@ -827,38 +932,208 @@ void HexGameUI::buildLayout() {
     quitButtonSprite_.setPosition(
         pauseMenuCenterX - quitWidth / 2.0f,
         pauseMenuCenterY + buttonHeight * 2.0f + gap * 2.5f - 12.0f);
-
-    // Setup back-to-menu sprite in top-right corner for help overlay
+    
+    // Setup settings menu (925x1520)
+    float settingsMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    settingsMenuSprite_.setScale(settingsMenuScale, settingsMenuScale);
+    float settingsMenuWidth = 925.0f * settingsMenuScale;
+    float settingsMenuHeight = 1520.0f * settingsMenuScale;
+    settingsMenuSprite_.setPosition(
+        (windowSize_.x - settingsMenuWidth) / 2.0f,
+        (windowSize_.y - settingsMenuHeight) / 2.0f);
+    
+    // Settings menu buttons (all 1792x576)
+    float settingsButtonHeight = windowSize_.y * 0.12f;
+    float settingsButtonScale = settingsButtonHeight / 576.0f;
+    float settingsButtonWidth = 1792.0f * settingsButtonScale;
+    float settingsMenuCenterX = windowSize_.x / 2.0f;
+    float settingsMenuCenterY = windowSize_.y / 2.0f;
+    float settingsGap = 8.0f;  // Reducido de 12.0f a 8.0f (4 píxeles menos)
+    
+    // Calcular altura total de los 4 botones con gaps entre ellos
+    float totalHeight = (4.0f * settingsButtonHeight) + (3.0f * settingsGap);
+    float startY = settingsMenuCenterY - (totalHeight / 2.0f)+10.0f;
+    
+    // Video button
+    videoButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    videoButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        startY);
+    
+    // Audio button
+    audioButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    audioButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        startY + settingsButtonHeight + settingsGap);
+    
+    // Credits button
+    creditsButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    creditsButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        startY + 2.0f * settingsButtonHeight + 2.0f * settingsGap);
+    
+    // Back button
+    settingsBackButtonSprite_.setScale(settingsButtonScale, settingsButtonScale);
+    settingsBackButtonSprite_.setPosition(
+        settingsMenuCenterX - settingsButtonWidth / 2.0f,
+        startY + 3.0f * settingsButtonHeight + 3.0f * settingsGap);
+    
+    // Setup video menu (925x1520)
+    float videoMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    videoMenuSprite_.setScale(videoMenuScale, videoMenuScale);
+    float videoMenuWidth = 925.0f * videoMenuScale;
+    float videoMenuHeight = 1520.0f * videoMenuScale;
+    videoMenuSprite_.setPosition(
+        (windowSize_.x - videoMenuWidth) / 2.0f,
+        (windowSize_.y - videoMenuHeight) / 2.0f);
+    
+    // Setup audio menu (925x1520)
+    float audioMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    audioMenuSprite_.setScale(audioMenuScale, audioMenuScale);
+    float audioMenuWidth = 925.0f * audioMenuScale;
+    float audioMenuHeight = 1520.0f * audioMenuScale;
+    audioMenuSprite_.setPosition(
+        (windowSize_.x - audioMenuWidth) / 2.0f,
+        (windowSize_.y - audioMenuHeight) / 2.0f);
+    
+    // Setup credits menu (925x1520)
+    float creditsMenuScale = (550.0f / 925.0f) * (windowSize_.y * 0.8f / 1024.0f);
+    creditsMenuSprite_.setScale(creditsMenuScale, creditsMenuScale);
+    float creditsMenuWidth = 925.0f * creditsMenuScale;
+    float creditsMenuHeight = 1520.0f * creditsMenuScale;
+    creditsMenuSprite_.setPosition(
+        (windowSize_.x - creditsMenuWidth) / 2.0f,
+        (windowSize_.y - creditsMenuHeight) / 2.0f);
+    
+    // Setup submenu back button at the bottom
+    float submenuBackButtonHeight = windowSize_.y * 0.12f;
+    float submenuBackButtonScale = submenuBackButtonHeight / 576.0f;
+    submenuBackButtonSprite_.setScale(submenuBackButtonScale, submenuBackButtonScale);
+    float submenuBackButtonWidth = 1792.0f * submenuBackButtonScale;
+    submenuBackButtonSprite_.setPosition(
+        settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
+        windowSize_.y - submenuBackButtonHeight - 5.0f);
+    
+    // Setup audio sliders (Master Volume, Music Volume, SFX Volume)
+    float sliderWidth = windowSize_.x * 0.16f; 
+    float sliderHeight = windowSize_.y * 0.02f;  
+    float handleSize = windowSize_.y * 0.04f;   
+    sliderHandleRadius_ = handleSize / 2.0f;
+    float sliderCenterX = windowSize_.x / 2.0f;
+    
+    // Setup volume icon sprites
+    float iconSize = windowSize_.y * 0.05f;
+    for (int i = 0; i < 3; ++i) {
+        volumeIconSprites_[i].setScale(iconSize / volumeIconTextures_[3].getSize().y, 
+                                       iconSize / volumeIconTextures_[3].getSize().y);
+    }
+    
+    // Setup volume label sprites (900x100 images)
+    float labelWidth = windowSize_.x * 0.22f; 
+    float labelHeight = labelWidth / 9.0f; 
+    masterVolumeLabelSprite_.setScale(labelWidth / masterVolumeLabelTexture_.getSize().x, 
+                                      labelHeight / masterVolumeLabelTexture_.getSize().y);
+    musicVolumeLabelSprite_.setScale(labelWidth / musicVolumeLabelTexture_.getSize().x, 
+                                     labelHeight / musicVolumeLabelTexture_.getSize().y);
+    effectsVolumeLabelSprite_.setScale(labelWidth / effectsVolumeLabelTexture_.getSize().x, 
+                                       labelHeight / effectsVolumeLabelTexture_.getSize().y);
+    
+    // Calculate total height needed for all volume controls
+    float volumeItemGap = windowSize_.y * 0.04f;  // Gap between label+slider items (50% reduction)
+    float totalVolumeHeight = 3.0f * (labelHeight + sliderHeight + volumeItemGap) + submenuBackButtonHeight;
+    
+    // Calculate audio menu center
+    float audioMenuCenterY = (windowSize_.y - audioMenuHeight) / 2.0f + audioMenuHeight / 2.0f;
+    
+    // Position all volume controls centered in the audio menu with 10px offset
+    float volumeStartY = audioMenuCenterY - totalVolumeHeight / 2.0f + 10.0f;
+    
+    // Center both icon and slider together as one unit
+    float iconPadding = 6.0f;
+    float totalWidth = iconSize + iconPadding + sliderWidth;
+    float totalCenterX = sliderCenterX - totalWidth / 2.0f;
+    
+    // Master Volume Slider
+    float labelToSliderGap = 4.0f;
+    float masterLabelY = volumeStartY;
+    float masterSliderY = masterLabelY + labelHeight + labelToSliderGap;
+    masterVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, masterLabelY);
+    masterVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    masterVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
+    masterVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    masterVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                         handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[0].setPosition(totalCenterX, masterSliderY + (sliderHeight - iconSize) / 2.0f);
+    masterVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, masterSliderY);
+    masterVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    masterVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    masterVolumeSlider_.value = 100.0f;
+    float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    masterVolumeSlider_.handle.setPosition(masterHandleX, masterSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // Music Volume Slider
+    float musicLabelY = masterSliderY + sliderHeight + volumeItemGap;
+    float musicSliderY = musicLabelY + labelHeight + labelToSliderGap;
+    musicVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, musicLabelY);
+    musicVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    musicVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
+    musicVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    musicVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                        handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[1].setPosition(totalCenterX, musicSliderY + (sliderHeight - iconSize) / 2.0f);
+    musicVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, musicSliderY);
+    musicVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    musicVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    musicVolumeSlider_.value = 50.0f;
+    float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    musicVolumeSlider_.handle.setPosition(musicHandleX, musicSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // SFX Volume Slider
+    float effectsLabelY = musicSliderY + sliderHeight + volumeItemGap;
+    float effectsSliderY = effectsLabelY + labelHeight + labelToSliderGap;
+    effectsVolumeLabelSprite_.setPosition(sliderCenterX - labelWidth / 2.0f, effectsLabelY);
+    sfxVolumeSlider_.background.setSize(sf::Vector2f(sliderWidth, sliderHeight));
+    sfxVolumeSlider_.background.setFillColor(sf::Color(0, 255, 255));  // Cyan color
+    sfxVolumeSlider_.handle.setTexture(sliderHandleTexture_);
+    sfxVolumeSlider_.handle.setScale(handleSize / sliderHandleTexture_.getSize().x, 
+                                      handleSize / sliderHandleTexture_.getSize().y);
+    volumeIconSprites_[2].setPosition(totalCenterX, effectsSliderY + (sliderHeight - iconSize) / 2.0f);
+    sfxVolumeSlider_.background.setPosition(totalCenterX + iconSize + iconPadding, effectsSliderY);
+    sfxVolumeSlider_.minX = totalCenterX + iconSize + iconPadding;
+    sfxVolumeSlider_.maxX = totalCenterX + iconSize + iconPadding + sliderWidth;
+    sfxVolumeSlider_.value = 80.0f;
+    float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+    sfxVolumeSlider_.handle.setPosition(sfxHandleX, effectsSliderY - (handleSize - sliderHeight) / 2.0f);
+    
+    // Position back button below all volume controls
+    submenuBackButtonSprite_.setPosition(
+        settingsMenuCenterX - submenuBackButtonWidth / 2.0f,
+        effectsSliderY + sliderHeight + volumeItemGap);
+    
+    // Setup help frame sprite
+    if (!helpFrameTextures_.empty()) {
+        float helpFrameMaxWidth = windowSize_.x * 0.8f;
+        float helpFrameMaxHeight = windowSize_.y * 0.8f;
+        sf::Vector2u frameSize = helpFrameTextures_.front()->getSize();
+        float helpFrameScale = std::min(helpFrameMaxWidth / frameSize.x, helpFrameMaxHeight / frameSize.y);
+        helpFrameSprite_.setScale(helpFrameScale, helpFrameScale);
+        float helpFrameWidth = frameSize.x * helpFrameScale;
+        float helpFrameHeight = frameSize.y * helpFrameScale;
+        helpFrameSprite_.setPosition(
+            (windowSize_.x - helpFrameWidth) / 2.0f,
+            (windowSize_.y - helpFrameHeight) / 2.0f);
+    }
+    
+    // Setup back to menu button
     if (backToMenuTexture_.getSize().x != 0 && backToMenuTexture_.getSize().y != 0) {
-        const sf::Vector2u backSize = backToMenuTexture_.getSize();
-        const float desiredHeight = std::max(32.0f, windowSize_.y * 0.12f);
-        const float backScale = desiredHeight / static_cast<float>(backSize.y);
-        backToMenuSprite_.setScale(backScale, backScale);
-        const float margin = 12.0f;
+        float backButtonHeight = windowSize_.y * 0.08f;
+        float backButtonScale = backButtonHeight / backToMenuTexture_.getSize().y;
+        backToMenuSprite_.setScale(backButtonScale, backButtonScale);
+        float backButtonWidth = backToMenuTexture_.getSize().x * backButtonScale;
         backToMenuSprite_.setPosition(
-            margin,
-            margin);
+            windowSize_.x - backButtonWidth - 15.0f,
+            15.0f);
     }
-    updateHelpFrameSprite();
-}
-
-void HexGameUI::updateHelpFrameSprite() {
-    if (helpFrameTextures_.empty() || windowSize_.x == 0 || windowSize_.y == 0) {
-        return;
-    }
-    if (helpFrameIndex_ >= helpFrameTextures_.size()) {
-        helpFrameIndex_ = 0;
-    }
-    const sf::Texture& texture = *helpFrameTextures_[helpFrameIndex_];
-    const sf::Vector2u helpSize = texture.getSize();
-    if (helpSize.x == 0 || helpSize.y == 0) {
-        return;
-    }
-    helpFrameSprite_.setTexture(texture, true);
-    const float scaleX = static_cast<float>(windowSize_.x) / helpSize.x;
-    const float scaleY = static_cast<float>(windowSize_.y) / helpSize.y;
-    helpFrameSprite_.setScale(scaleX, scaleY);
-    helpFrameSprite_.setPosition(0.0f, 0.0f);
 }
 
 void HexGameUI::updateTileColors() {
@@ -1120,8 +1395,14 @@ void HexGameUI::updateBoardSizeText() {
     boardSizeText_.setString(std::to_string(boardSize_));
 }
 
+void HexGameUI::updateHelpFrameSprite() {
+    if (!helpFrameTextures_.empty() && helpFrameIndex_ < helpFrameTextures_.size()) {
+        helpFrameSprite_.setTexture(*helpFrameTextures_[helpFrameIndex_]);
+    }
+}
+
 void HexGameUI::applyBoardSize(int newSize) {
-    if (newSize <= 0 || newSize == boardSize_) {
+    if (newSize < 7 || newSize > 20 || newSize == boardSize_) {
         return;
     }
     boardSize_ = newSize;
@@ -1309,8 +1590,7 @@ int HexGameUI::run() {
         
         aiConfigText_.setPosition(menuX + margin, menuY + margin);
 
-        
-        hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );
+        // hardwareInfoText_.setPosition(menuX + margin, menuY + 2*margin );  // Commented for future use
 
         // Settings button is positioned at top-right corner
         float settingsBtnSize = std::min(windowSize_.x, windowSize_.y) * 0.10f;  // 20% smaller
@@ -1588,17 +1868,92 @@ int HexGameUI::run() {
                             showSettingsMenu_ = true;
                         }
                     } else {
-                        
-                        
-                        if (aiConfigBox_.getGlobalBounds().contains(mousePos)) {
-                            advancePlayer2Mode();
-                            std::cout << aiConfigText_.getString().toAnsiString() << "\n";
+                        // Handle settings menu button clicks
+                        if (showSettingsMenu_) {
+                            // Handle submenu clicks
+                            if (settingsMenuState_ == SettingsMenuState::Video) {
+                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                                // Check if clicking on slider handles
+                                float handleRadius = sliderHandleRadius_;
+                                if (masterVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &masterVolumeSlider_;
+                                } else if (musicVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &musicVolumeSlider_;
+                                } else if (sfxVolumeSlider_.handle.getGlobalBounds().contains(mousePos)) {
+                                    draggingSlider_ = &sfxVolumeSlider_;
+                                } else if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                                if (submenuBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            } else {
+                                // Main settings menu
+                                if (videoButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Video;
+                                } else if (audioButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Audio;
+                                } else if (creditsButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    settingsMenuState_ = SettingsMenuState::Credits;
+                                } else if (settingsBackButtonSprite_.getGlobalBounds().contains(mousePos)) {
+                                    gameClickSound_.play();
+                                    showSettingsMenu_ = false;
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                } else if (!settingsMenuSprite_.getGlobalBounds().contains(mousePos)) {
+                                    // Close menu if clicking outside
+                                    showSettingsMenu_ = false;
+                                    settingsMenuState_ = SettingsMenuState::Main;
+                                }
+                            }
                         }
-
+                    }
+                } else if (event.type == sf::Event::MouseButtonReleased) {
+                    // Stop dragging slider and save configuration
+                    if (draggingSlider_ != nullptr) {
+                        saveVolumeConfig();
+                    }
+                    draggingSlider_ = nullptr;
+                } else if (event.type == sf::Event::MouseMoved) {
+                    // Handle slider dragging
+                    if (draggingSlider_ != nullptr && showSettingsMenu_ && settingsMenuState_ == SettingsMenuState::Audio) {
+                        sf::Vector2f mousePos = window.mapPixelToCoords(
+                            sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
                         
-                        if (!menuBackground_.getGlobalBounds().contains(mousePos)) {
-                            showSettingsMenu_ = false;
+                        // Calculate new slider value based on mouse X position
+                        float sliderWidth = draggingSlider_->maxX - draggingSlider_->minX;
+                        float relativeX = mousePos.x - draggingSlider_->minX;
+                        relativeX = std::max(0.0f, std::min(relativeX, sliderWidth));
+                        draggingSlider_->value = (relativeX / sliderWidth) * 100.0f;
+                        
+                        // Update handle position
+                        float handleSize = sliderHandleRadius_ * 2.0f;
+                        float newHandleX = draggingSlider_->minX + (draggingSlider_->value / 100.0f) * sliderWidth - handleSize / 2.0f;
+                        draggingSlider_->handle.setPosition(newHandleX, draggingSlider_->handle.getPosition().y);
+                        
+                        // Update volume variables and audio based on which slider is being dragged
+                        if (draggingSlider_ == &masterVolumeSlider_) {
+                            masterVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(0, draggingSlider_->value);
+                        } else if (draggingSlider_ == &musicVolumeSlider_) {
+                            musicVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(1, draggingSlider_->value);
+                        } else if (draggingSlider_ == &sfxVolumeSlider_) {
+                            sfxVolume_ = draggingSlider_->value;
+                            updateVolumeIcon(2, draggingSlider_->value);
                         }
+                        
+                        // Apply volume changes immediately
+                        applyVolumeChanges();
                     }
                 }
                 continue; 
@@ -1684,7 +2039,7 @@ int HexGameUI::run() {
                     }
                     continue; // Prevent further processing
                 }
-                if (pauseButtonSprite_.getGlobalBounds().contains(pos)) {
+                if (pauseButtonSprite_.getGlobalBounds().contains(pos) && winnerId_ == 0) {
                     gameClickSound_.play();
                     gamePaused_ = !gamePaused_;
                     if (!gamePaused_) {
@@ -1695,6 +2050,55 @@ int HexGameUI::run() {
                 
                 // Handle pause menu button clicks
                 if (gamePaused_) {
+                    // Handle settings menu if open
+                    if (showSettingsMenu_) {
+                        if (settingsMenuState_ == SettingsMenuState::Video) {
+                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                            // Check if clicking on slider handles
+                            float handleRadius = sliderHandleRadius_;
+                            if (masterVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &masterVolumeSlider_;
+                            } else if (musicVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &musicVolumeSlider_;
+                            } else if (sfxVolumeSlider_.handle.getGlobalBounds().contains(pos)) {
+                                draggingSlider_ = &sfxVolumeSlider_;
+                            } else if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                            if (submenuBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        } else {
+                            // Main settings menu
+                            if (videoButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Video;
+                            } else if (audioButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Audio;
+                            } else if (creditsButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                settingsMenuState_ = SettingsMenuState::Credits;
+                            } else if (settingsBackButtonSprite_.getGlobalBounds().contains(pos)) {
+                                gameClickSound_.play();
+                                showSettingsMenu_ = false;
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            } else if (!settingsMenuSprite_.getGlobalBounds().contains(pos)) {
+                                // Close menu if clicking outside
+                                showSettingsMenu_ = false;
+                                settingsMenuState_ = SettingsMenuState::Main;
+                            }
+                        }
+                        continue; // Prevent further processing
+                    }
+                    
                     if (resumeButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
                         gamePaused_ = false;
@@ -1716,7 +2120,8 @@ int HexGameUI::run() {
                         continue; // Prevent further processing
                     } else if (pauseSettingsButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
-                        // TODO: Open settings menu (placeholder)
+                        showSettingsMenu_ = true;
+                        settingsMenuState_ = SettingsMenuState::Main;
                         continue; // Prevent further processing
                     } else if (quitButtonSprite_.getGlobalBounds().contains(pos)) {
                         gameClickSound_.play();
@@ -1727,6 +2132,50 @@ int HexGameUI::run() {
                         resetGame();
                         continue; // Prevent further processing
                     }
+                }
+            }
+
+            // Handle pause menu mouse release
+            if (screen_ == UIScreen::Game && gamePaused_ && event.type == sf::Event::MouseButtonReleased) {
+                // Stop dragging slider and save configuration
+                if (draggingSlider_ != nullptr) {
+                    saveVolumeConfig();
+                }
+                draggingSlider_ = nullptr;
+            }
+            
+            // Handle pause menu mouse movement for slider dragging
+            if (screen_ == UIScreen::Game && gamePaused_ && event.type == sf::Event::MouseMoved) {
+                // Handle slider dragging
+                if (draggingSlider_ != nullptr && showSettingsMenu_ && settingsMenuState_ == SettingsMenuState::Audio) {
+                    sf::Vector2f mousePos = window.mapPixelToCoords(
+                        sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                    
+                    // Calculate new slider value based on mouse X position
+                    float sliderWidth = draggingSlider_->maxX - draggingSlider_->minX;
+                    float relativeX = mousePos.x - draggingSlider_->minX;
+                    relativeX = std::max(0.0f, std::min(relativeX, sliderWidth));
+                    draggingSlider_->value = (relativeX / sliderWidth) * 100.0f;
+                    
+                    // Update handle position
+                    float handleSize = sliderHandleRadius_ * 2.0f;
+                    float newHandleX = draggingSlider_->minX + (draggingSlider_->value / 100.0f) * sliderWidth - handleSize / 2.0f;
+                    draggingSlider_->handle.setPosition(newHandleX, draggingSlider_->handle.getPosition().y);
+                    
+                    // Update volume variables and audio based on which slider is being dragged
+                    if (draggingSlider_ == &masterVolumeSlider_) {
+                        masterVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(0, draggingSlider_->value);
+                    } else if (draggingSlider_ == &musicVolumeSlider_) {
+                        musicVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(1, draggingSlider_->value);
+                    } else if (draggingSlider_ == &sfxVolumeSlider_) {
+                        sfxVolume_ = draggingSlider_->value;
+                        updateVolumeIcon(2, draggingSlider_->value);
+                    }
+                    
+                    // Apply volume changes immediately
+                    applyVolumeChanges();
                 }
             }
 
@@ -1806,13 +2255,69 @@ int HexGameUI::run() {
             }
 
             if (showSettingsMenu_) {
-                window.draw(menuOverlay_);    
-                window.draw(menuBackground_); 
+                window.draw(menuOverlay_);
                 
-                if (startFontLoaded_) {
-                    window.draw(aiConfigBox_);
-                    window.draw(aiConfigText_);
-                    window.draw(hardwareInfoText_);
+                if (settingsMenuState_ == SettingsMenuState::Main) {
+                    // Draw main settings menu
+                    if (settingsMenuTexture_.getSize().x != 0) {
+                        window.draw(settingsMenuSprite_);
+                    }
+                    
+                    // Draw settings menu buttons
+                    if (videoButtonTexture_.getSize().x != 0) {
+                        window.draw(videoButtonSprite_);
+                    }
+                    if (audioButtonTexture_.getSize().x != 0) {
+                        window.draw(audioButtonSprite_);
+                    }
+                    if (creditsButtonTexture_.getSize().x != 0) {
+                        window.draw(creditsButtonSprite_);
+                    }
+                    if (settingsBackButtonTexture_.getSize().x != 0) {
+                        window.draw(settingsBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Video) {
+                    // Draw video menu
+                    if (videoMenuTexture_.getSize().x != 0) {
+                        window.draw(videoMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                    // Draw audio menu
+                    if (audioMenuTexture_.getSize().x != 0) {
+                        window.draw(audioMenuSprite_);
+                    }
+                    // Draw volume labels
+                    window.draw(masterVolumeLabelSprite_);
+                    window.draw(musicVolumeLabelSprite_);
+                    window.draw(effectsVolumeLabelSprite_);
+                    // Draw volume sliders
+                    window.draw(masterVolumeSlider_.background);
+                    window.draw(masterVolumeSlider_.handle);
+                    window.draw(musicVolumeSlider_.background);
+                    window.draw(musicVolumeSlider_.handle);
+                    window.draw(sfxVolumeSlider_.background);
+                    window.draw(sfxVolumeSlider_.handle);
+                    // Draw volume icons
+                    for (int i = 0; i < 3; ++i) {
+                        window.draw(volumeIconSprites_[i]);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                    // Draw credits menu
+                    if (creditsMenuTexture_.getSize().x != 0) {
+                        window.draw(creditsMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
                 }
             }
 
@@ -2014,11 +2519,94 @@ int HexGameUI::run() {
         if (pauseButtonTexture_.getSize().x != 0) {
             window.draw(pauseButtonSprite_);
         }
+        
+        // Draw victory overlay on top of pause button if game is over
+        if (gameOver_ && (winnerId_ == 1 || winnerId_ == 2)) {
+            float progress = 1.0f;
+            if (victoryAnimationActive_) {
+                const float t = victoryClock_.getElapsedTime().asSeconds();
+                progress = std::min(t / kVictoryFadeDuration, 1.0f);
+            }
+            const sf::Uint8 overlayAlpha = static_cast<sf::Uint8>(
+                std::min(kVictoryOverlayMaxAlpha, kVictoryOverlayMaxAlpha * progress));
+            sf::RectangleShape pauseButtonOverlay;
+            pauseButtonOverlay.setSize(sf::Vector2f(pauseButtonSprite_.getLocalBounds().width * pauseButtonSprite_.getScale().x,
+                                                     pauseButtonSprite_.getLocalBounds().height * pauseButtonSprite_.getScale().y));
+            pauseButtonOverlay.setPosition(pauseButtonSprite_.getPosition());
+            pauseButtonOverlay.setFillColor(sf::Color(0, 0, 0, overlayAlpha));
+            window.draw(pauseButtonOverlay);
+        }
 
         // Draw pause menu if paused
         if (gamePaused_) {
             window.draw(pauseMenuOverlay_);
-            if (showHelp_) {
+            if (showSettingsMenu_) {
+                // Draw settings menu when open from pause
+                window.draw(menuOverlay_);
+                
+                if (settingsMenuState_ == SettingsMenuState::Main) {
+                    // Draw main settings menu
+                    if (settingsMenuTexture_.getSize().x != 0) {
+                        window.draw(settingsMenuSprite_);
+                    }
+                    
+                    // Draw settings menu buttons
+                    if (videoButtonTexture_.getSize().x != 0) {
+                        window.draw(videoButtonSprite_);
+                    }
+                    if (audioButtonTexture_.getSize().x != 0) {
+                        window.draw(audioButtonSprite_);
+                    }
+                    if (creditsButtonTexture_.getSize().x != 0) {
+                        window.draw(creditsButtonSprite_);
+                    }
+                    if (settingsBackButtonTexture_.getSize().x != 0) {
+                        window.draw(settingsBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Video) {
+                    // Draw video menu
+                    if (videoMenuTexture_.getSize().x != 0) {
+                        window.draw(videoMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Audio) {
+                    // Draw audio menu
+                    if (audioMenuTexture_.getSize().x != 0) {
+                        window.draw(audioMenuSprite_);
+                    }
+                    // Draw volume labels
+                    window.draw(masterVolumeLabelSprite_);
+                    window.draw(musicVolumeLabelSprite_);
+                    window.draw(effectsVolumeLabelSprite_);
+                    // Draw volume sliders
+                    window.draw(masterVolumeSlider_.background);
+                    window.draw(masterVolumeSlider_.handle);
+                    window.draw(musicVolumeSlider_.background);
+                    window.draw(musicVolumeSlider_.handle);
+                    window.draw(sfxVolumeSlider_.background);
+                    window.draw(sfxVolumeSlider_.handle);
+                    // Draw volume icons
+                    for (int i = 0; i < 3; ++i) {
+                        window.draw(volumeIconSprites_[i]);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                } else if (settingsMenuState_ == SettingsMenuState::Credits) {
+                    // Draw credits menu
+                    if (creditsMenuTexture_.getSize().x != 0) {
+                        window.draw(creditsMenuSprite_);
+                    }
+                    // Draw back button at the bottom
+                    if (submenuBackButtonTexture_.getSize().x != 0) {
+                        window.draw(submenuBackButtonSprite_);
+                    }
+                }
+            } else if (showHelp_) {
                 if (!helpFrameTextures_.empty()) {
                     window.draw(helpFrameSprite_);
                 }
@@ -2051,4 +2639,109 @@ int HexGameUI::run() {
         window.display();
     }
     return 0;
+}
+
+void HexGameUI::updateVolumeIcon(int sliderIndex, float value) {
+    // Determine which icon to show based on volume value
+    // vol0.png: 0-25%, vol1.png: 26-50%, vol2.png: 51-75%, vol3.png: 76-100%
+    int iconIndex = 3;  // Default to vol3
+    
+    if (value <= 25.0f) {
+        iconIndex = 0;
+    } else if (value <= 50.0f) {
+        iconIndex = 1;
+    } else if (value <= 75.0f) {
+        iconIndex = 2;
+    } else {
+        iconIndex = 3;
+    }
+    
+    if (sliderIndex >= 0 && sliderIndex < 3) {
+        volumeIconSprites_[sliderIndex].setTexture(volumeIconTextures_[iconIndex]);
+        
+        // Update stored icon indices for reference
+        if (sliderIndex == 0) {
+            masterVolumeIcon_ = iconIndex;
+        } else if (sliderIndex == 1) {
+            musicVolumeIcon_ = iconIndex;
+        } else if (sliderIndex == 2) {
+            sfxVolumeIcon_ = iconIndex;
+        }
+    }
+}
+
+void HexGameUI::applyVolumeChanges() {
+    // Apply volume changes with master volume as multiplier
+    float masterMultiplier = masterVolume_ / 100.0f;
+    
+    menuMusic_.setVolume(musicVolume_ * masterMultiplier);
+    gameMusic_.setVolume(musicVolume_ * masterMultiplier);
+    gameOverSound_.setVolume(musicVolume_ * masterMultiplier);
+    gameClickSound_.setVolume(sfxVolume_ * masterMultiplier);
+}
+
+void HexGameUI::saveVolumeConfig() {
+    try {
+        // Create config directory if it doesn't exist
+        const char* configDir = "../config";
+        struct stat st = {};
+        if (stat(configDir, &st) == -1) {
+            mkdir(configDir, 0755);
+        }
+        
+        std::ofstream configFile(kConfigFilePath);
+        if (configFile.is_open()) {
+            configFile << masterVolume_ << "\n";
+            configFile << musicVolume_ << "\n";
+            configFile << sfxVolume_ << "\n";
+            configFile.close();
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error saving volume config: " << e.what() << std::endl;
+    }
+}
+
+void HexGameUI::loadVolumeConfig() {
+    try {
+        std::ifstream configFile(kConfigFilePath);
+        if (configFile.is_open()) {
+            configFile >> masterVolume_;
+            configFile >> musicVolume_;
+            configFile >> sfxVolume_;
+            configFile.close();
+            
+            // Clamp values to valid range
+            masterVolume_ = std::max(0.0f, std::min(100.0f, masterVolume_));
+            musicVolume_ = std::max(0.0f, std::min(100.0f, musicVolume_));
+            sfxVolume_ = std::max(0.0f, std::min(100.0f, sfxVolume_));
+            
+            // Update slider values
+            masterVolumeSlider_.value = masterVolume_;
+            musicVolumeSlider_.value = musicVolume_;
+            sfxVolumeSlider_.value = sfxVolume_;
+            
+            // Update slider handle positions
+            float sliderWidth = windowSize_.x * 0.16f;
+            float handleSize = windowSize_.y * 0.06f;
+            
+            float masterHandleX = masterVolumeSlider_.minX + (masterVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            masterVolumeSlider_.handle.setPosition(masterHandleX, masterVolumeSlider_.handle.getPosition().y);
+            
+            float musicHandleX = musicVolumeSlider_.minX + (musicVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            musicVolumeSlider_.handle.setPosition(musicHandleX, musicVolumeSlider_.handle.getPosition().y);
+            
+            float sfxHandleX = sfxVolumeSlider_.minX + (sfxVolumeSlider_.value / 100.0f) * sliderWidth - handleSize / 2.0f;
+            sfxVolumeSlider_.handle.setPosition(sfxHandleX, sfxVolumeSlider_.handle.getPosition().y);
+            
+            // Update volume icons
+            updateVolumeIcon(0, masterVolumeSlider_.value);
+            updateVolumeIcon(1, musicVolumeSlider_.value);
+            updateVolumeIcon(2, sfxVolumeSlider_.value);
+            
+            // Apply audio changes
+            applyVolumeChanges();
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "Error loading volume config: " << e.what() << std::endl;
+    }
 }

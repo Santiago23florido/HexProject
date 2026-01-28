@@ -7,6 +7,9 @@
 using NodeId = int;
 
 
+/**
+ * Per-node feature bundle for Hex graphs.
+ */
 struct NodeFeatures {
     float p1{0.f};     // 1.0 if occupied by player 1
     float p2{0.f};     // 1.0 if occupied by player 2
@@ -21,6 +24,11 @@ struct NodeFeatures {
 };
 
 
+/**
+ *  Graph representation of a Hex board with optional super-nodes.
+ *
+ * Owns adjacency and feature arrays; N is the board side length.
+ */
 struct Graph {
     int numNodes{0};
     int N{0}; 
@@ -31,10 +39,13 @@ struct Graph {
 };
 
 
+/// Builds a Hex adjacency graph, optionally adding border super-nodes.
 Graph buildHexGraph(int N, bool addBorderSuperNodes = true);
 
 
+/// Fills dynamic occupancy features from a Board.
 void fillFeatures(Graph& g, const Board& board);
 
 
+/// Fills dynamic occupancy features from a GameState.
 void fillFeatures(Graph& g, const GameState& state);

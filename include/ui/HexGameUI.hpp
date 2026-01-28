@@ -12,8 +12,14 @@
 #include "ui/HexTile.hpp"
 
 
+/**
+ * SFML-based UI controller for the Hex game.
+ *
+ * Owns textures, UI state, and game agents for interactive play.
+ */
 class HexGameUI {
 public:
+    /// Creates the UI with asset paths and game configuration.
     HexGameUI(
         const std::string& texturePath,
         const std::string& backgroundPath,
@@ -39,13 +45,18 @@ public:
         const std::string& modelPath,
         bool preferCuda);
 
+    /// Releases UI resources.
     ~HexGameUI();
 
+    /// Runs the UI event loop and returns an exit code.
     int run();
 
 private:
     enum class UIScreen { Start, PlayerSelect, Game };
 
+    /**
+     *  Hex tile placement for the UI grid.
+     */
     struct Tile {
         HexTile sprite;
         sf::Vector2f center;
@@ -78,6 +89,10 @@ private:
     void updateDifficultyText();
     void applyBoardSize(int newSize);
     void updateBoardSizeText();
+    void updateVolumeIcon(int sliderIndex, float value);
+    void applyVolumeChanges();
+    void saveVolumeConfig();
+    void loadVolumeConfig();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -155,14 +170,80 @@ private:
     sf::RectangleShape startHintBox_;
 
     sf::Texture settingsButtonTexture_;
-    sf::Sprite settingsButtonSprite_; // Button Settings
+    sf::Sprite settingsButtonSprite_; 
 
-    bool showSettingsMenu_ = false;   //Menu visibility
+    enum class SettingsMenuState { Main, Video, Audio, Credits };
+    SettingsMenuState settingsMenuState_ = SettingsMenuState::Main;
+    bool showSettingsMenu_ = false;   
     sf::RectangleShape menuBackground_; 
     sf::RectangleShape menuOverlay_;  
+    
+    // Settings menu texture and sprite
+    sf::Texture settingsMenuTexture_;
+    sf::Sprite settingsMenuSprite_;
+    // Settings menu buttons
+    sf::Texture videoButtonTexture_;
+    sf::Sprite videoButtonSprite_;
+    sf::Texture audioButtonTexture_;
+    sf::Sprite audioButtonSprite_;
+    sf::Texture creditsButtonTexture_;
+    sf::Sprite creditsButtonSprite_;
+    sf::Texture settingsBackButtonTexture_;
+    sf::Sprite settingsBackButtonSprite_;
+    
+    // Video and Audio submenu textures and sprites
+    sf::Texture videoMenuTexture_;
+    sf::Sprite videoMenuSprite_;
+    sf::Texture audioMenuTexture_;
+    sf::Sprite audioMenuSprite_;
+    sf::Texture creditsMenuTexture_;
+    sf::Sprite creditsMenuSprite_;
+    // Back button for submenus
+    sf::Texture submenuBackButtonTexture_;
+    sf::Sprite submenuBackButtonSprite_;
+    
+    // Audio menu sliders and volume control
+    /**
+     *  Slider state for volume controls.
+     */
+    struct VolumeSlider {
+        sf::RectangleShape background;
+        sf::Sprite handle;
+        float value = 50.0f;  // 0-100
+        bool isDragging = false;
+        float minX = 0.0f;
+        float maxX = 0.0f;
+    };
+    
+    VolumeSlider masterVolumeSlider_;
+    VolumeSlider musicVolumeSlider_;
+    VolumeSlider sfxVolumeSlider_;
+    bool clickSoundEnabled_ = true;
+    
+    // Slider drag tracking
+    VolumeSlider* draggingSlider_ = nullptr;
+    float sliderHandleRadius_ = 0.0f;
+    
+    // Slider handle texture
+    sf::Texture sliderHandleTexture_;
+    
+    // Volume icon textures and sprites
+    std::vector<sf::Texture> volumeIconTextures_;  // vol0.png to vol3.png
+    std::vector<sf::Sprite> volumeIconSprites_;    // sprites for master, music, sfx
+    int masterVolumeIcon_ = 3;  // index to current icon
+    int musicVolumeIcon_ = 3;
+    int sfxVolumeIcon_ = 3;
+    
+    // Volume labels (sprites instead of text)
+    sf::Texture masterVolumeLabelTexture_;
+    sf::Sprite masterVolumeLabelSprite_;
+    sf::Texture musicVolumeLabelTexture_;
+    sf::Sprite musicVolumeLabelSprite_;
+    sf::Texture effectsVolumeLabelTexture_;
+    sf::Sprite effectsVolumeLabelSprite_;
 
-    sf::RectangleShape aiConfigBox_;    // El botón dentro del menú
-    sf::Text aiConfigText_;             // El texto del botón de IA
+    sf::RectangleShape aiConfigBox_;    
+    sf::Text aiConfigText_;             
     sf::Text difficultyText_;
     sf::Text boardSizeText_;
     sf::Texture boardSizeLabelTexture_;
@@ -237,6 +318,7 @@ private:
     sf::Sound gameOverSound_;
     sf::SoundBuffer clickBuffer_;
     sf::Sound gameClickSound_;
-    static constexpr float MUSIC_VOLUME = 50.0f;
-    static constexpr float SFX_VOLUME = 80.0f;
+    float masterVolume_ = 100.0f;  // 0-100
+    float musicVolume_ = 50.0f;    // 0-100
+    float sfxVolume_ = 80.0f;      // 0-100
 };
