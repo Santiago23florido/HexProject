@@ -1,6 +1,12 @@
 \section{Installation}
 \label{sec:installation}
 
+\subsection{Clonage du depot}
+\begin{verbatim}
+git clone https://github.com/Santiago23florido/HexProject.git
+cd HexProject
+\end{verbatim}
+
 \subsection{Pr\'erequis}
 \paragraph{CMake}
 \begin{verbatim}
@@ -48,12 +54,6 @@ cd build
 \begin{verbatim}
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
-./selfplay/build/selfplay \
-  <games> <minDepth> \
-  <maxDepth> <outputPath> \
-  <minPairs> <maxPairs> \
-  <timeLimitMs>
-# ou entrainement/export:
 ./selfplay/build/selfplay \
   --selfplay-train \
   --export-ts \

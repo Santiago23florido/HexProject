@@ -1,5 +1,11 @@
 # Installation
 
+## Clone the repository
+```bash
+git clone https://github.com/Santiago23florido/HexProject.git
+cd HexProject
+```
+
 ## Prerequisites
 ### CMake
 ```bash
@@ -63,4 +69,3 @@ cmake --build selfplay/build
   --updates-per-game 1 \
   --device cuda
 ```
-
