@@ -19,14 +19,14 @@ endif()
 # ==== CUDA configuration for libtorch with GPU (cu128) ====
 set(ENV{TORCH_CUDA_ARCH_LIST} "8.9")
 
-# Make sure CMake knows where nvcc is
-if(NOT DEFINED CMAKE_CUDA_COMPILER)
+# Make sure CMake knows where nvcc is if CUDA is installed
+if(NOT DEFINED CMAKE_CUDA_COMPILER AND EXISTS "/usr/local/cuda-12.8/bin/nvcc")
     set(CMAKE_CUDA_COMPILER "/usr/local/cuda-12.8/bin/nvcc" CACHE FILEPATH "CUDA compiler" FORCE)
 endif()
 
 # ==== Find Torch (libtorch) ====
 find_package(Torch REQUIRED)
-find_package(CUDAToolkit REQUIRED)
+find_package(CUDAToolkit QUIET)
 
 # ==== Find SFML ====
 find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
@@ -74,9 +74,11 @@ target_link_libraries(hex_ui PRIVATE
     sfml-graphics
     sfml-window
     sfml-system
-    CUDA::cudart
     sfml-audio
 )
+if(CUDAToolkit_FOUND)
+    target_link_libraries(hex_ui PRIVATE CUDA::cudart)
+endif()
 
 # ==== RPATH so the binaries can find libtorch .so files at runtime ====
 foreach(target_name IN ITEMS hex hex_ui)
