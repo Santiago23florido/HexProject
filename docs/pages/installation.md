@@ -90,7 +90,10 @@ poetry --version
 - CUDA: must match the LibTorch CUDA build; otherwise use the CPU build.
 If a version is incompatible, upgrade/downgrade to the minimums above or pick matching LibTorch/CUDA binaries.
 
-## Linux: add to PATH (if needed)
+## Installation by OS
+
+### Linux installation
+#### Add to PATH (if needed)
 ```bash
 # ~/.bashrc
 export PATH="$HOME/.local/bin:$PATH"     # poetry
@@ -103,7 +106,7 @@ $LD_LIBRARY_PATH"
 source ~/.bashrc
 ```
 
-## Build and run the game
+#### Build and run the game
 ```bash
 rm -rf build
 cmake -S . -B build
@@ -112,7 +115,7 @@ cd build
 ./hex_ui
 ```
 
-## Build and run self-play
+#### Build and run self-play
 ```bash
 rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
@@ -128,6 +131,24 @@ cmake --build selfplay/build
   --updates-per-game 1 \
   --device cuda
 ```
+
+### Windows installation
+#### Prerequisites
+- CMake 3.18+
+- MSVC (Visual Studio 2019+)
+- SFML 2.5+ (set `SFML_DIR` or `SFML_BIN_DIR`)
+- Inno Setup (`iscc.exe` on PATH) if you want the installer
+
+#### Build + installer (CPU)
+```powershell
+# from repo root
+# optional: set LIBTORCH_DIR to a local LibTorch C++ distribution
+$env:SFML_DIR="C:\path\to\SFML"
+# optional: $env:SFML_BIN_DIR="C:\path\to\SFML\bin"
+.\scripts\package_windows_cpu.ps1
+```
+The script downloads LibTorch CPU if needed, builds Release,
+stages assets, bundles DLLs, and runs Inno Setup.
 
 ## Fast-installation (Linux, gameplay only)
 ### WSL (Ubuntu)
