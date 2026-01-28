@@ -94,13 +94,17 @@ msiexec /i cmake-3.27.9-windows-x86_64.msi /qn
 .\vs_BuildTools.exe --quiet --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
 ```
 
-#### LibTorch (download URL from the PyTorch selector)
+#### LibTorch (CPU by default)
 ```powershell
-$libtorchUrl = "<URL from PyTorch selector>"
+# Use the MSVC build that matches your compiler.
+$libtorchUrl = "https://download.pytorch.org/libtorch/nightly/cpu/libtorch-win-shared-with-deps-latest.zip"
 Invoke-WebRequest $libtorchUrl -OutFile "$env:TEMP\libtorch.zip"
 Expand-Archive "$env:TEMP\libtorch.zip" -DestinationPath "C:\libtorch" -Force
 setx CMAKE_PREFIX_PATH "C:\libtorch\libtorch"
 ```
+CPU builds require no CUDA toolkit. If you want CUDA, pick a LibTorch CUDA build
+that matches your installed CUDA version (from the PyTorch selector) and update
+the URL accordingly.
 
 #### SFML (via vcpkg)
 ```powershell
@@ -124,6 +128,21 @@ cuda_<version>_windows.exe -s
 #### Poetry
 ```powershell
 python -m pip install --user poetry
+```
+
+#### Windows PATH (if needed)
+```powershell
+# CMake (if installed as a zip or MSI without PATH)
+setx PATH "$env:PATH;C:\Program Files\CMake\bin"
+
+# LibTorch runtime DLLs (for local runs)
+setx PATH "$env:PATH;C:\libtorch\libtorch\lib"
+
+# SFML runtime DLLs (if not bundled)
+setx PATH "$env:PATH;C:\path\to\SFML\bin"
+
+# CUDA (optional)
+setx PATH "$env:PATH;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin"
 ```
 
 ## Version compatibility
