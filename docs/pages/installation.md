@@ -130,8 +130,14 @@ cmake --build selfplay/build
 ```
 
 ## Fast-installation (Linux, gameplay only)
+### WSL (Ubuntu)
+Requires WSL with Ubuntu 24.04.3 LTS or newer.
+Check with `lsb_release -a`.
+
 ### Download
 ```bash
+sudo apt-get update
+sudo apt-get install -y python3 python3-venv python3-pip
 python3 -m venv .venv
 source .venv/bin/activate
 pip install gdown
