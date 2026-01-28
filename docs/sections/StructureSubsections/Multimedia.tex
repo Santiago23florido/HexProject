@@ -1,0 +1,44 @@
+\subsection{Gestion des Ressources Multimedia et Système Audio}
+Cette sous-section aborde la stratégie d'optimisation de la mémoire pour les actifs (\textit{assets}) et l'implémentation du moteur sonore interactif.
+
+\subsubsection{Optimisation de la Mémoire et Chargement des Assets}
+Pour garantir une performance stable à 60 FPS, l'interface utilise une stratégie de pré-chargement centralisée dans le constructeur de \texttt{HexGameUI}. 
+\begin{itemize}
+    \item \textbf{Gestion des Textures :} Les textures sont chargées une seule fois en mémoire vive (RAM/VRAM). Les instances de \texttt{HexTile} ne stockent que des références ou des pointeurs vers ces ressources, appliquant ainsi une variante du patron de conception \textit{Flyweight}.
+    \item \textbf{Robustesse du Système :} L'utilisation de \texttt{std::filesystem} assure la compatibilité des chemins d'accès entre différents systèmes d'exploitation (Linux/Windows), tandis que des blocs \texttt{try-catch} préviennent les pannes en cas de fichiers manquants.
+\end{itemize}
+
+\subsubsection{Architecture du Contrôle Audio Dynamique}
+Le système sonore est divisé en trois flux indépendants, permettant une personnalisation complète de l'expérience utilisateur. Le Tableau \ref{tab:audio_config} détaille les paramètres de persistance configurés dans le logiciel.
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Configuration des Canaux Audio}
+\label{tab:audio_config}
+\centering
+\begin{tabular}{|l|c|p{3.5cm}|}
+\hline
+\textbf{Paramètre} & \textbf{Type SFML} & \textbf{Usage} \\ \hline
+Musique Menu & \texttt{sf::Music} & Streaming continu pour l'ambiance. \\ \hline
+Effets (SFX) & \texttt{sf::Sound} & Lecture immédiate depuis un \textit{buffer}. \\ \hline
+Volume Master & \texttt{float} & Facteur multiplicateur global (0-100). \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Logique de Mise à Jour de l'Iconographie Sonore}
+La fonction \texttt{updateVolumeIcon} est un exemple d'interaction dynamique. Elle traduit une valeur scalaire (le volume) en un état visuel discret parmi quatre paliers :
+\begin{equation}
+    Icon_{index} = 
+    \begin{cases} 
+    0 & \text{si } v \le 25 \\
+    1 & \text{si } 25 < v \le 50 \\
+    2 & \text{si } 50 < v \le 75 \\
+    3 & \text{si } v > 75 
+    \end{cases}
+\end{equation}
+Cette logique permet de changer le \textit{sprite} de l'icône de haut-parleur en temps réel lors de la manipulation des \textit{sliders}, offrant un retour visuel immédiat sur la configuration du système.
+
+
+
+\subsubsection{Persistance des Paramètres}
+Le logiciel inclut une routine de sauvegarde et chargement automatique des niveaux de volume. Lors de l'initialisation, le système tente de lire un fichier de configuration ; en cas d'erreur ou d'absence, il restaure des valeurs par défaut sécurisées, garantissant que l'application reste toujours dans un état stable et fonctionnel pour l'utilisateur.

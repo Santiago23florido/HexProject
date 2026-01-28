@@ -1,0 +1,46 @@
+\subsection{Interface Graphique et Expérience Utilisateur (GUI/UX)}
+Cette sous-section décrit l'implémentation de la couche visuelle du projet Hex, développée avec la bibliothèque \textit{Simple and Fast Multimedia Library} (SFML). L'accent est mis sur l'application des principes de la Programmation Orientée Objet (POO) pour assurer une séparation claire entre la logique métier et la présentation.
+
+\subsubsection{Architecture des Composants et Encapsulation}
+La conception repose sur une hiérarchie de classes qui encapsulent les entités graphiques :
+\begin{itemize}
+    \item \textbf{HexTile :} Cette classe agit comme un conteneur pour les ressources graphiques de chaque cellule. Elle gère son propre état visuel (couleur, rotation, échelle) et expose des méthodes de manipulation qui masquent la complexité des transformations de SFML.
+    \item \textbf{HexGameUI :} Implémentée comme un contrôleur central, elle gère le cycle de vie de l'application. Elle est responsable de l'agrégation des ressources (textures, sons) et de la gestion de la fenêtre de rendu.
+\end{itemize}
+
+\subsubsection{Gestion des États (Machine à États)}
+La navigation au sein de l'application est structurée par une machine à états finis basée sur l'énumération \texttt{UIScreen}. Cette approche permet une transition fluide entre les différentes phases du jeu, comme résumé dans le Tableau \ref{tab:screens}.
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.2}
+\caption{États de l'Interface Utilisateur}
+\label{tab:screens}
+\centering
+\begin{tabular}{|l|p{4.5cm}|}
+\hline
+\textbf{État} & \textbf{Description Fonctionnelle} \\ \hline
+\texttt{Start} & Accueil et initialisation des ressources globales. \\ \hline
+\texttt{PlayerSelection} & Configuration dynamique du plateau et des agents (IA/Humain). \\ \hline
+\texttt{Game} & Boucle principale de rendu et interaction avec le \textit{Core}. \\ \hline
+\texttt{Victory} & Gestion des événements de fin de partie et \textit{overlay} de résultats. \\ \hline
+\end{tabular}
+\end{table}
+
+% SUGGESTION : Placer ici un diagramme d'états de l'interface.
+% 
+
+\subsubsection{Algorithme de Disposition Hexagonale}
+Le rendu du plateau nécessite une transformation des coordonnées logiques $(i, j)$ en coordonnées cartésiennes $(x, y)$. Pour respecter la géométrie hexagonale, un décalage horizontal est appliqué selon l'indice de ligne :
+
+\begin{equation}
+    X_{pos} = X_{offset} + (j \cdot \Delta w) + (i \cdot \Delta w \cdot 0.5)
+\end{equation}
+
+Où $\Delta w$ représente la largeur effective de la cellule. Cette formule garantit que le plateau conserve sa structure en forme de losange, indépendamment de la dimension $N \times N$ choisie par l'utilisateur.
+
+\subsubsection{Interactions et Feedback Auditif}
+L'expérience utilisateur est enrichie par un système de retour d'information immédiat. La détection des collisions (\textit{Picking}) identifie la cellule ciblée, activant un effet visuel de prévisualisation via le paramètre \texttt{kHoverAlpha}. 
+
+De plus, une gestion sonore multicanale a été intégrée. La fonction \texttt{updateVolumeIcon} assure une synchronisation visuelle entre les \textit{sliders} de configuration et les icônes de volume, garantissant une interface intuitive et réactive.
+
+% SUGGESTION : Placer ici une capture d'écran du plateau de jeu.

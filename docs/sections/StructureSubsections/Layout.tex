@@ -1,0 +1,42 @@
+\subsection{Logique de Représentation et Disposition (Layout)}
+Cette sous-section expose les défis géométriques liés à la projection d'une structure de données matricielle sur un plan bidimensionnel utilisant une topologie hexagonale.
+
+\subsubsection{Géométrie des Coordonnées Hexagonales}
+Contrairement à une grille carrée conventionnelle, le jeu Hex utilise des hexagones à "sommet pointu" (\textit{pointy-topped}). Cette disposition impose que chaque ligne $i$ soit décalée horizontalement par rapport à la précédente pour permettre une connectivité de voisinage à six directions. 
+
+Le calcul de la position centrale $(X, Y)$ d'une cellule $(i, j)$ est défini par les équations suivantes :
+
+\begin{equation}
+    X_{i,j} = X_{start} + (j \cdot w \cdot s) + (i \cdot w \cdot s \cdot 0.5)
+\end{equation}
+\begin{equation}
+    Y_{i,j} = Y_{start} + (i \cdot h \cdot s \cdot 0.75)
+\end{equation}
+
+Où $w$ et $h$ sont les dimensions de la texture originale, et $s$ est le facteur de mise à l'échelle (\textit{tileScale}). Le facteur $0.75$ dans l'équation (3) est critique pour l'imbrication verticale parfaite des sommets.
+
+\subsubsection{Composant ImageViewer et Débogage}
+Pour valider la précision du rendu sans dépendre de la logique lourde du \textit{Core}, une classe utilitaire nommée \texttt{ImageViewer} a été développée. Elle permet de tester les constantes de proportion (Tableau \ref{tab:layout_constants}) utilisées pour éliminer les espaces vides (\textit{gaps}) entre les sprites.
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Constantes de Précision Géométrique}
+\label{tab:layout_constants}
+\centering
+\begin{tabular}{|l|c|p{3.5cm}|}
+\hline
+\textbf{Paramètre} & \textbf{Valeur} & \textbf{Description} \\ \hline
+\texttt{dxCol} & $0.4982$ & Facteur de séparation horizontale. \\ \hline
+\texttt{dyCol} & $0.5328$ & Facteur de séparation verticale. \\ \hline
+\texttt{evenRowX} & $0.4982$ & Décalage pour les lignes paires. \\ \hline
+\texttt{evenRowY} & $0.5250$ & Ajustement de compression. \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsubsection{Adaptabilité Dynamique du Plateau}
+L'interface implémente une méthode de centrage automatique nommée \texttt{resolveCenter}. Ce mécanisme calcule les marges dynamiques en fonction de la résolution actuelle de la fenêtre (\texttt{windowSize}) et de la dimension $N$ du plateau. Cela garantit que l'expérience visuelle reste cohérente, que le joueur choisisse un plateau de $7 \times 7$ ou de $11 \times 11$, en évitant tout débordement des limites de l'écran.
+
+\subsubsection{Optimisation du Rendu (Batching)}
+Bien que chaque \texttt{HexTile} soit un objet indépendant, leur rendu est optimisé dans la boucle principale de \texttt{HexGameUI}. Les transformations géométriques ne sont recalculées que lors des événements de redimensionnement, ce qui réduit la charge CPU et permet de maintenir un taux de rafraîchissement stable (60 FPS), même lors d'interactions complexes avec l'IA.
