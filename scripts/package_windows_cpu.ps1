@@ -72,10 +72,12 @@ cmake --build $BuildDir --config Release
 
 if (Test-Path $StageDir) { Remove-Item $StageDir -Recurse -Force }
 New-Item -ItemType Directory -Path $StageDir | Out-Null
+$binStage = Join-Path $StageDir "bin"
+New-Item -ItemType Directory -Path $binStage | Out-Null
 
 $binDir = Join-Path $BuildDir "Release"
-Copy-Item "$binDir\hex_ui.exe" $StageDir
-if (Test-Path "$binDir\hex.exe") { Copy-Item "$binDir\hex.exe" $StageDir }
+Copy-Item "$binDir\hex_ui.exe" $binStage
+if (Test-Path "$binDir\hex.exe") { Copy-Item "$binDir\hex.exe" $binStage }
 
 Copy-Item "$Root\assets" "$StageDir\assets" -Recurse
 if (Test-Path "$Root\config") { Copy-Item "$Root\config" "$StageDir\config" -Recurse }
@@ -84,7 +86,7 @@ if (Test-Path "$Root\scripts\models") {
   Copy-Item "$Root\scripts\models\*" "$StageDir\scripts\models" -Recurse -Force
 }
 
-Copy-Item "$LibTorchDir\lib\*.dll" $StageDir -Force
+Copy-Item "$LibTorchDir\lib\*.dll" $binStage -Force
 
 function Find-SfmlBin {
   param([string]$ExplicitBin, [string]$ExplicitDir, [string]$BuildDir)
@@ -125,9 +127,9 @@ if (-not $sfmlBin) {
   exit 1
 }
 
-Copy-Item "$sfmlBin\sfml-*.dll" $StageDir -Force
+Copy-Item "$sfmlBin\sfml-*.dll" $binStage -Force
 if (Test-Path "$sfmlBin\openal32.dll") {
-  Copy-Item "$sfmlBin\openal32.dll" $StageDir -Force
+  Copy-Item "$sfmlBin\openal32.dll" $binStage -Force
 }
 
 $env:HEXPROJECT_APPDIR = $StageDir

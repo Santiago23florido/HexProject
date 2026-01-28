@@ -156,3 +156,9 @@ file HexProject-CPU-x86_64.AppImage
 chmod +x HexProject-CPU-x86_64.AppImage
 ./HexProject-CPU-x86_64.AppImage
 ```
+
+### Windows (gameplay only)
+Open the link, download, and run the installer.
+```
+https://drive.google.com/file/d/1XExLIMiUIn2Q0FxtC6UjaX-f9eCW9wgK/view?usp=drive_link
+```
