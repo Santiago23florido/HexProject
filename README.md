@@ -11,18 +11,9 @@ Documentation map:
 - Core module: [docs/pages/core.md](docs/pages/core.md)
 - MLP/GNN module: [docs/pages/gnn.md](docs/pages/gnn.md)
 - Self-play module: [docs/pages/selfplay.md](docs/pages/selfplay.md)
+- UI module: [docs/pages/ui.md](docs/pages/ui.md)
 - OOP design notes: [docs/pages/oop.md](docs/pages/oop.md)
 - Installation: [docs/pages/installation.md](docs/pages/installation.md)
-
-## UI
-
-The UI layer provides the SFML-based interface for interactive Hex play, including board rendering, tile drawing, and optional image previews.
-
-| Class | Description |
-| --- | --- |
-| `HexGameUI` | Main SFML game interface and event loop for Hex. |
-| `HexTile` | Drawable hex-tile primitive with geometry and styling. |
-| `ImageViewer` | Simple image window for showing auxiliary visuals. |
 
 ## Build and Run
 
@@ -34,14 +25,6 @@ cmake --build build
 ```
 - Builds the main game executable and launches the SFML GUI.
 
-### Self-play data generation (heuristic)
-```bash
-cmake -S selfplay -B selfplay/build
-cmake --build selfplay/build
-./selfplay/build/selfplay <games> <minDepth> <maxDepth> <outputPath> <minPairs> <maxPairs> <timeLimitMs>
-```
-- Runs heuristic Negamax self-play and writes JSONL samples (one file per board size).
-- Output paths are relative to the working directory (e.g., `selfplay_data_N7.jsonl`).
 
 ### Self-play training (MLP value model)
 ```bash

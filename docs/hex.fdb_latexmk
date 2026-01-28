@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1769547375.96638 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769547376.29586 0
+["pdflatex"] 1769560692.13127 "/home/santiago/IN204/HexProject/docs/hex.tex" "hex.pdf" "hex" 1769560692.48563 0
   "/etc/texmf/web2c/texmf.cnf" 1762418151.39241 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/santiago/IN204/HexProject/docs/hex.tex" 1769547375.38028 2085 7140ddfc2aefdd0adae9b364d208344e ""
+  "/home/santiago/IN204/HexProject/docs/hex.tex" 1769560691.92254 2085 7140ddfc2aefdd0adae9b364d208344e ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -28,6 +28,7 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb" 1136849748 44656 0cbca70e0534538582128f6b54593cca ""
@@ -50,13 +51,13 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1762418170.6716 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1762418224 8214723 66b18d21e2ef1ecd23d5c483e8c60b4e ""
-  "hex.aux" 1769547376.26154 3804 95a877fa6cda4dd6f952286510b0ab0e "pdflatex"
-  "hex.tex" 1769547375.38028 2085 7140ddfc2aefdd0adae9b364d208344e ""
-  "sections/ProjectStructure.tex" 1769547363.84112 2413 8e0cba68d83ca8f22dae1d515a9a26e3 ""
+  "hex.aux" 1769560692.45174 4323 9d042e5914559cc7fc2a394462235318 "pdflatex"
+  "hex.tex" 1769560691.92254 2085 7140ddfc2aefdd0adae9b364d208344e ""
+  "sections/ProjectStructure.tex" 1769548384.48862 2413 8e0cba68d83ca8f22dae1d515a9a26e3 ""
   "sections/StructureSubsections/core.tex" 1769545140.68073 9253 02d660962e64f9c02562d3fb8590848a ""
   "sections/StructureSubsections/gnn.tex" 1769545266.36194 3388 e962a2345d7de9b337d8b0902281e3b5 ""
   "sections/StructureSubsections/selfplay.tex" 1769544620.17035 4457 be253a6a7f70b5147061e0364d22b323 ""
-  "sections/install.tex" 1769271427.7355 1325 f2391eb2e1da3a224d1b6115cb0f8add ""
+  "sections/install.tex" 1769560684.84494 3261 50e7c4167c0e235642c8e88c0660aede ""
   "sections/introduction.tex" 1769271427.7355 2625 8d88d86af9d459fa9fc9357b8ba6f5e3 ""
   "sections/poo.tex" 1769546856.58244 6206 23418df498fb36bc4e6ae7ff49a84bed ""
   (generated)

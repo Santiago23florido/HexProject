@@ -1,6 +1,13 @@
 \section{Installation}
 \label{sec:installation}
 
+\subsection{Clonage du depot}
+\begin{verbatim}
+git clone https://github.com/\
+Santiago23florido/HexProject.git
+cd HexProject
+\end{verbatim}
+
 \subsection{Pr\'erequis}
 \paragraph{CMake}
 \begin{verbatim}
@@ -17,6 +24,48 @@ g++ --version
 \begin{verbatim}
 ls $HOME/libtorch/share/cmake/Torch
 # ou definir Torch_DIR/CMAKE_PREFIX_PATH
+\end{verbatim}
+
+\subsection{Installation de LibTorch}
+\begin{itemize}
+\item T\'el\'echarger la distribution C++ (LibTorch) depuis le site officiel PyTorch.
+\item Choisir l'ABI C++ adapte :
+  \begin{itemize}
+  \item Linux GCC/Clang : pr\'ef\'erer la variante \texttt{cxx11 ABI}.
+  \item Windows : choisir le binaire correspondant a MSVC.
+  \end{itemize}
+\item Choisir CPU ou CUDA selon votre environnement.
+\item D\'ecompresser, par exemple dans \texttt{\$HOME/libtorch}.
+\end{itemize}
+
+\paragraph{T\'el\'echargement (CPU par d\'efaut)}
+\begin{verbatim}
+wget https://download.pytorch.org/libtorch/\
+nightly/cpu/libtorch-shared-with-deps-latest.zip \
+  -O libtorch-cpu.zip
+unzip libtorch-cpu.zip
+mv libtorch $HOME/libtorch
+\end{verbatim}
+Pour CUDA, t\'el\'echarger la version compatible avec votre toolkit depuis
+\texttt{https://pytorch.org/get-started/locally/}.
+
+\paragraph{Variables de configuration}
+\begin{verbatim}
+export Torch_DIR="$HOME/libtorch/share/cmake/Torch"
+# ou
+export CMAKE_PREFIX_PATH="$HOME/libtorch"
+\end{verbatim}
+
+\paragraph{Configuration CMake}
+\begin{verbatim}
+cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH="$HOME/libtorch"
+\end{verbatim}
+
+\paragraph{Problemes de chargement a l'execution}
+\begin{verbatim}
+export LD_LIBRARY_PATH="$HOME/libtorch/lib:\
+$LD_LIBRARY_PATH"
 \end{verbatim}
 
 \paragraph{SFML 2.5}
@@ -36,6 +85,48 @@ python3 --version
 poetry --version
 \end{verbatim}
 
+\subsection{Si un pr\'erequis manque}
+\begin{itemize}
+\item \textbf{CMake} : installer via le gestionnaire de paquets ou les binaires officiels.\\
+Ex. Debian/Ubuntu : \texttt{sudo apt-get install cmake}.
+\item \textbf{Compilateur C++} : installer GCC/Clang (ou MSVC sous Windows) avec support C++17.\\
+Ex. Debian/Ubuntu : \texttt{sudo apt-get install g++} ou \texttt{sudo apt-get install clang}.
+\item \textbf{LibTorch} : t\'el\'echarger la distribution C++ adapt\'ee a votre OS/ABI.\\
+Puis d\'efinir \texttt{Torch\_DIR} ou \texttt{CMAKE\_PREFIX\_PATH}.
+\item \textbf{SFML} : installer les paquets de d\'eveloppement.\\
+Ex. Debian/Ubuntu : \texttt{sudo apt-get install libsfml-dev}.
+\item \textbf{CUDA} (optionnel) : installer un toolkit correspondant a la build LibTorch,\\
+sinon utiliser une build CPU.
+\item \textbf{Python + poetry} (optionnel) : installer Python 3 et poetry.\\
+Ex. Debian/Ubuntu : \texttt{sudo apt-get install python3 python3-pip}.\\
+Poetry : \texttt{python3 -m pip install --user poetry}.
+\end{itemize}
+
+\subsection{Compatibilit\'e des versions}
+\begin{itemize}
+\item CMake : 3.18+ (requis par CMakeLists.txt).
+\item Compilateur C++ : support complet de C++17 (ex. GCC 7+, Clang 6+, MSVC 2019+).
+\item SFML : 2.5+ (requis par find\_package(SFML 2.5)).
+\item LibTorch : distribution C++ correspondant a l'OS et a l'ABI du compilateur ; si CUDA, version CUDA compatible avec la build LibTorch.
+\end{itemize}
+Si une version n'est pas compatible, mettre a jour vers la version minimale ci-dessus ou choisir un binaire correspondant.
+
+\subsection{Linux : ajout au PATH (si n\'ecessaire)}
+\begin{verbatim}
+# ~/.bashrc
+# poetry
+export PATH="$HOME/.local/bin:$PATH"
+# cmake (archive)
+export PATH="/opt/cmake/bin:$PATH"
+# cuda
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:\
+$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$HOME/libtorch/lib:\
+$LD_LIBRARY_PATH"
+source ~/.bashrc
+\end{verbatim}
+
 \subsection{Compilation et execution du jeu}
 \begin{verbatim}
 cmake -S . -B build
@@ -48,12 +139,6 @@ cd build
 \begin{verbatim}
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
-./selfplay/build/selfplay \
-  <games> <minDepth> \
-  <maxDepth> <outputPath> \
-  <minPairs> <maxPairs> \
-  <timeLimitMs>
-# ou entrainement/export:
 ./selfplay/build/selfplay \
   --selfplay-train \
   --export-ts \
