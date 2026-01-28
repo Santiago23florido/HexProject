@@ -32,6 +32,14 @@ ls $HOME/libtorch/share/cmake/Torch
 - Choose CPU or CUDA based on your environment.
 - Extract to a known location (e.g., `~/libtorch`).
 
+### Download (CPU by default)
+```bash
+wget https://download.pytorch.org/libtorch/\
+nightly/cpu/libtorch-shared-with-deps-latest.zip
+unzip libtorch-shared-with-deps-latest.zip
+```
+For CUDA, download a build that matches your toolkit version from the PyTorch selector.
+
 ### Configure CMake
 ```bash
 export Torch_DIR="$HOME/libtorch/share/cmake/Torch"

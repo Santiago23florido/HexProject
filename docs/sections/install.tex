@@ -38,6 +38,15 @@ ls $HOME/libtorch/share/cmake/Torch
 \item D\'ecompresser, par exemple dans \texttt{\$HOME/libtorch}.
 \end{itemize}
 
+\paragraph{T\'el\'echargement (CPU par d\'efaut)}
+\begin{verbatim}
+wget https://download.pytorch.org/libtorch/\
+nightly/cpu/libtorch-shared-with-deps-latest.zip
+unzip libtorch-shared-with-deps-latest.zip
+\end{verbatim}
+Pour CUDA, t\'el\'echarger la version compatible avec votre toolkit depuis
+\texttt{https://pytorch.org/get-started/locally/}.
+
 \paragraph{Variables de configuration}
 \begin{verbatim}
 export Torch_DIR="$HOME/libtorch/share/cmake/Torch"
