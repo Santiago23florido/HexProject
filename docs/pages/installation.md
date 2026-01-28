@@ -132,6 +132,9 @@ cmake --build selfplay/build
 ## Fast-installation (Linux, gameplay only)
 ### Download
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install gdown
 gdown --fuzzy \
   "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \
   -O HexProject-CPU-x86_64.AppImage
