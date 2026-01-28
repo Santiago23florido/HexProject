@@ -26,6 +26,37 @@ ls $HOME/libtorch/share/cmake/Torch
 # ou definir Torch_DIR/CMAKE_PREFIX_PATH
 \end{verbatim}
 
+\subsection{Installation de LibTorch}
+\begin{itemize}
+\item T\'el\'echarger la distribution C++ (LibTorch) depuis le site officiel PyTorch.
+\item Choisir l'ABI C++ adapte :
+  \begin{itemize}
+  \item Linux GCC/Clang : pr\'ef\'erer la variante \texttt{cxx11 ABI}.
+  \item Windows : choisir le binaire correspondant a MSVC.
+  \end{itemize}
+\item Choisir CPU ou CUDA selon votre environnement.
+\item D\'ecompresser, par exemple dans \texttt{\$HOME/libtorch}.
+\end{itemize}
+
+\paragraph{Variables de configuration}
+\begin{verbatim}
+export Torch_DIR="$HOME/libtorch/share/cmake/Torch"
+# ou
+export CMAKE_PREFIX_PATH="$HOME/libtorch"
+\end{verbatim}
+
+\paragraph{Configuration CMake}
+\begin{verbatim}
+cmake -S . -B build \
+  -DCMAKE_PREFIX_PATH="$HOME/libtorch"
+\end{verbatim}
+
+\paragraph{Problemes de chargement a l'execution}
+\begin{verbatim}
+export LD_LIBRARY_PATH="$HOME/libtorch/lib:\
+$LD_LIBRARY_PATH"
+\end{verbatim}
+
 \paragraph{SFML 2.5}
 \begin{verbatim}
 pkg-config --modversion sfml-all
