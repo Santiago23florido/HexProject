@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <algorithm>
 
+// Implements game state utilities: move generation, coordinate transforms, and win detection.
+
 namespace {
 template <typename T, std::size_t Size>
 struct FixedArray {
@@ -93,9 +95,9 @@ std::vector<Cube> GameState::ToCubeCoordinates() const{
             int r = rows - Hex.cbegin();
             int c = cols - rows->cbegin();
             int index = r*N + c; //Linear index calculation
-            int q = c - (r - (r % 2)) / 2; // offset odd-r → axial 
+            int q = c - (r - (r % 2)) / 2; // offset odd-r to axial 
             int r_axial = r;
-            // axial → cube
+            // axial to cube
             int x = q;
             int z = r_axial;
             int y = -x - z;

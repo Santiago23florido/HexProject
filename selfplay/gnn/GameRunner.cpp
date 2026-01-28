@@ -2,6 +2,8 @@
 
 #include <vector>
 
+// Runs self-play games between two strategies and records each state into a collector for training.
+
 // Runs a single self-play game with two provided strategies
 GameRunner::GameRunner(int boardSize, IMoveStrategy& p1Strategy, IMoveStrategy& p2Strategy)
     : boardSize(boardSize), p1(p1Strategy), p2(p2Strategy) {}
@@ -28,6 +30,7 @@ int GameRunner::playOne(DataCollector& collector, const Board* startingBoard) {
         IMoveStrategy& strat = (currentPlayer == 1) ? p1 : p2;
         int move = strat.select(state, currentPlayer);
         if (move < 0 || move >= boardSize * boardSize) {
+            // Treat invalid moves as a draw to terminate the game.
             collector.finalizeGame(0);
             return 0;
         }

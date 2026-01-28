@@ -2,15 +2,12 @@
 \label{sec:project-structure}
 
 Le d\'ep\^ot est organis\'e en dossiers principaux afin de s\'eparer clairement
-les ressources, le code C++, les scripts et les livrables. Le sch\'ema
-suivant r\'esume l'arborescence \`a haut niveau.
+le code C++, les scripts et les modules d'auto-jeu. Le sch\'ema
+suivant r\'esume l'arborescence (sans les dossiers de build).
 
 \begin{center}
 \begin{verbatim}
 HexProject/
-|-- assets/
-|-- docs/
-|   `-- sections/
 |-- include/
 |   |-- core/
 |   |-- gnn/
@@ -21,14 +18,11 @@ HexProject/
 |   |-- ui/
 |   `-- cli/
 |-- selfplay/
-|   `-- build/ (g\'en\'er\'e)
-|-- scripts/
-|   `-- models/
-|-- rapport_hex/
-|-- CMakeLists.txt
-|-- README.md
-|-- pyproject.toml
-`-- poetry.lock
+|   |-- gnn/
+|   `-- mlp/
+`-- scripts/
+    |-- models/
+    `-- __pycache__/
 \end{verbatim}
 \end{center}
 
@@ -38,18 +32,76 @@ HexProject/
 \hline
 Dossier & Contenu et r\^ole g\'en\'eral \\
 \hline
-assets/ & images, sons et textures pour l'interface \\
-docs/ & sources LaTeX du rapport final et sections \\
 include/ & en-t\^etes C++ (API publique par module) \\
 src/ & impl\'ementation C++ (logique, GNN, UI, CLI) \\
-selfplay/ & g\'en\'eration de parties et entra\^inement auto-jeu \\
-scripts/ & scripts Python et artefacts de mod\`eles \\
-rapport\_hex/ & version IEEE du premier rapport \\
+selfplay/ & auto-jeu (gnn/mlp) et g\'en\'eration de donn\'ees \\
+scripts/ & scripts Python et mod\`eles entra\^{\i}n\'es \\
 \hline
 \end{tabular}
 \caption{R\'epartition des dossiers principaux.}
 \end{table}
 
-Les fichiers racine (\texttt{CMakeLists.txt}, \texttt{README.md},
-\texttt{pyproject.toml}, \texttt{poetry.lock}) rassemblent la configuration
-de build, la documentation et les d\'ependances Python.
+\begin{center}
+\begin{verbatim}
+HexProject/
+|-- scripts/
+|   |-- models/
+|   |   |-- hex_value_ts_mp.pt
+|   |   |-- hex_value.pt
+|   |   |-- hex_value_ts.pt
+|   |   `-- value_mlp_state.pt
+|   |-- __pycache__/
+|   `-- train_value_mlp_emulate_heuristic.py
+|-- include/
+|   |-- core/
+|   |   |-- Board.hpp
+|   |   |-- Cube.hpp
+|   |   |-- GameState.hpp
+|   |   |-- MoveStrategy.hpp
+|   |   `-- Player.hpp
+|   |-- gnn/
+|   |   |-- FeatureExtractor.hpp
+|   |   |-- GNNModel.hpp
+|   |   `-- Graph.hpp
+|   `-- ui/
+|       |-- HexGameUI.hpp
+|       |-- HexTile.hpp
+|       `-- ImageViewer.hpp
+|-- src/
+|   |-- core/
+|   |   |-- Board.cpp
+|   |   |-- Cube.cpp
+|   |   |-- GameState.cpp
+|   |   |-- MoveStrategy.cpp
+|   |   `-- Player.cpp
+|   |-- gnn/
+|   |   |-- FeatureExtractor.cpp
+|   |   |-- GNNModel.cpp
+|   |   `-- Graph.cpp
+|   |-- ui/
+|   |   |-- HexGameUI.cpp
+|   |   |-- HexGameUI_updateVolumeIcon.cpp
+|   |   |-- HexTile.cpp
+|   |   |-- ImageViewer.cpp
+|   |   `-- main.cpp
+|   `-- cli/
+|       `-- main.cpp
+`-- selfplay/
+    |-- gnn/
+    |   |-- DataCollector.cpp
+    |   |-- DataCollector.hpp
+    |   |-- GameRunner.cpp
+    |   |-- GameRunner.hpp
+    |   |-- Serializer.cpp
+    |   |-- Serializer.hpp
+    |   `-- maingnn.cpp
+    |-- mlp/
+    |   |-- ReplayBuffer.cpp
+    |   |-- ReplayBuffer.hpp
+    |   |-- RLTrainer.cpp
+    |   |-- RLTrainer.hpp
+    |   |-- ValueMLP.cpp
+    |   `-- ValueMLP.hpp
+    `-- main.cpp
+\end{verbatim}
+\end{center}

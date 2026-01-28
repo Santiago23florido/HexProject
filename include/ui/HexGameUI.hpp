@@ -12,8 +12,14 @@
 #include "ui/HexTile.hpp"
 
 
+/**
+ * SFML-based UI controller for the Hex game.
+ *
+ * Owns textures, UI state, and game agents for interactive play.
+ */
 class HexGameUI {
 public:
+    /// Creates the UI with asset paths and game configuration.
     HexGameUI(
         const std::string& texturePath,
         const std::string& backgroundPath,
@@ -39,13 +45,18 @@ public:
         const std::string& modelPath,
         bool preferCuda);
 
+    /// Releases UI resources.
     ~HexGameUI();
 
+    /// Runs the UI event loop and returns an exit code.
     int run();
 
 private:
     enum class UIScreen { Start, PlayerSelect, Game };
 
+    /**
+     *  Hex tile placement for the UI grid.
+     */
     struct Tile {
         HexTile sprite;
         sf::Vector2f center;
@@ -200,6 +211,9 @@ private:
     sf::Sprite submenuBackButtonSprite_;
     
     // Audio menu sliders and volume control
+    /**
+     *  Slider state for volume controls.
+     */
     struct VolumeSlider {
         sf::RectangleShape background;
         sf::Sprite handle;

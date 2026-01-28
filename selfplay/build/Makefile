@@ -129,149 +129,77 @@ selfplay/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/build
 .PHONY : selfplay/fast
 
-DataCollector.o: DataCollector.cpp.o
-.PHONY : DataCollector.o
+gnn/DataCollector.o: gnn/DataCollector.cpp.o
+.PHONY : gnn/DataCollector.o
 
 # target to build an object file
-DataCollector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/DataCollector.cpp.o
-.PHONY : DataCollector.cpp.o
+gnn/DataCollector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o
+.PHONY : gnn/DataCollector.cpp.o
 
-DataCollector.i: DataCollector.cpp.i
-.PHONY : DataCollector.i
+gnn/DataCollector.i: gnn/DataCollector.cpp.i
+.PHONY : gnn/DataCollector.i
 
 # target to preprocess a source file
-DataCollector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/DataCollector.cpp.i
-.PHONY : DataCollector.cpp.i
+gnn/DataCollector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.i
+.PHONY : gnn/DataCollector.cpp.i
 
-DataCollector.s: DataCollector.cpp.s
-.PHONY : DataCollector.s
+gnn/DataCollector.s: gnn/DataCollector.cpp.s
+.PHONY : gnn/DataCollector.s
 
 # target to generate assembly for a file
-DataCollector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/DataCollector.cpp.s
-.PHONY : DataCollector.cpp.s
+gnn/DataCollector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.s
+.PHONY : gnn/DataCollector.cpp.s
 
-GameRunner.o: GameRunner.cpp.o
-.PHONY : GameRunner.o
+gnn/GameRunner.o: gnn/GameRunner.cpp.o
+.PHONY : gnn/GameRunner.o
 
 # target to build an object file
-GameRunner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/GameRunner.cpp.o
-.PHONY : GameRunner.cpp.o
+gnn/GameRunner.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o
+.PHONY : gnn/GameRunner.cpp.o
 
-GameRunner.i: GameRunner.cpp.i
-.PHONY : GameRunner.i
+gnn/GameRunner.i: gnn/GameRunner.cpp.i
+.PHONY : gnn/GameRunner.i
 
 # target to preprocess a source file
-GameRunner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/GameRunner.cpp.i
-.PHONY : GameRunner.cpp.i
+gnn/GameRunner.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.i
+.PHONY : gnn/GameRunner.cpp.i
 
-GameRunner.s: GameRunner.cpp.s
-.PHONY : GameRunner.s
+gnn/GameRunner.s: gnn/GameRunner.cpp.s
+.PHONY : gnn/GameRunner.s
 
 # target to generate assembly for a file
-GameRunner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/GameRunner.cpp.s
-.PHONY : GameRunner.cpp.s
+gnn/GameRunner.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.s
+.PHONY : gnn/GameRunner.cpp.s
 
-RLTrainer.o: RLTrainer.cpp.o
-.PHONY : RLTrainer.o
+gnn/Serializer.o: gnn/Serializer.cpp.o
+.PHONY : gnn/Serializer.o
 
 # target to build an object file
-RLTrainer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/RLTrainer.cpp.o
-.PHONY : RLTrainer.cpp.o
+gnn/Serializer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o
+.PHONY : gnn/Serializer.cpp.o
 
-RLTrainer.i: RLTrainer.cpp.i
-.PHONY : RLTrainer.i
-
-# target to preprocess a source file
-RLTrainer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/RLTrainer.cpp.i
-.PHONY : RLTrainer.cpp.i
-
-RLTrainer.s: RLTrainer.cpp.s
-.PHONY : RLTrainer.s
-
-# target to generate assembly for a file
-RLTrainer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/RLTrainer.cpp.s
-.PHONY : RLTrainer.cpp.s
-
-ReplayBuffer.o: ReplayBuffer.cpp.o
-.PHONY : ReplayBuffer.o
-
-# target to build an object file
-ReplayBuffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o
-.PHONY : ReplayBuffer.cpp.o
-
-ReplayBuffer.i: ReplayBuffer.cpp.i
-.PHONY : ReplayBuffer.i
+gnn/Serializer.i: gnn/Serializer.cpp.i
+.PHONY : gnn/Serializer.i
 
 # target to preprocess a source file
-ReplayBuffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i
-.PHONY : ReplayBuffer.cpp.i
+gnn/Serializer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/Serializer.cpp.i
+.PHONY : gnn/Serializer.cpp.i
 
-ReplayBuffer.s: ReplayBuffer.cpp.s
-.PHONY : ReplayBuffer.s
-
-# target to generate assembly for a file
-ReplayBuffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s
-.PHONY : ReplayBuffer.cpp.s
-
-Serializer.o: Serializer.cpp.o
-.PHONY : Serializer.o
-
-# target to build an object file
-Serializer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/Serializer.cpp.o
-.PHONY : Serializer.cpp.o
-
-Serializer.i: Serializer.cpp.i
-.PHONY : Serializer.i
-
-# target to preprocess a source file
-Serializer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/Serializer.cpp.i
-.PHONY : Serializer.cpp.i
-
-Serializer.s: Serializer.cpp.s
-.PHONY : Serializer.s
+gnn/Serializer.s: gnn/Serializer.cpp.s
+.PHONY : gnn/Serializer.s
 
 # target to generate assembly for a file
-Serializer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/Serializer.cpp.s
-.PHONY : Serializer.cpp.s
-
-ValueMLP.o: ValueMLP.cpp.o
-.PHONY : ValueMLP.o
-
-# target to build an object file
-ValueMLP.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ValueMLP.cpp.o
-.PHONY : ValueMLP.cpp.o
-
-ValueMLP.i: ValueMLP.cpp.i
-.PHONY : ValueMLP.i
-
-# target to preprocess a source file
-ValueMLP.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ValueMLP.cpp.i
-.PHONY : ValueMLP.cpp.i
-
-ValueMLP.s: ValueMLP.cpp.s
-.PHONY : ValueMLP.s
-
-# target to generate assembly for a file
-ValueMLP.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/ValueMLP.cpp.s
-.PHONY : ValueMLP.cpp.s
+gnn/Serializer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/gnn/Serializer.cpp.s
+.PHONY : gnn/Serializer.cpp.s
 
 home/santiago/IN204/HexProject/src/core/Board.o: home/santiago/IN204/HexProject/src/core/Board.cpp.o
 .PHONY : home/santiago/IN204/HexProject/src/core/Board.o
@@ -489,6 +417,78 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+mlp/RLTrainer.o: mlp/RLTrainer.cpp.o
+.PHONY : mlp/RLTrainer.o
+
+# target to build an object file
+mlp/RLTrainer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o
+.PHONY : mlp/RLTrainer.cpp.o
+
+mlp/RLTrainer.i: mlp/RLTrainer.cpp.i
+.PHONY : mlp/RLTrainer.i
+
+# target to preprocess a source file
+mlp/RLTrainer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.i
+.PHONY : mlp/RLTrainer.cpp.i
+
+mlp/RLTrainer.s: mlp/RLTrainer.cpp.s
+.PHONY : mlp/RLTrainer.s
+
+# target to generate assembly for a file
+mlp/RLTrainer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.s
+.PHONY : mlp/RLTrainer.cpp.s
+
+mlp/ReplayBuffer.o: mlp/ReplayBuffer.cpp.o
+.PHONY : mlp/ReplayBuffer.o
+
+# target to build an object file
+mlp/ReplayBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o
+.PHONY : mlp/ReplayBuffer.cpp.o
+
+mlp/ReplayBuffer.i: mlp/ReplayBuffer.cpp.i
+.PHONY : mlp/ReplayBuffer.i
+
+# target to preprocess a source file
+mlp/ReplayBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.i
+.PHONY : mlp/ReplayBuffer.cpp.i
+
+mlp/ReplayBuffer.s: mlp/ReplayBuffer.cpp.s
+.PHONY : mlp/ReplayBuffer.s
+
+# target to generate assembly for a file
+mlp/ReplayBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.s
+.PHONY : mlp/ReplayBuffer.cpp.s
+
+mlp/ValueMLP.o: mlp/ValueMLP.cpp.o
+.PHONY : mlp/ValueMLP.o
+
+# target to build an object file
+mlp/ValueMLP.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o
+.PHONY : mlp/ValueMLP.cpp.o
+
+mlp/ValueMLP.i: mlp/ValueMLP.cpp.i
+.PHONY : mlp/ValueMLP.i
+
+# target to preprocess a source file
+mlp/ValueMLP.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.i
+.PHONY : mlp/ValueMLP.cpp.i
+
+mlp/ValueMLP.s: mlp/ValueMLP.cpp.s
+.PHONY : mlp/ValueMLP.s
+
+# target to generate assembly for a file
+mlp/ValueMLP.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/selfplay.dir/build.make CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.s
+.PHONY : mlp/ValueMLP.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -498,24 +498,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... selfplay"
-	@echo "... DataCollector.o"
-	@echo "... DataCollector.i"
-	@echo "... DataCollector.s"
-	@echo "... GameRunner.o"
-	@echo "... GameRunner.i"
-	@echo "... GameRunner.s"
-	@echo "... RLTrainer.o"
-	@echo "... RLTrainer.i"
-	@echo "... RLTrainer.s"
-	@echo "... ReplayBuffer.o"
-	@echo "... ReplayBuffer.i"
-	@echo "... ReplayBuffer.s"
-	@echo "... Serializer.o"
-	@echo "... Serializer.i"
-	@echo "... Serializer.s"
-	@echo "... ValueMLP.o"
-	@echo "... ValueMLP.i"
-	@echo "... ValueMLP.s"
+	@echo "... gnn/DataCollector.o"
+	@echo "... gnn/DataCollector.i"
+	@echo "... gnn/DataCollector.s"
+	@echo "... gnn/GameRunner.o"
+	@echo "... gnn/GameRunner.i"
+	@echo "... gnn/GameRunner.s"
+	@echo "... gnn/Serializer.o"
+	@echo "... gnn/Serializer.i"
+	@echo "... gnn/Serializer.s"
 	@echo "... home/santiago/IN204/HexProject/src/core/Board.o"
 	@echo "... home/santiago/IN204/HexProject/src/core/Board.i"
 	@echo "... home/santiago/IN204/HexProject/src/core/Board.s"
@@ -543,6 +534,15 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... mlp/RLTrainer.o"
+	@echo "... mlp/RLTrainer.i"
+	@echo "... mlp/RLTrainer.s"
+	@echo "... mlp/ReplayBuffer.o"
+	@echo "... mlp/ReplayBuffer.i"
+	@echo "... mlp/ReplayBuffer.s"
+	@echo "... mlp/ValueMLP.o"
+	@echo "... mlp/ValueMLP.i"
+	@echo "... mlp/ValueMLP.s"
 .PHONY : help
 
 

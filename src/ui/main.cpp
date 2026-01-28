@@ -8,6 +8,8 @@
 #include <iostream>
 #include <limits>
 
+// Entry point for the SFML UI version of the Hex game.
+
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
     const std::string modelPath = "../scripts/models/hex_value_ts_mp.pt";

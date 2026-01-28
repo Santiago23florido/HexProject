@@ -4,6 +4,8 @@
 #include <type_traits>
 using namespace std;
 
+// Implements board initialization, printing, and stone placement with bounds checks.
+
 namespace {
 int ValidateBoardSize(int n) {
     if (n <= 0) {

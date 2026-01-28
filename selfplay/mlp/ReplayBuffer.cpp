@@ -1,11 +1,14 @@
 #include "ReplayBuffer.hpp"
 
+// Implements a fixed-capacity replay buffer with uniform sampling.
+
 ReplayBuffer::ReplayBuffer(std::size_t capacity)
     : capacity_(capacity) {
     buffer_.reserve(capacity_);
 }
 
 void ReplayBuffer::add(const ReplaySample& sample) {
+    // No-op when capacity is zero.
     if (capacity_ == 0) return;
 
     if (buffer_.size() < capacity_) {
@@ -44,6 +47,7 @@ bool ReplayBuffer::canSample(std::size_t batchSize) const {
 
 std::vector<ReplaySample> ReplayBuffer::sample(std::size_t batchSize, std::mt19937& rng) const {
     std::vector<ReplaySample> out;
+    // Returns empty on zero batch size or empty buffer.
     if (batchSize == 0 || buffer_.empty()) return out;
     out.reserve(batchSize);
     std::uniform_int_distribution<std::size_t> dist(0, buffer_.size() - 1);

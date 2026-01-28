@@ -4,7 +4,10 @@
 #include <sstream>
 #include <stdexcept>
 
+// Implements JSON Lines serialization for Sample data with one object per line.
+
 bool Serializer::writeJsonl(const std::vector<Sample>& samples, const std::string& path, bool append) {
+    // Throws std::runtime_error on open or write failure.
     std::ios_base::openmode mode = append ? std::ios::app : std::ios::trunc;
     std::ofstream out(path, mode);
     if (!out.is_open()) {

@@ -25,7 +25,7 @@ torch::nn::Module pour int\'egrer le mod\`ele avec LibTorch.
 Par d\'efaut: Board board; utilise le constructeur par d\'efaut
 Board(int n = 7) dans src/cli/main.cpp. Avec param\`etres:
 NegamaxStrategy p1(depthP1, cfg\_.timeLimitMs, "", false, false,
-cfg\_.alpha, false); dans selfplay/RLTrainer.cpp. Par copie:
+cfg\_.alpha, false); dans selfplay/mlp/RLTrainer.cpp. Par copie:
 Board childBoard(base); dans src/core/MoveStrategy.cpp, qui invoque
 Board(const Board\& other).
 
@@ -108,4 +108,4 @@ le meilleur score (src/core/MoveStrategy.cpp). Dans l'entrainement
 selfplay, RLTrainer lance plusieurs threads pour generer des parties en
 parallele, tandis que les mises a jour d'apprentissage restent sur le
 thread principal; les files et etats partages sont proteges par mutex et
-atomics (selfplay/RLTrainer.cpp).
+atomics (selfplay/mlp/RLTrainer.cpp).
