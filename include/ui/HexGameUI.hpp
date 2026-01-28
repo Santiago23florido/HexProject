@@ -93,6 +93,8 @@ private:
     void applyVolumeChanges();
     void saveVolumeConfig();
     void loadVolumeConfig();
+    void saveVideoQualityConfig();
+    void loadVideoQualityConfig();
 
     std::string texturePath_;
     std::string backgroundPath_;
@@ -198,6 +200,12 @@ private:
     sf::Sprite audioMenuSprite_;
     sf::Texture creditsMenuTexture_;
     sf::Sprite creditsMenuSprite_;
+    // Credits image
+    sf::Texture creditsImageTexture_;
+    sf::Sprite creditsImageSprite_;
+    sf::FloatRect creditsImageBounds_;
+    bool creditsImageClicked_ = false;
+    sf::Clock creditsClickClock_;
     // Back button for submenus
     sf::Texture submenuBackButtonTexture_;
     sf::Sprite submenuBackButtonSprite_;
@@ -241,6 +249,49 @@ private:
     sf::Sprite musicVolumeLabelSprite_;
     sf::Texture effectsVolumeLabelTexture_;
     sf::Sprite effectsVolumeLabelSprite_;
+
+    // Video menu quality selector
+    enum class VideoQuality { Low = 0, Medium = 1, High = 2 };
+    VideoQuality currentVideoQuality_ = VideoQuality::High;
+    
+    // Quality label and display
+    sf::Texture qualityLabelTexture_;
+    sf::Sprite qualityLabelSprite_;
+    std::array<sf::Texture, 3> qualityDisplayTextures_;  // low, medium, high
+    sf::Sprite qualityDisplaySprite_;
+    
+    // Fullscreen label and display
+    sf::Texture fullscreenLabelTexture_;
+    sf::Sprite fullscreenLabelSprite_;
+    std::array<sf::Texture, 2> fullscreenDisplayTextures_;  // disabled, enabled
+    sf::Sprite fullscreenDisplaySprite_;
+    
+    // Quality buttons and display
+    sf::Texture leftButtonTexture_;
+    sf::Sprite leftButtonSprite_;
+    sf::Texture rightButtonTexture_;
+    sf::Sprite rightButtonSprite_;
+    
+    // Quality selector bounding boxes for clicks
+    sf::FloatRect leftButtonBounds_;
+    sf::FloatRect rightButtonBounds_;
+    sf::FloatRect fullscreenLeftButtonBounds_;
+    sf::FloatRect fullscreenRightButtonBounds_;
+    
+    // Fullscreen button positions for rendering
+    sf::Vector2f fsLeftBtnPos_;
+    sf::Vector2f fsRightBtnPos_;
+    float fsBtnScale_{1.0f};
+    
+    // Resolution storage for each quality level
+    sf::Vector2u lowQualityResolution_{0, 0};
+    sf::Vector2u mediumQualityResolution_{0, 0};
+    sf::Vector2u highQualityResolution_{0, 0};
+    
+    // Fullscreen toggle
+    bool fullscreenEnabled_{false};
+    void applyVideoChanges(sf::RenderWindow& window);
+    void setFullscreenEnabledWithWindow(bool enabled, sf::RenderWindow& window);
 
     sf::RectangleShape aiConfigBox_;    
     sf::Text aiConfigText_;             
