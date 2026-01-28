@@ -106,6 +106,7 @@ source ~/.bashrc
 
 ## Build and run the game
 ```bash
+rm -rf build
 cmake -S . -B build
 cmake --build build
 cd build
@@ -114,6 +115,7 @@ cd build
 
 ## Build and run self-play
 ```bash
+rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 

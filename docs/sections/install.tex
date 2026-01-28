@@ -129,6 +129,7 @@ source ~/.bashrc
 
 \subsection{Compilation et execution du jeu}
 \begin{verbatim}
+rm -rf build
 cmake -S . -B build
 cmake --build build
 cd build
@@ -137,6 +138,7 @@ cd build
 
 \subsection{Compilation et execution du selfplay}
 \begin{verbatim}
+rm -rf selfplay/build
 cmake -S selfplay -B selfplay/build
 cmake --build selfplay/build
 ./selfplay/build/selfplay \
