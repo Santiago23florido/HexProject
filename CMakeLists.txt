@@ -107,6 +107,9 @@ target_link_libraries(hex_ui PRIVATE
     sfml-system
     sfml-audio
 )
+if(WIN32)
+    target_link_libraries(hex_ui PRIVATE sfml-main)
+endif()
 if(HEX_HAS_CUDA)
     target_compile_definitions(hex_ui PRIVATE HEX_HAS_CUDA)
     target_link_libraries(hex_ui PRIVATE CUDA::cudart)
