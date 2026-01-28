@@ -1,0 +1,384 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.11.6)  28 JAN 2026 11:05
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/santiago/IN204/HexProject/docs/hex.tex
+(/home/santiago/IN204/HexProject/docs/hex.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(/usr/share/texlive/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen140
+\@IEEEtrantmpdimenB=\dimen141
+\@IEEEtrantmpdimenC=\dimen142
+\@IEEEtrantmpcountA=\count187
+\@IEEEtrantmpcountB=\count188
+\@IEEEtrantmpcountC=\count189
+\@IEEEtrantmptoksA=\toks17
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 503.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen143
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen144
+\CLASSINFOnormalsizeunitybaselineskip=\dimen145
+\IEEEnormaljot=\dimen146
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+\IEEEquantizedlength=\dimen147
+\IEEEquantizedlengthdiff=\dimen148
+\IEEEquantizedtextheightdiff=\dimen149
+\IEEEilabelindentA=\dimen150
+\IEEEilabelindentB=\dimen151
+\IEEEilabelindent=\dimen152
+\IEEEelabelindent=\dimen153
+\IEEEdlabelindent=\dimen154
+\IEEElabelindent=\dimen155
+\IEEEiednormlabelsep=\dimen156
+\IEEEiedmathlabelsep=\dimen157
+\IEEEiedtopsep=\skip48
+\c@section=\count190
+\c@subsection=\count191
+\c@subsubsection=\count192
+\c@paragraph=\count193
+\c@IEEEsubequation=\count194
+\abovecaptionskip=\skip49
+\belowcaptionskip=\skip50
+\c@figure=\count195
+\c@table=\count196
+\@IEEEeqnnumcols=\count197
+\@IEEEeqncolcnt=\count198
+\@IEEEsubeqnnumrollback=\count199
+\@IEEEquantizeheightA=\dimen158
+\@IEEEquantizeheightB=\dimen159
+\@IEEEquantizeheightC=\dimen160
+\@IEEEquantizeprevdepth=\dimen161
+\@IEEEquantizemultiple=\count266
+\@IEEEquantizeboxA=\box51
+\@IEEEtmpitemindent=\dimen162
+\IEEEPARstartletwidth=\dimen163
+\c@IEEEbiography=\count267
+\@IEEEtranrubishbin=\box52
+) (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2021/02/14 v1.3d Input encoding file
+\inpenc@prehook=\toks18
+\inpenc@posthook=\toks19
+) (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 112.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count268
+\l__pdf_internal_box=\box53
+) (./hex.aux)
+\openout1 = `hex.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
+LaTeX Font Info:    ... okay on input line 5.
+
+-- Lines per column: 56 (exact).
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <11> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7.69997> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5.5> on input line 23.
+(./sections/introduction.tex) (./sections/ProjectStructure.tex
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 9.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 31.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 31.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 31.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+
+]
+Overfull \hbox (12.0pt too wide) in paragraph at lines 106--106
+[]\T1/pcr/m/n/10 |   `-- train_value_mlp_emulate_heuristic.py[] 
+ []
+
+
+Underfull \vbox (badness 1721) has occurred while \output is active []
+
+) (./sections/StructureSubsections/core.tex
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]\T1/ptm/m/n/8 GameState
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]\T1/ptm/m/n/8 HumanPlayer,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]\T1/ptm/m/n/8 IMoveStrategy
+ []
+
+
+Underfull \hbox (badness 7925) in paragraph at lines 17--18
+[]\T1/ptm/m/n/8 Interface de sélec-tion de
+ []
+
+
+Overfull \hbox (4.11797pt too wide) in paragraph at lines 18--18
+[]\T1/ptm/m/n/8 NegamaxStrategy
+ []
+
+
+Overfull \hbox (12.2465pt too wide) in paragraph at lines 18--18
+[]\T1/ptm/m/n/8 NegamaxHeuristicStrategy,
+ []
+
+[2]
+Underfull \hbox (badness 2020) in paragraph at lines 39--42
+\T1/ptm/m/n/10 Nega-max-Heuris-tic-Strat-egy qui force à utiliser seule-ment
+ []
+
+) (./sections/StructureSubsections/gnn.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [3]
+Underfull \hbox (badness 10000) in paragraph at lines 13--13
+[]\T1/ptm/m/n/8 Graph
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
+[]\T1/ptm/m/n/8 Graphe du plateau
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]\T1/ptm/m/n/8 NodeFeatures
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
+\T1/ptm/m/n/8 (pi-ons, bords, dis-tances,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]\T1/ptm/m/n/8 FeatureBatch
+ []
+
+
+Overfull \hbox (0.8377pt too wide) in paragraph at lines 16--16
+[]\T1/ptm/m/n/8 FeatureExtractor
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]\T1/ptm/m/n/8 GNNModel
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--18
+[]\T1/ptm/m/n/8 Wrapper Torch-Script
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--18
+\T1/ptm/m/n/8 pour éval-uer un mod-èle
+ []
+
+) (./sections/StructureSubsections/selfplay.tex
+Underfull \hbox (badness 10000) in paragraph at lines 15--15
+[]\T1/ptm/m/n/8 ValueMLPImpl
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+[]\T1/ptm/m/n/8 Réseau MLP de valeur; hérite de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]\T1/ptm/m/n/8 DataCollector
+ []
+
+
+Overfull \hbox (3.83954pt too wide) in paragraph at lines 6--22
+ [][] 
+ []
+
+[4]) (./sections/poo.tex [5]) (./sections/install.tex
+Underfull \hbox (badness 1571) in paragraph at lines 104--1
+[]\T1/ptm/m/n/10 Le par-al-lele est utilise a deux en-droits. Dans Nega-
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 31.
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 48--48
+[]\T1/pcr/m/n/10 wget https://download.pytorch.org/libtorch/\[] 
+ []
+
+
+Overfull \hbox (48.0pt too wide) in paragraph at lines 48--48
+[]\T1/pcr/m/n/10 nightly/cpu/libtorch-shared-with-deps-latest.zip \[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+\T1/ptm/m/n/10 Pour CUDA, télécharger la ver-sion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+\T1/ptm/m/n/10 com-pat-i-ble avec votre toolkit depuis
+ []
+
+
+Overfull \hbox (54.0pt too wide) in paragraph at lines 57--57
+[]\T1/pcr/m/n/10 export Torch_DIR="$HOME/libtorch/share/cmake/Torch"[] 
+ []
+
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 69--69
+[]\T1/pcr/m/n/10 export LD_LIBRARY_PATH="$HOME/libtorch/lib:\[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 90--92
+\T1/ptm/m/n/10 Ex. De-bian/Ubuntu : \T1/pcr/m/n/10 sudo apt-get install
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 96--98
+\T1/ptm/m/n/10 Ex. De-bian/Ubuntu : \T1/pcr/m/n/10 sudo apt-get install
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 100--103
+\T1/ptm/m/n/10 Ex. De-bian/Ubuntu : \T1/pcr/m/n/10 sudo apt-get install
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 100--103
+\T1/ptm/m/n/10 Poetry : \T1/pcr/m/n/10 python3 -m pip install --user
+ []
+
+
+Overfull \hbox (30.0pt too wide) in paragraph at lines 128--128
+[]\T1/pcr/m/n/10 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:\[] 
+ []
+
+
+Overfull \hbox (12.0pt too wide) in paragraph at lines 128--128
+[]\T1/pcr/m/n/10 export LD_LIBRARY_PATH="$HOME/libtorch/lib:\[] 
+ []
+
+
+Overfull \hbox (84.0pt too wide) in paragraph at lines 169--169
+[]\T1/pcr/m/n/10 sudo apt-get install -y python3 python3-venv python3-pip[] 
+ []
+
+
+Overfull \hbox (276.0pt too wide) in paragraph at lines 169--169
+[]  \T1/pcr/m/n/10 "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \[] 
+ []
+
+)
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[7] (./hex.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 1718 strings out of 474222
+ 31544 string characters out of 5748733
+ 1948975 words of memory out of 5000000
+ 23987 multiletter control sequences out of 15000+600000
+ 671194 words of font info for 142 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 37i,11n,50p,1582b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on hex.pdf (7 pages, 118020 bytes).
+PDF statistics:
+ 59 PDF objects out of 1000 (max. 8388607)
+ 37 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,7 +1,2 @@
-/build/
-*.o
-*.out
-*.exe
-*.obj
-*.log
-*.cache
+/dist/
+
