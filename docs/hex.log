@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.11.6)  28 JAN 2026 11:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.11.6)  28 JAN 2026 12:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -271,14 +271,52 @@ Overfull \hbox (3.83954pt too wide) in paragraph at lines 6--22
  [][] 
  []
 
-[4]) (./sections/poo.tex [5]) (./sections/install.tex
+[4]) (./sections/StructureSubsections/UI-UX.tex
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 7.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./sections/StructureSubsections/UX.tex
+Underfull \hbox (badness 5302) in paragraph at lines 5--7
+ \T1/ptm/m/it/10 1) Ges-tion des Événe-ments et En-trées: [][] \T1/ptm/m/n/10 Le mo-teur
+ []
+
+
+Overfull \hbox (36.05466pt too wide) detected at line 16
+\OML/cmm/m/it/10 P \OMS/cmsy/m/n/10 2 \OML/cmm/m/it/10 R  \OMS/cmsy/m/n/10 ([])  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 R:left \OMS/cmsy/m/n/10 ^^T \OML/cmm/m/it/10 P:x \OMS/cmsy/m/n/10 ^^T \OML/cmm/m/it/10 R:right\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^ \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 R:top \OMS/cmsy/m/n/10 ^^T \OML/cmm/m/it/10 P:y \OMS/cmsy/m/n/10 ^^T \OML/cmm/m/it/10 R:bottom\OT1/cmr/m/n/10 )
+ []
+
+
+Underfull \hbox (badness 3657) in paragraph at lines 34--34
+[]\T1/ptm/m/n/8 Clics, pose de pi-ons, vic-
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[5]) (./sections/StructureSubsections/Multimedia.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+[]\T1/ptm/b/n/10 Robustesse du Sys-tème : \T1/ptm/m/n/10 L'utilisation de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
+\T1/pcr/m/n/10 std::filesystem \T1/ptm/m/n/10 as-sure la com-pat-i-bil-ité des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]\T1/ptm/m/n/8 Streaming con-tinu pour
+ []
+
+) (./sections/poo.tex [6]) (./sections/install.tex
 Underfull \hbox (badness 1571) in paragraph at lines 104--1
 []\T1/ptm/m/n/10 Le par-al-lele est utilise a deux en-droits. Dans Nega-
  []
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 31.
-
+[7]
 Overfull \hbox (12.0pt too wide) in paragraph at lines 48--48
 []\T1/pcr/m/n/10 wget https://download.pytorch.org/libtorch/\[] 
  []
@@ -318,7 +356,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 96--98
 \T1/ptm/m/n/10 Ex. De-bian/Ubuntu : \T1/pcr/m/n/10 sudo apt-get install
  []
 
-[6]
+
 Underfull \hbox (badness 10000) in paragraph at lines 100--103
 \T1/ptm/m/n/10 Ex. De-bian/Ubuntu : \T1/pcr/m/n/10 sudo apt-get install
  []
@@ -338,14 +376,14 @@ Overfull \hbox (12.0pt too wide) in paragraph at lines 128--128
 []\T1/pcr/m/n/10 export LD_LIBRARY_PATH="$HOME/libtorch/lib:\[] 
  []
 
-
-Overfull \hbox (84.0pt too wide) in paragraph at lines 169--169
-[]\T1/pcr/m/n/10 sudo apt-get install -y python3 python3-venv python3-pip[] 
+[8]
+Overfull \hbox (24.0pt too wide) in paragraph at lines 171--171
+[]\T1/pcr/m/n/10 sudo apt-get install -y python3 python3-venv \[] 
  []
 
 
-Overfull \hbox (276.0pt too wide) in paragraph at lines 169--169
-[]  \T1/pcr/m/n/10 "https://drive.google.com/file/d/1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \[] 
+Overfull \hbox (72.0pt too wide) in paragraph at lines 171--171
+[]\T1/pcr/m/n/10 "1iVbLBNMKzCeTfzk1X_cW3bPPNIjGCMX-/view?usp=sharing" \[] 
  []
 
 )
@@ -360,25 +398,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7] (./hex.aux)
+[9
+
+] (./hex.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1718 strings out of 474222
- 31544 string characters out of 5748733
+ 1745 strings out of 474222
+ 32415 string characters out of 5748733
  1948975 words of memory out of 5000000
- 23987 multiletter control sequences out of 15000+600000
- 671194 words of font info for 142 fonts, out of 8000000 for 9000
+ 24003 multiletter control sequences out of 15000+600000
+ 673437 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,11n,50p,1582b,300s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on hex.pdf (7 pages, 118020 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on hex.pdf (9 pages, 179867 bytes).
 PDF statistics:
- 59 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 90 PDF objects out of 1000 (max. 8388607)
+ 56 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

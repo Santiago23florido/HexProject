@@ -1,0 +1,41 @@
+\subsection{Interaction et Expérience Utilisateur (UX)}
+Cette sous-section détaille les mécanismes de contrôle et les stratégies de retour d'information (\textit{feedback}) mis en place pour garantir une interaction fluide entre l'utilisateur et le système.
+
+\subsubsection{Gestion des Événements et Entrées}
+Le moteur d'interface de \texttt{HexGameUI} centralise la gestion des événements SFML. Le système distingue trois types d'interactions prioritaires :
+\begin{itemize}
+    \item \textbf{Interactions Souris :} Capture des clics pour valider les coups et suivi des coordonnées pour les effets visuels de survol.
+    \item \textbf{Contrôles de Configuration :} Utilisation de \textit{sliders} pour l'ajustement dynamique des paramètres audio et du volume.
+    \item \textbf{Navigation :} Gestion des transitions d'états via des boutons interactifs (Start, Quit, Restart).
+\end{itemize}
+
+\subsubsection{Détection de Collision et "Hex-Picking"}
+L'un des défis majeurs réside dans la sélection précise des cellules non rectangulaires. La méthode implémentée utilise le \textit{bounding box} de chaque \texttt{HexTile}. Lorsqu'un clic est détecté, le système itère sur la collection de tuiles et vérifie la collision via :
+\begin{equation}
+    P \in R \iff (R.left \le P.x \le R.right) \land (R.top \le P.y \le R.bottom)
+\end{equation}
+Pour améliorer la précision visuelle, un effet de prévisualisation (\textit{Hover}) est activé en modifiant la composante alpha du sprite (\texttt{kHoverAlpha}), indiquant ainsi la validité du coup avant confirmation.
+
+
+
+\subsubsection{Système Audio et Feedback Sensoriel}
+Pour renforcer l'immersion, une architecture audio multicanale a été intégrée, permettant un contrôle granulaire des ressources sonores (Tableau \ref{tab:audio_channels}).
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Structure de Gestion Audio}
+\label{tab:audio_channels}
+\centering
+\begin{tabular}{|l|l|p{3.5cm}|}
+\hline
+\textbf{Canal} & \textbf{Type} & \textbf{Événement Associé} \\ \hline
+\textit{Master} & Contrôle & Volume global du système. \\ \hline
+\textit{Music} & \textit{Stream} & Ambiance sonore des menus et du jeu. \\ \hline
+\textit{SFX} & \textit{Buffer} & Clics, pose de pions, victoire/défaite. \\ \hline
+\end{tabular}
+\end{table}
+
+La fonction \texttt{updateVolumeIcon} assure une cohérence visuelle en mettant à jour dynamiquement l'icône du haut-parleur selon quatre paliers de volume, offrant ainsi une réponse immédiate aux modifications de l'utilisateur.
+
+\subsubsection{Transitions et Réactivité du Système}
+L'interface utilise la classe \texttt{sf::Clock} pour gérer les délais d'animation et les temps de réponse de l'IA. Ces délais sont cruciaux pour éviter des transitions instantanées qui pourraient désorienter le joueur, permettant ainsi une meilleure compréhension des mouvements effectués par l'adversaire (GNN ou Heuristique).

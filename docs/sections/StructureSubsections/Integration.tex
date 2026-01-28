@@ -1,0 +1,44 @@
+\subsection{Intégration des Systèmes et Connectivité}
+Cette sous-section décrit le rôle de l'interface en tant que pont opérationnel entre le moteur logique (\textit{Core}), les modèles d'intelligence artificielle et l'accélération matérielle.
+
+\subsubsection{Synchronisation UI et GameState}
+L'interface \texttt{HexGameUI} ne duplique pas la logique métier mais maintient une instance du \texttt{GameState}. La communication suit un flux de contrôle strict :
+\begin{itemize}
+    \item \textbf{Validation :} Avant chaque mise à jour visuelle, l'UI interroge le \textit{Core} pour confirmer la légalité du mouvement via les règles du jeu Hex.
+    \item \textbf{Reflet d'État :} Après chaque tour, une synchronisation bidirectionnelle met à jour les objets \texttt{HexTile} pour refléter la matrice interne, garantissant l'intégrité des données affichées.
+\end{itemize}
+
+\subsubsection{Déploiement des Stratégies d'IA}
+L'intégration des modèles développés dans les phases précédentes (GNN et \textit{Self-play}) est gérée dynamiquement. Le système permet de commuter entre différents agents de décision :
+\begin{itemize}
+    \item \textbf{Inférence GNN :} Chargement du modèle \textit{TorchScript} (\texttt{.pt}) au démarrage. L'interface envoie l'état du plateau au modèle et récupère le vecteur de probabilités pour l'action optimale.
+    \item \textbf{Gestion des Délais :} Pour améliorer l'expérience utilisateur, l'exécution des stratégies est rythmée par des horloges internes (\texttt{sf::Clock}), simulant un temps de réflexion pour l'IA.
+\end{itemize}
+
+
+
+\subsubsection{Accélération Matérielle et Vérification CUDA}
+Comme illustré dans le point d'entrée \texttt{main.cpp}, le logiciel effectue un diagnostic du matériel lors de l'initialisation. L'utilisation de la macro \texttt{HEX\_HAS\_CUDA} permet une adaptation conditionnelle :
+\begin{enumerate}
+    \item \textbf{Détection :} Le système vérifie la disponibilité de \texttt{torch::cuda}.
+    \item \textbf{Optimisation :} Si un GPU est détecté, les calculs d'inférence de l'IA sont déportés sur le matériel NVIDIA, réduisant la latence de décision.
+    \item \textbf{Journalisation :} Les propriétés du périphérique (Nom, Mémoire totale) sont extraites pour confirmer le mode d'exécution (CPU vs GPU) à l'utilisateur.
+\end{enumerate}
+
+\begin{table}[h]
+\renewcommand{\arraystretch}{1.3}
+\caption{Flux d'Exécution de l'Intégration IA}
+\label{tab:ia_integration}
+\centering
+\begin{tabular}{|l|c|p{3.5cm}|}
+\hline
+\textbf{Phase} & \textbf{Composant} & \textbf{Action} \\ \hline
+1. Input & UI & Capture du clic ou signal IA. \\ \hline
+2. Logic & Core & Vérification des règles et voisinage. \\ \hline
+3. Compute & CUDA/CPU & Calcul du prochain mouvement (IA). \\ \hline
+4. Render & SFML & Mise à jour graphique des tuiles. \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Gestion du Cycle de Fin de Partie}
+L'intégration se termine par la capture du signal de victoire émis par les algorithmes de recherche (BFS/DFS) du \textit{Core}. L'interface répond en activant une \textit{Victory Overlay}, bloquant les entrées utilisateur et déclenchant les animations de fin, prouvant la robustesse du couplage entre les différents modules du projet.

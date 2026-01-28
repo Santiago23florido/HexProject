@@ -1010,9 +1010,8 @@ void HexGameUI::buildLayout() {
     float settingsButtonWidth = 1792.0f * settingsButtonScale;
     float settingsMenuCenterX = windowSize_.x / 2.0f;
     float settingsMenuCenterY = windowSize_.y / 2.0f;
-    float settingsGap = 8.0f;  // Reducido de 12.0f a 8.0f (4 píxeles menos)
+    float settingsGap = 8.0f;  
     
-    // Calcular altura total de los 4 botones con gaps entre ellos
     float totalHeight = (4.0f * settingsButtonHeight) + (3.0f * settingsGap);
     float startY = settingsMenuCenterY - (totalHeight / 2.0f)+10.0f;
     
@@ -1054,7 +1053,7 @@ void HexGameUI::buildLayout() {
     float videoMenuCenterY = windowSize_.y / 2.0f;
     float videoContentStartY = videoMenuCenterY - videoMenuHeight / 2.0f + 60.0f;
     float videoItemGap = windowSize_.y * 0.08f;
-    float spacing = 20.0f; // Un poco más de espacio para que no se vea amontonado
+    float spacing = 20.0f; 
 
     // 1. Quality label
     float qualityLabelHeight = windowSize_.y * 0.03f; 
@@ -1068,22 +1067,22 @@ void HexGameUI::buildLayout() {
     float qualityDisplayHeight = qualityLabelHeight * 0.6f;
     int qualityIndex = static_cast<int>(currentVideoQuality_);
     
-    // Asignamos textura ANTES de calcular el ancho
+    
     qualityDisplaySprite_.setTexture(qualityDisplayTextures_[qualityIndex]);
     float qTextScale = qualityDisplayHeight / qualityDisplayTextures_[qualityIndex].getSize().y;
     qualityDisplaySprite_.setScale(qTextScale, qTextScale);
     
-    // El ancho cambia según si es "LOW", "MEDIUM" o "HIGH"
+    //Dinamic width based on current quality text
     float qTextWidth = qualityDisplayTextures_[qualityIndex].getSize().x * qTextScale;
     float qBtnScale = qualityDisplayHeight / 100.0f; 
     float qBtnSize = 100.0f * qBtnScale;
 
-    // Calculamos el inicio de la fila basándonos en el ancho REAL del texto actual
+    // Calculate total width of the row to center it
     float qRowTotalWidth = qBtnSize + spacing + qTextWidth + spacing + qBtnSize;
     float qRowStartX = videoMenuCenterX - (qRowTotalWidth / 2.0f);
     float qRowY = qualityLabelY + qualityLabelHeight + 15.0f;
 
-    // Posicionamos flechas de la primera fila
+    // Setup left and right button sprites positions and scales
     leftButtonSprite_.setScale(qBtnScale, qBtnScale);
     leftButtonSprite_.setPosition(qRowStartX, qRowY);
 
@@ -1099,7 +1098,7 @@ void HexGameUI::buildLayout() {
 
     // 3. Fullscreen label
     float fullscreenLabelY = qRowY + qualityDisplayHeight + videoItemGap;
-    // Simplifiqué tu escala para que sea consistente con la de arriba
+    
     float fsLabelScale = qualityLabelHeight / 45.0f; 
     fullscreenLabelSprite_.setScale(fsLabelScale, fsLabelScale);
     float fsLabelWidth = fullscreenLabelTexture_.getSize().x * fsLabelScale;
@@ -1113,7 +1112,7 @@ void HexGameUI::buildLayout() {
     float fsTextScale = fsDisplayHeight / fullscreenDisplayTextures_[fsIndex].getSize().y;
     fullscreenDisplaySprite_.setScale(fsTextScale, fsTextScale);
     
-    // Ancho dinámico para Enabled/Disabled
+    // Dinamic width based on current fullscreen text
     float fsTextWidth = fullscreenDisplayTextures_[fsIndex].getSize().x * fsTextScale;
     float fsBtnScale = fsDisplayHeight / 100.0f;
     float fsBtnSize = 100.0f * fsBtnScale;
@@ -1122,16 +1121,12 @@ void HexGameUI::buildLayout() {
     float fsRowStartX = videoMenuCenterX - (fsRowTotalWidth / 2.0f);
     float fsRowY = fullscreenLabelY + qualityLabelHeight + 15.0f;
 
-    // IMPORTANTE: Aquí posicionamos los SPRITES de las flechas de nuevo
-    // Nota: Como SFML usa los mismos sprites para dibujar, si los dibujas en dos sitios distintos 
-    // en el render, debes guardar sus posiciones o usar sprites diferentes. 
-    // Si usas los mismos sprites, la lógica de abajo solo sirve para definir los BOUNDS de clic:
     
     fullscreenLeftButtonBounds_ = sf::FloatRect(fsRowStartX, fsRowY, fsBtnSize, fsBtnSize);
     fullscreenDisplaySprite_.setPosition(fsRowStartX + fsBtnSize + spacing, fsRowY);
     fullscreenRightButtonBounds_ = sf::FloatRect(fsRowStartX + fsBtnSize + spacing + fsTextWidth + spacing, fsRowY, fsBtnSize, fsBtnSize);
 
-    // Guardar posiciones de las flechas para fullscreen para usarlas al renderizar
+    // Save positions and scales for use in rendering
     fsLeftBtnPos_ = sf::Vector2f(fsRowStartX, fsRowY);
     fsRightBtnPos_ = sf::Vector2f(fsRowStartX + fsBtnSize + spacing + fsTextWidth + spacing, fsRowY);
     fsBtnScale_ = fsBtnScale;
@@ -3023,9 +3018,9 @@ void HexGameUI::saveVolumeConfig() {
     try {
         // Create config directory if it doesn't exist
         const char* configDir = "../config";
-        struct stat st = {};
-        if (stat(configDir, &st) == -1) {
-            mkdir(configDir, 0755);
+        namespace fs = std::filesystem;
+        if (!fs::exists(configDir)) {
+            fs::create_directories(configDir);
         }
         
         std::ofstream configFile(kConfigFilePath);
