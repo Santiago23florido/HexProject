@@ -12,6 +12,8 @@
 #include <torch/script.h>
 #include <torch/torch.h>
 
+// Implements TorchScript model loading, caching, and evaluation for GNN/MLP value heads.
+
 struct GNNModel::Impl {
     torch::jit::script::Module module;
     torch::Device device{torch::kCPU};
@@ -196,6 +198,7 @@ float GNNModel::evaluateFeatures(const std::array<float, 7>& features) const {
         throw std::runtime_error("Model forward expects edge_index; use evaluate(batch) instead");
     }
 
+    // Thread-local buffers avoid per-call allocations.
     torch::NoGradGuard no_grad;
     const int inputDim = static_cast<int>(features.size());
     struct ThreadLocalBuffers {

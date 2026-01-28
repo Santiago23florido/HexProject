@@ -14,6 +14,16 @@ Documentation map:
 - OOP design notes: [docs/pages/oop.md](docs/pages/oop.md)
 - Installation: [docs/pages/installation.md](docs/pages/installation.md)
 
+## UI
+
+The UI layer provides the SFML-based interface for interactive Hex play, including board rendering, tile drawing, and optional image previews.
+
+| Class | Description |
+| --- | --- |
+| `HexGameUI` | Main SFML game interface and event loop for Hex. |
+| `HexTile` | Drawable hex-tile primitive with geometry and styling. |
+| `ImageViewer` | Simple image window for showing auxiliary visuals. |
+
 ## Build and Run
 
 ### Game UI
