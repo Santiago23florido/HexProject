@@ -82,6 +82,50 @@ poetry --version
   - Debian/Ubuntu: `sudo apt-get install python3 python3-pip`
   - Poetry: `python3 -m pip install --user poetry`
 
+### Windows equivalents (PowerShell)
+#### CMake (download the MSI first)
+```powershell
+msiexec /i cmake-<version>-windows-x86_64.msi /qn
+```
+
+#### C++ compiler (MSVC Build Tools)
+```powershell
+# Run from the folder that contains vs_BuildTools.exe
+.\vs_BuildTools.exe --quiet --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended
+```
+
+#### LibTorch (download URL from the PyTorch selector)
+```powershell
+$libtorchUrl = "<URL from PyTorch selector>"
+Invoke-WebRequest $libtorchUrl -OutFile "$env:TEMP\libtorch.zip"
+Expand-Archive "$env:TEMP\libtorch.zip" -DestinationPath "C:\libtorch" -Force
+setx CMAKE_PREFIX_PATH "C:\libtorch\libtorch"
+```
+
+#### SFML (via vcpkg)
+```powershell
+git clone https://github.com/microsoft/vcpkg.git C:\vcpkg
+C:\vcpkg\bootstrap-vcpkg.bat
+C:\vcpkg\vcpkg install sfml
+```
+
+#### CUDA Toolkit (optional)
+```powershell
+# Run the NVIDIA installer you downloaded
+cuda_<version>_windows.exe -s
+```
+
+#### Python 3
+```powershell
+# Run the Python installer you downloaded
+.\python-3.x.x-amd64.exe /passive InstallAllUsers=1 PrependPath=1 Include_launcher=1
+```
+
+#### Poetry
+```powershell
+python -m pip install --user poetry
+```
+
 ## Version compatibility
 - CMake: 3.18+ (required by the top-level CMakeLists).
 - C++ compiler: full C++17 support (e.g., GCC 7+, Clang 6+, MSVC 2019+).
