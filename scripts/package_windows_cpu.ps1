@@ -72,10 +72,12 @@ cmake --build $BuildDir --config Release
 
 if (Test-Path $StageDir) { Remove-Item $StageDir -Recurse -Force }
 New-Item -ItemType Directory -Path $StageDir | Out-Null
+$binStage = Join-Path $StageDir "bin"
+New-Item -ItemType Directory -Path $binStage | Out-Null
 
 $binDir = Join-Path $BuildDir "Release"
-Copy-Item "$binDir\hex_ui.exe" $StageDir
-if (Test-Path "$binDir\hex.exe") { Copy-Item "$binDir\hex.exe" $StageDir }
+Copy-Item "$binDir\hex_ui.exe" $binStage
+if (Test-Path "$binDir\hex.exe") { Copy-Item "$binDir\hex.exe" $binStage }
 
 Copy-Item "$Root\assets" "$StageDir\assets" -Recurse
 if (Test-Path "$Root\config") { Copy-Item "$Root\config" "$StageDir\config" -Recurse }
@@ -84,15 +86,50 @@ if (Test-Path "$Root\scripts\models") {
   Copy-Item "$Root\scripts\models\*" "$StageDir\scripts\models" -Recurse -Force
 }
 
-Copy-Item "$LibTorchDir\lib\*.dll" $StageDir -Force
+Copy-Item "$LibTorchDir\lib\*.dll" $binStage -Force
 
-$sfmlBin = $SfmlBinDir
-if (-not $sfmlBin -and $SfmlDir) {
-  $candidate = Join-Path $SfmlDir "bin"
-  if (Test-Path $candidate) { $sfmlBin = $candidate }
+function Find-SfmlBin {
+  param([string]$ExplicitBin, [string]$ExplicitDir, [string]$BuildDir)
+  if ($ExplicitBin -and (Test-Path $ExplicitBin)) { return $ExplicitBin }
+
+  if ($ExplicitDir) {
+    $binFromDir = Join-Path $ExplicitDir "bin"
+    if (Test-Path $binFromDir) { return $binFromDir }
+    $candidate = Join-Path $ExplicitDir "..\..\..\bin"
+    if (Test-Path $candidate) { return (Resolve-Path $candidate).Path }
+  }
+
+  $cache = Join-Path $BuildDir "CMakeCache.txt"
+  if (Test-Path $cache) {
+    $line = Select-String -Path $cache -Pattern "^SFML_DIR:PATH=" -SimpleMatch | Select-Object -First 1
+    if ($line) {
+      $cachedDir = $line.Line.Substring($line.Line.IndexOf("=") + 1)
+      if ($cachedDir) {
+        $binFromCache = Join-Path $cachedDir "..\..\..\bin"
+        if (Test-Path $binFromCache) { return (Resolve-Path $binFromCache).Path }
+      }
+    }
+  }
+
+  $searchRoots = @("C:\SFML", "C:\Program Files\SFML", "C:\Program Files (x86)\SFML")
+  foreach ($root in $searchRoots) {
+    if (-not (Test-Path $root)) { continue }
+    $dll = Get-ChildItem $root -Recurse -Filter "sfml-graphics-2.dll" -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($dll) { return $dll.DirectoryName }
+  }
+
+  return $null
 }
-if ($sfmlBin -and (Test-Path $sfmlBin)) {
-  Copy-Item "$sfmlBin\*.dll" $StageDir -Force
+
+$sfmlBin = Find-SfmlBin -ExplicitBin $SfmlBinDir -ExplicitDir $SfmlDir -BuildDir $BuildDir
+if (-not $sfmlBin) {
+  Write-Error "SFML DLLs not found. Set SFML_DIR or SFML_BIN_DIR, or install SFML."
+  exit 1
+}
+
+Copy-Item "$sfmlBin\sfml-*.dll" $binStage -Force
+if (Test-Path "$sfmlBin\openal32.dll") {
+  Copy-Item "$sfmlBin\openal32.dll" $binStage -Force
 }
 
 $env:HEXPROJECT_APPDIR = $StageDir

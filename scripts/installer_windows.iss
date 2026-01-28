@@ -1,7 +1,7 @@
 #define MyAppName "HexProject"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "HexProject"
-#define MyAppExeName "hex_ui.exe"
+#define MyAppExeName "bin\\hex_ui.exe"
 #define MyAppSrcDir GetEnv('HEXPROJECT_APPDIR')
 
 [Setup]
@@ -20,8 +20,8 @@ SolidCompression=yes
 Source: "{#MyAppSrcDir}\*"; DestDir: "{app}"; Flags: recursesubdirs ignoreversion
 
 [Icons]
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}\bin"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; WorkingDir: "{app}\bin"
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop icon"; GroupDescription: "Additional icons:"
