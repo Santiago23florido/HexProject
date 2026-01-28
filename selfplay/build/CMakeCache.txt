@@ -342,6 +342,9 @@ CUDA_cudart_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcudart.so
 //static CUDA runtime library
 CUDA_cudart_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcudart_static.a
 
+//Path to a library.
+CUDA_cudla_LIBRARY:FILEPATH=CUDA_cudla_LIBRARY-NOTFOUND
+
 //"cufft" library
 CUDA_cufft_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libcufft.so
 
@@ -463,6 +466,12 @@ CUDA_npps_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnpps.so
 CUDA_npps_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnpps_static.a
 
 //Path to a library.
+CUDA_nvJitLink_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvJitLink.so
+
+//Path to a library.
+CUDA_nvJitLink_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvJitLink_static.a
+
+//Path to a library.
 CUDA_nvToolsExt_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvToolsExt.so
 
 //Path to a library.
@@ -481,7 +490,31 @@ CUDA_nvjpeg_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvjpeg_static.a
 CUDA_nvml_LIBRARY:FILEPATH=/usr/local/cuda/lib64/stubs/libnvidia-ml.so
 
 //Path to a library.
+CUDA_nvperf_host_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvperf_host.so
+
+//Path to a library.
+CUDA_nvperf_host_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvperf_host_static.a
+
+//Path to a library.
+CUDA_nvperf_target_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvperf_target.so
+
+//Path to a library.
+CUDA_nvptxcompiler_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvptxcompiler_static.a
+
+//Path to a library.
 CUDA_nvrtc_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvrtc.so
+
+//Path to a library.
+CUDA_nvrtc_builtins_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvrtc-builtins.so
+
+//Path to a library.
+CUDA_nvrtc_builtins_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvrtc-builtins_static.a
+
+//Path to a library.
+CUDA_nvrtc_static_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libnvrtc_static.a
+
+//Path to a library.
+CUDA_pcsamplingutil_LIBRARY:FILEPATH=/usr/local/cuda/lib64/libpcsamplingutil.so
 
 //The directory containing a CMake configuration file for Caffe2.
 Caffe2_DIR:PATH=/home/santiago/libtorch/share/cmake/Caffe2
@@ -744,6 +777,8 @@ CUDA_cudadevrt_LIBRARY-ADVANCED:INTERNAL=1
 CUDA_cudart_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_cudart_static_LIBRARY
 CUDA_cudart_static_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_cudla_LIBRARY
+CUDA_cudla_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_cufft_LIBRARY
 CUDA_cufft_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_cufft_static_LIBRARY
@@ -826,6 +861,10 @@ CUDA_nppitc_static_LIBRARY-ADVANCED:INTERNAL=1
 CUDA_npps_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_npps_static_LIBRARY
 CUDA_npps_static_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvJitLink_LIBRARY
+CUDA_nvJitLink_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvJitLink_static_LIBRARY
+CUDA_nvJitLink_static_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nvToolsExt_LIBRARY
 CUDA_nvToolsExt_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nvgraph_LIBRARY
@@ -838,10 +877,26 @@ CUDA_nvjpeg_LIBRARY-ADVANCED:INTERNAL=1
 CUDA_nvjpeg_static_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nvml_LIBRARY
 CUDA_nvml_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvperf_host_LIBRARY
+CUDA_nvperf_host_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvperf_host_static_LIBRARY
+CUDA_nvperf_host_static_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvperf_target_LIBRARY
+CUDA_nvperf_target_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvptxcompiler_static_LIBRARY
+CUDA_nvptxcompiler_static_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CUDA_nvrtc_LIBRARY
 CUDA_nvrtc_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvrtc_builtins_LIBRARY
+CUDA_nvrtc_builtins_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvrtc_builtins_static_LIBRARY
+CUDA_nvrtc_builtins_static_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CUDA_nvrtc_static_LIBRARY
+CUDA_nvrtc_static_LIBRARY-ADVANCED:INTERNAL=1
 //Location of parse_cubin.cmake
 CUDA_parse_cubin:INTERNAL=/home/santiago/libtorch/share/cmake/Caffe2/Modules_CUDA_fix/upstream/FindCUDA/parse_cubin.cmake
+//ADVANCED property for variable: CUDA_pcsamplingutil_LIBRARY
+CUDA_pcsamplingutil_LIBRARY-ADVANCED:INTERNAL=1
 //Location of run_nvcc.cmake
 CUDA_run_nvcc:INTERNAL=/home/santiago/libtorch/share/cmake/Caffe2/Modules_CUDA_fix/upstream/FindCUDA/run_nvcc.cmake
 //Details about finding CUDA
