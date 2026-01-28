@@ -1,5 +1,7 @@
 #include "ui/HexTile.hpp"
 
+// Implements a lightweight drawable hex tile wrapper around an SFML sprite.
+
 HexTile::HexTile(const sf::Texture& texture) : sprite_(texture) {
     sf::FloatRect bounds = sprite_.getLocalBounds();
     sprite_.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f); // enable rotation around center

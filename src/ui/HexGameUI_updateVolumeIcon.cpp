@@ -1,5 +1,6 @@
 // This function is appended to HexGameUI.cpp
 // It should be added at the end of the HexGameUI::run() method's closing brace
+// Updates volume icon sprites based on slider values.
 
 void HexGameUI::updateVolumeIcon(int sliderIndex, float value) {
     // Determine which icon to show based on volume value

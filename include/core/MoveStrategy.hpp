@@ -11,36 +11,58 @@
 #include "gnn/FeatureExtractor.hpp"
 #include "gnn/GNNModel.hpp"
 
+/**
+ *Strategy interface for selecting a move.
+ */
 class IMoveStrategy{
     public:
+        /// Returns a selected move as a linear index.
         virtual int select (const GameState& state,int playerId) = 0;
+        /// Virtual destructor for safe polymorphic cleanup.
         virtual ~IMoveStrategy() = default;
 };
 
+/**
+ *  Random move selection strategy.
+ */
 class RandomStrategy : public IMoveStrategy {
 public:
+    /// Selects a random legal move.
     int select(const GameState& state, int playerId) override;
 };
 
 
+/**
+ *  Monte Carlo rollout strategy.
+ */
 class MonteCarloStrategy : public IMoveStrategy {
     int SimulationsPerMove;
 public:
+    /// Creates a strategy with sims rollouts per move.
     MonteCarloStrategy(int sims);
+    /// Selects the move with the best rollout win count.
     int select(const GameState& state, int playerId) override; 
+    /// Simulates a random playout and returns the winner id.
     int simulate(GameState state, int playerId); 
 };
 
+/**
+ *  Zobrist hashing helper for board states.
+ */
 class Zobrist {
 public:
     Zobrist() = default;
     Zobrist(const Zobrist&) = default;
     ~Zobrist() = default;
 
+    /// Creates hash keys for a board with boardSize cells.
     explicit Zobrist(int boardSize);
 
+    /// Computes a hash for the current board.
     uint64_t computeHash(const Board& board) const;
+    /// Updates a hash by applying a move at moveIndex for color.
     uint64_t applyMoveHash(uint64_t hash, int moveIndex, int color) const;
+    /// Updates a hash by undoing a move at moveIndex for color.
     uint64_t undoMoveHash(uint64_t hash, int moveIndex, int color) const;
 
 private:
@@ -49,6 +71,9 @@ private:
     uint64_t side{0};
 };
 
+/**
+ *  Negamax search result container.
+ */
 struct SearchResult{
     int bestMove;
     int score;
@@ -57,6 +82,9 @@ struct SearchResult{
     bool failHigh{false};
 };
 
+/**
+ * Feature summary used by heuristic and MLP evaluators.
+ */
 struct ValueFeatures {
     int N{0};
     int distSelf{0};
@@ -68,11 +96,16 @@ struct ValueFeatures {
     int center{0};
 };
 
+/// Computes value features for the given player.
 ValueFeatures computeValueFeatures(const GameState& state, int playerId);
 
 
+/// Transposition table entry flag.
 enum class TTFlag { EXACT, LOWER, UPPER };
 
+/**
+ * Transposition table entry.
+ */
 struct TTEntry {
     uint64_t key{0};
     int depth{0};
@@ -82,14 +115,26 @@ struct TTEntry {
 };
 
 
+/**
+ * Negamax search strategy with heuristic/MLP/GNN evaluation.
+ *
+ * timeLimitMs is in milliseconds.
+ */
 class NegamaxStrategy : public IMoveStrategy {
 public:
+    /// Creates a Negamax strategy with optional model evaluation.
     NegamaxStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts_mp.pt", bool heuristicOnly = false, bool preferCuda = false, float evalMixAlpha = 0.2f, bool loadModel = true);
+    /// Selects the best move for the given state and player.
     int select(const GameState& state, int playerId) override;
+    /// Returns the maximum search depth.
     int getmaxDepth(const NegamaxStrategy& strat)const;
+    /// Sets an external MLP evaluator for feature inputs.
     void setMlpEvaluator(std::function<float(const std::array<float, 7>&)> evaluator);
+    /// Sets the blend factor between heuristic and model scores.
     void setEvalMixAlpha(float alpha);
+    /// Enables or disables usage logging.
     void setLogUsage(bool enable);
+    /// Sets the number of parallel root threads.
     void setParallelThreads(int threads);
 
 private:
@@ -123,13 +168,21 @@ private:
 };
 
 
+/**
+ * Negamax strategy that forces heuristic evaluation.
+ */
 class NegamaxHeuristicStrategy : public NegamaxStrategy {
 public:
+    /// Creates a heuristic-only Negamax strategy.
     NegamaxHeuristicStrategy(int maxDepth, int timeLimitMs);
 };
 
 
+/**
+ * Negamax strategy that evaluates with a GNN/MLP TorchScript model.
+ */
 class NegamaxGnnStrategy : public NegamaxStrategy {
 public:
+    /// Creates a Negamax strategy configured for TorchScript evaluation.
     NegamaxGnnStrategy(int maxDepth, int timeLimitMs, const std::string& modelPath = "scripts/models/hex_value_ts_mp.pt", bool preferCuda = false, float evalMixAlpha = 0.2f);
 };

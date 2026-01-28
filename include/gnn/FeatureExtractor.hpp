@@ -7,7 +7,9 @@
 #include "core/GameState.hpp"
 #include "gnn/Graph.hpp"
 
-// Flattened tensors ready for a GNN backend
+/**
+ * Flattened tensors ready for a GNN backend.
+ */
 struct FeatureBatch {
     int N{0};
     int numNodes{0};
@@ -17,15 +19,22 @@ struct FeatureBatch {
     std::vector<int> edgeDst;        // edge list destination indices
 };
 
+/**
+ * Extracts graph features and packs them into batches.
+ *
+ * Caches one graph per board size.
+ */
 class FeatureExtractor {
 public:
     FeatureExtractor() = default;
 
-    // Build or reuse the graph for a given size, then fill features from Board
+    /// Builds or reuses the graph for a board and returns a batch.
     FeatureBatch toBatch(const Board& board) const;
+    /// Fills an existing batch from a board.
     void toBatch(const Board& board, FeatureBatch& batch) const;
-    // Overload for GameState convenience
+    /// Builds or reuses the graph for a state and returns a batch.
     FeatureBatch toBatch(const GameState& state) const;
+    /// Fills an existing batch from a state.
     void toBatch(const GameState& state, FeatureBatch& batch) const;
 
 private:

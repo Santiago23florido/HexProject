@@ -8,12 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/santiago/IN204/HexProject/selfplay/DataCollector.cpp" "CMakeFiles/selfplay.dir/DataCollector.cpp.o" "gcc" "CMakeFiles/selfplay.dir/DataCollector.cpp.o.d"
-  "/home/santiago/IN204/HexProject/selfplay/GameRunner.cpp" "CMakeFiles/selfplay.dir/GameRunner.cpp.o" "gcc" "CMakeFiles/selfplay.dir/GameRunner.cpp.o.d"
-  "/home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp" "CMakeFiles/selfplay.dir/RLTrainer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/RLTrainer.cpp.o.d"
-  "/home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp" "CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o.d"
-  "/home/santiago/IN204/HexProject/selfplay/Serializer.cpp" "CMakeFiles/selfplay.dir/Serializer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/Serializer.cpp.o.d"
-  "/home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp" "CMakeFiles/selfplay.dir/ValueMLP.cpp.o" "gcc" "CMakeFiles/selfplay.dir/ValueMLP.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.cpp" "CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o" "gcc" "CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.cpp" "CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o" "gcc" "CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/gnn/Serializer.cpp" "CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/core/Board.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/core/Cube.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/core/GameState.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o.d"
@@ -23,6 +20,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.o.d"
   "/home/santiago/IN204/HexProject/src/gnn/Graph.cpp" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o" "gcc" "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/Graph.cpp.o.d"
   "/home/santiago/IN204/HexProject/selfplay/main.cpp" "CMakeFiles/selfplay.dir/main.cpp.o" "gcc" "CMakeFiles/selfplay.dir/main.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.cpp" "CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.cpp" "CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o" "gcc" "CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o.d"
+  "/home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.cpp" "CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o" "gcc" "CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

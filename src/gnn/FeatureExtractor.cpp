@@ -5,7 +5,10 @@
 
 #include "gnn/Graph.hpp"
 
+// Converts boards/states into flattened graph feature batches.
+
 Graph& FeatureExtractor::getGraph(int N) const {
+    // Cache one static graph per board size.
     auto it = cache.find(N);
     if (it != cache.end()) {
         return it->second;

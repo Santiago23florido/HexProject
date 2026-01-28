@@ -83,89 +83,89 @@ CMakeFiles/selfplay.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/main.cpp -o CMakeFiles/selfplay.dir/main.cpp.s
 
-CMakeFiles/selfplay.dir/GameRunner.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/GameRunner.cpp.o: /home/santiago/IN204/HexProject/selfplay/GameRunner.cpp
-CMakeFiles/selfplay.dir/GameRunner.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/selfplay.dir/GameRunner.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/GameRunner.cpp.o -MF CMakeFiles/selfplay.dir/GameRunner.cpp.o.d -o CMakeFiles/selfplay.dir/GameRunner.cpp.o -c /home/santiago/IN204/HexProject/selfplay/GameRunner.cpp
+CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o: /home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.cpp
+CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o -MF CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o.d -o CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o -c /home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.cpp
 
-CMakeFiles/selfplay.dir/GameRunner.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/GameRunner.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/GameRunner.cpp > CMakeFiles/selfplay.dir/GameRunner.cpp.i
+CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.cpp > CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.i
 
-CMakeFiles/selfplay.dir/GameRunner.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/GameRunner.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/GameRunner.cpp -o CMakeFiles/selfplay.dir/GameRunner.cpp.s
+CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/gnn/GameRunner.cpp -o CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.s
 
-CMakeFiles/selfplay.dir/DataCollector.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/DataCollector.cpp.o: /home/santiago/IN204/HexProject/selfplay/DataCollector.cpp
-CMakeFiles/selfplay.dir/DataCollector.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/selfplay.dir/DataCollector.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/DataCollector.cpp.o -MF CMakeFiles/selfplay.dir/DataCollector.cpp.o.d -o CMakeFiles/selfplay.dir/DataCollector.cpp.o -c /home/santiago/IN204/HexProject/selfplay/DataCollector.cpp
+CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o: /home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.cpp
+CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o -MF CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o.d -o CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o -c /home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.cpp
 
-CMakeFiles/selfplay.dir/DataCollector.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/DataCollector.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/DataCollector.cpp > CMakeFiles/selfplay.dir/DataCollector.cpp.i
+CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.cpp > CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.i
 
-CMakeFiles/selfplay.dir/DataCollector.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/DataCollector.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/DataCollector.cpp -o CMakeFiles/selfplay.dir/DataCollector.cpp.s
+CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/gnn/DataCollector.cpp -o CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.s
 
-CMakeFiles/selfplay.dir/Serializer.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/Serializer.cpp.o: /home/santiago/IN204/HexProject/selfplay/Serializer.cpp
-CMakeFiles/selfplay.dir/Serializer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/selfplay.dir/Serializer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/Serializer.cpp.o -MF CMakeFiles/selfplay.dir/Serializer.cpp.o.d -o CMakeFiles/selfplay.dir/Serializer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/Serializer.cpp
+CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o: /home/santiago/IN204/HexProject/selfplay/gnn/Serializer.cpp
+CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o -MF CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o.d -o CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/gnn/Serializer.cpp
 
-CMakeFiles/selfplay.dir/Serializer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/Serializer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/Serializer.cpp > CMakeFiles/selfplay.dir/Serializer.cpp.i
+CMakeFiles/selfplay.dir/gnn/Serializer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/gnn/Serializer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/gnn/Serializer.cpp > CMakeFiles/selfplay.dir/gnn/Serializer.cpp.i
 
-CMakeFiles/selfplay.dir/Serializer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/Serializer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/Serializer.cpp -o CMakeFiles/selfplay.dir/Serializer.cpp.s
+CMakeFiles/selfplay.dir/gnn/Serializer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/gnn/Serializer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/gnn/Serializer.cpp -o CMakeFiles/selfplay.dir/gnn/Serializer.cpp.s
 
-CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp
-CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o -MF CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o.d -o CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp
+CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o: /home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.cpp
+CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o -MF CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o.d -o CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.cpp
 
-CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp > CMakeFiles/selfplay.dir/ReplayBuffer.cpp.i
+CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.cpp > CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.i
 
-CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/ReplayBuffer.cpp -o CMakeFiles/selfplay.dir/ReplayBuffer.cpp.s
+CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/mlp/ReplayBuffer.cpp -o CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.s
 
-CMakeFiles/selfplay.dir/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/ValueMLP.cpp.o: /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp
-CMakeFiles/selfplay.dir/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/selfplay.dir/ValueMLP.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/ValueMLP.cpp.o -MF CMakeFiles/selfplay.dir/ValueMLP.cpp.o.d -o CMakeFiles/selfplay.dir/ValueMLP.cpp.o -c /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp
+CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o: /home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.cpp
+CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o -MF CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o.d -o CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o -c /home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.cpp
 
-CMakeFiles/selfplay.dir/ValueMLP.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/ValueMLP.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp > CMakeFiles/selfplay.dir/ValueMLP.cpp.i
+CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.cpp > CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.i
 
-CMakeFiles/selfplay.dir/ValueMLP.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/ValueMLP.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/ValueMLP.cpp -o CMakeFiles/selfplay.dir/ValueMLP.cpp.s
+CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/mlp/ValueMLP.cpp -o CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.s
 
-CMakeFiles/selfplay.dir/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/flags.make
-CMakeFiles/selfplay.dir/RLTrainer.cpp.o: /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp
-CMakeFiles/selfplay.dir/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/selfplay.dir/RLTrainer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/RLTrainer.cpp.o -MF CMakeFiles/selfplay.dir/RLTrainer.cpp.o.d -o CMakeFiles/selfplay.dir/RLTrainer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp
+CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/flags.make
+CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o: /home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.cpp
+CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o: CMakeFiles/selfplay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/santiago/IN204/HexProject/selfplay/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o -MF CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o.d -o CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o -c /home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.cpp
 
-CMakeFiles/selfplay.dir/RLTrainer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/RLTrainer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp > CMakeFiles/selfplay.dir/RLTrainer.cpp.i
+CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.cpp > CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.i
 
-CMakeFiles/selfplay.dir/RLTrainer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/RLTrainer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/RLTrainer.cpp -o CMakeFiles/selfplay.dir/RLTrainer.cpp.s
+CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/santiago/IN204/HexProject/selfplay/mlp/RLTrainer.cpp -o CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.s
 
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o: CMakeFiles/selfplay.dir/flags.make
 CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o: /home/santiago/IN204/HexProject/src/core/Board.cpp
@@ -282,12 +282,12 @@ CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/gnn/GNNModel.cpp.s: c
 # Object files for target selfplay
 selfplay_OBJECTS = \
 "CMakeFiles/selfplay.dir/main.cpp.o" \
-"CMakeFiles/selfplay.dir/GameRunner.cpp.o" \
-"CMakeFiles/selfplay.dir/DataCollector.cpp.o" \
-"CMakeFiles/selfplay.dir/Serializer.cpp.o" \
-"CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o" \
-"CMakeFiles/selfplay.dir/ValueMLP.cpp.o" \
-"CMakeFiles/selfplay.dir/RLTrainer.cpp.o" \
+"CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o" \
+"CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o" \
+"CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o" \
+"CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o" \
+"CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o" \
+"CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o" \
 "CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o" \
@@ -301,12 +301,12 @@ selfplay_OBJECTS = \
 selfplay_EXTERNAL_OBJECTS =
 
 selfplay: CMakeFiles/selfplay.dir/main.cpp.o
-selfplay: CMakeFiles/selfplay.dir/GameRunner.cpp.o
-selfplay: CMakeFiles/selfplay.dir/DataCollector.cpp.o
-selfplay: CMakeFiles/selfplay.dir/Serializer.cpp.o
-selfplay: CMakeFiles/selfplay.dir/ReplayBuffer.cpp.o
-selfplay: CMakeFiles/selfplay.dir/ValueMLP.cpp.o
-selfplay: CMakeFiles/selfplay.dir/RLTrainer.cpp.o
+selfplay: CMakeFiles/selfplay.dir/gnn/GameRunner.cpp.o
+selfplay: CMakeFiles/selfplay.dir/gnn/DataCollector.cpp.o
+selfplay: CMakeFiles/selfplay.dir/gnn/Serializer.cpp.o
+selfplay: CMakeFiles/selfplay.dir/mlp/ReplayBuffer.cpp.o
+selfplay: CMakeFiles/selfplay.dir/mlp/ValueMLP.cpp.o
+selfplay: CMakeFiles/selfplay.dir/mlp/RLTrainer.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Board.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/GameState.cpp.o
 selfplay: CMakeFiles/selfplay.dir/home/santiago/IN204/HexProject/src/core/Cube.cpp.o
